@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Michigun | Perfil Digital</title>
+    <title>fp3 | Michigun hub</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -13,32 +13,17 @@
         <header class="card profile-card">
             <img src="avatar.png" alt="Michigun Avatar" class="avatar">
             
-            <h1>Heyo, I'm Michigun!~</h1>
-            <p class="tagline">Welcome to my website >_<!</p>
+            <h1>fp3</h1>
+            <p class="tagline">Michigun hub</p>
             
-            <div class="social-links">
-                <a href="[Link do Instagram]" target="_blank" class="social-button instagram"><i class="fab fa-instagram"></i></a>
-                <a href="[Link do Discord]" target="_blank" class="social-button discord"><i class="fab fa-discord"></i></a>
-                <a href="[Link do Telegram]" target="_blank" class="social-button telegram"><i class="fab fa-telegram-plane"></i></a>
-            </div>
-        </header>
+            </header>
 
         <section class="info-section">
-            <h2 class="section-title">About Me</h2>
+            <h2 class="section-title animated-title">LuaU scripting...</h2>
             <p>Well, I love programming since it's my hobby!</p>
             <p>I don't know what I can describe, but I will add it soon.</p>
             <p class="detail-text">My current timezone: **Brasilia Time (BRT)** 🇧🇷</p>
             <p class="detail-text">Born in Brazil!</p>
-        </section>
-
-        <section class="info-section">
-            <h2 class="section-title">Interests</h2>
-            <ul class="clean-list">
-                <li><i class="fas fa-terminal"></i> Linux</li>
-                <li><i class="fas fa-code"></i> Programming</li>
-                <li><i class="fas fa-laptop-code"></i> Grid Style</li>
-                <li><i class="fas fa-book"></i> Anime/Manga/Books</li>
-            </ul>
         </section>
 
         <section class="info-section">
@@ -51,42 +36,55 @@
         </section>
         
         <section class="card script-section">
-            <h2>📜 Script Essencial</h2>
+            <h2 class="script-title-glowing">Script [EB]</h2>
             <p class="copy-instruction">Clique para copiar o código abaixo:</p>
             
-            <pre id="code-block" class="code-block">
-                # Script de utilidade por Michigun
+            <textarea id="hidden-code-block" style="display: none;">
+                -- Script de utilidade por Michigun
                 
-                function run_utility() {
-                    echo "Executando script v1.0"
-                    # Seu código aqui...
-                }
+                function run_utility() 
+                    print("Executando script v1.0")
+                    -- Seu código LuaU aqui...
+                end
                 
-                run_utility
-            </pre>
+                run_utility()
+            </textarea>
+            
+            <pre id="code-block" class="code-block">-- Script de utilidade por Michigun
+
+function run_utility()
+    print("Executando script v1.0")
+    -- Seu código LuaU aqui...
+end
+
+run_utility()</pre>
             
             <button onclick="copyToClipboard()" class="copy-button">Copiar Código</button>
             <span id="copy-message"></span>
         </section>
 
         <footer>
-            &copy; 2025 Michigun.xyz
+            &copy; 2025 Michigun hub
         </footer>
     </div>
 
     <script>
         function copyToClipboard() {
-            const codeBlock = document.getElementById('code-block').textContent;
-            navigator.clipboard.writeText(codeBlock).then(() => {
-                const message = document.getElementById('copy-message');
-                message.textContent = 'Copiado!';
-                setTimeout(() => {
-                    message.textContent = '';
-                }, 2000);
-            }).catch(err => {
-                console.error('Erro ao copiar: ', err);
-                alert('Falha ao copiar o texto.');
-            });
+            // Pega o conteúdo da textarea oculta (que não tem espaços indesejados)
+            const codeBlock = document.getElementById('hidden-code-block');
+            
+            // Seleciona e copia o conteúdo
+            codeBlock.style.display = 'block'; // Temporariamente mostra para seleção
+            codeBlock.select();
+            document.execCommand('copy');
+            codeBlock.style.display = 'none'; // Esconde novamente
+
+            // Feedback visual
+            const message = document.getElementById('copy-message');
+            message.textContent = 'Copiado!';
+            setTimeout(() => {
+                message.textContent = '';
+            }, 2000);
         }
     </script>
 </body>
