@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Michigun | Portfolio & Scripts</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="card">
             <div class="profile-header">
                 <img src="avatar.png" alt="Michigun Avatar" class="avatar">
                 <div>
@@ -16,81 +17,93 @@
                     <p class="tagline">Desenvolvedor e entusiasta de sistemas.</p>
                 </div>
             </div>
+            
             <nav>
-                <a href="#portfolio">Portfólio</a>
-                <a href="#changelog">Atualizações</a>
-                <a href="#script">Script</a>
-                <a href="[Seu Link do Discord]" target="_blank">Discord</a>
+                <a href="#portfolio"><i class="fas fa-box"></i> Portfólio</a>
+                <a href="#changelog"><i class="fas fa-history"></i> Atualizações</a>
+                <a href="#script-block"><i class="fas fa-code"></i> Script</a>
+                <a href="[Seu Link do Discord]" target="_blank"><i class="fab fa-discord"></i> Discord</a>
             </nav>
         </header>
-
-        <section id="portfolio" class="card highlight-section">
-            <h2>Destaque do Mês</h2>
-            <img src="featured_image.jpg" alt="Imagem do Projeto em Destaque" class="featured-image">
-            <p>
-                Este é o meu projeto mais recente: [Nome do Projeto]. 
-                Focado em [Tecnologia/Linguagem]. 
-                <a href="[Link para o Projeto/GitHub]" target="_blank">Ver mais →</a>
-            </p>
-        </section>
-
-        <section id="changelog" class="card">
-            <h2>🛠️ Changelogs (Atualizações do Script)</h2>
-            <div class="changelog-item">
-                <span class="version">[v2.1]</span>
-                <span class="date">15/Dez/2025</span>
-                <ul>
-                    <li>Adicionada a funcionalidade de cache para maior performance.</li>
-                    <li>Corrigido um bug raro no processamento de variáveis.</li>
-                </ul>
-            </div>
-            <div class="changelog-item">
-                <span class="version">[v2.0]</span>
-                <span class="date">01/Dez/2025</span>
-                <ul>
-                    <li>Lançamento da versão estável.</li>
-                    <li>Reescrita completa do código base.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="script" class="card">
-            <h2>📜 Meu Script Essencial</h2>
-            <p>Abaixo está o código mais recente do meu script. Clique no botão para copiar:</p>
-            
-            <pre id="code-block" class="code-block">
-                # Este é o seu script!
-                # Altere este conteúdo diretamente no GitHub.
-                
-                function michigun_run() {
-                    echo "Script by Michigun v2.1"
-                    # Seu código aqui...
-                }
-                
-                michigun_run
-            </pre>
-            
-            <button onclick="copyToClipboard()" class="copy-button">Copiar Código</button>
-            <span id="copy-message"></span>
-        </section>
         
+        <section class="highlight-container">
+            <div class="highlight-text">
+                <h2>Michigun makes <span class="highlight-word">Coding</span> better.</h2>
+                <p>A plataforma de cheat platform mais crofiitiall, fiade pala community.</p>
+                <div class="status-badges">
+                    <span class="badge undetected">Undetected</span>
+                    <span class="badge undetected">Undetected</span>
+                    <span class="badge instant">Instant Access</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-grid">
+
+            <section id="portfolio" class="card portfolio-card fade-in">
+                <h2>Destaque do Mês</h2>
+                <img src="featured_image.jpg" alt="Imagem do Projeto em Destaque" class="featured-image">
+                <p class="project-description">
+                    Meu projeto mais recente foi nomeado o "top one" da commnitty.
+                </p>
+                <a href="[Link para o Projeto/GitHub]" target="_blank" class="read-more">Ver mais →</a>
+            </section>
+
+            <section id="script-block" class="card script-card fade-in">
+                <h2>Meu Script Essential</h2>
+                <p class="copy-instruction">Clique para copiar:</p>
+                
+                <pre id="code-block" class="code-block">
+                    function michigun_run() {
+                        echo "Script by Michigun [v2.1]"
+                        # Seu código aqui...
+                        
+                        function nova_funcionalidade_X() {
+                            // Nova funcionalidade X
+                        }
+                    }
+                </pre>
+                
+                <button onclick="copyToClipboard()" class="copy-button">Copiar Código</button>
+                <span id="copy-message"></span>
+            </section>
+            
+            <section id="changelog" class="card changelog-card fade-in">
+                <h2>Changelog item</h2>
+                <div class="changelog-content">
+                    <span class="version">[v2.1]</span>
+                    <span class="date">15/Dez/2025</span>
+                    <ul>
+                        <li>Nova funcionalidade X.</li>
+                        <li>Melhorias de segurança.</li>
+                    </ul>
+                    <a href="#script" class="read-more">Ver Script →</a>
+                </div>
+            </section>
+        </div>
+
         <footer>
-            &copy; 2025 Michigun.xyz | Feito com ☕ e Código.
+            &copy; 2025 Michigun.xyz
         </footer>
     </div>
 
     <script>
         function copyToClipboard() {
+            // Pega o texto de dentro da tag <pre>
             const codeBlock = document.getElementById('code-block').textContent;
+            
+            // Usa a API do navegador para copiar
             navigator.clipboard.writeText(codeBlock).then(() => {
                 const message = document.getElementById('copy-message');
-                message.textContent = 'Copiado!';
+                message.textContent = 'Copiado!'; // Mostra a mensagem de sucesso
+                
+                // Limpa a mensagem após 2 segundos
                 setTimeout(() => {
                     message.textContent = '';
                 }, 2000);
             }).catch(err => {
                 console.error('Erro ao copiar: ', err);
-                alert('Falha ao copiar o texto.');
+                alert('Falha ao copiar o texto. Tente novamente.');
             });
         }
     </script>
