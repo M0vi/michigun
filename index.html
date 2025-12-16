@@ -10,43 +10,78 @@
 <body>
     <div class="container">
 
-        <header class="profile-header">
+        <header class="card profile-card">
             <img src="avatar.png" alt="Michigun Avatar" class="avatar">
             
-            <div class="profile-info">
-                <h1>fp3</h1>
-                <p class="tagline">Michigun hub</p>
-                
-                <h2 class="section-title animated-title">LuaU scripting...</h2>
-                
-                <p class="about-text">Well, I love programming since it's my hobby!</p>
-                <p class="about-text">I don't know what I can describe, but I will add it soon.</p>
-                <p class="detail-text">My current timezone: Brasilia Time (BRT) 🇧🇷</p>
-                <p class="detail-text">Brazilian</p>
-            </div>
+            <h1>fp3</h1>
+            <p class="tagline">Michigun hub</p>
+            
+            <nav class="tab-navigation">
+                <button class="tab-button active" onclick="openTab(event, 'tab-home')"><i class="fas fa-home"></i> Home</button>
+                <button class="tab-button" onclick="openTab(event, 'tab-features')"><i class="fas fa-list-check"></i> Features</button>
+                <button class="tab-button" onclick="openTab(event, 'tab-script')"><i class="fas fa-code"></i> Script</button>
+            </nav>
         </header>
 
-        <section class="info-section">
-            <h2 class="section-title">Contacts</h2>
-            <ul class="clean-list">
-                <li><i class="fab fa-discord"></i> Discord: michigun\_user</li>
-                <li><i class="fab fa-telegram-plane"></i> Telegram: @michigun\_tg</li>
-                <li><i class="fas fa-envelope"></i> E-mail: michigunemail@gmail.com</li>
-            </ul>
+        <section id="tab-home" class="tab-content active fade-in">
+            <section class="info-block card">
+                <h2 class="section-title animated-title">LuaU scripting...</h2>
+                <p>Well, I love programming since it's my hobby!</p>
+                <p>I don't know what I can describe, but I will add it soon.</p>
+                <p class="detail-text"><i class="fas fa-clock"></i> Current Timezone: **BR - Rio de Janeiro** 🇧🇷</p>
+                <p class="detail-text"><i class="fas fa-globe"></i> Born in Brazil!</p>
+            </section>
+            
+            <section class="info-block card">
+                <h2 class="section-title">Contacts</h2>
+                <ul class="clean-list">
+                    <li><i class="fab fa-discord"></i> Discord: **michigun\_user**</li>
+                    <li><i class="fab fa-telegram-plane"></i> Telegram: **@michigun\_tg**</li>
+                    <li><i class="fas fa-envelope"></i> E-mail: **michigunemail@gmail.com**</li>
+                </ul>
+            </section>
         </section>
-        
-        <section class="script-section card">
-            <h2 class="script-title-glowing">Script [EB]</h2>
-            <p class="copy-instruction">Clique para copiar o código abaixo:</p>
-            
-            <textarea id="hidden-code-block" style="display: none;">
-                loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()           </textarea>
-            
-            <pre id="code-block" class="code-block"loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
-</pre>
-            
-            <button onclick="copyToClipboard()" class="copy-button">Copiar Código</button>
-            <span id="copy-message"></span>
+
+        <section id="tab-features" class="tab-content fade-in">
+            <section class="info-block card">
+                <h2 class="section-title">✨ Script Features</h2>
+                <ul class="clean-list feature-list">
+                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 1]** - Descrição completa do que ela faz.</li>
+                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 2]** - Implementa alta performance e estabilidade.</li>
+                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 3]** - Suporte a múltiplas plataformas/versões.</li>
+                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 4]** - Sistema de logs eficiente.</li>
+                </ul>
+            </section>
+        </section>
+
+        <section id="tab-script" class="tab-content fade-in">
+            <section class="script-section card">
+                <h2 class="script-title-glowing">Script [EB]</h2>
+                <p class="copy-instruction">Clique para copiar o código abaixo:</p>
+                
+                <textarea id="hidden-code-block" style="display: none;">
+-- Script de utilidade por Michigun
+
+function run_utility()
+    print("Executando script v1.0")
+    -- Seu código LuaU aqui...
+end
+
+run_utility()
+                </textarea>
+                
+                <pre id="code-block" class="code-block">-- Script de utilidade por Michigun
+
+function run_utility()
+    print("Executando script v1.0")
+    -- Seu código LuaU aqui...
+end
+
+run_utility()</pre>
+                
+                <button onclick="copyToClipboard()" class="copy-button"><i class="fas fa-copy"></i> Copiar Código</button>
+                <span id="copy-message"></span>
+            </section>
         </section>
 
         <footer>
@@ -60,6 +95,29 @@
     </div>
 
     <script>
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove('active');
+            }
+
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove('active');
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("tab-home").style.display = "block";
+        });
+        
         function copyToClipboard() {
             const codeBlock = document.getElementById('hidden-code-block');
             
