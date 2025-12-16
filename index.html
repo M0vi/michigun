@@ -41,7 +41,7 @@
 
         <section id="tab-features" class="tab-content fade-in">
             <section class="info-block card">
-                <h2 class="section-title">✨ Script Features</h2>
+                <h2 class="section-title">✨ Script features</h2>
                 <ul class="clean-list feature-list">
                     <li><i class="fas fa-check-circle"></i> **[Nome da Feature 1]** - Descrição completa do que ela faz.</li>
                     <li><i class="fas fa-check-circle"></i> **[Nome da Feature 2]** - Implementa alta performance e estabilidade.</li>
@@ -69,10 +69,7 @@ loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tev
         </section>
 
         <footer>
-            <p>Friends!</p>
-            <div class="emoji-section">
-                <span>🥺</span>
-                <span>🌍</span>
+  
             </div>
             &copy; 2025 Michigun hub
         </footer>
@@ -82,8 +79,9 @@ loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tev
         function openTab(evt, tabName) {
             let i, tabcontent, tablinks;
 
+            // CORRIGIDO: O laço agora usa 'i' corretamente para inicialização, condição e incremento.
             tabcontent = document.getElementsByClassName("tab-content");
-            ftevez = 0; i < tabcontent.length; i++) {
+            for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
                 tabcontent[i].classList.remove('active');
             }
