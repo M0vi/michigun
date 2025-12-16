@@ -1,18 +1,17 @@
-/* style.css - GLOWING, BLUR E ABAS */
+/* style.css - DARK MODE SIMILAR AO ZVYYZ.LIVE COM ESTILO MODERNO */
+
 /* -------------------- VARIÁVEIS DE COR E TIPOGRAFIA -------------------- */
 :root {
-    --bg-main: #060606; /* Fundo principal: Preto Mais Profundo */
-    --bg-card: #141414; /* Fundo dos blocos/cards */
-    --text-light: #f1f1f1;
-    --text-secondary: #aaaaaa;
-    --color-accent: #ff0033; /* Vermelho Vibrante */
-    --color-hover: #ff3366;
-    --color-glow: rgba(255, 0, 51, 0.4); /* Sombra/Glow Vermelho */
-    --color-success: #00ff66;
-    --bg-blur: rgba(20, 20, 20, 0.8); /* Fundo com transparência para o blur */
+    --bg-main: #141417; /* Fundo principal (quase preto) */
+    --bg-card: #202025; /* Fundo dos blocos (mais escuro que o fundo) */
+    --text-light: #e0e0e0; /* Texto principal */
+    --text-secondary: #a0a0a0; /* Texto secundário/cinza */
+    --color-accent: #007bff; /* Azul padrão (para botões/links) */
+    --color-glowing: rgba(0, 123, 255, 0.5); /* Sombra/Glow Azul sutil */
+    --color-success: #28a745;
 }
 
-/* -------------------- GERAL / CORPO -------------------- */
+/* -------------------- GERAL / CORPO E RESPONSIVIDADE -------------------- */
 body {
     background-color: var(--bg-main);
     color: var(--text-light);
@@ -23,136 +22,158 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    padding-top: 30px; /* Espaço no topo */
 }
 
 .container {
     width: 100%;
-    max-width: 900px;
-    padding: 20px 15px;
+    max-width: 650px; /* Largura ideal para perfis móveis */
+    padding: 0 15px; /* Espaço nas laterais */
+    /* Formatação que muda de tamanho conforme o conteúdo */
+    margin: 0 auto; 
+    box-sizing: border-box; 
 }
 
-.card {
+/* -------------------- BLOCOS E CARDS -------------------- */
+.card, .info-section {
     background-color: var(--bg-card);
     padding: 25px;
     border-radius: 12px;
-    /* GLOWING VERMELHO LEVE NAS BORDAS */
-    box-shadow: 0 0 10px var(--color-glow), 0 4px 12px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(255, 0, 51, 0.1);
+    margin-bottom: 25px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease;
 }
 
-/* Efeito Hover nos Cards: Aumenta o GLOW */
 .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 15px var(--color-accent), 0 6px 15px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 15px var(--color-glowing), 0 6px 15px rgba(0, 0, 0, 0.6);
 }
 
-/* Efeito Blur no Fundo (Glassmorphism sutil) */
+.info-section {
+    background: none; /* Deixa o fundo do About Me/Interests/Contacts transparente */
+    border: none;
+    padding: 0 25px 25px; /* Ajusta o padding para alinhamento */
+    box-shadow: none;
+}
+
+/* -------------------- HEADER E FOTO CENTRALIZADA -------------------- */
 .profile-card {
-    background-color: var(--bg-blur);
-    backdrop-filter: blur(10px); /* O EFEITO BLUR */
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--color-glow);
+    text-align: center;
+    padding-top: 35px;
 }
 
-
-/* -------------------- ABAS DE NAVEGAÇÃO -------------------- */
-.tab-navigation {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding-top: 15px;
-    border-top: 1px solid #333;
-    margin-top: 15px;
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* CIRCULAR */
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--color-accent); /* Borda de destaque */
 }
 
-.tab-button, .tab-link {
-    background: none;
-    border: 1px solid var(--color-glow);
+h1 {
+    font-size: 1.8em;
+    margin: 0 0 5px;
+}
+
+.tagline {
     color: var(--text-secondary);
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-    text-decoration: none; /* Para o link do Discord */
-}
-
-.tab-button:hover, .tab-link:hover {
-    color: var(--text-light);
-    background-color: var(--color-accent);
-    box-shadow: 0 0 8px var(--color-accent);
-    transform: translateY(-2px);
-}
-
-/* Aba ATIVA */
-.tab-button.active {
-    background-color: var(--color-accent);
-    color: white;
-    box-shadow: 0 0 10px var(--color-accent);
-    border-color: var(--color-accent);
-}
-
-/* Conteúdo das Abas */
-.tab-content {
-    display: none; /* Escondido por padrão, JavaScript mostra */
-    margin-top: 25px;
-    animation: fadeIn 0.8s ease-out; /* Animação de transição de abas */
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* -------------------- ANIMAÇÕES -------------------- */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes flashGlow {
-    0%, 100% { box-shadow: 0 0 10px var(--color-glow); }
-    50% { box-shadow: 0 0 20px var(--color-accent); }
-}
-
-/* Animação no cartão de destaque */
-.highlight-card {
-    animation: flashGlow 4s infinite alternate; /* GLOWING pulsante */
-}
-
-
-/* -------------------- OUTROS ESTILOS -------------------- */
-
-h2 {
-    color: var(--text-light);
-    font-size: 1.5em;
-    border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 5px;
+    font-size: 0.9em;
     margin-bottom: 20px;
 }
 
+/* -------------------- TÍTULOS DE SEÇÃO -------------------- */
+.section-title {
+    color: var(--text-light);
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--text-secondary); /* Linha sutil de separação */
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+/* -------------------- LISTAS DE INTERESSES/CONTACTOS -------------------- */
+.clean-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.clean-list li {
+    margin-bottom: 8px;
+    font-size: 1em;
+    color: var(--text-secondary);
+}
+
+.clean-list i {
+    color: var(--color-accent);
+    margin-right: 8px;
+}
+
+.detail-text {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+/* -------------------- BOTÕES SOCIAIS -------------------- */
+.social-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-button {
+    color: var(--text-light);
+    font-size: 1.5em;
+    transition: color 0.3s;
+}
+
+.social-button:hover {
+    color: var(--color-accent);
+}
+
+/* -------------------- BLOCO DE SCRIPT -------------------- */
 .code-block {
-    background-color: #1a1a1a;
+    background-color: #1a1a1e; 
     padding: 15px;
     border-radius: 6px;
+    overflow-x: auto;
+    white-space: pre-wrap;
     font-family: 'Consolas', 'Courier New', monospace;
     font-size: 0.85em;
-    border: 1px solid rgba(255, 0, 51, 0.2);
+    border: 1px solid #333;
     color: #e0e0e0;
 }
 
 .copy-button {
     background-color: var(--color-accent);
     color: white;
-    box-shadow: 0 0 10px var(--color-glow);
-    /* ... (restante do estilo do botão) ... */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .copy-button:hover {
-    background-color: var(--color-hover);
-    box-shadow: 0 0 15px var(--color-accent);
+    background-color: #0056b3;
+    box-shadow: 0 0 10px var(--color-glowing);
 }
 
-/* Estilos de perfil, changelog, footer, etc., mantidos do código anterior. */
-/* (Para economizar espaço, mantenha o restante do CSS anterior aqui) */
-/* ... */
+#copy-message {
+    margin-left: 10px;
+    color: var(--color-success);
+    font-weight: bold;
+}
+
+/* -------------------- FOOTER -------------------- */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    border-top: 1px solid #333;
+    margin-top: 15px;
+}
