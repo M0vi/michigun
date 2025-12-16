@@ -1,12 +1,13 @@
 /* style.css */
-/* Variáveis para cores */
+/* -------------------- VARIÁVEIS DE COR E TIPOGRAFIA -------------------- */
 :root {
-    --bg-main: #18191c; /* Fundo principal escuro */
+    --bg-main: #18191c; /* Fundo principal muito escuro */
     --bg-card: #202225; /* Fundo dos blocos/cards */
-    --text-light: #dcddde; /* Texto principal */
-    --text-secondary: #99aab5; /* Texto secundário/taglines */
-    --color-accent: #7289da; /* Cor de destaque (Azul Discord) */
-    --color-success: #43b581; /* Cor de sucesso */
+    --text-light: #f1f1f1; /* Texto principal */
+    --text-secondary: #99aab5; /* Texto secundário */
+    --color-accent: #37a86e; /* Cor principal de destaque (Verde moderno) */
+    --color-hover: #4dc285; /* Cor para hover */
+    --color-shadow: rgba(0, 0, 0, 0.4);
 }
 
 /* -------------------- GERAL / CORPO -------------------- */
@@ -23,16 +24,22 @@ body {
 
 .container {
     width: 100%;
-    max-width: 750px;
-    padding: 20px;
+    max-width: 900px; /* Mais largo para o layout em grid */
+    padding: 20px 15px;
 }
 
 .card {
     background-color: var(--bg-card);
     padding: 25px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições para animação */
+}
+
+/* Efeito Hover nos Cards */
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
 }
 
 /* -------------------- HEADER E NAVEGAÇÃO -------------------- */
@@ -41,12 +48,11 @@ body {
     align-items: center;
     gap: 20px;
     margin-bottom: 20px;
-    padding: 10px 0;
 }
 
 .avatar {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--color-accent);
@@ -54,82 +60,127 @@ body {
 
 .tagline {
     color: var(--text-secondary);
-    font-size: 1em;
-    margin-top: 5px;
 }
 
 nav {
     display: flex;
     justify-content: space-around;
-    padding: 15px 0;
-    border-bottom: 1px solid #3c3f45;
-    margin-bottom: 20px;
+    padding: 10px 0;
 }
 
 nav a {
-    color: var(--text-light);
+    color: var(--text-secondary);
     text-decoration: none;
     font-weight: bold;
-    padding: 5px 10px;
-    transition: color 0.3s;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 nav a:hover {
-    color: var(--color-accent);
-}
-
-/* -------------------- SEÇÕES E TÍTULOS -------------------- */
-h2 {
     color: var(--text-light);
-    font-size: 1.5em;
-    border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 5px;
-    margin-bottom: 20px;
+    background-color: #36393f;
 }
 
-/* -------------------- IMAGEM DE DESTAQUE -------------------- */
-.featured-image {
-    width: 100%;
-    border-radius: 6px;
-    margin: 15px 0;
-    max-height: 300px;
-    object-fit: cover;
+/* -------------------- SEÇÃO DE DESTAQUE (ANIMAÇÃO PRINCIPAL) -------------------- */
+.highlight-container {
+    background-color: var(--color-accent);
+    padding: 40px 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    animation: fadeInDown 1s ease-in-out; /* Animação de entrada */
+    box-shadow: 0 8px 20px rgba(55, 168, 110, 0.4);
 }
 
-/* -------------------- CHANGELOG -------------------- */
-.changelog-item {
-    border-left: 3px solid var(--color-accent);
-    padding-left: 15px;
-    margin-bottom: 15px;
+.highlight-text h2 {
+    color: white;
+    font-size: 2.5em;
+    margin-top: 0;
+    border-bottom: none;
 }
 
-.version {
+.highlight-text p {
+    color: #e0e0e0;
+    font-size: 1.1em;
+}
+
+.highlight-word {
+    color: var(--bg-card);
+    font-weight: 900;
+}
+
+/* Badges de Status */
+.status-badges {
+    margin-top: 20px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
     font-weight: bold;
-    color: var(--color-success);
     margin-right: 10px;
 }
 
-.date {
-    font-size: 0.9em;
+.undetected {
+    background-color: var(--bg-card);
+    color: var(--color-accent);
+}
+
+.instant {
+    background-color: #f1c40f;
+    color: var(--bg-main);
+}
+
+/* -------------------- LAYOUT EM GRID PARA CONTEÚDO -------------------- */
+.main-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr; /* Duas colunas em telas maiores */
+}
+
+/* Em telas menores (celular), volta para uma coluna */
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* -------------------- BLOCOS ESPECÍFICOS -------------------- */
+.featured-image {
+    width: 100%;
+    border-radius: 6px;
+    margin: 10px 0 15px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.read-more {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    display: block; /* Para ocupar a linha inteira */
+    margin-top: 10px;
+}
+
+/* Bloco de Script */
+.copy-instruction {
     color: var(--text-secondary);
+    font-size: 0.9em;
 }
 
-.changelog-item ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin-top: 5px;
-}
-
-/* -------------------- BLOCO DE CÓDIGO E BOTÃO -------------------- */
 .code-block {
-    background-color: #2f3136; /* Fundo mais escuro para o código */
+    background-color: #2f3136;
     padding: 15px;
     border-radius: 6px;
-    overflow-x: auto; /* Permite rolar em telas pequenas */
-    white-space: pre-wrap; /* Quebra de linha */
+    overflow-x: auto;
+    white-space: pre-wrap;
     font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9em;
-    border: 1px solid #4a4d52;
+    font-size: 0.85em;
+    border: 1px solid #3c3f45;
+    color: #e0e0e0;
 }
 
 .copy-button {
@@ -145,13 +196,64 @@ h2 {
 }
 
 .copy-button:hover {
-    background-color: #5c70d4;
+    background-color: var(--color-hover);
 }
 
 #copy-message {
     margin-left: 10px;
     color: var(--color-success);
     font-weight: bold;
+}
+
+/* Changelog */
+.changelog-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.changelog-content li {
+    margin-bottom: 5px;
+}
+
+.version {
+    color: var(--color-accent);
+    font-weight: bold;
+}
+
+.date {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* -------------------- ANIMAÇÕES -------------------- */
+
+/* Animação para fazer o elemento deslizar de cima para baixo */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animação para fazer os cards aparecerem */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out;
 }
 
 /* -------------------- FOOTER -------------------- */
@@ -163,4 +265,3 @@ footer {
     border-top: 1px solid #3c3f45;
     margin-top: 30px;
 }
-
