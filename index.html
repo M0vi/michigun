@@ -3,142 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Michigun | Portfolio & Scripts</title>
+    <title>Michigun | Perfil Digital</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        
+
         <header class="card profile-card">
-            <div class="profile-header">
-                <img src="avatar.png" alt="Michigun Avatar" class="avatar">
-                <div>
-                    <h1>Michigun's Space</h1>
-                    <p class="tagline">Desenvolvedor e entusiasta de sistemas.</p>
-                </div>
-            </div>
+            <img src="avatar.png" alt="Michigun Avatar" class="avatar">
             
-            <nav class="tab-navigation">
-                <button class="tab-button active" onclick="openTab(event, 'tab-home')"><i class="fas fa-home"></i> Home</button>
-                <button class="tab-button" onclick="openTab(event, 'tab-portfolio')"><i class="fas fa-box"></i> Portfólio</button>
-                <button class="tab-button" onclick="openTab(event, 'tab-changelog')"><i class="fas fa-history"></i> Changelog</button>
-                <button class="tab-button" onclick="openTab(event, 'tab-script')"><i class="fas fa-code"></i> Script</button>
-                <a href="[Seu Link do Discord]" target="_blank" class="tab-link"><i class="fab fa-discord"></i> Discord</a>
-            </nav>
+            <h1>Heyo, I'm Michigun!~</h1>
+            <p class="tagline">Welcome to my website >_<!</p>
+            
+            <div class="social-links">
+                <a href="[Link do Instagram]" target="_blank" class="social-button instagram"><i class="fab fa-instagram"></i></a>
+                <a href="[Link do Discord]" target="_blank" class="social-button discord"><i class="fab fa-discord"></i></a>
+                <a href="[Link do Telegram]" target="_blank" class="social-button telegram"><i class="fab fa-telegram-plane"></i></a>
+            </div>
         </header>
 
-        <section id="tab-home" class="tab-content active">
-            <div class="card highlight-card fade-in">
-                <h2>Seja Bem-vindo!</h2>
-                <p>Aqui você encontra meus projetos, atualizações de scripts e links essenciais.</p>
-                <div class="status-badges">
-                    <span class="badge detected">Online</span>
-                    <span class="badge detected">Stable</span>
-                    <span class="badge instant">Instant Access</span>
-                </div>
-            </div>
-            
-            <div class="main-grid">
-                <section class="card portfolio-card fade-in">
-                    <h2>Destaque do Mês</h2>
-                    <img src="featured_image.jpg" alt="Imagem do Projeto em Destaque" class="featured-image">
-                    <p class="project-description">Meu projeto mais recente. Focado em estabilidade e segurança.</p>
-                    <a href="[Link para o Projeto/GitHub]" target="_blank" class="read-more">Ver Projeto →</a>
-                </section>
-            </div>
+        <section class="info-section">
+            <h2 class="section-title">About Me</h2>
+            <p>Well, I love programming since it's my hobby!</p>
+            <p>I don't know what I can describe, but I will add it soon.</p>
+            <p class="detail-text">My current timezone: **Brasilia Time (BRT)** 🇧🇷</p>
+            <p class="detail-text">Born in Brazil!</p>
         </section>
 
-        <section id="tab-portfolio" class="tab-content">
-            <section class="card fade-in">
-                <h2>Portfólio de Projetos</h2>
-                <p>Aqui você encontra uma lista dos meus principais trabalhos e experimentos:</p>
-                <ul>
-                    <li><a href="#">[Nome do Projeto 1]</a> - Descrição breve do projeto.</li>
-                    <li><a href="#">[Nome do Projeto 2]</a> - Focado em otimização de performance.</li>
-                </ul>
-            </section>
+        <section class="info-section">
+            <h2 class="section-title">Interests</h2>
+            <ul class="clean-list">
+                <li><i class="fas fa-terminal"></i> Linux</li>
+                <li><i class="fas fa-code"></i> Programming</li>
+                <li><i class="fas fa-laptop-code"></i> Grid Style</li>
+                <li><i class="fas fa-book"></i> Anime/Manga/Books</li>
+            </ul>
         </section>
 
-        <section id="tab-changelog" class="tab-content">
-            <section class="card changelog-card fade-in">
-                <h2>🛠️ Changelogs (Atualizações)</h2>
-                <div class="changelog-item">
-                    <span class="version">[v2.1]</span>
-                    <span class="date">15/Dez/2025</span>
-                    <ul>
-                        <li>Adicionada a funcionalidade de cache para maior performance.</li>
-                        <li>Corrigido um bug raro no processamento de variáveis.</li>
-                    </ul>
-                </div>
-                <div class="changelog-item">
-                    <span class="version">[v2.0]</span>
-                    <span class="date">01/Dez/2025</span>
-                    <ul>
-                        <li>Lançamento da versão estável.</li>
-                        <li>Reescrita completa do código base.</li>
-                    </ul>
-                </div>
-            </section>
-        </section>
-
-        <section id="tab-script" class="tab-content">
-            <section class="card script-card fade-in">
-                <h2>📜 Meu Script Essencial</h2>
-                <p class="copy-instruction">Abaixo está o código mais recente. Clique para copiar:</p>
-                
-                <pre id="code-block" class="code-block">
-                    # Este é o seu script!
-                    # Altere este conteúdo diretamente no GitHub.
-                    
-                    function michigun_run() {
-                        echo "Script by Michigun v2.1"
-                        # Seu código aqui...
-                    }
-                    
-                    michigun_run
-                </pre>
-                
-                <button onclick="copyToClipboard()" class="copy-button">Copiar Código</button>
-                <span id="copy-message"></span>
-            </section>
+        <section class="info-section">
+            <h2 class="section-title">Contacts</h2>
+            <ul class="clean-list">
+                <li><i class="fab fa-discord"></i> Discord: **michigun\_user**</li>
+                <li><i class="fab fa-telegram-plane"></i> Telegram: **@michigun\_tg**</li>
+                <li><i class="fas fa-envelope"></i> E-mail: **michigunemail@gmail.com**</li>
+            </ul>
         </section>
         
+        <section class="card script-section">
+            <h2>📜 Script Essencial</h2>
+            <p class="copy-instruction">Clique para copiar o código abaixo:</p>
+            
+            <pre id="code-block" class="code-block">
+                # Script de utilidade por Michigun
+                
+                function run_utility() {
+                    echo "Executando script v1.0"
+                    # Seu código aqui...
+                }
+                
+                run_utility
+            </pre>
+            
+            <button onclick="copyToClipboard()" class="copy-button">Copiar Código</button>
+            <span id="copy-message"></span>
+        </section>
+
         <footer>
             &copy; 2025 Michigun.xyz
         </footer>
     </div>
 
     <script>
-        // Função para mudar o conteúdo das abas
-        function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
-
-            // Esconde todo o conteúdo da aba
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove('active');
-            }
-
-            // Remove a classe 'active' de todos os botões
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove('active');
-            }
-
-            // Mostra o conteúdo da aba atual e adiciona 'active' ao botão
-            document.getElementById(tabName).style.display = "block";
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        // Abre a aba Home por padrão ao carregar a página
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("tab-home").style.display = "block";
-        });
-        
-        // Função para copiar o código
         function copyToClipboard() {
             const codeBlock = document.getElementById('code-block').textContent;
             navigator.clipboard.writeText(codeBlock).then(() => {
