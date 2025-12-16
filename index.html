@@ -10,44 +10,44 @@
 <body>
     <div class="container">
 
-        <header class="card profile-card">
+        <header class="profile-header">
             <img src="avatar.png" alt="Michigun Avatar" class="avatar">
             
-            <h1>fp3</h1>
-            <p class="tagline">Michigun hub</p>
-            
-            </header>
-
-        <section class="info-section">
-            <h2 class="section-title animated-title">LuaU scripting...</h2>
-            <p>Well, I love programming since it's my hobby!</p>
-            <p>I don't know what I can describe, but I will add it soon.</p>
-            <p class="detail-text">My current timezone: **Brasilia Time (BRT)** 🇧🇷</p>
-            <p class="detail-text">Born in Brazil!</p>
-        </section>
+            <div class="profile-info">
+                <h1>fp3</h1>
+                <p class="tagline">Michigun hub</p>
+                
+                <h2 class="section-title animated-title">LuaU scripting...</h2>
+                
+                <p class="about-text">Well, I love programming since it's my hobby!</p>
+                <p class="about-text">I don't know what I can describe, but I will add it soon.</p>
+                <p class="detail-text">My current timezone: Brasilia Time (BRT) 🇧🇷</p>
+                <p class="detail-text">Born in Brazil!</p>
+            </div>
+        </header>
 
         <section class="info-section">
             <h2 class="section-title">Contacts</h2>
             <ul class="clean-list">
-                <li><i class="fab fa-discord"></i> Discord: **michigun\_user**</li>
-                <li><i class="fab fa-telegram-plane"></i> Telegram: **@michigun\_tg**</li>
-                <li><i class="fas fa-envelope"></i> E-mail: **michigunemail@gmail.com**</li>
+                <li><i class="fab fa-discord"></i> Discord: michigun\_user</li>
+                <li><i class="fab fa-telegram-plane"></i> Telegram: @michigun\_tg</li>
+                <li><i class="fas fa-envelope"></i> E-mail: michigunemail@gmail.com</li>
             </ul>
         </section>
         
-        <section class="card script-section">
+        <section class="script-section card">
             <h2 class="script-title-glowing">Script [EB]</h2>
             <p class="copy-instruction">Clique para copiar o código abaixo:</p>
             
             <textarea id="hidden-code-block" style="display: none;">
-                -- Script de utilidade por Michigun
-                
-                function run_utility() 
-                    print("Executando script v1.0")
-                    -- Seu código LuaU aqui...
-                end
-                
-                run_utility()
+-- Script de utilidade por Michigun
+
+function run_utility()
+    print("Executando script v1.0")
+    -- Seu código LuaU aqui...
+end
+
+run_utility()
             </textarea>
             
             <pre id="code-block" class="code-block">-- Script de utilidade por Michigun
@@ -64,22 +64,24 @@ run_utility()</pre>
         </section>
 
         <footer>
+            <p>Friends!</p>
+            <div class="emoji-section">
+                <span>🥺</span>
+                <span>🌍</span>
+            </div>
             &copy; 2025 Michigun hub
         </footer>
     </div>
 
     <script>
         function copyToClipboard() {
-            // Pega o conteúdo da textarea oculta (que não tem espaços indesejados)
             const codeBlock = document.getElementById('hidden-code-block');
             
-            // Seleciona e copia o conteúdo
-            codeBlock.style.display = 'block'; // Temporariamente mostra para seleção
+            codeBlock.style.display = 'block'; 
             codeBlock.select();
             document.execCommand('copy');
-            codeBlock.style.display = 'none'; // Esconde novamente
+            codeBlock.style.display = 'none'; 
 
-            // Feedback visual
             const message = document.getElementById('copy-message');
             message.textContent = 'Copiado!';
             setTimeout(() => {
