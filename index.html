@@ -57,24 +57,11 @@
                 <p class="copy-instruction">Clique para copiar script:</p>
                 
                 <textarea id="hidden-code-block" style="display: none;">
--- Script de utilidade por Michigun
-
-function run_utility()
-    print("Executando script v1.0")
-    -- Seu código LuaU aqui...
-end
-
-run_utility()
+loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
                 </textarea>
                 
-                <pre id="code-block" class="code-block">-- Script de utilidade por Michigun
-
-function run_utility()
-    print("Executando script v1.0")
-    -- Seu código LuaU aqui...
-end
-
-run_utility()</pre>
+                <pre id="code-block" class="code-block">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
+</pre>
                 
                 <button onclick="copyToClipboard()" class="copy-button"><i class="fas fa-copy"></i> Copiar Código</button>
                 <span id="copy-message"></span>
@@ -96,7 +83,7 @@ run_utility()</pre>
             let i, tabcontent, tablinks;
 
             tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
+            ftevez = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
                 tabcontent[i].classList.remove('active');
             }
