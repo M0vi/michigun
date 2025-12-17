@@ -14,19 +14,30 @@ const copyBtn = document.getElementById("copyBtn");
 const codeEl = document.getElementById("code");
 const msg = document.getElementById("copy-msg");
 
-copyBtn.addEventListener("click", async () => {
+copyBtn.addEventListener("click", () => {
+    const text = codeEl.innerText.trim();
+    const textarea = document.createElement("textarea");
+
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+    textarea.select();
+
     try {
-        await navigator.clipboard.writeText(codeEl.innerText.trim());
+        document.execCommand("copy");
         msg.textContent = "Copiado com sucesso!";
     } catch {
         msg.textContent = "Erro ao copiar";
     }
+
+    document.body.removeChild(textarea);
     setTimeout(() => msg.textContent = "", 2000);
 });
 
 const audio = document.getElementById("ambientSound");
-let analyser, dataArray;
-let started = false;
+let analyser, dataArray, started = false;
 
 document.addEventListener("click", () => {
     if (!started) {
