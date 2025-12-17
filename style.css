@@ -6,20 +6,20 @@
     --bg-card: #0a0a0a; 
     --text-light: #f1f1f1;
     --text-secondary: #aaaaaa;
-    --color-accent: #FF00FF; /* Roxo Neon (Cor inicial) */
+    --color-accent-red: #FF0033; /* Vermelho para o Script [EB] */
     --color-success: #00ff66;
     --font-main: 'Consolas', monospace; 
 }
 
-/* Keyframe para o RAINBOW GLOW (Muda cor e sombra em ciclo) */
+/* Keyframe para o RAINBOW GLOW (Muda cor da sombra e borda em ciclo) */
 @keyframes rainbowGlow {
-    0% { filter: hue-rotate(0deg); box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
-    15% { filter: hue-rotate(60deg); box-shadow: 0 0 10px rgba(255, 255, 0, 0.7); }
-    30% { filter: hue-rotate(120deg); box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
-    45% { filter: hue-rotate(180deg); box-shadow: 0 0 10px rgba(0, 255, 255, 0.7); }
-    60% { filter: hue-rotate(240deg); box-shadow: 0 0 10px rgba(0, 0, 255, 0.7); }
-    75% { filter: hue-rotate(300deg); box-shadow: 0 0 10px rgba(255, 0, 255, 0.7); }
-    100% { filter: hue-rotate(360deg); box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+    0% { border-color: #FF0000; box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+    15% { border-color: #FF7F00; box-shadow: 0 0 10px rgba(255, 127, 0, 0.7); }
+    30% { border-color: #FFFF00; box-shadow: 0 0 10px rgba(255, 255, 0, 0.7); }
+    45% { border-color: #00FF00; box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
+    60% { border-color: #0000FF; box-shadow: 0 0 10px rgba(0, 0, 255, 0.7); }
+    75% { border-color: #4B0082; box-shadow: 0 0 10px rgba(75, 0, 130, 0.7); }
+    100% { border-color: #FF00FF; box-shadow: 0 0 10px rgba(255, 0, 255, 0.7); }
 }
 
 /* Keyframe para o Texto Rainbow (Texto de cores mudando) */
@@ -64,9 +64,9 @@ body {
     border-radius: 12px;
     margin-bottom: 25px;
     
-    /* Aplica a animação no card (Bordas Rainbow) */
+    /* Aplica a animação no card (Bordas e Sombra Rainbow) */
     animation: rainbowGlow 8s linear infinite alternate;
-    border: 1px solid transparent; 
+    border: 1px solid transparent; /* Inicializa a borda como transparente para a animação assumir o controle */
     
     transition: transform 0.3s ease;
 }
@@ -89,7 +89,7 @@ body {
 }
 
 .copy-button {
-    background-color: var(--color-accent);
+    background-color: var(--color-accent-red);
     color: var(--bg-main);
     border: none;
     padding: 10px 15px;
@@ -98,15 +98,15 @@ body {
     font-weight: bold;
     margin-top: 10px;
     
-    /* Aplica a animação no botão (Glow Rainbow) */
-    animation: rainbowGlow 8s linear infinite alternate;
+    /* Glow do botão Copiar fixo em VERMELHO para contraste com o Rainbow */
+    box-shadow: 0 0 10px var(--color-accent-red); 
     
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .copy-button:hover {
-    background-color: #ff33ff;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+    background-color: #ff3333;
+    box-shadow: 0 0 20px var(--color-accent-red);
 }
 
 /* -------------------- TEXTOS E TÍTULOS -------------------- */
@@ -124,25 +124,36 @@ body {
     padding-bottom: 5px;
 }
 
+/* Título do Script (VERMELHO GLOW) */
 .script-title-glowing {
     font-size: 1.5em;
-    color: var(--color-accent);
+    color: var(--color-accent-red);
     margin-bottom: 10px;
     
-    /* Título Script com Glow Roxo Estático (contraste com o Rainbow) */
-    text-shadow: 0 0 10px var(--color-accent), 0 0 20px rgba(255, 0, 255, 0.4);
+    /* Glow Vermelho Forte Estático */
+    text-shadow: 0 0 10px var(--color-accent-red), 0 0 20px rgba(255, 0, 51, 0.4);
     
-    border-bottom: 2px solid var(--color-accent);
+    border-bottom: 2px solid var(--color-accent-red);
     padding-bottom: 5px;
 }
 
 /* Rodapé Rainbow */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    border-top: 1px solid #333;
+    margin-top: 15px;
+}
+
 .rainbow-text {
     font-size: 1em;
     margin-top: 10px;
     /* Aplica a animação Rainbow no texto do footer */
     animation: rainbowText 4s linear infinite;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    display: block; /* Para garantir que o texto ocupe toda a linha */
 }
 
 /* -------------------- BLOCO DE SCRIPT (REDIMENSIONAMENTO) -------------------- */
@@ -160,21 +171,4 @@ body {
     width: fit-content; 
     max-width: 100%;
 }
-
-/* -------------------- LAYOUT DE ABAS E OUTROS ESTILOS -------------------- */
-.tab-navigation {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #333;
-}
-
-.tab-button.active {
-    color: #fff;
-    border-bottom: 2px solid #fff;
-    text-shadow: 0 0 5px #fff;
-    background: none !important; 
-}
-
-/* ... (Restante dos estilos limpos para Contacts, Features, etc.) ... */
+/* ... (Restante dos estilos de abas, listas, etc. mantidos) ... */
