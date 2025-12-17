@@ -1,174 +1,223 @@
-/* style.css - RAINBOW GLOWING FINAL E RESPONSIVIDADE */
-
-/* -------------------- VARIÁVEIS E KEYFRAMES -------------------- */
+/* ===================== VARIÁVEIS ===================== */
 :root {
-    --bg-main: #000000; 
-    --bg-card: #0a0a0a; 
-    --text-light: #f1f1f1;
-    --text-secondary: #aaaaaa;
-    --color-accent-red: #FF0033; /* Vermelho para o Script [EB] */
-    --color-success: #00ff66;
-    --font-main: 'Consolas', monospace; 
+    --bg-main: #020205;
+    --glass-bg: rgba(15, 15, 25, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.12);
+
+    --text-main: #f2f2f2;
+    --text-muted: #a0a0a0;
+
+    --accent-red: #ff0033;
+
+    --radius: 16px;
+    --radius-sm: 10px;
+
+    --font-main: 'Consolas', monospace;
 }
 
-/* Keyframe para o RAINBOW GLOW (Muda cor da sombra e borda em ciclo) */
+/* ===================== BACKGROUND ANIMADO ===================== */
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-main);
+    color: var(--text-main);
+
+    background:
+        radial-gradient(circle at 20% 20%, #ff003330, transparent 40%),
+        radial-gradient(circle at 80% 30%, #00ffff25, transparent 40%),
+        radial-gradient(circle at 50% 80%, #9933ff25, transparent 40%),
+        linear-gradient(120deg, #050508, #000);
+
+    background-size: 200% 200%;
+    animation: bgMove 18s ease infinite;
+
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===================== CONTAINER ===================== */
+.container {
+    width: 100%;
+    max-width: 720px;
+    padding: 24px 14px 50px;
+}
+
+/* ===================== ANIMAÇÕES ===================== */
 @keyframes rainbowGlow {
-    0% { border-color: #FF0000; box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
-    15% { border-color: #FF7F00; box-shadow: 0 0 10px rgba(255, 127, 0, 0.7); }
-    30% { border-color: #FFFF00; box-shadow: 0 0 10px rgba(255, 255, 0, 0.7); }
-    45% { border-color: #00FF00; box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
-    60% { border-color: #0000FF; box-shadow: 0 0 10px rgba(0, 0, 255, 0.7); }
-    75% { border-color: #4B0082; box-shadow: 0 0 10px rgba(75, 0, 130, 0.7); }
-    100% { border-color: #FF00FF; box-shadow: 0 0 10px rgba(255, 0, 255, 0.7); }
+    0%   { box-shadow: 0 0 12px #ff0033; border-color:#ff0033; }
+    25%  { box-shadow: 0 0 12px #ff9900; border-color:#ff9900; }
+    50%  { box-shadow: 0 0 12px #00ff66; border-color:#00ff66; }
+    75%  { box-shadow: 0 0 12px #00ccff; border-color:#00ccff; }
+    100% { box-shadow: 0 0 12px #ff00ff; border-color:#ff00ff; }
 }
 
-/* Keyframe para o Texto Rainbow (Texto de cores mudando) */
 @keyframes rainbowText {
-    0% { color: #FF00FF; text-shadow: 0 0 5px #FF00FF; }
-    33% { color: #00FFFF; text-shadow: 0 0 5px #00FFFF; }
-    66% { color: #FFFF00; text-shadow: 0 0 5px #FFFF00; }
-    100% { color: #FF00FF; text-shadow: 0 0 5px #FF00FF; }
+    0% { color:#ff00ff }
+    33%{ color:#00ffff }
+    66%{ color:#ffff00 }
+    100%{ color:#ff00ff }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity:0; transform:translateY(10px); }
+    to { opacity:1; transform:none; }
 }
 
-/* -------------------- GERAL / CORPO E RESPONSIVIDADE -------------------- */
-body {
-    background-color: var(--bg-main);
-    color: var(--text-light);
-    font-family: var(--font-main);
-    line-height: 1.6;
-    margin: 0;
-    padding: 30px 0; 
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-.container {
-    width: 100%;
-    max-width: 700px; 
-    padding: 0 15px; 
-    margin: 0 auto; 
-    box-sizing: border-box; 
-}
-
-/* -------------------- ELEMENTOS COM GLOW RAINBOW -------------------- */
-
+/* ===================== GLASS CARDS ===================== */
 .card {
-    background-color: var(--bg-card); 
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    
-    /* Aplica a animação no card (Bordas e Sombra Rainbow) */
-    animation: rainbowGlow 8s linear infinite alternate;
-    border: 1px solid transparent; /* Inicializa a borda como transparente para a animação assumir o controle */
-    
-    transition: transform 0.3s ease;
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-border);
+
+    padding: 22px;
+    margin-bottom: 18px;
+
+    animation: rainbowGlow 12s linear infinite;
+    transition: transform .25s ease;
 }
 
 .card:hover {
-    transform: translateY(-3px);
-    /* Mantém o efeito de sombra mais forte no hover */
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); 
+    transform: translateY(-2px);
+}
+
+/* ===================== PROFILE ===================== */
+.profile-card {
+    text-align: center;
 }
 
 .avatar {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
-    /* Aplica a animação no avatar (Borda Rainbow) */
     border: 3px solid #fff;
-    animation: rainbowGlow 8s linear infinite alternate;
+    margin-bottom: 12px;
+    animation: rainbowGlow 8s linear infinite;
 }
 
-.copy-button {
-    background-color: var(--color-accent-red);
-    color: var(--bg-main);
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
+.tagline {
+    color: var(--text-muted);
+    font-size: .9em;
+}
+
+/* ===================== TABS ===================== */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    background: rgba(0,0,0,.35);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
+    font-size: .85em;
+    transition: all .25s ease;
+}
+
+.tab-button:hover,
+.tab-button.active {
+    background: rgba(255,255,255,.08);
+    box-shadow: 0 0 14px rgba(255,255,255,.15);
+}
+
+/* ===================== TÍTULOS ===================== */
+.animated-title {
+    animation: rainbowText 4s linear infinite;
+    border-bottom: 1px solid rgba(255,255,255,.25);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+.script-title-glowing {
+    color: var(--accent-red);
+    text-shadow: 0 0 14px var(--accent-red);
+    border-bottom: 1px solid var(--accent-red);
+    padding-bottom: 6px;
+}
+
+/* ===================== LISTAS ===================== */
+.clean-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.clean-list li {
+    padding: 6px 0;
+    color: var(--text-muted);
+}
+
+/* ===================== SCRIPT ===================== */
+.script-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.code-block {
+    width: 100%;
+    box-sizing: border-box;
+
+    background: rgba(0,0,0,.45);
+    backdrop-filter: blur(8px);
+
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    font-size: .8em;
+    overflow-x: auto;
+
+    border: 1px solid rgba(255,255,255,.18);
+    animation: rainbowGlow 14s linear infinite;
+}
+
+/* ===================== BOTÃO ===================== */
+.copy-button {
+    align-self: flex-start;
+    background: var(--accent-red);
+    color: #000;
+    border: none;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
     font-weight: bold;
-    margin-top: 10px;
-    
-    /* Glow do botão Copiar fixo em VERMELHO para contraste com o Rainbow */
-    box-shadow: 0 0 10px var(--color-accent-red); 
-    
-    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    box-shadow: 0 0 14px var(--accent-red);
+    transition: all .25s ease;
 }
 
 .copy-button:hover {
-    background-color: #ff3333;
-    box-shadow: 0 0 20px var(--color-accent-red);
+    transform: translateY(-1px);
+    box-shadow: 0 0 26px var(--accent-red);
 }
 
-/* -------------------- TEXTOS E TÍTULOS -------------------- */
-
-.animated-title {
-    font-size: 1.4em;
-    margin-bottom: 10px;
-    text-align: left;
-    
-    /* Título animado com Rainbow Glow */
-    animation: rainbowText 4s linear infinite;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    
-    border-bottom: 2px solid #5a5a5a;
-    padding-bottom: 5px;
-}
-
-/* Título do Script (VERMELHO GLOW) */
-.script-title-glowing {
-    font-size: 1.5em;
-    color: var(--color-accent-red);
-    margin-bottom: 10px;
-    
-    /* Glow Vermelho Forte Estático */
-    text-shadow: 0 0 10px var(--color-accent-red), 0 0 20px rgba(255, 0, 51, 0.4);
-    
-    border-bottom: 2px solid var(--color-accent-red);
-    padding-bottom: 5px;
-}
-
-/* Rodapé Rainbow */
+/* ===================== FOOTER ===================== */
 footer {
+    margin-top: 26px;
     text-align: center;
-    padding: 20px 0;
-    font-size: 0.8em;
-    color: var(--text-secondary);
-    border-top: 1px solid #333;
-    margin-top: 15px;
+    font-size: .8em;
+    color: var(--text-muted);
 }
 
 .rainbow-text {
-    font-size: 1em;
-    margin-top: 10px;
-    /* Aplica a animação Rainbow no texto do footer */
     animation: rainbowText 4s linear infinite;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    display: block; /* Para garantir que o texto ocupe toda a linha */
 }
 
-/* -------------------- BLOCO DE SCRIPT (REDIMENSIONAMENTO) -------------------- */
-.code-block {
-    background-color: #1a1a1e; 
-    padding: 15px;
-    border-radius: 6px;
-    overflow-x: auto;
-    white-space: pre; 
-    font-family: var(--font-main);
-    font-size: 0.8em;
-    /* Borda Rainbow Sutil */
-    border: 1px solid #fff;
-    color: var(--text-light);
-    width: fit-content; 
-    max-width: 100%;
+/* ===================== RESPONSIVO ===================== */
+@media (max-width: 520px) {
+    .card { padding: 18px; }
+    .avatar { width: 90px; height: 90px; }
+    .copy-button { width: 100%; text-align: center; }
 }
-/* ... (Restante dos estilos de abas, listas, etc. mantidos) ... */
