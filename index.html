@@ -10,9 +10,10 @@
 </head>
 <body>
 
+<canvas id="particles"></canvas>
+
 <div class="container">
 
-    <!-- HERO -->
     <header class="card hero">
         <img src="avatar.png" class="avatar" alt="fp3">
 
@@ -39,7 +40,7 @@
     </header>
 
     <!-- HOME -->
-    <section id="home" class="tab-content active">
+    <section id="home" class="tab-content active animate">
         <section class="card">
             <h2 class="animated-title">LuaU scripting...</h2>
             <p>Oi, faço scripts básicos para jogos chatos.</p>
@@ -48,22 +49,31 @@
     </section>
 
     <!-- FEATURES -->
-    <section id="features" class="tab-content">
+    <section id="features" class="tab-content animate">
         <section class="card">
             <h2>✨ Script Features</h2>
-            <ul class="clean-list">
-                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 1]** - Descrição completa do que ela faz.</li>
-                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 2]** - Implementa alta performance e estabilidade.</li>
-                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 3]** - Suporte a múltiplas plataformas.</li>
-                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 4]** - Sistema de logs eficiente.</li>
+            <ul class="feature-list">
+                <li><strong>Hitbox expander</strong> TODOS OS JOGOS</li>
+                <li><strong>Auto JJ's</strong> TODOS OS JOGOS</li>
+                <li><strong>Local</strong> Speed, Noclip, Chat spy, Retornar ao local de morte</li>
+                <li>
+                    <strong>Sugestões e avaliações via-script</strong>,
+                    com anonimato, enviados diretamente em
+                    <em>https://discord.com/channels/1325182370353119263/1442610728862224424</em>
+                    e
+                    <em>https://discord.com/channels/1325182370353119263/1447534538304524288</em>
+                </li>
+                <li><em>EB TEVEZ</em></li>
+                <li><strong>Mods</strong> Kill aura e armas modificadas</li>
+                <li><strong>Autofarm</strong> BANCO</li>
             </ul>
         </section>
     </section>
 
     <!-- SCRIPT -->
-    <section id="script" class="tab-content">
+    <section id="script" class="tab-content animate">
         <section class="card script-section">
-            <h2 class="script-title-glowing">Script [EB]</h2>
+            <h2 class="script-title-glowing">Script EB</h2>
             <p>Clique para copiar script:</p>
 
             <textarea id="hidden-code" style="display:none;">
@@ -86,32 +96,6 @@ loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tev
 
 </div>
 
-<script>
-const buttons = document.querySelectorAll(".tab-button");
-const tabs = document.querySelectorAll(".tab-content");
-
-buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        buttons.forEach(b => b.classList.remove("active"));
-        tabs.forEach(t => t.classList.remove("active"));
-
-        btn.classList.add("active");
-        document.getElementById(btn.dataset.tab).classList.add("active");
-    });
-});
-
-document.querySelector(".copy-button").addEventListener("click", () => {
-    const area = document.getElementById("hidden-code");
-    area.style.display = "block";
-    area.select();
-    document.execCommand("copy");
-    area.style.display = "none";
-
-    const msg = document.getElementById("copy-msg");
-    msg.textContent = "Copiado!";
-    setTimeout(() => msg.textContent = "", 2000);
-});
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
