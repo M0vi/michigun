@@ -1,53 +1,50 @@
 :root {
     --glass-bg: rgba(15,15,25,.55);
     --glass-border: rgba(255,255,255,.12);
-
     --text-main: #f1f1f1;
     --text-muted: #9a9a9a;
-
     --accent-red: #ff0033;
-
     --radius: 20px;
     --radius-sm: 12px;
-
-    --font-main: 'Consolas', monospace;
+    --font-main: Consolas, monospace;
 }
 
-/* RESET */
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 html, body {
     margin: 0;
+    padding: 0;
     width: 100%;
     overflow-x: hidden;
 }
 
-/* BACKGROUND */
 body {
     font-family: var(--font-main);
     color: var(--text-main);
     background:
-        radial-gradient(circle at 20% 20%, #ff003315, transparent 40%),
-        radial-gradient(circle at 80% 30%, #00ffff10, transparent 40%),
+        radial-gradient(circle at var(--bg-x,50%) var(--bg-y,50%), rgba(255,0,80,var(--bg-glow,0.12)), transparent 45%),
+        radial-gradient(circle at 80% 30%, #00ffff18, transparent 40%),
         linear-gradient(160deg, #040408, #000);
 }
 
-/* PARTICLES */
 #particles {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
+    z-index: -1;
+    filter: drop-shadow(0 0 calc(var(--particle-glow,2px)) rgba(255,255,255,.6));
 }
 
-/* CONTAINER */
 .container {
     max-width: 720px;
     margin: 0 auto;
     padding: 32px 16px 64px;
 }
 
-/* CARDS */
 .card {
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
@@ -57,8 +54,9 @@ body {
     margin-bottom: 22px;
 }
 
-/* HERO */
-.hero { text-align: center; }
+.hero {
+    text-align: center;
+}
 
 .avatar {
     width: 120px;
@@ -67,11 +65,24 @@ body {
     border: 3px solid #fff;
 }
 
-.discord { color: #7289da; }
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-/* GRADIENT TITLE */
+.discord {
+    font-size: .85em;
+    color: #7289da;
+}
+
+.tagline {
+    color: var(--text-muted);
+}
+
 .gradient-title {
     font-size: 2.6em;
+    margin-bottom: 10px;
     background: linear-gradient(90deg, #ff0033, #00ffff, #ff0033);
     background-size: 300%;
     -webkit-background-clip: text;
@@ -83,7 +94,6 @@ body {
     to { background-position: 300%; }
 }
 
-/* TABS */
 .tab-navigation {
     display: flex;
     justify-content: center;
@@ -104,11 +114,14 @@ body {
     box-shadow: 0 0 12px rgba(255,255,255,.15);
 }
 
-/* CONTENT */
-.tab-content { display: none; }
-.tab-content.active { display: block; }
+.tab-content {
+    display: none;
+}
 
-/* ANIMATION */
+.tab-content.active {
+    display: block;
+}
+
 .animate {
     animation: enter .45s ease;
 }
@@ -118,20 +131,19 @@ body {
     to { opacity:1; transform:none; }
 }
 
-/* FEATURES */
 .feature-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .feature-list li {
     display: flex;
     gap: 12px;
     padding: 10px 0;
-
     opacity: 0;
     transform: translateY(10px);
-    animation: stagger .4s ease forwards;
+    animation: stagger .45s ease forwards;
     animation-delay: calc(var(--i) * .08s);
 }
 
@@ -145,7 +157,6 @@ body {
     margin-top: 4px;
 }
 
-/* ICON ANIMATIONS */
 .icon-pulse { animation: pulse 2s infinite; }
 .icon-jump { animation: jump 1.2s infinite; }
 .icon-float { animation: float 3s infinite; }
@@ -167,11 +178,10 @@ body {
     color: #7a7a7a;
 }
 
-/* DIVIDER */
 .feature-divider {
     display: flex;
     justify-content: center;
-    margin: 16px 0;
+    margin: 18px 0;
 }
 
 .feature-divider span {
@@ -183,14 +193,13 @@ body {
     border-radius: 999px;
 }
 
-/* SCRIPT */
 .script-section {
     text-align: center;
 }
 
 .script-title {
     font-size: 1.6em;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .script-box {
@@ -198,8 +207,16 @@ body {
     border: 1px solid rgba(255,255,255,.15);
     border-radius: var(--radius-sm);
     padding: 16px;
-    font-size: .85em;
+    overflow-x: auto;
     box-shadow: inset 0 0 12px rgba(0,0,0,.8);
+}
+
+.script-box code {
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: .85em;
+    color: #f1f1f1;
 }
 
 .copy-button {
@@ -213,7 +230,12 @@ body {
     cursor: pointer;
 }
 
-/* FOOTER */
+#copy-msg {
+    margin-top: 8px;
+    font-size: .8em;
+    color: #00ffaa;
+}
+
 footer {
     text-align: center;
     font-size: .8em;
