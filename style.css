@@ -1,21 +1,19 @@
-/* ===================== VARIÁVEIS ===================== */
 :root {
-    --bg-dark: #020204;
-    --glass-bg: rgba(15, 15, 25, 0.55);
-    --glass-border: rgba(255,255,255,0.12);
+    --glass-bg: rgba(15,15,25,.55);
+    --glass-border: rgba(255,255,255,.12);
 
     --text-main: #f1f1f1;
     --text-muted: #a0a0a0;
 
     --accent-red: #ff0033;
 
-    --radius: 18px;
+    --radius: 20px;
     --radius-sm: 12px;
 
     --font-main: 'Consolas', monospace;
 }
 
-/* ===================== BACKGROUND DARK + PARTÍCULAS ===================== */
+/* BACKGROUND */
 body {
     margin: 0;
     min-height: 100vh;
@@ -23,47 +21,106 @@ body {
     color: var(--text-main);
 
     background:
-        radial-gradient(circle at 20% 20%, #ff003315, transparent 45%),
-        radial-gradient(circle at 80% 30%, #00ffff10, transparent 45%),
-        radial-gradient(circle at 50% 80%, #9933ff10, transparent 45%),
-        linear-gradient(160deg, #050508, #000);
+        radial-gradient(circle at 20% 20%, #ff003315, transparent 40%),
+        radial-gradient(circle at 80% 30%, #00ffff10, transparent 40%),
+        linear-gradient(160deg, #040408, #000);
 
     display: flex;
     justify-content: center;
 }
 
+/* PARTICLES */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background-image:
-        radial-gradient(2px 2px at 15% 30%, rgba(255,255,255,.18), transparent),
-        radial-gradient(1.5px 1.5px at 70% 60%, rgba(255,255,255,.14), transparent),
-        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,.12), transparent),
-        radial-gradient(2px 2px at 85% 20%, rgba(255,255,255,.16), transparent);
-    animation: particles 40s linear infinite;
     pointer-events: none;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.15), transparent),
+        radial-gradient(2px 2px at 70% 60%, rgba(255,255,255,.12), transparent),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,.1), transparent);
+    animation: particles 40s linear infinite;
 }
 
 @keyframes particles {
-    from { transform: translateY(0); }
     to { transform: translateY(-120px); }
 }
 
-/* ===================== CONTAINER ===================== */
 .container {
     width: 100%;
     max-width: 720px;
-    padding: 24px 14px 50px;
+    padding: 30px 14px 60px;
 }
 
-/* ===================== ANIMAÇÕES ===================== */
-@keyframes rainbowGlow {
-    0% { box-shadow: 0 0 12px #ff0033; border-color:#ff0033 }
-    25% { box-shadow: 0 0 12px #ff9900; border-color:#ff9900 }
-    50% { box-shadow: 0 0 12px #00ff66; border-color:#00ff66 }
-    75% { box-shadow: 0 0 12px #00ccff; border-color:#00ccff }
-    100% { box-shadow: 0 0 12px #ff00ff; border-color:#ff00ff }
+/* CARDS */
+.card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 22px;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+}
+
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.discord {
+    font-size: .85em;
+    color: #7289da;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    margin-bottom: 12px;
+}
+
+.tagline {
+    color: var(--text-muted);
+    margin-bottom: 14px;
+}
+
+/* TABS */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab-button {
+    background: rgba(0,0,0,.35);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.tab-button.active {
+    box-shadow: 0 0 14px rgba(255,255,255,.15);
+}
+
+/* CONTENT */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.animated-title {
+    animation: rainbowText 4s linear infinite;
 }
 
 @keyframes rainbowText {
@@ -71,87 +128,6 @@ body::before {
     33% { color:#00ffff }
     66% { color:#ffff00 }
     100% { color:#ff00ff }
-}
-
-/* ===================== GLASS CARDS ===================== */
-.card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-
-    border-radius: var(--radius);
-    border: 1px solid var(--glass-border);
-
-    padding: 22px;
-    margin-bottom: 18px;
-
-    animation: rainbowGlow 12s linear infinite;
-}
-
-/* ===================== PROFILE ===================== */
-.profile-card {
-    text-align: center;
-}
-
-.avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    margin-bottom: 12px;
-    animation: rainbowGlow 8s linear infinite;
-}
-
-.tagline {
-    color: var(--text-muted);
-    font-size: .9em;
-}
-
-/* ===================== TABS ===================== */
-.tab-navigation {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 18px;
-}
-
-.tab-button {
-    background: rgba(0,0,0,.35);
-    border: 1px solid var(--glass-border);
-    color: var(--text-main);
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: .85em;
-}
-
-.tab-button.active,
-.tab-button:hover {
-    background: rgba(255,255,255,.08);
-    box-shadow: 0 0 12px rgba(255,255,255,.15);
-}
-
-/* ===================== ABAS ===================== */
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* ===================== TEXTOS ===================== */
-.animated-title {
-    animation: rainbowText 4s linear infinite;
-    border-bottom: 1px solid rgba(255,255,255,.25);
-    padding-bottom: 6px;
-}
-
-.script-title-glowing {
-    color: var(--accent-red);
-    text-shadow: 0 0 14px var(--accent-red);
-    border-bottom: 1px solid var(--accent-red);
-    padding-bottom: 6px;
 }
 
 .clean-list {
@@ -164,29 +140,24 @@ body::before {
     color: var(--text-muted);
 }
 
-/* ===================== SCRIPT ===================== */
-.script-section {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+/* SCRIPT */
+.script-title-glowing {
+    color: var(--accent-red);
+    text-shadow: 0 0 14px var(--accent-red);
 }
 
 .code-block {
-    width: 100%;
     background: rgba(0,0,0,.45);
-    backdrop-filter: blur(8px);
     border-radius: var(--radius-sm);
     padding: 14px;
-    font-size: .8em;
     overflow-x: auto;
-    border: 1px solid rgba(255,255,255,.18);
+    font-size: .8em;
 }
 
-/* ===================== BOTÃO ===================== */
 .copy-button {
     background: var(--accent-red);
-    border: none;
     color: #000;
+    border: none;
     padding: 9px 16px;
     border-radius: var(--radius-sm);
     font-weight: bold;
@@ -194,12 +165,11 @@ body::before {
     box-shadow: 0 0 14px var(--accent-red);
 }
 
-/* ===================== FOOTER ===================== */
+/* FOOTER */
 footer {
     text-align: center;
     font-size: .8em;
     color: var(--text-muted);
-    margin-top: 30px;
 }
 
 .rainbow-text {
