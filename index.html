@@ -47,7 +47,7 @@
     <section class="card">
         <h2 class="gradient-title">LuaU</h2>
         <p>Oi, faço scripts básicos para jogos chatos ^^ !</p>
-        <p><i class="fas fa-globe"></i> Brazilian</p>
+        <p><i class="fas fa-globe"></i> Brazilian 🇧🇷</p>
     </section>
 </section>
 
@@ -150,6 +150,31 @@ setInterval(() => {
     }
 }, 800);
 
+})();
+
+    ;(()=>{
+    const colors = ["#ffdf00", "#009c3b", "#002776", "#ffffff"]; // amarelo, verde, azul, branco
+
+    const paragraphs = document.querySelectorAll("p");
+
+    paragraphs.forEach(p => {
+        if (p.textContent.trim().endsWith("Brazilian")) {
+            const icon = p.querySelector("i");
+            const text = "Brazilian";
+
+            let html = "";
+            [...text].forEach((char, i) => {
+                html += `<span style="color:${colors[i % colors.length]}; font-weight:bold;">${char}</span>`;
+            });
+
+            p.innerHTML = "";
+            if (icon) {
+                p.appendChild(icon);
+                p.innerHTML += " ";
+            }
+            p.innerHTML += html;
+        }
+    });
 })();
 </script>
 
