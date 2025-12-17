@@ -3,7 +3,6 @@
     --glass-border: rgba(255,255,255,.12);
     --text-main: #f1f1f1;
     --text-muted: #9a9a9a;
-    --accent-red: #ff0033;
     --radius: 20px;
     --radius-sm: 12px;
     --font-main: Consolas, monospace;
@@ -143,17 +142,17 @@ body {
     to { opacity:1; transform:none; }
 }
 
-.feature-list i {
-    color: var(--accent-red);
+.feature-icon {
     font-size: 1.1em;
     margin-top: 4px;
 }
 
-.icon-pulse { animation: pulse 2s infinite; }
-.icon-jump { animation: jump 1.2s infinite; }
-.icon-float { animation: float 3s infinite; }
-.icon-tilt  { animation: tilt 2s infinite; }
-.icon-shake { animation: shake 1.5s infinite; }
+.icon-jump { color: #4da6ff; animation: jump 1.2s infinite; }
+.icon-assist { color: #b36bff; animation: pulse 2s infinite; }
+.icon-player { color: #4dff88; animation: float 3s infinite; }
+.icon-suggest { color: #00ffd5; animation: tilt 2s infinite; }
+.icon-mods { color: #ff4d4d; animation: shake 1.5s infinite; }
+.icon-autofarm { color: #ffd84d; animation: none !important; }
 
 @keyframes pulse { 50% { transform: scale(1.15); } }
 @keyframes jump { 50% { transform: translateY(-6px); } }
@@ -194,33 +193,38 @@ body {
 
 .script-box {
     width: 100%;
-    max-width: 100%;
     background: rgba(0,0,0,.6);
     border: 1px solid rgba(255,255,255,.15);
     border-radius: var(--radius-sm);
     padding: 16px;
-    overflow-x: hidden;
 }
 
 .script-box code {
     display: block;
-    max-width: 100%;
     white-space: pre-wrap;
     word-break: break-word;
-    overflow-wrap: break-word;
     font-size: .85em;
-    color: #f1f1f1;
 }
 
 .copy-button {
     margin-top: 14px;
-    background: linear-gradient(90deg, #ff0033, #ff3366);
+    background: linear-gradient(90deg, #ff0033, #ff6699);
     border: none;
     color: #000;
-    padding: 10px 18px;
+    padding: 10px 22px;
     border-radius: var(--radius-sm);
     font-weight: bold;
     cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.copy-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 14px rgba(255,0,80,.5);
+}
+
+.copy-button.copied {
+    background: linear-gradient(90deg, #00ffcc, #66ffee);
 }
 
 #copy-msg {
