@@ -4,44 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fp3 | Michigun hub</title>
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+
     <div class="container">
 
         <header class="card profile-card">
             <img src="avatar.png" alt="Michigun Avatar" class="avatar">
-            
+
             <h1>fp3</h1>
             <p class="tagline">Michigun hub</p>
-            
+
             <nav class="tab-navigation">
-                <button class="tab-button active" onclick="openTab(event, 'tab-home')"><i class="fas fa-home"></i> Home</button>
-                <button class="tab-button" onclick="openTab(event, 'tab-features')"><i class="fas fa-list-check"></i> Features</button>
-                <button class="tab-button" onclick="openTab(event, 'tab-script')"><i class="fas fa-code"></i> Script</button>
+                <button class="tab-button active" data-tab="tab-home">
+                    <i class="fas fa-home"></i> Home
+                </button>
+                <button class="tab-button" data-tab="tab-features">
+                    <i class="fas fa-list-check"></i> Features
+                </button>
+                <button class="tab-button" data-tab="tab-script">
+                    <i class="fas fa-code"></i> Script
+                </button>
             </nav>
         </header>
 
-        <section id="tab-home" class="tab-content active fade-in">
-            <section class="info-block card">
-                <h2 class="section-title animated-title">LuaU scripting...</h2>
+        <!-- HOME -->
+        <section id="tab-home" class="tab-content active">
+            <section class="card">
+                <h2 class="animated-title">LuaU scripting...</h2>
                 <p>I don't know what I can describe, but I will add it soon.</p>
-                <p class="detail-text"><i class="fas fa-globe"></i> Brazilian</p>
+                <p><i class="fas fa-globe"></i> Brazilian</p>
             </section>
-            
-            <section class="info-block card">
-                <h2 class="section-title">Contacts</h2>
+
+            <section class="card">
+                <h2>Contacts</h2>
                 <ul class="clean-list">
                     <li><i class="fab fa-discord"></i> Discord: fp3</li>
-                    </ul>
+                </ul>
             </section>
         </section>
 
-        <section id="tab-features" class="tab-content fade-in">
-            <section class="info-block card">
-                <h2 class="section-title">✨ Script Features</h2>
-                <ul class="clean-list feature-list">
+        <!-- FEATURES -->
+        <section id="tab-features" class="tab-content">
+            <section class="card">
+                <h2>✨ Script Features</h2>
+                <ul class="clean-list">
                     <li><i class="fas fa-check-circle"></i> **[Nome da Feature 1]** - Descrição completa do que ela faz.</li>
                     <li><i class="fas fa-check-circle"></i> **[Nome da Feature 2]** - Implementa alta performance e estabilidade.</li>
                     <li><i class="fas fa-check-circle"></i> **[Nome da Feature 3]** - Suporte a múltiplas plataformas/versões.</li>
@@ -50,19 +60,22 @@
             </section>
         </section>
 
-        <section id="tab-script" class="tab-content fade-in">
-            <section class="script-section card">
+        <!-- SCRIPT -->
+        <section id="tab-script" class="tab-content">
+            <section class="card script-section">
                 <h2 class="script-title-glowing">Script [EB]</h2>
-                <p class="copy-instruction">Clique para copiar script:</p>
-                
-                <textarea id="hidden-code-block" style="display: none;">
+                <p>Clique para copiar script:</p>
+
+                <textarea id="hidden-code-block" style="display:none;">
 loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
                 </textarea>
-                
-                <pre id="code-block" class="code-block">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
-</pre>
-                
-                <button onclick="copyToClipboard()" class="copy-button"><i class="fas fa-copy"></i> Copiar Código</button>
+
+                <pre class="code-block">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</pre>
+
+                <button class="copy-button">
+                    <i class="fas fa-copy"></i> Copiar Código
+                </button>
+
                 <span id="copy-message"></span>
             </section>
         </section>
@@ -70,46 +83,35 @@ loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tev
         <footer>
             <p class="rainbow-text">&copy; 2025 Michigun hub</p>
         </footer>
+
     </div>
 
     <script>
-        function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
+        const tabs = document.querySelectorAll(".tab-button");
+        const contents = document.querySelectorAll(".tab-content");
 
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove('active');
-            }
+        tabs.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabs.forEach(b => b.classList.remove("active"));
+                contents.forEach(c => c.classList.remove("active"));
 
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove('active');
-            }
-
-            document.getElementById(tabName).style.display = "block";
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("tab-home").style.display = "block";
+                btn.classList.add("active");
+                document.getElementById(btn.dataset.tab).classList.add("active");
+            });
         });
-        
-        function copyToClipboard() {
-            const codeBlock = document.getElementById('hidden-code-block');
-            
-            codeBlock.style.display = 'block'; 
-            codeBlock.select();
-            document.execCommand('copy');
-            codeBlock.style.display = 'none'; 
 
-            const message = document.getElementById('copy-message');
-            message.textContent = 'Copiado!';
-            setTimeout(() => {
-                message.textContent = '';
-            }, 2000);
-        }
+        document.querySelector(".copy-button").addEventListener("click", () => {
+            const area = document.getElementById("hidden-code-block");
+            area.style.display = "block";
+            area.select();
+            document.execCommand("copy");
+            area.style.display = "none";
+
+            const msg = document.getElementById("copy-message");
+            msg.textContent = "Copiado!";
+            setTimeout(() => msg.textContent = "", 2000);
+        });
     </script>
+
 </body>
 </html>
