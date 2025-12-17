@@ -1,21 +1,21 @@
 /* ===================== VARIÁVEIS ===================== */
 :root {
-    --bg-main: #020205;
+    --bg-dark: #020204;
     --glass-bg: rgba(15, 15, 25, 0.55);
-    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255,255,255,0.12);
 
-    --text-main: #f2f2f2;
+    --text-main: #f1f1f1;
     --text-muted: #a0a0a0;
 
     --accent-red: #ff0033;
 
-    --radius: 16px;
-    --radius-sm: 10px;
+    --radius: 18px;
+    --radius-sm: 12px;
 
     --font-main: 'Consolas', monospace;
 }
 
-/* ===================== BACKGROUND ANIMADO ===================== */
+/* ===================== BACKGROUND DARK + PARTÍCULAS ===================== */
 body {
     margin: 0;
     min-height: 100vh;
@@ -23,22 +23,31 @@ body {
     color: var(--text-main);
 
     background:
-        radial-gradient(circle at 20% 20%, #ff003330, transparent 40%),
-        radial-gradient(circle at 80% 30%, #00ffff25, transparent 40%),
-        radial-gradient(circle at 50% 80%, #9933ff25, transparent 40%),
-        linear-gradient(120deg, #050508, #000);
-
-    background-size: 200% 200%;
-    animation: bgMove 18s ease infinite;
+        radial-gradient(circle at 20% 20%, #ff003315, transparent 45%),
+        radial-gradient(circle at 80% 30%, #00ffff10, transparent 45%),
+        radial-gradient(circle at 50% 80%, #9933ff10, transparent 45%),
+        linear-gradient(160deg, #050508, #000);
 
     display: flex;
     justify-content: center;
 }
 
-@keyframes bgMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(2px 2px at 15% 30%, rgba(255,255,255,.18), transparent),
+        radial-gradient(1.5px 1.5px at 70% 60%, rgba(255,255,255,.14), transparent),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,.12), transparent),
+        radial-gradient(2px 2px at 85% 20%, rgba(255,255,255,.16), transparent);
+    animation: particles 40s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes particles {
+    from { transform: translateY(0); }
+    to { transform: translateY(-120px); }
 }
 
 /* ===================== CONTAINER ===================== */
@@ -50,23 +59,18 @@ body {
 
 /* ===================== ANIMAÇÕES ===================== */
 @keyframes rainbowGlow {
-    0%   { box-shadow: 0 0 12px #ff0033; border-color:#ff0033; }
-    25%  { box-shadow: 0 0 12px #ff9900; border-color:#ff9900; }
-    50%  { box-shadow: 0 0 12px #00ff66; border-color:#00ff66; }
-    75%  { box-shadow: 0 0 12px #00ccff; border-color:#00ccff; }
-    100% { box-shadow: 0 0 12px #ff00ff; border-color:#ff00ff; }
+    0% { box-shadow: 0 0 12px #ff0033; border-color:#ff0033 }
+    25% { box-shadow: 0 0 12px #ff9900; border-color:#ff9900 }
+    50% { box-shadow: 0 0 12px #00ff66; border-color:#00ff66 }
+    75% { box-shadow: 0 0 12px #00ccff; border-color:#00ccff }
+    100% { box-shadow: 0 0 12px #ff00ff; border-color:#ff00ff }
 }
 
 @keyframes rainbowText {
     0% { color:#ff00ff }
-    33%{ color:#00ffff }
-    66%{ color:#ffff00 }
-    100%{ color:#ff00ff }
-}
-
-@keyframes fadeIn {
-    from { opacity:0; transform:translateY(10px); }
-    to { opacity:1; transform:none; }
+    33% { color:#00ffff }
+    66% { color:#ffff00 }
+    100% { color:#ff00ff }
 }
 
 /* ===================== GLASS CARDS ===================== */
@@ -82,11 +86,6 @@ body {
     margin-bottom: 18px;
 
     animation: rainbowGlow 12s linear infinite;
-    transition: transform .25s ease;
-}
-
-.card:hover {
-    transform: translateY(-2px);
 }
 
 /* ===================== PROFILE ===================== */
@@ -114,7 +113,6 @@ body {
     justify-content: center;
     gap: 8px;
     margin-top: 18px;
-    flex-wrap: wrap;
 }
 
 .tab-button {
@@ -125,21 +123,28 @@ body {
     border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: .85em;
-    transition: all .25s ease;
 }
 
-.tab-button:hover,
-.tab-button.active {
+.tab-button.active,
+.tab-button:hover {
     background: rgba(255,255,255,.08);
-    box-shadow: 0 0 14px rgba(255,255,255,.15);
+    box-shadow: 0 0 12px rgba(255,255,255,.15);
 }
 
-/* ===================== TÍTULOS ===================== */
+/* ===================== ABAS ===================== */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ===================== TEXTOS ===================== */
 .animated-title {
     animation: rainbowText 4s linear infinite;
     border-bottom: 1px solid rgba(255,255,255,.25);
     padding-bottom: 6px;
-    margin-bottom: 10px;
 }
 
 .script-title-glowing {
@@ -149,11 +154,9 @@ body {
     padding-bottom: 6px;
 }
 
-/* ===================== LISTAS ===================== */
 .clean-list {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .clean-list li {
@@ -170,54 +173,35 @@ body {
 
 .code-block {
     width: 100%;
-    box-sizing: border-box;
-
     background: rgba(0,0,0,.45);
     backdrop-filter: blur(8px);
-
-    padding: 14px;
     border-radius: var(--radius-sm);
+    padding: 14px;
     font-size: .8em;
     overflow-x: auto;
-
     border: 1px solid rgba(255,255,255,.18);
-    animation: rainbowGlow 14s linear infinite;
 }
 
 /* ===================== BOTÃO ===================== */
 .copy-button {
-    align-self: flex-start;
     background: var(--accent-red);
-    color: #000;
     border: none;
+    color: #000;
     padding: 9px 16px;
     border-radius: var(--radius-sm);
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 0 14px var(--accent-red);
-    transition: all .25s ease;
-}
-
-.copy-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 0 26px var(--accent-red);
 }
 
 /* ===================== FOOTER ===================== */
 footer {
-    margin-top: 26px;
     text-align: center;
     font-size: .8em;
     color: var(--text-muted);
+    margin-top: 30px;
 }
 
 .rainbow-text {
     animation: rainbowText 4s linear infinite;
-}
-
-/* ===================== RESPONSIVO ===================== */
-@media (max-width: 520px) {
-    .card { padding: 18px; }
-    .avatar { width: 90px; height: 90px; }
-    .copy-button { width: 100%; text-align: center; }
 }
