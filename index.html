@@ -43,7 +43,7 @@
     <!-- HOME -->
     <section id="home" class="tab-content active animate">
         <section class="card">
-            <h2 class="animated-title">LuaU scripting...</h2>
+            <h2 class="gradient-title">LuaU</h2>
             <p>Oi, faço scripts básicos para jogos chatos ^^ !</p>
             <p><i class="fas fa-globe"></i> Brazilian</p>
         </section>
@@ -56,21 +56,21 @@
 
             <ul class="feature-list">
                 <li style="--i:1">
-                    <i class="fas fa-crosshairs"></i>
+                    <i class="fas fa-crosshairs icon-pulse"></i>
                     <div>
                         <strong>Hitbox expander</strong>
                     </div>
                 </li>
 
                 <li style="--i:2">
-                    <i class="fas fa-arrows-up-down-left-right"></i>
+                    <i class="fas fa-person-running icon-jump"></i>
                     <div>
                         <strong>Auto JJ's</strong>
                     </div>
                 </li>
 
                 <li style="--i:3">
-                    <i class="fas fa-robot"></i>
+                    <i class="fas fa-robot icon-float"></i>
                     <div>
                         <strong>Assistente</strong>
                         <span class="feature-sub">Produz textos e corrige</span>
@@ -78,7 +78,7 @@
                 </li>
 
                 <li style="--i:4">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user-shield icon-tilt"></i>
                     <div>
                         <strong>Player</strong>
                         <span class="feature-sub">Speed, noclip, chat spy, respawn</span>
@@ -86,7 +86,7 @@
                 </li>
 
                 <li style="--i:5">
-                    <i class="fas fa-comment-dots"></i>
+                    <i class="fas fa-comment-dots icon-pulse"></i>
                     <div>
                         <strong>Sugestões e avaliações via-script</strong>
                         <span class="feature-sub">
@@ -100,7 +100,7 @@
                 </li>
 
                 <li style="--i:6">
-                    <i class="fas fa-skull"></i>
+                    <i class="fas fa-skull-crossbones icon-shake"></i>
                     <div>
                         <strong>Mods</strong>
                         <span class="feature-sub">Kill aura e armas modificadas</span>
@@ -108,7 +108,7 @@
                 </li>
 
                 <li style="--i:7">
-                    <i class="fas fa-coins"></i>
+                    <i class="fas fa-coins icon-spin"></i>
                     <div>
                         <strong>Autofarm</strong>
                         <span class="feature-sub">Banco</span>
@@ -121,13 +121,11 @@
     <!-- SCRIPT -->
     <section id="script" class="tab-content animate">
         <section class="card script-section">
-            <h2 class="script-title-glowing">Script EB</h2>
-            <p>Copiar script:</p>
+            <h2 class="script-title">Script EB</h2>
 
-            <textarea id="hidden-code" style="display:none;">
-loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</textarea>
-
-            <pre class="code-block">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</pre>
+            <div class="script-box">
+                <pre id="code">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</pre>
+            </div>
 
             <button class="copy-button">
                 <i class="fas fa-copy"></i> Copiar Código
