@@ -1,29 +1,33 @@
 :root {
     --glass-bg: rgba(15,15,25,.55);
     --glass-border: rgba(255,255,255,.12);
+
     --text-main: #f1f1f1;
     --text-muted: #a0a0a0;
+
     --accent-red: #ff0033;
+
     --radius: 20px;
     --radius-sm: 12px;
+
     --font-main: 'Consolas', monospace;
 }
 
-/* ===================== RESET CRÍTICO ===================== */
+/* ===================== RESET ABSOLUTO ===================== */
 * {
     box-sizing: border-box;
 }
 
 html, body {
     width: 100%;
-    max-width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
 }
 
-/* ===================== FUNDO ===================== */
+/* ===================== BODY (SEM FLEX) ===================== */
 body {
-    margin: 0;
-    min-height: 100vh;
     font-family: var(--font-main);
     color: var(--text-main);
 
@@ -31,13 +35,9 @@ body {
         radial-gradient(circle at 20% 20%, #ff003315, transparent 40%),
         radial-gradient(circle at 80% 30%, #00ffff10, transparent 40%),
         linear-gradient(160deg, #040408, #000);
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
 }
 
-/* ===================== CANVAS (PARTÍCULAS) ===================== */
+/* ===================== CANVAS ===================== */
 #particles {
     position: fixed;
     inset: 0;
@@ -47,17 +47,15 @@ body {
     z-index: -1;
 }
 
-/* ===================== CONTAINER ===================== */
+/* ===================== CONTAINER (CENTRO REAL) ===================== */
 .container {
-    width: 100%;
     max-width: 720px;
+    width: 100%;
 
-    margin: 0 auto;
-    padding: 24px 12px 60px;
+    margin-left: auto;
+    margin-right: auto;
 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    padding: 32px 16px 64px;
 }
 
 /* ===================== CARDS ===================== */
@@ -71,8 +69,8 @@ body {
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
 
-    padding: 22px;
-    margin-bottom: 20px;
+    padding: 24px;
+    margin-bottom: 22px;
 }
 
 /* ===================== HERO ===================== */
@@ -81,9 +79,8 @@ body {
 }
 
 .avatar {
-    width: 110px;
-    height: 110px;
-    max-width: 100%;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     border: 3px solid #fff;
     margin-bottom: 12px;
@@ -103,7 +100,7 @@ body {
 
 .tagline {
     color: var(--text-muted);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 /* ===================== TABS ===================== */
@@ -118,6 +115,7 @@ body {
     background: rgba(0,0,0,.45);
     border: 1px solid var(--glass-border);
     color: var(--text-main);
+
     padding: 8px 16px;
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -132,14 +130,13 @@ body {
 /* ===================== ABAS ===================== */
 .tab-content {
     display: none;
-    width: 100%;
 }
 
 .tab-content.active {
     display: block;
 }
 
-/* ===================== ANIMAÇÃO DE ENTRADA ===================== */
+/* ===================== ANIMAÇÃO ===================== */
 .animate {
     animation: enter .45s ease;
 }
@@ -182,7 +179,6 @@ body {
 
 .code-block {
     width: 100%;
-    max-width: 100%;
 
     background: rgba(0,0,0,.45);
     border-radius: var(--radius-sm);
@@ -197,7 +193,6 @@ body {
 /* ===================== BOTÃO ===================== */
 .copy-button {
     width: 100%;
-
     background: var(--accent-red);
     border: none;
     color: #000;
@@ -212,14 +207,14 @@ footer {
     text-align: center;
     font-size: .8em;
     color: var(--text-muted);
-    margin-top: 28px;
+    margin-top: 32px;
 }
 
-/* ===================== DESKTOP EXTRA ===================== */
+/* ===================== DESKTOP ===================== */
 @media (min-width: 768px) {
     .container {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 24px;
+        padding-right: 24px;
     }
 
     .copy-button {
