@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>michigun</title>
 
-    <!-- ÍCONE DA ABA (FAVICON) -->
-    <link rel="icon" type="image/png" href="favicon.png">
-
+    <link rel="icon" id="dynamic-favicon">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<!-- SOM AMBIENTE -->
 <audio id="ambientSound" loop>
     <source src="ambient.mp3" type="audio/mpeg">
 </audio>
@@ -22,7 +19,6 @@
 
 <div class="container">
 
-    <!-- HERO -->
     <header class="card hero">
         <img src="avatar.png" class="avatar" alt="fp3">
 
@@ -48,7 +44,6 @@
         </nav>
     </header>
 
-    <!-- HOME -->
     <section id="home" class="tab-content active animate">
         <section class="card">
             <h2 class="gradient-title">LuaU</h2>
@@ -57,7 +52,6 @@
         </section>
     </section>
 
-    <!-- FEATURES -->
     <section id="features" class="tab-content animate">
         <section class="card">
             <h2>Script features</h2>
@@ -97,7 +91,9 @@
                     </div>
                 </li>
 
-                <li class="feature-divider"><span>E.B TEVEZ</span></li>
+                <li class="feature-divider">
+                    <span>E.B TEVEZ</span>
+                </li>
 
                 <li style="--i:6">
                     <i class="fas fa-skull-crossbones icon-shake"></i>
@@ -118,15 +114,12 @@
         </section>
     </section>
 
-    <!-- SCRIPT -->
     <section id="script" class="tab-content animate">
         <section class="card script-section">
             <h2 class="script-title">Script EB</h2>
 
             <div class="script-box">
-                <code id="code">
-loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
-                </code>
+                <code id="code">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
             </div>
 
             <button class="copy-button" id="copyBtn">
