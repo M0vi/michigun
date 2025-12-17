@@ -10,108 +10,108 @@
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <header class="card profile-card">
-            <img src="avatar.png" alt="Michigun Avatar" class="avatar">
+    <!-- HERO -->
+    <header class="card hero">
+        <img src="avatar.png" class="avatar" alt="fp3">
 
-            <h1>fp3</h1>
-            <p class="tagline">Michigun hub</p>
+        <h1 class="hero-title">
+            fp3
+            <span class="discord">
+                <i class="fab fa-discord"></i> fp3
+            </span>
+        </h1>
 
-            <nav class="tab-navigation">
-                <button class="tab-button active" data-tab="tab-home">
-                    <i class="fas fa-home"></i> Home
-                </button>
-                <button class="tab-button" data-tab="tab-features">
-                    <i class="fas fa-list-check"></i> Features
-                </button>
-                <button class="tab-button" data-tab="tab-script">
-                    <i class="fas fa-code"></i> Script
-                </button>
-            </nav>
-        </header>
+        <p class="tagline">Michigun hub</p>
 
-        <!-- HOME -->
-        <section id="tab-home" class="tab-content active">
-            <section class="card">
-                <h2 class="animated-title">LuaU scripting...</h2>
-                <p>I don't know what I can describe, but I will add it soon.</p>
-                <p><i class="fas fa-globe"></i> Brazilian</p>
-            </section>
+        <nav class="tab-navigation">
+            <button class="tab-button active" data-tab="home">
+                <i class="fas fa-home"></i> Home
+            </button>
+            <button class="tab-button" data-tab="features">
+                <i class="fas fa-list-check"></i> Features
+            </button>
+            <button class="tab-button" data-tab="script">
+                <i class="fas fa-code"></i> Script
+            </button>
+        </nav>
+    </header>
 
-            <section class="card">
-                <h2>Contacts</h2>
-                <ul class="clean-list">
-                    <li><i class="fab fa-discord"></i> Discord: fp3</li>
-                </ul>
-            </section>
+    <!-- HOME -->
+    <section id="home" class="tab-content active">
+        <section class="card">
+            <h2 class="animated-title">LuaU scripting...</h2>
+            <p>I don't know what I can describe, but I will add it soon.</p>
+            <p><i class="fas fa-globe"></i> Brazilian</p>
         </section>
+    </section>
 
-        <!-- FEATURES -->
-        <section id="tab-features" class="tab-content">
-            <section class="card">
-                <h2>✨ Script Features</h2>
-                <ul class="clean-list">
-                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 1]** - Descrição completa do que ela faz.</li>
-                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 2]** - Implementa alta performance e estabilidade.</li>
-                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 3]** - Suporte a múltiplas plataformas/versões.</li>
-                    <li><i class="fas fa-check-circle"></i> **[Nome da Feature 4]** - Sistema de logs eficiente.</li>
-                </ul>
-            </section>
+    <!-- FEATURES -->
+    <section id="features" class="tab-content">
+        <section class="card">
+            <h2>✨ Script Features</h2>
+            <ul class="clean-list">
+                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 1]** - Descrição completa do que ela faz.</li>
+                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 2]** - Implementa alta performance e estabilidade.</li>
+                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 3]** - Suporte a múltiplas plataformas.</li>
+                <li><i class="fas fa-check-circle"></i> **[Nome da Feature 4]** - Sistema de logs eficiente.</li>
+            </ul>
         </section>
+    </section>
 
-        <!-- SCRIPT -->
-        <section id="tab-script" class="tab-content">
-            <section class="card script-section">
-                <h2 class="script-title-glowing">Script [EB]</h2>
-                <p>Clique para copiar script:</p>
+    <!-- SCRIPT -->
+    <section id="script" class="tab-content">
+        <section class="card script-section">
+            <h2 class="script-title-glowing">Script [EB]</h2>
+            <p>Clique para copiar script:</p>
 
-                <textarea id="hidden-code-block" style="display:none;">
+            <textarea id="hidden-code" style="display:none;">
 loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
-                </textarea>
+            </textarea>
 
-                <pre class="code-block">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</pre>
+            <pre class="code-block">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</pre>
 
-                <button class="copy-button">
-                    <i class="fas fa-copy"></i> Copiar Código
-                </button>
+            <button class="copy-button">
+                <i class="fas fa-copy"></i> Copiar Código
+            </button>
 
-                <span id="copy-message"></span>
-            </section>
+            <span id="copy-msg"></span>
         </section>
+    </section>
 
-        <footer>
-            <p class="rainbow-text">&copy; 2025 Michigun hub</p>
-        </footer>
+    <footer>
+        <p class="rainbow-text">&copy; 2025 Michigun hub</p>
+    </footer>
 
-    </div>
+</div>
 
-    <script>
-        const tabs = document.querySelectorAll(".tab-button");
-        const contents = document.querySelectorAll(".tab-content");
+<script>
+const buttons = document.querySelectorAll(".tab-button");
+const tabs = document.querySelectorAll(".tab-content");
 
-        tabs.forEach(btn => {
-            btn.addEventListener("click", () => {
-                tabs.forEach(b => b.classList.remove("active"));
-                contents.forEach(c => c.classList.remove("active"));
+buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        tabs.forEach(t => t.classList.remove("active"));
 
-                btn.classList.add("active");
-                document.getElementById(btn.dataset.tab).classList.add("active");
-            });
-        });
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+    });
+});
 
-        document.querySelector(".copy-button").addEventListener("click", () => {
-            const area = document.getElementById("hidden-code-block");
-            area.style.display = "block";
-            area.select();
-            document.execCommand("copy");
-            area.style.display = "none";
+document.querySelector(".copy-button").addEventListener("click", () => {
+    const area = document.getElementById("hidden-code");
+    area.style.display = "block";
+    area.select();
+    document.execCommand("copy");
+    area.style.display = "none";
 
-            const msg = document.getElementById("copy-message");
-            msg.textContent = "Copiado!";
-            setTimeout(() => msg.textContent = "", 2000);
-        });
-    </script>
+    const msg = document.getElementById("copy-msg");
+    msg.textContent = "Copiado!";
+    setTimeout(() => msg.textContent = "", 2000);
+});
+</script>
 
 </body>
 </html>
