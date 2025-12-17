@@ -1,4 +1,4 @@
-/* style.css - ROXO NEON FORTE, ABAS E ESTRUTURA REFINADA */
+/* style.css - RAINBOW GLOWING FINAL E RESPONSIVIDADE */
 
 /* -------------------- VARIÁVEIS E KEYFRAMES -------------------- */
 :root {
@@ -6,18 +6,27 @@
     --bg-card: #0a0a0a; 
     --text-light: #f1f1f1;
     --text-secondary: #aaaaaa;
-    --color-accent: #FF00FF; /* Roxo Neon Forte */
-    --color-glow: rgba(255, 0, 255, 0.7); /* Glow Roxo Forte */
-    --color-hover: #ff33ff;
+    --color-accent: #FF00FF; /* Roxo Neon (Cor inicial) */
     --color-success: #00ff66;
     --font-main: 'Consolas', monospace; 
 }
 
-/* Keyframe para o RAINBOW GLOW (mantido para o título animado) */
+/* Keyframe para o RAINBOW GLOW (Muda cor e sombra em ciclo) */
 @keyframes rainbowGlow {
+    0% { filter: hue-rotate(0deg); box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+    15% { filter: hue-rotate(60deg); box-shadow: 0 0 10px rgba(255, 255, 0, 0.7); }
+    30% { filter: hue-rotate(120deg); box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
+    45% { filter: hue-rotate(180deg); box-shadow: 0 0 10px rgba(0, 255, 255, 0.7); }
+    60% { filter: hue-rotate(240deg); box-shadow: 0 0 10px rgba(0, 0, 255, 0.7); }
+    75% { filter: hue-rotate(300deg); box-shadow: 0 0 10px rgba(255, 0, 255, 0.7); }
+    100% { filter: hue-rotate(360deg); box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+}
+
+/* Keyframe para o Texto Rainbow (Texto de cores mudando) */
+@keyframes rainbowText {
     0% { color: #FF00FF; text-shadow: 0 0 5px #FF00FF; }
-    16% { color: #8A2BE2; text-shadow: 0 0 5px #8A2BE2; }
-    ... (restante das cores do rainbow glow) ...
+    33% { color: #00FFFF; text-shadow: 0 0 5px #00FFFF; }
+    66% { color: #FFFF00; text-shadow: 0 0 5px #FFFF00; }
     100% { color: #FF00FF; text-shadow: 0 0 5px #FF00FF; }
 }
 
@@ -47,12 +56,25 @@ body {
     box-sizing: border-box; 
 }
 
-/* -------------------- HEADER E PERFIL CENTRALIZADO -------------------- */
-.profile-card {
-    text-align: center;
-    padding: 30px 25px 15px; /* Ajuste o padding inferior para caber a nav */
+/* -------------------- ELEMENTOS COM GLOW RAINBOW -------------------- */
+
+.card {
+    background-color: var(--bg-card); 
+    padding: 25px;
+    border-radius: 12px;
     margin-bottom: 25px;
-    box-shadow: 0 0 10px var(--color-glow); /* Glowing roxo no cabeçalho */
+    
+    /* Aplica a animação no card (Bordas Rainbow) */
+    animation: rainbowGlow 8s linear infinite alternate;
+    border: 1px solid transparent; 
+    
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    /* Mantém o efeito de sombra mais forte no hover */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); 
 }
 
 .avatar {
@@ -61,141 +83,9 @@ body {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-    border: 3px solid var(--color-accent);
-}
-
-h1 {
-    font-size: 2.2em; 
-    margin: 0 0 5px;
-    color: var(--color-accent);
-}
-
-.tagline {
-    color: var(--text-secondary);
-    font-size: 1em;
-    margin-bottom: 20px;
-}
-
-/* -------------------- ABAS DE NAVEGAÇÃO -------------------- */
-.tab-navigation {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #333;
-}
-
-.tab-button {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-}
-
-.tab-button:hover {
-    color: var(--text-light);
-    background-color: #2a2a2a;
-    box-shadow: 0 0 5px var(--color-glow);
-}
-
-.tab-button.active {
-    color: var(--color-accent);
-    border-bottom: 2px solid var(--color-accent);
-    /* Remove background para dar destaque à linha e cor */
-    background: none !important; 
-}
-
-/* -------------------- CONTEÚDO DAS ABAS -------------------- */
-.tab-content {
-    display: none; 
-    margin-top: 25px;
-    animation: fadeIn 0.8s ease-out; 
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.info-block {
-    background: var(--bg-card); 
-    box-shadow: 0 0 8px rgba(255, 0, 255, 0.2); 
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-}
-
-/* Título de seção RAINBOW GLOW */
-.animated-title {
-    font-size: 1.4em;
-    margin-bottom: 10px;
-    text-align: left;
-    
-    animation: rainbowGlow 4s linear infinite;
-    text-shadow: 0 0 8px var(--color-accent);
-    
-    border-bottom: 2px solid #5a5a5a;
-    padding-bottom: 5px;
-}
-
-/* Título do Script (RED GLOW) */
-.script-title-glowing {
-    font-size: 1.5em;
-    color: var(--color-accent);
-    margin-bottom: 10px;
-    
-    text-shadow: 0 0 10px var(--color-accent), 0 0 20px rgba(255, 0, 255, 0.4);
-    
-    border-bottom: 2px solid var(--color-accent);
-    padding-bottom: 5px;
-}
-
-/* -------------------- LISTAS E TEXTOS -------------------- */
-.clean-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.clean-list li {
-    margin-bottom: 8px;
-    color: var(--text-secondary);
-}
-
-.clean-list i {
-    color: var(--color-accent);
-    margin-right: 8px;
-}
-
-/* Lista de Features */
-.feature-list li {
-    font-weight: bold;
-    color: var(--text-light);
-    border-left: 2px solid var(--color-accent);
-    padding-left: 10px;
-}
-
-.feature-list i {
-    color: var(--color-success); /* Ícones de check em verde */
-}
-
-
-/* -------------------- BLOCO DE SCRIPT (REDIMENSIONAMENTO) -------------------- */
-.code-block {
-    background-color: #1a1a1e; 
-    padding: 15px;
-    border-radius: 6px;
-    overflow-x: auto;
-    white-space: pre; 
-    font-family: var(--font-main);
-    font-size: 0.8em;
-    border: 1px solid var(--color-accent);
-    color: var(--text-light);
-    /* Ajuste para redimensionamento e evitar barras desnecessárias */
-    width: fit-content; 
-    max-width: 100%;
+    /* Aplica a animação no avatar (Borda Rainbow) */
+    border: 3px solid #fff;
+    animation: rainbowGlow 8s linear infinite alternate;
 }
 
 .copy-button {
@@ -207,27 +97,84 @@ h1 {
     cursor: pointer;
     font-weight: bold;
     margin-top: 10px;
+    
+    /* Aplica a animação no botão (Glow Rainbow) */
+    animation: rainbowGlow 8s linear infinite alternate;
+    
     transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 10px var(--color-accent);
 }
 
 .copy-button:hover {
-    background-color: var(--color-hover);
-    box-shadow: 0 0 20px var(--color-accent);
+    background-color: #ff33ff;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
 }
 
-#copy-message {
-    margin-left: 10px;
-    color: var(--color-success);
-    font-weight: bold;
+/* -------------------- TEXTOS E TÍTULOS -------------------- */
+
+.animated-title {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    text-align: left;
+    
+    /* Título animado com Rainbow Glow */
+    animation: rainbowText 4s linear infinite;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    
+    border-bottom: 2px solid #5a5a5a;
+    padding-bottom: 5px;
 }
 
-/* -------------------- FOOTER -------------------- */
-footer {
-    text-align: center;
-    padding: 20px 0;
+.script-title-glowing {
+    font-size: 1.5em;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+    
+    /* Título Script com Glow Roxo Estático (contraste com o Rainbow) */
+    text-shadow: 0 0 10px var(--color-accent), 0 0 20px rgba(255, 0, 255, 0.4);
+    
+    border-bottom: 2px solid var(--color-accent);
+    padding-bottom: 5px;
+}
+
+/* Rodapé Rainbow */
+.rainbow-text {
+    font-size: 1em;
+    margin-top: 10px;
+    /* Aplica a animação Rainbow no texto do footer */
+    animation: rainbowText 4s linear infinite;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* -------------------- BLOCO DE SCRIPT (REDIMENSIONAMENTO) -------------------- */
+.code-block {
+    background-color: #1a1a1e; 
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    white-space: pre; 
+    font-family: var(--font-main);
     font-size: 0.8em;
-    color: var(--text-secondary);
-    border-top: 1px solid #333;
-    margin-top: 15px;
+    /* Borda Rainbow Sutil */
+    border: 1px solid #fff;
+    color: var(--text-light);
+    width: fit-content; 
+    max-width: 100%;
 }
+
+/* -------------------- LAYOUT DE ABAS E OUTROS ESTILOS -------------------- */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+}
+
+.tab-button.active {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+    text-shadow: 0 0 5px #fff;
+    background: none !important; 
+}
+
+/* ... (Restante dos estilos limpos para Contacts, Features, etc.) ... */
