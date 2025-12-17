@@ -14,9 +14,7 @@
 }
 
 /* RESET */
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
     margin: 0;
@@ -28,7 +26,6 @@ html, body {
 body {
     font-family: var(--font-main);
     color: var(--text-main);
-
     background:
         radial-gradient(circle at 20% 20%, #ff003315, transparent 40%),
         radial-gradient(circle at 80% 30%, #00ffff10, transparent 40%),
@@ -53,7 +50,7 @@ body {
 /* CARDS */
 .card {
     background: var(--glass-bg);
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     padding: 24px;
@@ -61,9 +58,7 @@ body {
 }
 
 /* HERO */
-.hero {
-    text-align: center;
-}
+.hero { text-align: center; }
 
 .avatar {
     width: 120px;
@@ -72,19 +67,20 @@ body {
     border: 3px solid #fff;
 }
 
-.hero-title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.discord { color: #7289da; }
+
+/* GRADIENT TITLE */
+.gradient-title {
+    font-size: 2.6em;
+    background: linear-gradient(90deg, #ff0033, #00ffff, #ff0033);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s linear infinite;
 }
 
-.discord {
-    font-size: .85em;
-    color: #7289da;
-}
-
-.tagline {
-    color: var(--text-muted);
+@keyframes gradientMove {
+    to { background-position: 300%; }
 }
 
 /* TABS */
@@ -112,7 +108,7 @@ body {
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* ENTRADA */
+/* ANIMATION */
 .animate {
     animation: enter .45s ease;
 }
@@ -126,38 +122,48 @@ body {
 .feature-list {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .feature-list li {
     display: flex;
     gap: 12px;
-    align-items: flex-start;
     padding: 10px 0;
 
     opacity: 0;
     transform: translateY(10px);
     animation: stagger .4s ease forwards;
-    animation-delay: calc(var(--i) * 0.08s);
+    animation-delay: calc(var(--i) * .08s);
 }
 
 @keyframes stagger {
-    to {
-        opacity: 1;
-        transform: none;
-    }
+    to { opacity:1; transform:none; }
 }
 
 .feature-list i {
     color: var(--accent-red);
+    font-size: 1.1em;
     margin-top: 4px;
-    min-width: 18px;
 }
+
+/* ICON ANIMATIONS */
+.icon-pulse { animation: pulse 2s infinite; }
+.icon-jump { animation: jump 1.2s infinite; }
+.icon-float { animation: float 3s infinite; }
+.icon-tilt { animation: tilt 2s infinite; }
+.icon-shake { animation: shake 1.5s infinite; }
+.icon-spin { animation: spin 3s linear infinite; }
+
+@keyframes pulse { 50% { transform: scale(1.15); } }
+@keyframes jump { 50% { transform: translateY(-6px); } }
+@keyframes float { 50% { transform: translateY(-4px); } }
+@keyframes tilt { 50% { transform: rotate(6deg); } }
+@keyframes shake { 50% { transform: translateX(2px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .feature-sub {
     display: block;
     margin-top: 4px;
-    font-size: 0.82em;
+    font-size: .82em;
     color: #7a7a7a;
 }
 
@@ -172,32 +178,36 @@ body {
     font-size: .8em;
     letter-spacing: 2px;
     color: #888;
-    padding: 4px 12px;
+    padding: 4px 14px;
     border: 1px solid rgba(255,255,255,.15);
     border-radius: 999px;
 }
 
 /* SCRIPT */
 .script-section {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    text-align: center;
 }
 
-.code-block {
-    background: rgba(0,0,0,.45);
+.script-title {
+    font-size: 1.6em;
+    margin-bottom: 12px;
+}
+
+.script-box {
+    background: rgba(0,0,0,.6);
+    border: 1px solid rgba(255,255,255,.15);
     border-radius: var(--radius-sm);
-    padding: 14px;
-    font-size: .8em;
-    overflow-x: auto;
-    white-space: pre-wrap;
+    padding: 16px;
+    font-size: .85em;
+    box-shadow: inset 0 0 12px rgba(0,0,0,.8);
 }
 
 .copy-button {
-    background: var(--accent-red);
+    margin-top: 14px;
+    background: linear-gradient(90deg, #ff0033, #ff3366);
     border: none;
     color: #000;
-    padding: 10px 16px;
+    padding: 10px 18px;
     border-radius: var(--radius-sm);
     font-weight: bold;
     cursor: pointer;
