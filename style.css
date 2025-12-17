@@ -32,8 +32,6 @@ body {
 #particles {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
     pointer-events: none;
     z-index: -1;
     filter: drop-shadow(0 0 calc(var(--particle-glow,2px)) rgba(255,255,255,.6));
@@ -63,12 +61,6 @@ body {
     height: 120px;
     border-radius: 50%;
     border: 3px solid #fff;
-}
-
-.hero-title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .discord {
@@ -160,16 +152,14 @@ body {
 .icon-pulse { animation: pulse 2s infinite; }
 .icon-jump { animation: jump 1.2s infinite; }
 .icon-float { animation: float 3s infinite; }
-.icon-tilt { animation: tilt 2s infinite; }
+.icon-tilt  { animation: tilt 2s infinite; }
 .icon-shake { animation: shake 1.5s infinite; }
-.icon-spin { animation: spin 3s linear infinite; }
 
 @keyframes pulse { 50% { transform: scale(1.15); } }
 @keyframes jump { 50% { transform: translateY(-6px); } }
 @keyframes float { 50% { transform: translateY(-4px); } }
 @keyframes tilt { 50% { transform: rotate(6deg); } }
 @keyframes shake { 50% { transform: translateX(2px); } }
-@keyframes spin { to { transform: rotate(360deg); } }
 
 .feature-sub {
     display: block;
@@ -203,18 +193,21 @@ body {
 }
 
 .script-box {
+    width: 100%;
+    max-width: 100%;
     background: rgba(0,0,0,.6);
     border: 1px solid rgba(255,255,255,.15);
     border-radius: var(--radius-sm);
     padding: 16px;
-    overflow-x: auto;
-    box-shadow: inset 0 0 12px rgba(0,0,0,.8);
+    overflow-x: hidden;
 }
 
 .script-box code {
     display: block;
+    max-width: 100%;
     white-space: pre-wrap;
     word-break: break-word;
+    overflow-wrap: break-word;
     font-size: .85em;
     color: #f1f1f1;
 }
