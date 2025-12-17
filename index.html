@@ -1,174 +1,140 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>michigun ^^</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>michigun ^^</title>
 
-    <link rel="icon" href="aim.gif" type="image/gif">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="icon" href="aim.gif" type="image/gif">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+:root{--glass-bg:rgba(15,15,25,.55);--glass-border:rgba(255,255,255,.12);--text-main:#f1f1f1;--text-muted:#9a9a9a;--radius:20px;--radius-sm:12px;--font-main:Consolas,monospace}
+*{box-sizing:border-box}
+html,body{width:100%;min-height:100vh;margin:0;padding:0;overflow-x:hidden}
+body{font-family:var(--font-main);color:var(--text-main);background:radial-gradient(circle at center,#05050a,#000)}
+#particles{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:-1}
+.container{max-width:820px;margin:0 auto;padding:48px 20px 80px}
+.card{background:var(--glass-bg);backdrop-filter:blur(18px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;margin-bottom:26px}
+.hero{text-align:center}
+.avatar{width:130px;height:130px;border-radius:50%;border:3px solid rgba(255,255,255,.8);box-shadow:0 0 20px rgba(255,255,255,.35),0 0 40px rgba(255,0,80,.35);transition:.4s}
+.avatar:hover{transform:scale(1.05)}
+.discord{color:#7289da}
+.tab-navigation{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.tab-button{background:rgba(0,0,0,.45);border:1px solid var(--glass-border);color:var(--text-main);padding:9px 18px;border-radius:var(--radius-sm);cursor:pointer}
+.tab-button.active{box-shadow:0 0 16px rgba(255,255,255,.18)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.animate{animation:enter .5s ease}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1}}
+.gradient-title{font-size:2.6em;text-align:center}
+.feature-list{list-style:none;padding:0;margin:0}
+.feature-list li{display:flex;gap:14px;padding:12px 0;opacity:0;transform:translateY(10px);animation:stagger .5s ease forwards;animation-delay:calc(var(--i)*.08s)}
+@keyframes stagger{to{opacity:1;transform:none}}
+.icon-jump{color:#4da6ff;animation:jump 1.2s infinite}
+.icon-float{color:#b36bff;animation:float 3s infinite}
+.icon-tilt{color:#00ffd5;animation:tilt 2s infinite}
+.icon-shake{color:#ff4d4d;animation:shake 1.5s infinite}
+.icon-spin{color:#ffd84d;animation:none}
+@keyframes jump{50%{transform:translateY(-6px)}}
+@keyframes float{50%{transform:translateY(-4px)}}
+@keyframes tilt{50%{transform:rotate(6deg)}}
+@keyframes shake{50%{transform:translateX(2px)}}
+.feature-sub{font-size:.82em;color:#7a7a7a}
+.feature-divider{display:flex;justify-content:center;margin:22px 0}
+.feature-divider span{font-size:.8em;letter-spacing:3px;color:#aaa;padding:6px 18px;border:1px solid rgba(255,255,255,.2);border-radius:999px}
+.script-box{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);padding:18px}
+.copy-button{margin-top:16px;background:linear-gradient(90deg,#ff0033,#ff6699);border:none;color:#000;padding:11px 26px;border-radius:var(--radius-sm);font-weight:bold;cursor:pointer}
+.copy-button.copied{background:linear-gradient(90deg,#00ffcc,#66ffee)}
+footer{text-align:center;font-size:.8em;color:var(--text-muted);margin-top:40px}
+</style>
 </head>
+
 <body>
 
 <audio id="ambientSound" loop>
-    <source src="ambient.mp3" type="audio/mpeg">
+<source src="ambient.mp3" type="audio/mpeg">
 </audio>
 
 <canvas id="particles"></canvas>
 
 <div class="container">
+<header class="card hero">
+<img src="avatar.png" class="avatar">
+<h1>fp3 <span class="discord"><i class="fab fa-discord"></i></span></h1>
 
-    <header class="card hero">
-        <img src="avatar.png" class="avatar" alt="fp3">
+<nav class="tab-navigation">
+<button class="tab-button active" data-tab="home">Home</button>
+<button class="tab-button" data-tab="features">Features</button>
+<button class="tab-button" data-tab="script">Script</button>
+</nav>
+</header>
 
-        <h1 class="hero-title">
-            fp3
-            <span class="discord">
-                <i class="fab fa-discord"></i>
-            </span>
-        </h1>
+<section id="home" class="tab-content active animate">
+<div class="card">
+<h2 class="gradient-title">LuaU</h2>
+<p>Oi, faço scripts básicos para jogos chatos ^^ !</p>
+<p>Brazilian</p>
+</div>
+</section>
 
-        <p class="tagline">
-            Michigun
-            <nav class="tab-navigation">
-                <button class="tab-button active" data-tab="home">
-                    <i class="fas fa-home"></i> Home
-                </button>
-                <button class="tab-button" data-tab="features">
-                    <i class="fas fa-list-check"></i> Features
-                </button>
-                <button class="tab-button" data-tab="script">
-                    <i class="fas fa-code"></i> Script
-                </button>
-            </nav>
-        </p>
-    </header>
+<section id="features" class="tab-content animate">
+<div class="card">
+<h2>Features</h2>
+<ul class="feature-list">
+<li style="--i:1"><i class="fas fa-crosshairs"></i>Hitbox expander</li>
+<li style="--i:2"><i class="fas fa-person-running icon-jump"></i>Auto JJ's</li>
+<li style="--i:3"><i class="fas fa-robot icon-float"></i>Assistente</li>
+<li class="feature-divider"><span>TEVEZ</span></li>
+<li style="--i:4"><i class="fas fa-skull-crossbones icon-shake"></i>Mods</li>
+<li style="--i:5"><i class="fas fa-coins icon-spin"></i>Autofarm</li>
+</ul>
+</div>
+</section>
 
-    <section id="home" class="tab-content active animate">
-        <section class="card">
-            <h2 class="gradient-title">LuaU</h2>
-            <p>Oi, faço scripts básicos para jogos chatos ^^ !</p>
-            <p><i class="fas fa-globe"></i> Brazilian</p>
-        </section>
-    </section>
+<section id="script" class="tab-content animate">
+<div class="card script-section">
+<h2>Script</h2>
+<div class="script-box">
+<code id="code">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
+</div>
+<button class="copy-button" id="copyBtn">Copiar</button>
+<span id="copy-msg"></span>
+</div>
+</section>
 
-    <section id="features" class="tab-content animate">
-        <section class="card">
-            <h2>Features</h2>
-
-            <ul class="feature-list">
-                <li style="--i:1">
-                    <i class="fas fa-crosshairs icon-pulse"></i>
-                    <div><strong>Hitbox expander</strong></div>
-                </li>
-
-                <li style="--i:2">
-                    <i class="fas fa-person-running icon-jump"></i>
-                    <div><strong>Auto JJ's</strong></div>
-                </li>
-
-                <li style="--i:3">
-                    <i class="fas fa-robot icon-float"></i>
-                    <div>
-                        <strong>Assistente</strong>
-                        <span class="feature-sub">Produz textos e corrige</span>
-                    </div>
-                </li>
-
-                <li style="--i:4">
-                    <i class="fas fa-user-shield icon-tilt"></i>
-                    <div>
-                        <strong>Player</strong>
-                        <span class="feature-sub">Speed, noclip, chat spy, respawn</span>
-                    </div>
-                </li>
-
-                <li style="--i:5">
-                    <i class="fas fa-comment-dots icon-pulse"></i>
-                    <div>
-                        <strong>Sugestões e avaliações via-script</strong>
-                        <span class="feature-sub">Com anonimato, enviados no Discord</span>
-                    </div>
-                </li>
-
-                <li class="feature-divider">
-                    <span>TEVEZ</span>
-                </li>
-
-                <li style="--i:6">
-                    <i class="fas fa-skull-crossbones icon-shake"></i>
-                    <div>
-                        <strong>Mods</strong>
-                        <span class="feature-sub">Kill aura e armas modificadas</span>
-                    </div>
-                </li>
-
-                <li style="--i:7">
-                    <i class="fas fa-coins icon-spin"></i>
-                    <div>
-                        <strong>Autofarm</strong>
-                        <span class="feature-sub">Banco</span>
-                    </div>
-                </li>
-            </ul>
-        </section>
-    </section>
-
-    <section id="script" class="tab-content animate">
-        <section class="card script-section">
-            <h2 class="script-title">Script</h2>
-
-            <div class="script-box">
-                <code id="code">
-loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
-                </code>
-            </div>
-
-            <button class="copy-button" id="copyBtn">
-                <i class="fas fa-copy"></i> Copiar
-            </button>
-
-            <span id="copy-msg"></span>
-        </section>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 • Michigun</p>
-    </footer>
-
+<footer>&copy; 2025 • Michigun</footer>
 </div>
 
-<script src="script.js"></script>
-  
 <script>
-(function(){
-    document.addEventListener("contextmenu", e => e.preventDefault());
+(()=>{
 
-    document.addEventListener("keydown", e => {
-        if (
-            e.key === "F12" ||
-            (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) ||
-            (e.ctrlKey && e.key === "U")
-        ) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-    });
+document.querySelectorAll(".tab-button").forEach(b=>{
+b.onclick=()=>{document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".tab-content").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active")}
+})
 
-    const detectDevTools = () => {
-        const t = 160;
-        if (
-            window.outerWidth - window.innerWidth > t ||
-            window.outerHeight - window.innerHeight > t
-        ) {
-            document.body.innerHTML = "";
-            document.body.style.background = "#000";
-        }
-    };
+let h=0;setInterval(()=>{document.querySelector(".gradient-title").style.color=`hsl(${h++},100%,65%)`},80)
 
-    setInterval(detectDevTools, 800);
+const btn=document.getElementById("copyBtn"),code=document.getElementById("code"),msg=document.getElementById("copy-msg")
+btn.onclick=()=>{navigator.clipboard.writeText(code.innerText);btn.classList.add("copied");msg.textContent="copiado!"
+setTimeout(()=>{btn.classList.remove("copied");msg.textContent=""},1500)}
+
+const c=document.getElementById("particles"),x=c.getContext("2d"),s=[]
+function r(){c.width=innerWidth;c.height=innerHeight}
+onresize=r;r()
+for(let i=0;i<120;i++)s.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5})
+;(function a(){x.clearRect(0,0,c.width,c.height)
+s.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>c.width)p.vx*=-1;if(p.y<0||p.y>c.height)p.vy*=-1
+x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fillStyle="rgba(255,255,255,.7)";x.fill()})
+requestAnimationFrame(a)})()
+
+document.addEventListener("contextmenu",e=>e.preventDefault())
+document.addEventListener("keydown",e=>{
+if(e.key==="F12"||(e.ctrlKey&&e.shiftKey)||e.ctrlKey&&e.key==="U"){e.preventDefault();document.body.innerHTML=""}
+})
+
 })();
 </script>
 
