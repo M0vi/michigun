@@ -5,10 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>michigun</title>
 
+    <!-- ÍCONE DA ABA (FAVICON) -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+
+<!-- SOM AMBIENTE -->
+<audio id="ambientSound" loop>
+    <source src="ambient.mp3" type="audio/mpeg">
+</audio>
 
 <canvas id="particles"></canvas>
 
@@ -57,16 +65,12 @@
             <ul class="feature-list">
                 <li style="--i:1">
                     <i class="fas fa-crosshairs icon-pulse"></i>
-                    <div>
-                        <strong>Hitbox expander</strong>
-                    </div>
+                    <div><strong>Hitbox expander</strong></div>
                 </li>
 
                 <li style="--i:2">
                     <i class="fas fa-person-running icon-jump"></i>
-                    <div>
-                        <strong>Auto JJ's</strong>
-                    </div>
+                    <div><strong>Auto JJ's</strong></div>
                 </li>
 
                 <li style="--i:3">
@@ -89,15 +93,11 @@
                     <i class="fas fa-comment-dots icon-pulse"></i>
                     <div>
                         <strong>Sugestões e avaliações via-script</strong>
-                        <span class="feature-sub">
-                            Com anonimato, enviados diretamente no Discord.
-                        </span>
+                        <span class="feature-sub">Com anonimato, enviados no Discord</span>
                     </div>
                 </li>
 
-                <li class="feature-divider">
-                    <span>E.B TEVEZ</span>
-                </li>
+                <li class="feature-divider"><span>E.B TEVEZ</span></li>
 
                 <li style="--i:6">
                     <i class="fas fa-skull-crossbones icon-shake"></i>
@@ -124,10 +124,12 @@
             <h2 class="script-title">Script EB</h2>
 
             <div class="script-box">
-                <pre id="code">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</pre>
+                <code id="code">
+loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()
+                </code>
             </div>
 
-            <button class="copy-button">
+            <button class="copy-button" id="copyBtn">
                 <i class="fas fa-copy"></i> Copiar Código
             </button>
 
@@ -136,7 +138,7 @@
     </section>
 
     <footer>
-        <p class="rainbow-text">&copy; 2025 Michigun hub</p>
+        <p>&copy; 2025 Michigun hub</p>
     </footer>
 
 </div>
