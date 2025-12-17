@@ -16,24 +16,22 @@ const msg = document.getElementById("copy-msg");
 
 copyBtn.addEventListener("click", () => {
     const text = codeEl.innerText.trim();
-    const textarea = document.createElement("textarea");
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
 
-    textarea.value = text;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
+    copyBtn.classList.add("copied");
+    msg.textContent = "copiado!";
 
-    document.body.appendChild(textarea);
-    textarea.select();
-
-    try {
-        document.execCommand("copy");
-        msg.textContent = "Copiado com sucesso!";
-    } catch {
-        msg.textContent = "Erro ao copiar";
-    }
-
-    document.body.removeChild(textarea);
-    setTimeout(() => msg.textContent = "", 2000);
+    setTimeout(() => {
+        copyBtn.classList.remove("copied");
+        msg.textContent = "";
+    }, 1800);
 });
 
 const audio = document.getElementById("ambientSound");
@@ -76,24 +74,6 @@ for (let i = 0; i < COUNT; i++) {
     });
 }
 
-const favCanvas = document.createElement("canvas");
-favCanvas.width = 32;
-favCanvas.height = 32;
-const fctx = favCanvas.getContext("2d");
-const fav = document.getElementById("dynamic-favicon");
-let hue = 0;
-
-function updateFavicon(glow) {
-    fctx.clearRect(0,0,32,32);
-    const g = fctx.createRadialGradient(16,16,4,16,16,16);
-    g.addColorStop(0,`hsla(${hue},100%,60%,${glow})`);
-    g.addColorStop(1,"transparent");
-    fctx.fillStyle = g;
-    fctx.fillRect(0,0,32,32);
-    fav.href = favCanvas.toDataURL("image/png");
-    hue = (hue + 2) % 360;
-}
-
 function animate() {
     ctx2.clearRect(0,0,canvas.width,canvas.height);
     let energy = 0;
@@ -119,7 +99,6 @@ function animate() {
         ctx2.fill();
     });
 
-    updateFavicon(0.3 + energy);
     requestAnimationFrame(animate);
 }
 
