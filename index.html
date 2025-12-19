@@ -1,3 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>michigun ^^</title>
+<link rel="icon" href="aim.gif" type="image/gif">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+<audio id="ambientSound" loop>
+    <source src="ambient.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+
+<header class="card hero">
+    <img src="avatar.png" class="avatar" alt="fp3">
+
+    <h1 class="hero-title">
+        fp3
+        <span class="discord">
+            <i class="fab fa-discord"></i>
+        </span>
+    </h1>
+
+    <p class="tagline">Michigun</p>
+
+    <nav class="tab-navigation">
+        <button class="tab-button active" data-tab="home">
+            <i class="fas fa-home"></i> Home
+        </button>
+        <button class="tab-button" data-tab="features">
+            <i class="fas fa-list-check"></i> Features
+        </button>
+        <button class="tab-button" data-tab="script">
+            <i class="fas fa-code"></i> Script
+        </button>
+    </nav>
+</header>
+
+<section id="home" class="tab-content active animate">
+    <section class="card">
+        <h2 class="gradient-title">LuaU</h2>
+        <p>Oi, faço scripts básicos para jogos chatos ^^ !</p>
+        <p><i class="fas fa-globe"></i> Brazilian</p>
+    </section>
+</section>
+
+<section id="features" class="tab-content animate">
+<section class="card">
+<h2>Features</h2>
+
 <ul class="feature-list">
 <li style="--i:1">
     <i class="fas fa-crosshairs icon-pulse"></i>
@@ -81,3 +138,116 @@
     </div>
 </li>
 </ul>
+
+</section>
+</section>
+
+<section id="script" class="tab-content animate">
+<section class="card script-section">
+<h2 class="script-title">Script</h2>
+
+<div class="script-box">
+<code id="code">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
+</div>
+
+<button class="copy-button" id="copyBtn">
+<i class="fas fa-copy"></i> Copiar
+</button>
+
+<span id="copy-msg"></span>
+</section>
+</section>
+
+<footer>
+<p>&copy; 2025 • Michigun</p>
+</footer>
+
+</div>
+
+<script>
+(()=>{const e=document.createElement("style");e.textContent=':root{--glass-bg:rgba(15,15,25,.55);--glass-border:rgba(255,255,255,.12);--text-main:#f1f1f1;--text-muted:#9a9a9a;--radius:20px;--radius-sm:12px;--font-main:Consolas,monospace}*{box-sizing:border-box}html,body{width:100%;min-height:100vh;margin:0;padding:0;overflow-x:hidden}body{font-family:var(--font-main);color:var(--text-main);background:radial-gradient(circle at center,#05050a,#000)}#particles{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:-1}.container{max-width:820px;margin:0 auto;padding:48px 20px 80px}.card{background:var(--glass-bg);backdrop-filter:blur(18px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px;margin-bottom:26px}.hero{text-align:center}.avatar{width:130px;height:130px;border:3px solid rgba(255,255,255,.8);border-radius:50%;box-shadow:0 0 20px rgba(255,255,255,.35),0 0 40px rgba(255,0,80,.35);transition:transform .4s ease}.avatar:hover{transform:scale(1.05)}.discord{font-size:.85em;color:#7289da}.tagline{color:var(--text-muted);margin-bottom:14px}.gradient-title{font-size:2.8em;font-weight:bold;text-align:center}.tab-navigation{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.tab-button{background:rgba(0,0,0,.45);border:1px solid var(--glass-border);color:var(--text-main);padding:9px 18px;border-radius:var(--radius-sm);cursor:pointer}.tab-button.active{box-shadow:0 0 16px rgba(255,255,255,.18)}.tab-content{display:none}.tab-content.active{display:block}.animate{animation:enter .5s ease}@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}.feature-list{list-style:none;padding:0;margin:0}.feature-list li{display:flex;gap:14px;padding:12px 0;opacity:0;transform:translateY(10px);animation:stagger .5s ease forwards;animation-delay:calc(var(--i)*.08s)}@keyframes stagger{to{opacity:1;transform:none}}.feature-list i{font-size:1.15em}.icon-jump{color:#4da6ff;animation:jump 1.2s infinite}.icon-float{color:#b36bff;animation:float 3s infinite}.icon-tilt{color:#00ffd5;animation:tilt 2s infinite}.icon-shake{color:#ff4d4d;animation:shake 1.5s infinite}.icon-spin{color:#ffd84d;animation:none}@keyframes jump{50%{transform:translateY(-6px)}}@keyframes float{50%{transform:translateY(-4px)}}@keyframes tilt{50%{transform:rotate(6deg)}}@keyframes shake{50%{transform:translateX(2px)}}.feature-sub{display:block;margin-top:4px;font-size:.82em;color:#7a7a7a}.feature-divider{display:flex;justify-content:center;margin:22px 0}.feature-divider span{font-size:.8em;letter-spacing:3px;color:#aaa;padding:6px 18px;border:1px solid rgba(255,255,255,.2);border-radius:999px}.script-section{text-align:center}.script-box{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);padding:18px}.script-box code{white-space:pre-wrap;word-break:break-word;font-size:.85em}.copy-button{margin-top:16px;background:linear-gradient(90deg,#ff0033,#ff6699);border:none;color:#000;padding:11px 26px;border-radius:var(--radius-sm);font-weight:bold;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}.copy-button:hover{transform:translateY(-2px);box-shadow:0 0 18px rgba(255,0,80,.55)}.copy-button.copied{background:linear-gradient(90deg,#00ffcc,#66ffee)}footer{text-align:center;font-size:.8em;color:var(--text-muted);margin-top:40px}';document.head.appendChild(e);const t=document.querySelectorAll(".tab-button"),o=document.querySelectorAll(".tab-content");t.forEach(e=>{e.addEventListener("click",()=>{t.forEach(e=>e.classList.remove("active")),o.forEach(e=>e.classList.remove("active")),e.classList.add("active"),document.getElementById(e.dataset.tab).classList.add("active")})});const n=document.querySelector(".gradient-title");let a=0;setInterval(()=>{a=(a+2)%360,n&&(n.style.color=`hsl(${a},100%,65%)`)},80);const i=document.getElementById("copyBtn"),c=document.getElementById("code"),r=document.getElementById("copy-msg");i&&i.addEventListener("click",()=>{const e=document.createElement("textarea");e.value=c.innerText,e.style.position="fixed",e.style.opacity="0",document.body.appendChild(e),e.select(),document.execCommand("copy"),document.body.removeChild(e),i.classList.add("copied"),r.textContent="copiado!",setTimeout(()=>{i.classList.remove("copied"),r.textContent=""},1600)});const s=document.getElementById("particles"),l=s.getContext("2d"),d=[],u=120;function m(){s.width=window.innerWidth,s.height=window.innerHeight}window.addEventListener("resize",m),m();for(let e=0;e<u;e++)d.push({x:Math.random()*s.width,y:Math.random()*s.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5});!function e(){l.clearRect(0,0,s.width,s.height),d.forEach(e=>{e.x+=e.vx,e.y+=e.vy,(e.x<0||e.x>s.width)&&(e.vx*=-1),(e.y<0||e.y>s.height)&&(e.vy*=-1),l.beginPath(),l.arc(e.x,e.y,e.r,0,2*Math.PI),l.fillStyle="rgba(255,255,255,.7)",l.fill()}),function(){for(let e=0;e<d.length;e++)for(let t=e;t<d.length;t++){const o=d[e].x-d[t].x,n=d[e].y-d[t].y,a=Math.sqrt(o*o+n*n);a<110&&(l.strokeStyle=`rgba(255,255,255,${1-a/110})`,l.beginPath(),l.moveTo(d[e].x,d[e].y),l.lineTo(d[t].x,d[t].y),l.stroke())}}(),requestAnimationFrame(e)}()})();
+;(()=>{
+
+const canvasFix = document.getElementById("particles");
+const ctxFix = canvasFix.getContext("2d");
+const DPR = window.devicePixelRatio || 1;
+
+function fixCanvasSize(){
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    canvasFix.style.width = w + "px";
+    canvasFix.style.height = h + "px";
+
+    canvasFix.width = Math.floor(w * DPR);
+    canvasFix.height = Math.floor(h * DPR);
+
+    ctxFix.setTransform(DPR,0,0,DPR,0,0);
+}
+
+window.addEventListener("resize", fixCanvasSize);
+window.addEventListener("orientationchange", fixCanvasSize);
+fixCanvasSize();
+
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+document.addEventListener("keydown", e => {
+    if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) ||
+        (e.ctrlKey && e.key === "U")
+    ) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+});
+
+let devtoolsOpen = false;
+const threshold = 160;
+
+setInterval(() => {
+    const widthDiff = window.outerWidth - window.innerWidth;
+    const heightDiff = window.outerHeight - window.innerHeight;
+
+    if (widthDiff > threshold || heightDiff > threshold) {
+        if (!devtoolsOpen) {
+            devtoolsOpen = true;
+            document.body.innerHTML = "";
+            document.body.style.background = "#000";
+        }
+    } else {
+        devtoolsOpen = false;
+    }
+}, 800);
+
+})();
+
+    ;(()=>{
+    const colors = ["#ffdf00", "#002776", "#009c3b", "#ffffff"];
+
+    const paragraphs = document.querySelectorAll("p");
+
+    paragraphs.forEach(p => {
+        if (p.textContent.trim().endsWith("Brazilian")) {
+            const icon = p.querySelector("i");
+            const text = "Brazilian";
+
+            let html = "";
+            [...text].forEach((char, i) => {
+                html += `<span style="color:${colors[i % colors.length]}; font-weight:bold;">${char}</span>`;
+            });
+
+            p.innerHTML = "";
+            if (icon) {
+                p.appendChild(icon);
+                p.innerHTML += " ";
+            }
+            p.innerHTML += html;
+        }
+    });
+})();
+</script>
+
+</body>
+</html>
