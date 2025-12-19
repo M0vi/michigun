@@ -50,7 +50,16 @@ body {color: var(--text-main); background:black; overflow-x:hidden;}
 .animate{animation:enter .5s ease;}
 @keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .feature-list{list-style:none;padding:0;margin:0;}
-.feature-list li{display:flex;gap:14px;padding:12px 0;opacity:0;transform:translateY(10px);animation:stagger .5s ease forwards;animation-delay:calc(var(--i)*.08s);}
+.feature-list li{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    opacity:0;
+    transform:translateY(10px);
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: calc(var(--i) * 0.08s);
+}
+@keyframes fadeInUp {from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);}}
 .feature-list i{font-size:1.15em;}
 .icon-jump{color:#4da6ff;animation:jump 1.2s infinite;}
 .icon-float{color:#b36bff;animation:float 3s infinite;}
@@ -92,15 +101,9 @@ footer{text-align:center;font-size:.8em;color:var(--text-muted);margin-top:40px;
     <p class="age">17</p>
 
     <nav class="tab-navigation">
-        <button class="tab-button active" data-tab="home">
-            <i class="fas fa-home"></i> Home
-        </button>
-        <button class="tab-button" data-tab="features">
-            <i class="fas fa-list-check"></i> Features
-        </button>
-        <button class="tab-button" data-tab="script">
-            <i class="fas fa-code"></i> Script
-        </button>
+        <button class="tab-button active" data-tab="home"><i class="fas fa-home"></i> Home</button>
+        <button class="tab-button" data-tab="features"><i class="fas fa-list-check"></i> Features</button>
+        <button class="tab-button" data-tab="script"><i class="fas fa-code"></i> Script</button>
     </nav>
 </header>
 
