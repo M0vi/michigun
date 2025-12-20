@@ -217,30 +217,43 @@ span_br.innerHTML = [...palavra].map((letra, i) =>
     `<span style="color:${cores[i % cores.length]}; font-weight:bold;">${letra}</span>`
 ).join('');
 
-let inspetor_aberto = false;
-const limite = 160;
-setInterval(() => {
-    const dif_largura = window.outerWidth - window.innerWidth;
-    const dif_altura = window.outerHeight - window.innerHeight;
-    if(dif_largura > limite || dif_altura > limite){
-        if(!inspetor_aberto){
-            inspetor_aberto = true;
-            document.body.innerHTML = "";
-            document.body.style.background = "#000";
-        }
-    } else {
-        inspetor_aberto = false;
-    }
-}, 800);
+<script>
 
-document.addEventListener("keydown", e => {
-    if(e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) || (e.ctrlKey && e.key === "U")){
-        e.preventDefault();
-        e.stopPropagation();
+const monitorar_tela = () => {
+    const limite = 160;
+    if (window.outerWidth - window.innerWidth > limite || window.outerHeight - window.innerHeight > limite) {
+        document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:20%;'>Acesso Negado.</h1>";
+        document.body.style.background = "#000";
+    }
+};
+
+setInterval(() => {
+    monitorar_tela();
+    (function() { return false; }["constructor"]("debugger")());
+}, 500);
+
+document.addEventListener("keydown", evento => {
+    const tecla = evento.key;
+    const ctrl = evento.ctrlKey;
+    const shift = evento.shiftKey;
+    const meta = evento.metaKey;
+
+    if (
+        tecla === "F12" || 
+        (ctrl && shift && ["I", "J", "C"].includes(tecla.toUpperCase())) ||
+        (ctrl && ["U", "S", "P"].includes(tecla.toUpperCase())) ||
+        (meta && ["S", "U", "P"].includes(tecla.toUpperCase()))
+    ) {
+        evento.preventDefault();
+        evento.stopPropagation();
         return false;
     }
 });
-document.addEventListener("contextmenu", e => e.preventDefault());
+
+document.addEventListener("contextmenu", evento => evento.preventDefault());
+document.addEventListener("selectstart", evento => evento.preventDefault());
+document.addEventListener("dragstart", evento => evento.preventDefault());
+
 </script>
 
 </body>
