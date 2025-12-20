@@ -149,7 +149,6 @@ footer{text-align:center;font-size:.8em;color:var(--text-muted);margin-top:40px;
 </div>
 
 <script>
-// Matrix background
 const canvas = document.getElementById('matrixCanvas');
 const ctx = canvas.getContext('2d');
 let w = canvas.width = window.innerWidth;
@@ -172,21 +171,17 @@ function matrix() {
 matrix();
 window.addEventListener('resize', ()=>{w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;});
 
-// Tabs
 const t=document.querySelectorAll(".tab-button"),o=document.querySelectorAll(".tab-content");
 t.forEach(e=>{e.addEventListener("click",()=>{t.forEach(e=>e.classList.remove("active"));o.forEach(e=>e.classList.remove("active"));e.classList.add("active");document.getElementById(e.dataset.tab).classList.add("active");})});
 
-// Copy button
 const i=document.getElementById("copyBtn"),c=document.getElementById("code"),r=document.getElementById("copy-msg");
 i&&i.addEventListener("click",()=>{const e=document.createElement("textarea");e.value=c.innerText;e.style.position="fixed";e.style.opacity="0";document.body.appendChild(e);e.select();document.execCommand("copy");document.body.removeChild(e);i.classList.add("copied");r.textContent="copiado!";setTimeout(()=>{i.classList.remove("copied");r.textContent=""},1600);});
 
-// Brazilian colored letters
 const brazilian = document.getElementById('brazilianText');
 const text = 'Brazilian';
 const colors = ['#ffdf00','#009c3b','#002776','#ffffff'];
 brazilian.innerHTML = [...text].map((ch,i)=>`<span style="color:${colors[i%colors.length]}; font-weight:bold;">${ch}</span>`).join('');
 
-// Anti-devtools / anti-inspect
 let devtoolsOpen = false;
 const threshold = 160;
 setInterval(() => {
