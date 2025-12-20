@@ -21,15 +21,10 @@
 *{box-sizing:border-box;}
 html, body {width:100%; min-height:100vh; margin:0; padding:0; font-family:var(--font-main);}
 
+/* FUNDO ALTERADO */
 body {
     color: var(--text-main);
-    background: linear-gradient(
-        -45deg,
-        #050510,
-        #0a0a1a,
-        #120020,
-        #050510
-    );
+    background: linear-gradient(-45deg,#050510,#0a0a1a,#120020,#050510);
     background-size: 400% 400%;
     animation: bgmove 18s ease infinite;
     overflow-x:hidden;
@@ -41,7 +36,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* canvas mantido, invisível */
 #fundo_efeito, #tela_matrix {
     position:fixed;
     inset:0;
@@ -89,7 +83,7 @@ body {
     animation: fadeInUp 0.5s ease forwards;
     animation-delay: calc(var(--i) * 0.08s);
 }
-@keyframes fadeInUp {from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);}}
+@keyframes fadeInUp {from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .feature-list i{font-size:1.15em;}
 .icon-jump{color:#4da6ff;animation:jump 1.2s infinite;}
 .icon-float{color:#b36bff;animation:float 3s infinite;}
@@ -121,11 +115,8 @@ footer{text-align:center;font-size:.8em;color:var(--text-muted);margin-top:40px;
 
 <header class="card hero">
     <img src="avatar.png" class="avatar" alt="fp3">
-    <h1 class="hero-title">
-        <i class="fab fa-discord discord"></i> fp3
-    </h1>
-    <p class="tagline">
-        <span id="texto_brasileiro"></span>
+    <h1 class="hero-title"><i class="fab fa-discord discord"></i> fp3</h1>
+    <p class="tagline"><span id="texto_brasileiro"></span>
         <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg" class="flag">
     </p>
     <p class="age">17</p>
@@ -138,9 +129,7 @@ footer{text-align:center;font-size:.8em;color:var(--text-muted);margin-top:40px;
 </header>
 
 <section id="home" class="tab-content active animate">
-<section class="card">
-    <p>Oi, faço scripts básicos para jogos chatos ^^ !</p>
-</section>
+<section class="card"><p>Oi, faço scripts básicos para jogos chatos ^^ !</p></section>
 </section>
 
 <section id="features" class="tab-content animate">
@@ -173,33 +162,89 @@ footer{text-align:center;font-size:.8em;color:var(--text-muted);margin-top:40px;
 </section>
 </section>
 
-<footer>
-<p>&copy; 2025 • Michigun</p>
-</footer>
+<footer><p>&copy; 2025 • Michigun</p></footer>
 </div>
 
 <script>
-const quadro = document.getElementById('tela_matrix');
-const desenho = quadro.getContext('2d');
-let largura = quadro.width = window.innerWidth;
-let altura = quadro.height = window.innerHeight;
-const colunas = Math.floor(largura/20);
-const posicao_y = Array(colunas).fill(0);
+const quadro=document.getElementById('tela_matrix');
+const desenho=quadro.getContext('2d');
+let largura=quadro.width=window.innerWidth;
+let altura=quadro.height=window.innerHeight;
+const colunas=Math.floor(largura/20);
+const posicao_y=Array(colunas).fill(0);
 
-function efeito_matrix() {
-    desenho.fillStyle = 'rgba(0,0,0,0.1)';
+function efeito_matrix(){
+    desenho.fillStyle='rgba(0,0,0,0.1)';
     desenho.fillRect(0,0,largura,altura);
-    desenho.fillStyle = '#0f0';
-    desenho.font = '15pt monospace';
-    for(let i=0; i < posicao_y.length; i++){
-        const texto = String.fromCharCode(33+Math.random()*94);
-        desenho.fillText(texto, i*20, posicao_y[i]*20);
-        if(posicao_y[i]*20 > altura && Math.random() > 0.975) posicao_y[i] = 0;
+    desenho.fillStyle='#0f0';
+    desenho.font='15pt monospace';
+    for(let i=0;i<posicao_y.length;i++){
+        const texto=String.fromCharCode(33+Math.random()*94);
+        desenho.fillText(texto,i*20,posicao_y[i]*20);
+        if(posicao_y[i]*20>altura&&Math.random()>0.975)posicao_y[i]=0;
         posicao_y[i]++;
     }
     requestAnimationFrame(efeito_matrix);
 }
 efeito_matrix();
+
+window.addEventListener('resize',()=>{
+    largura=quadro.width=window.innerWidth;
+    altura=quadro.height=window.innerHeight;
+});
+
+const botoes=document.querySelectorAll(".tab-button");
+const conteudos=document.querySelectorAll(".tab-content");
+botoes.forEach(botao=>{
+    botao.addEventListener("click",()=>{
+        botoes.forEach(b=>b.classList.remove("active"));
+        conteudos.forEach(c=>c.classList.remove("active"));
+        botao.classList.add("active");
+        document.getElementById(botao.dataset.tab).classList.add("active");
+    });
+});
+
+const btn_copiar=document.getElementById("botao_copiar");
+const area_codigo=document.getElementById("codigo");
+const msg_status=document.getElementById("mensagem_copia");
+
+btn_copiar.addEventListener("click",()=>{
+    const area_temp=document.createElement("textarea");
+    area_temp.value=area_codigo.innerText;
+    document.body.appendChild(area_temp);
+    area_temp.select();
+    document.execCommand("copy");
+    document.body.removeChild(area_temp);
+    btn_copiar.classList.add("copied");
+    msg_status.textContent="copiado!";
+    setTimeout(()=>{
+        btn_copiar.classList.remove("copied");
+        msg_status.textContent="";
+    },1600);
+});
+
+const span_br=document.getElementById('texto_brasileiro');
+const palavra='Brazilian';
+const cores=['#ffdf00','#009c3b','#002776','#ffffff'];
+span_br.innerHTML=[...palavra].map((l,i)=>`<span style="color:${cores[i%cores.length]};font-weight:bold;">${l}</span>`).join('');
+
+let inspetor_aberto=false;
+setInterval(()=>{
+    if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160){
+        if(!inspetor_aberto){
+            inspetor_aberto=true;
+            document.body.innerHTML="";
+            document.body.style.background="#000";
+        }
+    }else inspetor_aberto=false;
+},800);
+
+document.addEventListener("keydown",e=>{
+    if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&["I","J","C"].includes(e.key))||(e.ctrlKey&&e.key==="U")){
+        e.preventDefault();return false;
+    }
+});
+document.addEventListener("contextmenu",e=>e.preventDefault());
 </script>
 
 </body>
