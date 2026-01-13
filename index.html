@@ -3,138 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>michigun • hub</title>
+    <title>@fp3</title>
     <link rel="icon" href="aim.gif" type="image/gif">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --bg-body: #020203;
-            --bg-card: rgba(13, 13, 15, 0.95);
+            --bg-body: #050505;
+            --bg-card: rgba(15, 15, 18, 0.4);
             --accent: #00f2ff;
-            --accent-glow: rgba(0, 242, 255, 0.2);
+            --accent-glow: rgba(0, 242, 255, 0.3);
             --text-main: #ffffff;
-            --text-muted: #71717a;
+            --text-muted: #94a3b8;
             --border: rgba(255, 255, 255, 0.05);
-            --radius: 16px;
+            --radius: 24px;
+            --radius-sm: 14px;
+        }
+
+        /* Cursor Customizado em X */
+        @media (pointer: fine) {
+            * { cursor: none !important; }
+            #custom-cursor {
+                width: 20px;
+                height: 20px;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                mix-blend-mode: difference;
+            }
+            #custom-cursor::before, #custom-cursor::after {
+                content: '';
+                position: absolute;
+                background: var(--accent);
+                top: 50%; left: 50%;
+            }
+            #custom-cursor::before { width: 100%; height: 2px; transform: translate(-50%, -50%) rotate(45deg); }
+            #custom-cursor::after { width: 2px; height: 100%; transform: translate(-50%, -50%) rotate(45deg); }
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
+        
         body { 
             background-color: var(--bg-body); 
             color: var(--text-main); 
-            font-family: 'Inter', system-ui, sans-serif; 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
             margin: 0; 
-            overflow-x: hidden; 
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.5; }
+        /* Estrelas e Background */
+        #bg-canvas { 
+            position: fixed; 
+            top: 0; left: 0; 
+            z-index: -1; 
+            background: radial-gradient(circle at center, #0a0a0f 0%, #050505 100%);
+        }
 
-        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
+        .container { 
+            max-width: 800px; 
+            margin: 60px auto; 
+            padding: 0 20px; 
+            position: relative;
+            z-index: 1;
+        }
 
-        /* Animação de Reveal */
-        .reveal { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; }
+        /* Glassmorphism Effect */
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        /* Animação de entrada */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Header */
-        .hero { text-align: center; margin-bottom: 40px; }
+        /* Profile Header */
+        .hero { text-align: center; margin-bottom: 50px; }
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            padding: 10px;
+        }
         .avatar {
-            width: 100px; height: 100px; border-radius: 50%;
-            border: 1px solid var(--accent); padding: 4px;
-            box-shadow: 0 0 20px var(--accent-glow);
-            animation: float 4s ease-in-out infinite;
-        }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-        /* Cards */
-        .card {
-            background: var(--bg-card);
+            width: 115px; height: 115px; border-radius: 50%;
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 30px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            background: var(--bg-card);
+            padding: 5px;
+            transition: 0.5s;
         }
+        .hero:hover .avatar { border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: scale(1.05); }
 
-        h2 { font-size: 1.1rem; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .hero h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin: 15px 0 5px; }
 
-        /* Grid de Funções */
+        /* Sections */
+        .card { border-radius: var(--radius); padding: 35px; margin-bottom: 30px; }
+
+        h2 { font-size: 1rem; color: var(--accent); margin-bottom: 25px; display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+
+        /* Feature Grid Modern */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
 
         .feature-item {
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
-            padding: 16px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
-            gap: 14px;
-            transition: all 0.3s ease;
+            gap: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .feature-item:hover {
-            border-color: var(--accent);
-            background: rgba(0, 242, 255, 0.05);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.1);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(0, 242, 255, 0.5);
+            transform: translateY(-4px) scale(1.02);
         }
-        .feature-item i { color: var(--accent); font-size: 1.2rem; width: 24px; text-align: center; }
-        .feature-item strong { display: block; font-size: 0.9rem; margin-bottom: 2px; }
-        .feature-item span { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; }
+        .feature-item i { color: var(--accent); font-size: 1.3rem; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+        .feature-item strong { display: block; font-size: 0.95rem; margin-bottom: 4px; }
+        .feature-item span { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
 
-        /* Script Execution Section */
-        .script-area { background: #000; padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-top: 10px; }
-        code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #00ffaa; word-break: break-all; }
+        /* Script Area Dark */
+        .script-area { 
+            background: rgba(0, 0, 0, 0.6); 
+            padding: 25px; 
+            border-radius: var(--radius-sm); 
+            border: 1px solid var(--border); 
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .script-area::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #00ffaa; word-break: break-all; opacity: 0.9; }
         
         .btn-copy {
-            width: 100%; margin-top: 16px; padding: 16px; border-radius: 10px;
-            border: none; background: var(--accent); color: #000; font-weight: 800;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            width: 100%; margin-top: 20px; padding: 18px; border-radius: var(--radius-sm);
+            border: none; background: #fff; color: #000; font-weight: 800;
+            cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 1px;
         }
-        .btn-copy:hover { box-shadow: 0 0 25px var(--accent-glow); opacity: 0.9; }
+        .btn-copy:hover { background: var(--accent); box-shadow: 0 0 40px var(--accent-glow); transform: translateY(-2px); }
 
-        /* Game Tabs / Selection */
-        .game-nav { display: flex; gap: 10px; margin-bottom: 15px; }
+        /* Game Select Buttons */
+        .game-nav { display: flex; gap: 12px; margin-bottom: 25px; }
         .game-btn { 
             background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
-            color: var(--text-muted); padding: 8px 16px; border-radius: 8px; 
-            cursor: pointer; transition: 0.3s; font-size: 0.85rem;
+            color: var(--text-muted); padding: 10px 20px; border-radius: 12px; 
+            font-weight: 600; font-size: 0.8rem;
         }
-        .game-btn.active { background: var(--accent); color: #000; font-weight: bold; }
+        .game-btn.active { background: rgba(0, 242, 255, 0.1); border-color: var(--accent); color: var(--accent); }
 
         #toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: #00ffaa; color: #000; padding: 12px 30px;
-            border-radius: 50px; font-weight: bold; opacity: 0; transition: 0.4s; z-index: 1000;
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background: var(--accent); color: #000; padding: 14px 35px;
+            border-radius: 50px; font-weight: 800; opacity: 0; transition: 0.4s; z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.4);
         }
 
-        footer { text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 0.75rem; }
+        footer { text-align: center; padding: 60px 0; color: var(--text-muted); font-size: 0.75rem; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
+<div id="custom-cursor"></div>
 <canvas id="bg-canvas"></canvas>
-<div id="toast">Copiado! Aproveite. 🚀</div>
+<div id="toast">Copiado!</div>
 
 <div class="container">
     <header class="hero reveal">
-        <img src="avatar.png" class="avatar" alt="fp3">
-        <h1 style="margin: 15px 0 5px; font-size: 2rem; font-weight: 900;">michigun</h1>
-        <p style="color:var(--text-muted); font-size: 0.9rem;">Advanced Game Automations</p>
+        <div class="avatar-wrapper">
+            <img src="avatar.png" class="avatar" alt="fp3">
+        </div>
+        <h1>michigun</h1>
+        <p style="color:var(--text-muted); font-size: 0.9rem; opacity: 0.6;">Premium Executor Hub</p>
     </header>
 
-    <section class="card reveal">
-        <h2><i class="fas fa-terminal"></i> Script Loader</h2>
+    <section class="card glass reveal">
+        <h2><i class="fas fa-terminal"></i> Script</h2>
         <div class="script-area">
             <code id="scriptTxt">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
         </div>
-        <button class="btn-copy" id="copyBtn">Copiar Script</button>
+        <button class="btn-copy" id="copyBtn">Copiar script</button>
     </section>
 
-    <section class="card reveal">
-        <h2><i class="fas fa-globe"></i> Funções Globais</h2>
+    <section class="card glass reveal">
+        <h2><i class="fas fa-globe"></i> Globais</h2>
         <div class="feature-grid">
             <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Hitbox Expander</strong><span>Inimigos mais fáceis de atingir</span></div></div>
             <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP Master</strong><span>Veja através de qualquer parede</span></div></div>
@@ -149,8 +212,8 @@
         </div>
     </section>
 
-    <section class="card reveal">
-        <h2><i class="fas fa-gamepad"></i> Módulos Específicos</h2>
+    <section class="card glass reveal">
+        <h2><i class="fas fa-gamepad"></i> Específicos</h2>
         <div class="game-nav">
             <button class="game-btn active">Tevez</button>
             <button class="game-btn">Em breve...</button>
@@ -162,12 +225,19 @@
     </section>
 
     <footer>
-        <p>© 2026 Michigun Development • Brazilian Quality</p>
+        <p>© 2026 MICHIGUN.XYZ</p>
     </footer>
 </div>
 
 <script>
-    // Reveal On Scroll
+    // Cursor Script
+    const cursor = document.getElementById('custom-cursor');
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    // Reveal Animation
     const reveal = () => {
         document.querySelectorAll('.reveal').forEach(el => {
             if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
@@ -176,26 +246,30 @@
     window.addEventListener('scroll', reveal);
     window.addEventListener('load', reveal);
 
-    // Background Particles
+    // Starry Background (Space)
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
     function init() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        pts = Array.from({length: 50}, () => ({
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-            sx: (Math.random()-0.5)*0.3, sy: (Math.random()-0.5)*0.3
+        pts = Array.from({length: 100}, () => ({
+            x: Math.random()*canvas.width, 
+            y: Math.random()*canvas.height,
+            size: Math.random()*1.5,
+            opacity: Math.random(),
+            speed: Math.random() * 0.02
         }));
     }
     function draw() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.fillStyle = 'rgba(0, 242, 255, 0.2)';
         pts.forEach(p => {
-            p.x += p.sx; p.y += p.sy;
-            if(p.x<0||p.x>canvas.width) p.sx*=-1;
-            if(p.y<0||p.y>canvas.height) p.sy*=-1;
-            ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI*2); ctx.fill();
+            p.opacity += p.speed;
+            if(p.opacity > 1 || p.opacity < 0) p.speed *= -1;
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(p.opacity)})`;
+            ctx.beginPath(); 
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); 
+            ctx.fill();
         });
         requestAnimationFrame(draw);
     }
