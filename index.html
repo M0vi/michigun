@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>michigun.xyz</title>
-    <link rel="icon" href="aim.gif" type="image/gif">
+    <link rel="icon" href="m.png" type="image/gif">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -142,16 +142,16 @@
         <section class="card glass reveal">
             <h2><i class="fas fa-globe"></i> Globais</h2>
             <div class="feature-stack">
-                <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Hitbox Expander</strong><span>Aumento de hitbox inimiga</span></div></div>
+                <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong>Hitbox Expander</strong><span>Aumento de hitbox inimiga</span></div></div>
                 <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP Master</strong><span>Visualização através de paredes</span></div></div>
-                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Movement</strong><span>Speed, Noclip, Fly, Respawn</span></div></div>
-                <div class="feature-item"><i class="fas fa-child"></i><div><strong>Auto JJ's</strong><span>Polichinelos automáticos</span></div></div>
-                <div class="feature-item"><i class="fas fa-robot"></i><div><strong>Assistant</strong><span>Gerador e corretor de textos</span></div></div>
-                <div class="feature-item"><i class="fas fa-mountain"></i><div><strong>Auto Parkour</strong><span>Movimentação automática</span></div></div>
-                <div class="feature-item"><i class="fas fa-redo"></i><div><strong>Auto Volver's</strong><span>Giros automáticos</span></div></div>
-                <div class="feature-item"><i class="fas fa-cube"></i><div><strong>F3X Tool</strong><span>Edição de escalas</span></div></div>
-                <div class="feature-item"><i class="fas fa-user-shield"></i><div><strong>Chat Spy</strong><span>Monitoramento de mensagens</span></div></div>
-                <div class="feature-item"><i class="fas fa-comment-dots"></i><div><strong>Suggestions</strong><span>Feedback via Discord</span></div></div>
+                <div class="feature-item"><i class="fas fa-person-running"></i><div><strong>Movement</strong><span>Speed, Noclip, Fly, Respawn</span></div></div>
+                <div class="feature-item"><i class="fas fa-hand-fist"></i><div><strong>Auto JJ's</strong><span>Polichinelos automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-keyboard"></i><div><strong>Assistant</strong><span>Gerador e corretor de textos</span></div></div>
+                <div class="feature-item"><i class="fas fa-route"></i><div><strong>Auto Parkour</strong><span>Movimentação automática</span></div></div>
+                <div class="feature-item"><i class="fas fa-arrows-spin"></i><div><strong>Auto Volver's</strong><span>Giros automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-shapes"></i><div><strong>F3X Tool</strong><span>Edição de escalas</span></div></div>
+                <div class="feature-item"><i class="fas fa-user-secret"></i><div><strong>Chat Spy</strong><span>Monitoramento de mensagens</span></div></div>
+                <div class="feature-item"><i class="fas fa-bullhorn"></i><div><strong>Suggestions</strong><span>Feedback via Discord</span></div></div>
             </div>
         </section>
 
@@ -162,9 +162,9 @@
                 <button class="game-btn">Em breve...</button>
             </div>
             <div class="feature-stack">
-                <div class="feature-item"><i class="fas fa-skull-crossbones"></i><div><strong>Kill Aura</strong><span>Combate automático</span></div></div>
-                <div class="feature-item"><i class="fas fa-bolt"></i><div><strong>Gun Mods</strong><span>Armas modificadas</span></div></div>
-                <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Autofarm</strong><span>Farm de Banco automático</span></div></div>
+                <div class="feature-item"><i class="fas fa-skull"></i><div><strong>Kill Aura</strong><span>Combate automático</span></div></div>
+                <div class="feature-item"><i class="fas fa-fire-flame-curved"></i><div><strong>Gun Mods</strong><span>Armas modificadas</span></div></div>
+                <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm</strong><span>Farm de Banco automático</span></div></div>
             </div>
         </section>
     </div>
@@ -186,23 +186,17 @@
 
     const initAudio = () => {
         if(audioInited) return;
-        
         const oscillator = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
         const filter = audioCtx.createBiquadFilter();
-
         oscillator.type = 'sawtooth';
         oscillator.frequency.setValueAtTime(40, audioCtx.currentTime);
-        
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(200, audioCtx.currentTime);
-
         gainNode.gain.setValueAtTime(0.015, audioCtx.currentTime);
-
         oscillator.connect(filter);
         filter.connect(gainNode);
         gainNode.connect(audioCtx.destination);
-
         oscillator.start();
         audioInited = true;
     };
@@ -211,17 +205,13 @@
         initAudio();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        
         osc.type = 'sine';
         osc.frequency.setValueAtTime(800, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
-        
         gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        
         osc.start();
         osc.stop(audioCtx.currentTime + 0.1);
     };
@@ -264,11 +254,8 @@
         stars.forEach(s => {
             s.opacity += s.speed * s.dir;
             if(s.opacity >= 1 || s.opacity <= 0.1) s.dir *= -1;
-            
             ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity * 0.4})`;
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
         });
         requestAnimationFrame(animateStars);
     }
