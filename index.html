@@ -19,20 +19,21 @@
             --radius-sm: 18px;
         }
 
+        /* BARRA DE PROGRESSO */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
             width: 0%;
             height: 3px;
             background: linear-gradient(90deg, transparent, #fff);
-            z-index: 10000;
+            z-index: 10001;
         }
 
         @media (pointer: fine) {
             * { cursor: none !important; }
             #custom-cursor {
                 width: 22px; height: 22px;
-                position: fixed; pointer-events: none; z-index: 9999;
+                position: fixed; pointer-events: none; z-index: 10002;
                 mix-blend-mode: difference;
             }
             #custom-cursor::before, #custom-cursor::after {
@@ -60,29 +61,31 @@
             position: relative; z-index: 1;
         }
 
-        /* EFEITO TILT MELHORADO */
+        /* CORREÇÃO DO TILT E HOVER */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
             -webkit-backdrop-filter: blur(25px) saturate(160%) contrast(110%);
             border: 1px solid var(--border);
+            border-radius: var(--radius);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             transform-style: preserve-3d;
-            will-change: transform;
-            transition: transform 0.2s cubic-bezier(0.03, 0.98, 0.52, 0.99); /* Suaviza a volta do tilt */
+            transition: transform 0.1s ease-out; /* Resposta imediata ao mouse */
+            position: relative;
         }
 
         .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* SKELETON LOADING FIX */
+        /* SKELETON LOADING FIX (Sem interferir no clique) */
         .skeleton {
             background: linear-gradient(90deg, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%) !important;
             background-size: 200% 100% !important;
             animation: skeleton-pulse 1.5s infinite !important;
             border-radius: 4px;
             color: transparent !important;
-            pointer-events: none;
+            display: inline-block;
+            min-width: 50px;
         }
         @keyframes skeleton-pulse { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 
@@ -107,7 +110,7 @@
 
         @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
 
-        .card { border-radius: var(--radius); padding: 35px; height: 100%; }
+        .card { padding: 35px; }
 
         h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
 
@@ -116,13 +119,15 @@
         .feature-item {
             background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
             padding: 18px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 18px;
-            transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
         }
-        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(8px); }
-        .feature-item:hover i { transform: scale(1.3) rotate(10deg); color: #fff; }
-        .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; transition: 0.3s; }
-        .feature-item strong { display: block; font-size: 0.85rem; font-weight: 600; }
-        .feature-item span { font-size: 0.75rem; color: var(--text-muted); }
+        
+        /* CORREÇÃO DO HOVER NOS ITENS */
+        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(8px) translateZ(20px); }
+        .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; transition: 0.3s; pointer-events: none;}
+        .feature-item strong { display: block; font-size: 0.85rem; font-weight: 600; pointer-events: none;}
+        .feature-item span { font-size: 0.75rem; color: var(--text-muted); pointer-events: none;}
 
         .script-section { width: 100%; margin-top: 25px; }
         .script-area { background: rgba(0,0,0,0.8); padding: 25px; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-top: 10px; }
@@ -131,13 +136,14 @@
         .btn-copy {
             width: 100%; margin-top: 20px; padding: 20px; border-radius: var(--radius-sm);
             border: none; background: #fff; color: #000; font-weight: 800;
-            cursor: pointer; transition: 0.4s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
+            cursor: pointer; transition: 0.3s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
+            position: relative; z-index: 10;
         }
         .btn-copy:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(255,255,255,0.1); background: #eee; }
 
         .game-nav { display: flex; gap: 8px; margin-bottom: 25px; }
         .game-btn { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); 
             color: #444; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; transition: 0.3s;
         }
         .game-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.05); }
@@ -145,16 +151,16 @@
         #toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
             background: #fff; color: #000; padding: 12px 30px; border-radius: 10px;
-            font-weight: 800; opacity: 0; transition: 0.5s; z-index: 1000;
+            font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005;
             font-size: 0.75rem; text-transform: uppercase; pointer-events: none;
         }
 
-        /* BACK TO TOP FIX */
+        /* BOTÃO TOPO CORRIGIDO */
         #back-to-top {
             position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
             background: rgba(255,255,255,0.05); border: 1px solid var(--border);
             border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1000; text-decoration: none;
+            opacity: 0; visibility: hidden; transition: 0.4s; z-index: 10004; text-decoration: none;
         }
         #back-to-top.visible { opacity: 1; visibility: visible; }
         #back-to-top:hover { background: #fff; color: #000; transform: translateY(-5px); }
@@ -169,7 +175,9 @@
 <canvas id="bg-canvas"></canvas>
 <div id="toast">Copiado</div>
 
-<a href="javascript:window.scrollTo(0,0);" id="back-to-top"><i class="fas fa-chevron-up"></i></a>
+<a href="javascript:void(0)" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" id="back-to-top">
+    <i class="fas fa-chevron-up"></i>
+</a>
 
 <div class="container">
     <header class="hero reveal">
@@ -178,7 +186,7 @@
     </header>
 
     <div class="main-layout">
-        <section class="card glass reveal" id="card-globals">
+        <section class="card glass reveal">
             <h2 class="skeleton-target"><i class="fas fa-globe"></i> Globais</h2>
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong class="skeleton-target">Hitbox expander</strong><span class="skeleton-target">Permite alterar a hitbox dos inimigos</span></div></div>
@@ -193,7 +201,7 @@
             </div>
         </section>
 
-        <section class="card glass reveal" id="card-specifics">
+        <section class="card glass reveal">
             <h2 class="skeleton-target"><i class="fas fa-gamepad"></i> Específicos</h2>
             <div class="game-nav">
                 <button class="game-btn active">Tevez</button>
@@ -219,20 +227,20 @@
 </div>
 
 <script>
-    // FIX SKELETON: Adiciona classe apenas em targets específicos para não quebrar layout
+    // FIX SKELETON & REVEAL
     document.addEventListener("DOMContentLoaded", () => {
         const targets = document.querySelectorAll('.skeleton-target');
         targets.forEach(el => el.classList.add('skeleton'));
         
         setTimeout(() => {
             targets.forEach(el => el.classList.remove('skeleton'));
-            reveal(); 
+            document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
         }, 1200);
     });
 
-    // BARRA DE PROGRESSO & VOLTAR AO TOPO
+    // PROGRESS BAR & BACK TO TOP
     window.addEventListener('scroll', () => {
-        const winScroll = window.scrollY;
+        const winScroll = window.pageYOffset || document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - window.innerHeight;
         const scrolled = (winScroll / height) * 100;
         document.getElementById("progress-bar").style.width = scrolled + "%";
@@ -242,7 +250,7 @@
         else btt.classList.remove('visible');
     });
 
-    // TILT 3D MELHORADO (MAIS SENSÍVEL E SUAVE)
+    // TILT 3D CORRIGIDO (Calculado pelo centro do card)
     const cards = document.querySelectorAll('.glass');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
@@ -250,72 +258,50 @@
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             
-            const xRotation = -((y - rect.height / 2) / rect.height) * 15; // Max 15 deg
-            const yRotation = ((x - rect.width / 2) / rect.width) * 15;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
             
-            card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) scale3d(1.02, 1.02, 1.02)`;
+            const rotateX = -((y - centerY) / centerY) * 10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         });
 
         card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
         });
     });
 
-    // AUDIO & INTERAÇÃO
-    let audioInited = false;
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // COPIAR SCRIPT (Garantindo que o clique funcione)
+    const copyBtn = document.getElementById('copyBtn');
+    copyBtn.addEventListener('click', () => {
+        const scriptText = document.getElementById('scriptTxt').innerText;
+        navigator.clipboard.writeText(scriptText).then(() => {
+            playClick();
+            const t = document.getElementById('toast');
+            t.style.opacity = '1';
+            setTimeout(() => t.style.opacity = '0', 2000);
+        });
+    });
 
-    const initAudio = () => {
-        if(audioInited) return;
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.setValueAtTime(40, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
-        oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
-        oscillator.start(); audioInited = true;
-    };
-
-    const playClick = () => {
-        initAudio();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.08);
-        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.08);
-    };
-
+    // CURSOR E ESTRELAS
     const cursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', (e) => {
-        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
     });
-
-    const reveal = () => {
-        document.querySelectorAll('.reveal').forEach(el => {
-            if (el.getBoundingClientRect().top < window.innerHeight - 10) el.classList.add('active');
-        });
-    };
-    window.addEventListener('scroll', reveal);
 
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
-    
     function initStars() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         stars = Array.from({length: 150}, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 1.5,
-            opacity: Math.random(),
-            speed: Math.random() * 0.005 + 0.002,
-            dir: Math.random() > 0.5 ? 1 : -1
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            size: Math.random() * 1.5, opacity: Math.random(),
+            speed: Math.random() * 0.005 + 0.002, dir: Math.random() > 0.5 ? 1 : -1
         }));
     }
-
     function animateStars() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
         stars.forEach(s => {
@@ -326,22 +312,25 @@
         });
         requestAnimationFrame(animateStars);
     }
-    
     initStars(); animateStars();
     window.addEventListener('resize', initStars);
 
-    document.getElementById('copyBtn').addEventListener('click', () => {
-        playClick();
-        navigator.clipboard.writeText(document.getElementById('scriptTxt').innerText);
-        const t = document.getElementById('toast');
-        t.style.opacity = '1';
-        setTimeout(() => t.style.opacity = '0', 2000);
-    });
+    // ÁUDIO
+    let audioInited = false;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const initAudio = () => { if(!audioInited){audioInited=true; audioCtx.resume();}};
+    const playClick = () => {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+    };
 
-    document.querySelectorAll('.feature-item, .game-btn, .btn-copy').forEach(item => {
-        item.addEventListener('mousedown', playClick);
-    });
-
+    document.querySelectorAll('.game-btn').forEach(b => b.addEventListener('click', playClick));
     document.addEventListener("contextmenu", e => e.preventDefault());
 </script>
 </body>
