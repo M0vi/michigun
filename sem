@@ -2,23 +2,20 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>michigun.xyz</title>
-    
-    <link rel="icon" href="m.png" type="image/gif">
 
-    <meta property="og:title" content="michigun.xyz • @fp3" />
-    <meta property="og:description" content="Script feito para EB's." />
-    <meta property="og:url" content="https://www.michigun.xyz/" />
-    <meta property="og:image" content="https://www.michigun.xyz/m.png" />
-    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="michigun.xyz">
+    <meta property="og:title" content="michigun.xyz • @fp3">
+    <meta property="og:description" content="Script feito para EB's.">
+    <meta property="og:image" content="https://www.michigun.xyz/m.png">
+    <meta property="og:url" content="https://www.michigun.xyz/">
+    <meta property="og:type" content="website">
     <meta name="theme-color" content="#d1d1d1">
-    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="michigun.xyz">
-    <meta name="twitter:description" content="Script feito para EB's.">
-    <meta name="twitter:image" content="https://www.michigun.xyz/m.png">
 
+    <link rel="icon" href="m.png" type="image/gif">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -34,7 +31,7 @@
             --radius-sm: 18px;
         }
 
-        /* Barra de Progresso no Topo */
+        /* Barra de progresso superior */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
@@ -44,7 +41,7 @@
             z-index: 10001;
         }
 
-        /* Cursor Customizado */
+        /* Cursor customizado em 'X' */
         @media (pointer: fine) {
             * { cursor: none !important; }
             #custom-cursor {
@@ -77,7 +74,7 @@
             position: relative; z-index: 1;
         }
 
-        /* Glassmorphism e Tilt */
+        /* Efeito de Vidro e Inclinação 3D */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
@@ -93,7 +90,7 @@
         .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Skeleton Loading Effect */
+        /* Efeito Skeleton de carregamento */
         .skeleton {
             background: linear-gradient(90deg, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%) !important;
             background-size: 200% 100% !important;
@@ -109,7 +106,6 @@
         .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid var(--border); padding: 5px; filter: grayscale(1); }
         .hero h1 { font-size: 1.6rem; font-weight: 700; margin-top: 15px; letter-spacing: -1px; color: #fff; }
 
-        /* Status Online */
         .status-badge {
             display: inline-flex; align-items: center; gap: 6px; font-size: 0.65rem; color: #4ade80;
             background: rgba(74, 222, 128, 0.1); padding: 4px 10px; border-radius: 20px;
@@ -128,6 +124,7 @@
         @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
 
         .card { padding: 35px; }
+
         h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
 
         .feature-stack { display: flex; flex-direction: column; gap: 10px; }
@@ -144,7 +141,6 @@
         .feature-item strong { display: block; font-size: 0.85rem; font-weight: 600; pointer-events: none;}
         .feature-item span { font-size: 0.75rem; color: var(--text-muted); pointer-events: none;}
 
-        /* Área do Script */
         .script-section { width: 100%; margin-top: 25px; }
         .script-area { background: rgba(0,0,0,0.8); padding: 25px; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-top: 10px; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #777; word-break: break-all; }
@@ -152,7 +148,7 @@
         .btn-copy {
             width: 100%; margin-top: 20px; padding: 20px; border-radius: var(--radius-sm);
             border: none; background: #fff; color: #000; font-weight: 800;
-            cursor: pointer; transition: 0.3s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
+            cursor: pointer; transition: 0.4s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
             position: relative; z-index: 10;
         }
         .btn-copy:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(255,255,255,0.1); background: #eee; }
@@ -162,9 +158,8 @@
             background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); 
             color: #444; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; transition: 0.3s;
         }
-        .game-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.05); }
+        .game-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255, 255, 255, 0.05); }
 
-        /* Toast Popup */
         #toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
             background: #fff; color: #000; padding: 12px 30px; border-radius: 10px;
@@ -172,7 +167,6 @@
             font-size: 0.75rem; text-transform: uppercase; pointer-events: none;
         }
 
-        /* Botão Subir ao Topo */
         #back-to-top {
             position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
             background: rgba(255,255,255,0.05); border: 1px solid var(--border);
@@ -244,25 +238,30 @@
 </div>
 
 <script>
-// 1. ANTI-INSPECT BÁSICO
+/** * BLOQUEIOS ANTI-INSPECT 
+ */
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
+    // Bloqueia F12, Ctrl+Shift+I, Ctrl+Shift+J e Ctrl+U
     if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
         e.preventDefault();
     }
 });
 
-// 2. SKELETON LOADING & REVEAL
+/** * SKELETON LOADING & ANIMAÇÃO DE REVELAR 
+ */
 document.addEventListener("DOMContentLoaded", () => {
-    const t = document.querySelectorAll('.skeleton-target');
-    t.forEach(el => el.classList.add('skeleton'));
+    const targets = document.querySelectorAll('.skeleton-target');
+    targets.forEach(el => el.classList.add('skeleton'));
+    
     setTimeout(() => {
-        t.forEach(el => el.classList.remove('skeleton'));
+        targets.forEach(el => el.classList.remove('skeleton'));
         document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
     }, 1200);
 });
 
-// 3. BARRA DE PROGRESSO & BOTÃO TOPO
+/** * SCROLL: BARRA DE PROGRESSO & BOTÃO VOLTAR AO TOPO 
+ */
 window.addEventListener('scroll', () => {
     const s = window.pageYOffset || document.documentElement.scrollTop;
     const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -273,7 +272,8 @@ window.addEventListener('scroll', () => {
     else b.classList.remove('visible');
 });
 
-// 4. EFEITO TILT 3D
+/** * EFEITO TILT 3D NOS CARDS 
+ */
 document.querySelectorAll('.glass').forEach(card => {
     card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
@@ -288,30 +288,35 @@ document.querySelectorAll('.glass').forEach(card => {
     });
 });
 
-// 5. LÓGICA DE CÓPIA
+/** * LÓGICA DE CÓPIAR SCRIPT 
+ */
 document.getElementById('copyBtn').addEventListener('click', () => {
     const txt = document.getElementById('scriptTxt').innerText;
     navigator.clipboard.writeText(txt).then(() => {
-        playClick(); // Som ao copiar
+        playClick(); // Chama o som
         const toast = document.getElementById('toast');
         toast.style.opacity = '1';
         setTimeout(() => toast.style.opacity = '0', 2000);
     });
 });
 
-// 6. MOVIMENTAÇÃO DO CURSOR
+/** * CURSOR CUSTOMIZADO 
+ */
 const cur = document.getElementById('custom-cursor');
 document.addEventListener('mousemove', e => {
     cur.style.left = e.clientX + 'px';
     cur.style.top = e.clientY + 'px';
 });
 
-// 7. CANVAS DE ESTRELAS
+/** * FUNDO ESTRELADO ANIMADO (CANVAS) 
+ */
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
+
 function initStars() {
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth; 
+    canvas.height = window.innerHeight;
     stars = Array.from({length: 150}, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -321,6 +326,7 @@ function initStars() {
         dir: Math.random() > 0.5 ? 1 : -1
     }));
 }
+
 function animate() {
     ctx.clearRect(0,0,canvas.width, canvas.height);
     stars.forEach(s => {
@@ -331,13 +337,17 @@ function animate() {
     });
     requestAnimationFrame(animate);
 }
-initStars(); animate();
+
+initStars(); 
+animate();
 window.addEventListener('resize', initStars);
 
-// 8. GERENCIADOR DE ÁUDIO
+/** * GERENCIADOR DE ÁUDIO 
+ */
 let aI = false; 
 const aC = new (window.AudioContext || window.webkitAudioContext)();
-const playClick = () => {
+
+function playClick() {
     if(!aI){ aI=true; aC.resume(); }
     const o = aC.createOscillator(), g = aC.createGain();
     o.type = 'sine'; 
@@ -345,7 +355,7 @@ const playClick = () => {
     g.gain.setValueAtTime(0.05, aC.currentTime);
     o.connect(g); g.connect(aC.destination);
     o.start(); o.stop(aC.currentTime + 0.1);
-};
+}
 </script>
 </body>
 </html>
