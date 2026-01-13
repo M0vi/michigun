@@ -19,7 +19,6 @@
             --radius-sm: 18px;
         }
 
-        /* 2. BARRA DE PROGRESSO */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
@@ -61,7 +60,7 @@
             position: relative; z-index: 1;
         }
 
-        /* 4. TILT 3D E GLASS */
+        /* EFEITO TILT MELHORADO */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
@@ -69,19 +68,21 @@
             border: 1px solid var(--border);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             transform-style: preserve-3d;
-            perspective: 1000px;
+            will-change: transform;
+            transition: transform 0.2s cubic-bezier(0.03, 0.98, 0.52, 0.99); /* Suaviza a volta do tilt */
         }
 
         .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* 1. SKELETON LOADING */
+        /* SKELETON LOADING FIX */
         .skeleton {
-            background: linear-gradient(90deg, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-pulse 1.5s infinite;
+            background: linear-gradient(90deg, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%) !important;
+            background-size: 200% 100% !important;
+            animation: skeleton-pulse 1.5s infinite !important;
             border-radius: 4px;
             color: transparent !important;
+            pointer-events: none;
         }
         @keyframes skeleton-pulse { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 
@@ -89,39 +90,22 @@
         .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid var(--border); padding: 5px; filter: grayscale(1); }
         .hero h1 { font-size: 1.6rem; font-weight: 700; margin-top: 15px; letter-spacing: -1px; color: #fff; }
 
-        /* 5. STATUS ONLINE */
         .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.65rem;
-            color: #4ade80;
-            background: rgba(74, 222, 128, 0.1);
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-left: 10px;
-            vertical-align: middle;
-            font-weight: 800;
+            display: inline-flex; align-items: center; gap: 6px; font-size: 0.65rem; color: #4ade80;
+            background: rgba(74, 222, 128, 0.1); padding: 4px 10px; border-radius: 20px;
+            margin-left: 10px; vertical-align: middle; font-weight: 800;
         }
         .status-dot {
-            width: 6px; height: 6px;
-            background: #4ade80;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #4ade80;
-            animation: blink 1.5s infinite;
+            width: 6px; height: 6px; background: #4ade80; border-radius: 50%;
+            box-shadow: 0 0 8px #4ade80; animation: blink 1.5s infinite;
         }
         @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
 
         .main-layout {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
+            display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px;
         }
 
-        @media (max-width: 900px) {
-            .main-layout { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
 
         .card { border-radius: var(--radius); padding: 35px; height: 100%; }
 
@@ -130,34 +114,18 @@
         .feature-stack { display: flex; flex-direction: column; gap: 10px; }
         
         .feature-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            padding: 18px;
-            border-radius: var(--radius-sm);
-            display: flex; align-items: center; gap: 18px;
+            background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
+            padding: 18px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 18px;
             transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .feature-item:hover { 
-            background: rgba(255, 255, 255, 0.05); 
-            transform: translateX(8px); 
-            border-color: rgba(255,255,255,0.1); 
-        }
-
-        /* 3. HOVER ÍCONE DINÂMICO */
-        .feature-item:hover i {
-            transform: scale(1.3) rotate(10deg);
-            color: #fff;
-        }
+        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(8px); }
+        .feature-item:hover i { transform: scale(1.3) rotate(10deg); color: #fff; }
         .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; transition: 0.3s; }
-
         .feature-item strong { display: block; font-size: 0.85rem; font-weight: 600; }
         .feature-item span { font-size: 0.75rem; color: var(--text-muted); }
 
-        .script-section { width: 100%; }
-        .script-area { 
-            background: rgba(0,0,0,0.8); padding: 25px; border-radius: var(--radius-sm); 
-            border: 1px solid var(--border); margin-top: 10px;
-        }
+        .script-section { width: 100%; margin-top: 25px; }
+        .script-area { background: rgba(0,0,0,0.8); padding: 25px; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-top: 10px; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #777; word-break: break-all; }
         
         .btn-copy {
@@ -176,24 +144,17 @@
 
         #toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background: #fff; color: #000; padding: 12px 30px;
-            border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 1000;
+            background: #fff; color: #000; padding: 12px 30px; border-radius: 10px;
+            font-weight: 800; opacity: 0; transition: 0.5s; z-index: 1000;
             font-size: 0.75rem; text-transform: uppercase; pointer-events: none;
         }
 
-        /* 6. BOTÃO VOLTAR AO TOPO */
+        /* BACK TO TOP FIX */
         #back-to-top {
-            position: fixed;
-            bottom: 30px; right: 30px;
-            width: 45px; height: 45px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden;
-            transition: 0.4s;
-            z-index: 1000;
+            position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1000; text-decoration: none;
         }
         #back-to-top.visible { opacity: 1; visibility: visible; }
         #back-to-top:hover { background: #fff; color: #000; transform: translateY(-5px); }
@@ -208,48 +169,48 @@
 <canvas id="bg-canvas"></canvas>
 <div id="toast">Copiado</div>
 
-<a href="#" id="back-to-top"><i class="fas fa-chevron-up"></i></a>
+<a href="javascript:window.scrollTo(0,0);" id="back-to-top"><i class="fas fa-chevron-up"></i></a>
 
 <div class="container">
     <header class="hero reveal">
-        <img src="avatar.png" class="avatar" alt="fp3">
-        <h1>@fp3</h1>
+        <img src="avatar.png" class="avatar skeleton-target" alt="fp3">
+        <h1 class="skeleton-target">@fp3</h1>
     </header>
 
     <div class="main-layout">
         <section class="card glass reveal" id="card-globals">
-            <h2><i class="fas fa-globe"></i> Globais</h2>
+            <h2 class="skeleton-target"><i class="fas fa-globe"></i> Globais</h2>
             <div class="feature-stack">
-                <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong>Hitbox expander</strong><span>Permite alterar a hitbox dos inimigos</span></div></div>
-                <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP</strong><span>Ver inimigos através da parede</span></div></div>
-                <div class="feature-item"><i class="fas fa-person-running"></i><div><strong>Local</strong><span>Funções de modificação de personagem (Speed, noclip, etc.)</span></div></div>
-                <div class="feature-item"><i class="fas fa-wand-magic-sparkles"></i><div><strong>ChatGPT</strong><span>Gera e corrige textos de temas determinados</span></div></div>
-                <div class="feature-item"><i class="fas fa-microchip"></i><div><strong>Parkour (TAS)</strong><span>Permite fazer qualquer parkour automaticamente</span></div></div>
-                <div class="feature-item"><i class="fas fa-hand-fist"></i><div><strong>Auto JJ's</strong><span>Realiza polichinelos automaticamente</span></div></div>
-                <div class="feature-item"><i class="fas fa-arrows-spin"></i><div><strong>Auto volver's</strong><span>Realiza comandos volver's automaticamente</span></div></div>
-                <div class="feature-item"><i class="fas fa-shapes"></i><div><strong>F3X</strong><span>Altera o tamanho dos obstáculos, tornando-os mais fáceis</span></div></div>
-                <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong>Sugestões</strong><span>Envia sugestões ou avaliações de forma anônima</span></div></div>
+                <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong class="skeleton-target">Hitbox expander</strong><span class="skeleton-target">Permite alterar a hitbox dos inimigos</span></div></div>
+                <div class="feature-item"><i class="fas fa-eye"></i><div><strong class="skeleton-target">ESP</strong><span class="skeleton-target">Ver inimigos através da parede</span></div></div>
+                <div class="feature-item"><i class="fas fa-person-running"></i><div><strong class="skeleton-target">Local</strong><span class="skeleton-target">Modificação de personagem (Speed, noclip, etc.)</span></div></div>
+                <div class="feature-item"><i class="fas fa-wand-magic-sparkles"></i><div><strong class="skeleton-target">ChatGPT</strong><span class="skeleton-target">Gera e corrige textos automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-microchip"></i><div><strong class="skeleton-target">Parkour (TAS)</strong><span class="skeleton-target">Realiza parkour automaticamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-hand-fist"></i><div><strong class="skeleton-target">Auto JJ's</strong><span class="skeleton-target">Polichinelos automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-arrows-spin"></i><div><strong class="skeleton-target">Auto volver's</strong><span class="skeleton-target">Comandos volver's automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-shapes"></i><div><strong class="skeleton-target">F3X</strong><span class="skeleton-target">Altera o tamanho dos obstáculos</span></div></div>
+                <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong class="skeleton-target">Sugestões</strong><span class="skeleton-target">Feedback anônimo via Discord</span></div></div>
             </div>
         </section>
 
         <section class="card glass reveal" id="card-specifics">
-            <h2><i class="fas fa-gamepad"></i> Específicos</h2>
+            <h2 class="skeleton-target"><i class="fas fa-gamepad"></i> Específicos</h2>
             <div class="game-nav">
                 <button class="game-btn active">Tevez</button>
                 <button class="game-btn">Em breve...</button>
             </div>
             <div class="feature-stack">
-                <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Kill aura</strong><span>Mate todos os inimigos automaticamente</span></div></div>
-                <div class="feature-item"><i class="fas fa-fire-flame-curved"></i><div><strong>Mods</strong><span>Permite modificar armas e atributos</span></div></div>
-                <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm</strong><span>Rouba o banco inúmeras vezes automaticamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong class="skeleton-target">Kill aura</strong><span class="skeleton-target">Mate inimigos automaticamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-fire-flame-curved"></i><div><strong class="skeleton-target">Mods</strong><span class="skeleton-target">Modifica armas e atributos</span></div></div>
+                <div class="feature-item"><i class="fas fa-vault"></i><div><strong class="skeleton-target">Autofarm</strong><span class="skeleton-target">Rouba o banco automaticamente</span></div></div>
             </div>
         </section>
     </div>
 
     <section class="card glass reveal script-section" id="card-script">
-        <h2><i class="fas fa-terminal"></i> Script <div class="status-badge"><div class="status-dot"></div> ONLINE</div></h2>
+        <h2 class="skeleton-target"><i class="fas fa-terminal"></i> Script <div class="status-badge"><div class="status-dot"></div> ONLINE</div></h2>
         <div class="script-area">
-            <code id="scriptTxt">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
+            <code id="scriptTxt" class="skeleton-target">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
         </div>
         <button class="btn-copy" id="copyBtn">Copiar script</button>
     </section>
@@ -258,21 +219,21 @@
 </div>
 
 <script>
-    // 1. SKELETON LOADING LOGIC
+    // FIX SKELETON: Adiciona classe apenas em targets específicos para não quebrar layout
     document.addEventListener("DOMContentLoaded", () => {
-        const elements = document.querySelectorAll('strong, span, h1, h2, code, .avatar');
-        elements.forEach(el => el.classList.add('skeleton'));
+        const targets = document.querySelectorAll('.skeleton-target');
+        targets.forEach(el => el.classList.add('skeleton'));
         
         setTimeout(() => {
-            elements.forEach(el => el.classList.remove('skeleton'));
-            reveal(); // Ativa os cards após o carregamento
+            targets.forEach(el => el.classList.remove('skeleton'));
+            reveal(); 
         }, 1200);
     });
 
-    // 2. BARRA DE PROGRESSO & 6. VOLTAR AO TOPO
+    // BARRA DE PROGRESSO & VOLTAR AO TOPO
     window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const winScroll = window.scrollY;
+        const height = document.documentElement.scrollHeight - window.innerHeight;
         const scrolled = (winScroll / height) * 100;
         document.getElementById("progress-bar").style.width = scrolled + "%";
 
@@ -281,27 +242,26 @@
         else btt.classList.remove('visible');
     });
 
-    // 4. EFEITO TILT 3D
+    // TILT 3D MELHORADO (MAIS SENSÍVEL E SUAVE)
     const cards = document.querySelectorAll('.glass');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            
+            const xRotation = -((y - rect.height / 2) / rect.height) * 15; // Max 15 deg
+            const yRotation = ((x - rect.width / 2) / rect.width) * 15;
+            
+            card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) scale3d(1.02, 1.02, 1.02)`;
         });
 
         card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         });
     });
 
-    // Scripts de áudio, cursor e estrelas mantidos e otimizados
+    // AUDIO & INTERAÇÃO
     let audioInited = false;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -335,9 +295,10 @@
 
     const reveal = () => {
         document.querySelectorAll('.reveal').forEach(el => {
-            if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
+            if (el.getBoundingClientRect().top < window.innerHeight - 10) el.classList.add('active');
         });
-    }
+    };
+    window.addEventListener('scroll', reveal);
 
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
@@ -382,7 +343,6 @@
     });
 
     document.addEventListener("contextmenu", e => e.preventDefault());
-    window.addEventListener('mousedown', initAudio, {once: true});
 </script>
 </body>
 </html>
