@@ -10,9 +10,7 @@
         :root {
             --bg-body: #050505;
             --bg-card: rgba(18, 18, 18, 0.5);
-            /* Acento em tons de Cinza Moderno */
             --accent: #d1d1d1; 
-            --accent-glow: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
             --text-muted: #666666;
             --border: rgba(255, 255, 255, 0.04);
@@ -43,19 +41,15 @@
             font-family: 'Inter', system-ui, sans-serif; 
             margin: 0; 
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
         #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
         .container { 
-            max-width: 780px; margin: 80px auto; padding: 0 25px; 
+            max-width: 1100px; margin: 60px auto; padding: 0 25px; 
             position: relative; z-index: 1;
         }
 
-        /* Glassmorphism */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(150%);
@@ -66,67 +60,72 @@
         .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .hero { text-align: center; margin-bottom: 60px; }
-        .avatar {
-            width: 100px; height: 100px; border-radius: 50%;
-            border: 1px solid var(--border); padding: 6px;
-            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        .hero { text-align: center; margin-bottom: 50px; }
+        .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid var(--border); padding: 5px; }
+        .hero h1 { font-size: 1.6rem; font-weight: 500; margin-top: 15px; letter-spacing: -0.5px; }
+
+        /* Grid Layout Principal */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
         }
-        .hero:hover .avatar { transform: rotate(5deg) scale(1.05); border-color: var(--accent); }
 
-        .hero h1 { font-size: 1.8rem; font-weight: 500; letter-spacing: -0.5px; margin: 20px 0 0; }
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
 
-        .card { border-radius: var(--radius); padding: 40px; margin-bottom: 25px; }
+        .card { border-radius: var(--radius); padding: 35px; height: 100%; }
 
-        h2 { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
+        h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 3px; }
 
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-
+        /* Feature Lists */
+        .feature-stack { display: flex; flex-direction: column; gap: 10px; }
+        
         .feature-item {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
-            padding: 22px;
+            padding: 18px;
             border-radius: var(--radius-sm);
-            display: flex; align-items: center; gap: 20px;
+            display: flex; align-items: center; gap: 18px;
             transition: 0.3s ease;
         }
-        .feature-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: scale(1.01);
-        }
-        .feature-item i { color: var(--accent); font-size: 1.1rem; opacity: 0.8; }
-        .feature-item strong { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; }
-        .feature-item span { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(5px); }
+        .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; }
+        .feature-item strong { display: block; font-size: 0.85rem; font-weight: 500; }
+        .feature-item span { font-size: 0.75rem; color: var(--text-muted); }
 
+        /* Script Area at the Bottom */
+        .script-section { width: 100%; }
         .script-area { 
             background: #000; padding: 25px; border-radius: var(--radius-sm); 
             border: 1px solid var(--border); margin-top: 10px;
         }
-        code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #888; word-break: break-all; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #777; word-break: break-all; }
         
         .btn-copy {
             width: 100%; margin-top: 20px; padding: 20px; border-radius: var(--radius-sm);
-            border: 1px solid rgba(255,255,255,0.1); background: #fff; color: #000; font-weight: 700;
-            cursor: pointer; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
+            border: none; background: #fff; color: #000; font-weight: 700;
+            cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
         }
-        .btn-copy:hover { background: #e0e0e0; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .btn-copy:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.8); background: #f0f0f0; }
 
-        .game-nav { display: flex; gap: 10px; margin-bottom: 30px; }
+        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; }
         .game-btn { 
             background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-            color: #555; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 0.75rem;
+            color: #444; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 0.7rem;
         }
         .game-btn.active { border-color: var(--accent); color: var(--accent); }
 
         #toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
             background: #fff; color: #000; padding: 12px 30px;
-            border-radius: 12px; font-weight: 700; opacity: 0; transition: 0.5s; z-index: 1000;
-            font-size: 0.8rem; text-transform: uppercase;
+            border-radius: 10px; font-weight: 700; opacity: 0; transition: 0.5s; z-index: 1000;
+            font-size: 0.75rem; text-transform: uppercase;
         }
 
-        footer { text-align: center; padding: 80px 0; color: #333; font-size: 0.7rem; letter-spacing: 2px; }
+        footer { text-align: center; padding: 60px 0; color: #222; font-size: 0.7rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -141,70 +140,66 @@
         <h1>@fp3</h1>
     </header>
 
-    <section class="card glass reveal">
-        <h2><i class="fas fa-terminal"></i> Script</h2>
+    <div class="main-layout">
+        <section class="card glass reveal">
+            <h2><i class="fas fa-globe"></i> Funções Globais</h2>
+            <div class="feature-stack">
+                <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Hitbox Expander</strong><span>Aumento de hitbox inimiga</span></div></div>
+                <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP Master</strong><span>Visualização através de paredes</span></div></div>
+                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Movement</strong><span>Speed, Noclip, Fly, Respawn</span></div></div>
+                <div class="feature-item"><i class="fas fa-child"></i><div><strong>Auto JJ's</strong><span>Polichinelos automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-robot"></i><div><strong>Assistant</strong><span>Gerador e corretor de textos</span></div></div>
+                <div class="feature-item"><i class="fas fa-mountain"></i><div><strong>Auto Parkour</strong><span>Movimentação automática</span></div></div>
+                <div class="feature-item"><i class="fas fa-redo"></i><div><strong>Auto Volver's</strong><span>Giros automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-cube"></i><div><strong>F3X Tool</strong><span>Edição de escalas</span></div></div>
+                <div class="feature-item"><i class="fas fa-user-shield"></i><div><strong>Chat Spy</strong><span>Monitoramento de mensagens</span></div></div>
+                <div class="feature-item"><i class="fas fa-comment-dots"></i><div><strong>Suggestions</strong><span>Feedback via Discord</span></div></div>
+            </div>
+        </section>
+
+        <section class="card glass reveal">
+            <h2><i class="fas fa-gamepad"></i> Específicos</h2>
+            <div class="game-nav">
+                <button class="game-btn active">Tevez</button>
+                <button class="game-btn">Others</button>
+            </div>
+            <div class="feature-stack">
+                <div class="feature-item"><i class="fas fa-skull-crossbones"></i><div><strong>Kill Aura</strong><span>Combate automático</span></div></div>
+                <div class="feature-item"><i class="fas fa-bolt"></i><div><strong>Gun Mods</strong><span>Armas modificadas</span></div></div>
+                <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Autofarm</strong><span>Farm de Banco automático</span></div></div>
+            </div>
+        </section>
+    </div>
+
+    <section class="card glass reveal script-section">
+        <h2><i class="fas fa-terminal"></i> Get Script</h2>
         <div class="script-area">
             <code id="scriptTxt">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
         </div>
         <button class="btn-copy" id="copyBtn">Copiar script</button>
     </section>
 
-    <section class="card glass reveal">
-        <h2><i class="fas fa-globe"></i> Globais</h2>
-        <div class="feature-grid">
-            <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Hitbox Expander</strong><span>Inimigos mais fáceis de atingir</span></div></div>
-            <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP Master</strong><span>Veja através de qualquer parede</span></div></div>
-            <div class="feature-item"><i class="fas fa-running"></i><div><strong>Movement</strong><span>Speed, Noclip, Fly, Respawn</span></div></div>
-            <div class="feature-item"><i class="fas fa-child"></i><div><strong>Auto JJ's</strong><span>Polichinelos automatizados</span></div></div>
-            <div class="feature-item"><i class="fas fa-robot"></i><div><strong>Assistant</strong><span>Gerador e corretor de textos</span></div></div>
-            <div class="feature-item"><i class="fas fa-mountain"></i><div><strong>Auto Parkour</strong><span>Movimentação automática</span></div></div>
-            <div class="feature-item"><i class="fas fa-redo"></i><div><strong>Auto Volver's</strong><span>Giros automáticos ativados</span></div></div>
-            <div class="feature-item"><i class="fas fa-cube"></i><div><strong>F3X Tool</strong><span>Edite tamanhos e escalas</span></div></div>
-            <div class="feature-item"><i class="fas fa-user-shield"></i><div><strong>Chat Spy</strong><span>Monitore mensagens privadas</span></div></div>
-            <div class="feature-item"><i class="fas fa-comment-dots"></i><div><strong>Suggestions</strong><span>Feedback anônimo via Discord</span></div></div>
-        </div>
-    </section>
-
-    <section class="card glass reveal">
-        <h2><i class="fas fa-gamepad"></i> Específicos</h2>
-        <div class="game-nav">
-            <button class="game-btn active">Tevez</button>
-            <button class="game-btn">Em breve</button>
-        </div>
-        <div class="feature-grid">
-            <div class="feature-item"><i class="fas fa-skull-crossbones"></i><div><strong>Mods</strong><span>Kill Aura e Armas Modificadas</span></div></div>
-            <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Autofarm</strong><span>Farm de Banco automático</span></div></div>
-        </div>
-    </section>
-
     <footer>© 2026 MICHIGUN.XYZ</footer>
 </div>
 
 <script>
-    // Audio Context para sons modernos
     const playClick = () => {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+        oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
-        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.1);
     };
 
-    // Cursor
     const cursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+        cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
     });
 
-    // Reveal Animation
     const reveal = () => {
         document.querySelectorAll('.reveal').forEach(el => {
             if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
@@ -213,24 +208,20 @@
     window.addEventListener('scroll', reveal);
     window.addEventListener('load', reveal);
 
-    // Stars Background
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
     function init() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        pts = Array.from({length: 120}, () => ({
-            x: Math.random()*canvas.width, 
-            y: Math.random()*canvas.height,
-            size: Math.random()*1,
-            opacity: Math.random()
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        pts = Array.from({length: 80}, () => ({
+            x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+            size: Math.random()*1, opacity: Math.random()*0.3
         }));
     }
     function draw() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
         pts.forEach(p => {
-            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.3})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
             ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
         });
         requestAnimationFrame(draw);
@@ -238,7 +229,6 @@
     init(); draw();
     window.addEventListener('resize', init);
 
-    // Copy Tool + Sound
     document.getElementById('copyBtn').addEventListener('click', () => {
         playClick();
         navigator.clipboard.writeText(document.getElementById('scriptTxt').innerText);
@@ -247,7 +237,6 @@
         setTimeout(() => t.style.opacity = '0', 2000);
     });
 
-    // Som em todos os itens de função
     document.querySelectorAll('.feature-item, .game-btn').forEach(item => {
         item.addEventListener('mousedown', playClick);
     });
