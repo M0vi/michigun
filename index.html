@@ -19,7 +19,6 @@
             --radius-sm: 18px;
         }
 
-        /* BARRA DE PROGRESSO */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
@@ -61,7 +60,6 @@
             position: relative; z-index: 1;
         }
 
-        /* CORREÇÃO DO TILT E HOVER */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
@@ -70,14 +68,13 @@
             border-radius: var(--radius);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out; /* Resposta imediata ao mouse */
+            transition: transform 0.1s ease-out;
             position: relative;
         }
 
         .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* SKELETON LOADING FIX (Sem interferir no clique) */
         .skeleton {
             background: linear-gradient(90deg, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%) !important;
             background-size: 200% 100% !important;
@@ -123,7 +120,6 @@
             position: relative;
         }
         
-        /* CORREÇÃO DO HOVER NOS ITENS */
         .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(8px) translateZ(20px); }
         .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; transition: 0.3s; pointer-events: none;}
         .feature-item strong { display: block; font-size: 0.85rem; font-weight: 600; pointer-events: none;}
@@ -155,7 +151,6 @@
             font-size: 0.75rem; text-transform: uppercase; pointer-events: none;
         }
 
-        /* BOTÃO TOPO CORRIGIDO */
         #back-to-top {
             position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
             background: rgba(255,255,255,0.05); border: 1px solid var(--border);
@@ -195,7 +190,7 @@
                 <div class="feature-item"><i class="fas fa-wand-magic-sparkles"></i><div><strong class="skeleton-target">ChatGPT</strong><span class="skeleton-target">Gera e corrige textos automáticos</span></div></div>
                 <div class="feature-item"><i class="fas fa-microchip"></i><div><strong class="skeleton-target">Parkour (TAS)</strong><span class="skeleton-target">Realiza parkour automaticamente</span></div></div>
                 <div class="feature-item"><i class="fas fa-hand-fist"></i><div><strong class="skeleton-target">Auto JJ's</strong><span class="skeleton-target">Polichinelos automáticos</span></div></div>
-                <div class="feature-item"><i class="fas fa-arrows-spin"></i><div><strong class="skeleton-target">Auto volver's</strong><span class="skeleton-target">Comandos volver's automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-sync"></i><div><strong class="skeleton-target">Auto volver's</strong><span class="skeleton-target">Comandos volver's automáticos</span></div></div>
                 <div class="feature-item"><i class="fas fa-shapes"></i><div><strong class="skeleton-target">F3X</strong><span class="skeleton-target">Altera o tamanho dos obstáculos</span></div></div>
                 <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong class="skeleton-target">Sugestões</strong><span class="skeleton-target">Feedback anônimo via Discord</span></div></div>
             </div>
@@ -227,7 +222,6 @@
 </div>
 
 <script>
-    // FIX SKELETON & REVEAL
     document.addEventListener("DOMContentLoaded", () => {
         const targets = document.querySelectorAll('.skeleton-target');
         targets.forEach(el => el.classList.add('skeleton'));
@@ -238,7 +232,6 @@
         }, 1200);
     });
 
-    // PROGRESS BAR & BACK TO TOP
     window.addEventListener('scroll', () => {
         const winScroll = window.pageYOffset || document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - window.innerHeight;
@@ -250,7 +243,6 @@
         else btt.classList.remove('visible');
     });
 
-    // TILT 3D CORRIGIDO (Calculado pelo centro do card)
     const cards = document.querySelectorAll('.glass');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
@@ -272,7 +264,6 @@
         });
     });
 
-    // COPIAR SCRIPT (Garantindo que o clique funcione)
     const copyBtn = document.getElementById('copyBtn');
     copyBtn.addEventListener('click', () => {
         const scriptText = document.getElementById('scriptTxt').innerText;
@@ -284,7 +275,6 @@
         });
     });
 
-    // CURSOR E ESTRELAS
     const cursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
@@ -315,7 +305,6 @@
     initStars(); animateStars();
     window.addEventListener('resize', initStars);
 
-    // ÁUDIO
     let audioInited = false;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const initAudio = () => { if(!audioInited){audioInited=true; audioCtx.resume();}};
