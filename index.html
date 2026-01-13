@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@fp3</title>
+    <title>michigun.xyz</title>
     <link rel="icon" href="aim.gif" type="image/gif">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --bg-body: #050505;
-            --bg-card: rgba(18, 18, 18, 0.5);
+            --bg-body: #020202;
+            --bg-card: rgba(15, 15, 15, 0.4);
             --accent: #d1d1d1; 
             --text-main: #ffffff;
             --text-muted: #666666;
-            --border: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.06);
             --radius: 28px;
             --radius-sm: 18px;
         }
@@ -21,7 +21,7 @@
         @media (pointer: fine) {
             * { cursor: none !important; }
             #custom-cursor {
-                width: 20px; height: 20px;
+                width: 22px; height: 22px;
                 position: fixed; pointer-events: none; z-index: 9999;
                 mix-blend-mode: difference;
             }
@@ -50,21 +50,22 @@
             position: relative; z-index: 1;
         }
 
+        /* Glassmorphism Puro */
         .glass {
             background: var(--bg-card);
-            backdrop-filter: blur(25px) saturate(150%);
-            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            backdrop-filter: blur(25px) saturate(160%) contrast(110%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%) contrast(110%);
             border: 1px solid var(--border);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
 
         .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         .hero { text-align: center; margin-bottom: 50px; }
-        .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid var(--border); padding: 5px; }
-        .hero h1 { font-size: 1.6rem; font-weight: 500; margin-top: 15px; letter-spacing: -0.5px; }
+        .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid var(--border); padding: 5px; filter: grayscale(1); }
+        .hero h1 { font-size: 1.6rem; font-weight: 500; margin-top: 15px; letter-spacing: -0.5px; color: #fff; }
 
-        /* Grid Layout Principal */
         .main-layout {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
@@ -80,7 +81,6 @@
 
         h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 3px; }
 
-        /* Feature Lists */
         .feature-stack { display: flex; flex-direction: column; gap: 10px; }
         
         .feature-item {
@@ -89,17 +89,16 @@
             padding: 18px;
             border-radius: var(--radius-sm);
             display: flex; align-items: center; gap: 18px;
-            transition: 0.3s ease;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(5px); }
+        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(8px); border-color: rgba(255,255,255,0.1); }
         .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; }
         .feature-item strong { display: block; font-size: 0.85rem; font-weight: 500; }
         .feature-item span { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Script Area at the Bottom */
         .script-section { width: 100%; }
         .script-area { 
-            background: #000; padding: 25px; border-radius: var(--radius-sm); 
+            background: rgba(0,0,0,0.8); padding: 25px; border-radius: var(--radius-sm); 
             border: 1px solid var(--border); margin-top: 10px;
         }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #777; word-break: break-all; }
@@ -107,22 +106,22 @@
         .btn-copy {
             width: 100%; margin-top: 20px; padding: 20px; border-radius: var(--radius-sm);
             border: none; background: #fff; color: #000; font-weight: 700;
-            cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
+            cursor: pointer; transition: 0.4s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
         }
-        .btn-copy:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.8); background: #f0f0f0; }
+        .btn-copy:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0,0,0,0.9); background: #eee; }
 
         .game-nav { display: flex; gap: 8px; margin-bottom: 25px; }
         .game-btn { 
             background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-            color: #444; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 0.7rem;
+            color: #444; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 0.7rem; transition: 0.3s;
         }
-        .game-btn.active { border-color: var(--accent); color: var(--accent); }
+        .game-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.05); }
 
         #toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
             background: #fff; color: #000; padding: 12px 30px;
             border-radius: 10px; font-weight: 700; opacity: 0; transition: 0.5s; z-index: 1000;
-            font-size: 0.75rem; text-transform: uppercase;
+            font-size: 0.75rem; text-transform: uppercase; pointer-events: none;
         }
 
         footer { text-align: center; padding: 60px 0; color: #222; font-size: 0.7rem; letter-spacing: 2px; }
@@ -142,7 +141,7 @@
 
     <div class="main-layout">
         <section class="card glass reveal">
-            <h2><i class="fas fa-globe"></i> Funções Globais</h2>
+            <h2><i class="fas fa-globe"></i> Globais</h2>
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Hitbox Expander</strong><span>Aumento de hitbox inimiga</span></div></div>
                 <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP Master</strong><span>Visualização através de paredes</span></div></div>
@@ -161,7 +160,7 @@
             <h2><i class="fas fa-gamepad"></i> Específicos</h2>
             <div class="game-nav">
                 <button class="game-btn active">Tevez</button>
-                <button class="game-btn">Others</button>
+                <button class="game-btn">Em breve...</button>
             </div>
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-skull-crossbones"></i><div><strong>Kill Aura</strong><span>Combate automático</span></div></div>
@@ -172,7 +171,7 @@
     </div>
 
     <section class="card glass reveal script-section">
-        <h2><i class="fas fa-terminal"></i> Get Script</h2>
+        <h2><i class="fas fa-terminal"></i> Script</h2>
         <div class="script-area">
             <code id="scriptTxt">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
         </div>
@@ -183,16 +182,50 @@
 </div>
 
 <script>
-    const playClick = () => {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let audioInited = false;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const initAudio = () => {
+        if(audioInited) return;
+        
+        // Som ambiente (Deep Space Hum)
         const oscillator = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
-        oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.1);
-        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
-        oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.1);
+        const filter = audioCtx.createBiquadFilter();
+
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(40, audioCtx.currentTime);
+        
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(200, audioCtx.currentTime);
+
+        gainNode.gain.setValueAtTime(0.015, audioCtx.currentTime);
+
+        oscillator.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start();
+        audioInited = true;
+    };
+
+    const playClick = () => {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+        
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
     };
 
     const cursor = document.getElementById('custom-cursor');
@@ -210,24 +243,40 @@
 
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-    let pts = [];
-    function init() {
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        pts = Array.from({length: 80}, () => ({
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-            size: Math.random()*1, opacity: Math.random()*0.3
-        }));
+    let stars = [];
+    
+    function initStars() {
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight;
+        stars = [];
+        for(let i = 0; i < 150; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 1.5,
+                opacity: Math.random(),
+                speed: Math.random() * 0.005 + 0.002,
+                dir: Math.random() > 0.5 ? 1 : -1
+            });
+        }
     }
-    function draw() {
+
+    function animateStars() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        pts.forEach(p => {
-            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        stars.forEach(s => {
+            s.opacity += s.speed * s.dir;
+            if(s.opacity >= 1 || s.opacity <= 0.1) s.dir *= -1;
+            
+            ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity * 0.4})`;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            ctx.fill();
         });
-        requestAnimationFrame(draw);
+        requestAnimationFrame(animateStars);
     }
-    init(); draw();
-    window.addEventListener('resize', init);
+    
+    initStars(); animateStars();
+    window.addEventListener('resize', initStars);
 
     document.getElementById('copyBtn').addEventListener('click', () => {
         playClick();
@@ -242,6 +291,7 @@
     });
 
     document.addEventListener("contextmenu", e => e.preventDefault());
+    window.addEventListener('mousedown', initAudio, {once: true});
 </script>
 </body>
 </html>
