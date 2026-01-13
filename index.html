@@ -50,7 +50,6 @@
             position: relative; z-index: 1;
         }
 
-        /* Glassmorphism Puro */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
@@ -188,7 +187,6 @@
     const initAudio = () => {
         if(audioInited) return;
         
-        // Som ambiente (Deep Space Hum)
         const oscillator = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
         const filter = audioCtx.createBiquadFilter();
