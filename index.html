@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1200);
 });
 
-// SCROLL EVENTS
 window.addEventListener('scroll', () => {
     const s = window.pageYOffset || document.documentElement.scrollTop;
     const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -24,7 +23,6 @@ window.addEventListener('scroll', () => {
     if (s > 300) b.classList.add('visible'); else b.classList.remove('visible');
 });
 
-// TILT EFFECT
 document.querySelectorAll('.glass').forEach(card => {
     card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
@@ -36,7 +34,6 @@ document.querySelectorAll('.glass').forEach(card => {
     card.addEventListener('mouseleave', () => card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`);
 });
 
-// COPY LOGIC
 document.getElementById('copyBtn').addEventListener('click', () => {
     const txt = document.getElementById('scriptTxt').innerText;
     navigator.clipboard.writeText(txt).then(() => {
@@ -47,14 +44,12 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     });
 });
 
-// CURSOR
 const cur = document.getElementById('custom-cursor');
 document.addEventListener('mousemove', e => {
     cur.style.left = e.clientX + 'px';
     cur.style.top = e.clientY + 'px';
 });
 
-// STARS
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
@@ -79,7 +74,6 @@ function animate() {
 initStars(); animate();
 window.addEventListener('resize', initStars);
 
-// AUDIO
 let aI = false; const aC = new (window.AudioContext || window.webkitAudioContext)();
 const pC = () => {
     if(!aI){aI=true; aC.resume();}
