@@ -29,15 +29,15 @@
             --radius-sm: 18px;
         }
 
-        /* Ripple Effect */
+        /* Ripple Effect Ajustado */
         .ripple {
-            position: absolute;
+            position: fixed;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             transform: scale(0);
-            animation: ripple-animation 0.6s linear;
+            animation: ripple-animation 0.6s ease-out;
             pointer-events: none;
-            z-index: 10000;
+            z-index: 10005;
         }
         @keyframes ripple-animation {
             to { transform: scale(4); opacity: 0; }
@@ -64,20 +64,17 @@
             border-radius: var(--radius);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
             position: relative;
         }
 
         .hero { text-align: center; margin-bottom: 50px; }
-        .avatar { 
-            width: 90px; height: 90px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); 
-            padding: 5px; filter: grayscale(1); box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
-            transition: 0.5s ease;
-        }
+        .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); padding: 5px; filter: grayscale(1); box-shadow: 0 0 20px rgba(255, 255, 255, 0.15); }
 
         .main-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px; align-items: start; }
         @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
 
-        .card { padding: 35px; height: auto; }
+        .card { padding: 35px; }
         h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
 
         .feature-stack { display: flex; flex-direction: column; gap: 10px; }
@@ -85,12 +82,14 @@
             background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
             padding: 18px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 18px;
             transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative;
         }
-        .feature-item:hover { 
-            background: rgba(255, 255, 255, 0.08); 
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
-            transform: translateX(8px);
+        .feature-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateX(8px); }
+
+        /* Badge Seguro em Todas */
+        .antiban-badge {
+            font-size: 0.55rem; background: rgba(74, 222, 128, 0.1); color: #4ade80;
+            padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(74, 222, 128, 0.2);
+            text-transform: uppercase; font-weight: 800; display: inline-flex; align-items: center; gap: 3px; margin-top: 5px;
         }
 
         /* Tooltip */
@@ -98,39 +97,27 @@
         [data-tooltip] { position: relative; }
         [data-tooltip]::after {
             content: attr(data-tooltip);
-            position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
             background: #fff; color: #000; font-size: 0.65rem; font-weight: 700;
-            padding: 5px 10px; border-radius: 6px; white-space: nowrap;
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
             opacity: 0; visibility: hidden; transition: 0.3s; z-index: 100;
         }
         [data-tooltip]:hover::after { opacity: 1; visibility: visible; }
 
-        /* Anti-Ban Badge */
-        .antiban-badge {
-            font-size: 0.55rem; background: rgba(74, 222, 128, 0.1); color: #4ade80;
-            padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(74, 222, 128, 0.2);
-            text-transform: uppercase; font-weight: 800; display: inline-flex; align-items: center; gap: 3px;
-            margin-top: 4px;
-        }
-
         .game-nav { display: flex; gap: 8px; margin-bottom: 25px; }
         .game-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #666; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; cursor: pointer; transition: 0.3s; }
         .game-btn.active { border-color: var(--accent); color: #fff; background: rgba(255, 255, 255, 0.1); }
-        .tab-content { display: none; }
-        .tab-content.active { display: flex; flex-direction: column; }
+        .tab-content { display: none; flex-direction: column; gap: 10px; }
+        .tab-content.active { display: flex; }
 
-        .script-area { background: rgba(0,0,0,0.8); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .ui-image { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 20px; }
+
+        .script-area { background: rgba(0,0,0,0.8); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 15px; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #aaa; word-break: break-all; }
         
-        .copy-icon-btn {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; flex-shrink: 0;
-        }
+        .copy-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .copy-icon-btn.pulse { animation: icon-pulse 2s infinite; background: #fff; color: #000; }
-        @keyframes icon-pulse { 
-            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
+        @keyframes icon-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
 
         #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 12px 30px; border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005; pointer-events: none; }
     </style>
@@ -152,15 +139,15 @@
         <section class="card glass">
             <h2><i class="fas fa-globe"></i> Globais</h2>
             <div class="feature-stack">
-                <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong>Hitbox expander <i class="fas fa-info-circle info-icon" data-tooltip="Permite alterar a hitbox dos inimigos"></i></strong><br><span class="antiban-badge">Safe</span></div></div>
-                <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP <i class="fas fa-info-circle info-icon" data-tooltip="Ver inimigos através da parede"></i></strong><br><span class="antiban-badge">Verified</span></div></div>
-                <div class="feature-item"><i class="fas fa-user-gear"></i><div><strong>Local <i class="fas fa-info-circle info-icon" data-tooltip="Modificação de personagem (Speed, noclip, etc.)"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-robot"></i><div><strong>ChatGPT <i class="fas fa-info-circle info-icon" data-tooltip="Gera e corrige textos automáticos"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-route"></i><div><strong>Parkour (TAS) <i class="fas fa-info-circle info-icon" data-tooltip="Realiza parkour automaticamente"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Auto JJ's <i class="fas fa-info-circle info-icon" data-tooltip="Polichinelos automáticos"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-sync-alt"></i><div><strong>Auto volver's <i class="fas fa-info-circle info-icon" data-tooltip="Comandos volver's automáticos"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-tools"></i><div><strong>F3X <i class="fas fa-info-circle info-icon" data-tooltip="Altera o tamanho dos obstáculos"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong>Sugestões <i class="fas fa-info-circle info-icon" data-tooltip="Feedback anônimo via Discord"></i></strong></div></div>
+                <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong>Hitbox expander <i class="fas fa-info-circle info-icon" data-tooltip="Permite alterar a hitbox dos inimigos"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP <i class="fas fa-info-circle info-icon" data-tooltip="Ver inimigos através da parede"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-user-gear"></i><div><strong>Local <i class="fas fa-info-circle info-icon" data-tooltip="Modificação de personagem (Speed, noclip, etc.)"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-robot"></i><div><strong>ChatGPT <i class="fas fa-info-circle info-icon" data-tooltip="Gera e corrige textos automáticos"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-route"></i><div><strong>Parkour (TAS) <i class="fas fa-info-circle info-icon" data-tooltip="Realiza parkour automaticamente"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Auto JJ's <i class="fas fa-info-circle info-icon" data-tooltip="Polichinelos automáticos"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-sync-alt"></i><div><strong>Auto volver's <i class="fas fa-info-circle info-icon" data-tooltip="Comandos volver's automáticos"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-tools"></i><div><strong>F3X <i class="fas fa-info-circle info-icon" data-tooltip="Altera o tamanho dos obstáculos"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong>Sugestões <i class="fas fa-info-circle info-icon" data-tooltip="Feedback anônimo via Discord"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
         </section>
 
@@ -171,20 +158,21 @@
                 <button class="game-btn" onclick="switchTab(event, 'delta-tab')">Delta</button>
             </div>
             
-            <div id="tevez-tab" class="tab-content feature-stack active">
-                <div class="feature-item"><i class="fas fa-skull"></i><div><strong>Kill aura <i class="fas fa-info-circle info-icon" data-tooltip="Mate inimigos automaticamente"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-fire-alt"></i><div><strong>Mods <i class="fas fa-info-circle info-icon" data-tooltip="Modifica armas e atributos"></i></strong></div></div>
-                <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm <i class="fas fa-info-circle info-icon" data-tooltip="Rouba o banco automaticamente"></i></strong></div></div>
+            <div id="tevez-tab" class="tab-content active">
+                <div class="feature-item"><i class="fas fa-skull"></i><div><strong>Kill aura <i class="fas fa-info-circle info-icon" data-tooltip="Mate inimigos automaticamente"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-fire-alt"></i><div><strong>Mods <i class="fas fa-info-circle info-icon" data-tooltip="Modifica armas e atributos"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm <i class="fas fa-info-circle info-icon" data-tooltip="Rouba o banco automaticamente"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
 
-            <div id="delta-tab" class="tab-content feature-stack">
-                <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Dinheiro infinito <i class="fas fa-info-circle info-icon" data-tooltip="O máximo de dinheiro instantaneamente"></i></strong></div></div>
+            <div id="delta-tab" class="tab-content">
+                <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Dinheiro infinito <i class="fas fa-info-circle info-icon" data-tooltip="O máximo de dinheiro instantaneamente"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
         </section>
     </div>
 
     <section class="card glass">
         <h2><i class="fas fa-terminal"></i> Script</h2>
+        <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1460827984201252875/Screenshot_2026-01-13-23-48-20-191_com.roblox.client-edit.jpg?ex=69685594&is=69670414&hm=2dfd877adcaf758935315ab6856af6c0bfb9cdce81ad707114bd6718e6f94d2a&" class="ui-image" alt="Script UI">
         <div class="script-area">
             <code id="scriptTxt"></code>
             <button class="copy-icon-btn" id="copyBtn"><i class="fas fa-copy"></i></button>
@@ -193,84 +181,92 @@
 </div>
 
 <script>
-// FUNDO NEBULOSA
+// SOM AMBIENTE E CLIQUE
+const aC = new (window.AudioContext || window.webkitAudioContext)();
+let audioStarted = false;
+function startAmbient() {
+    if (audioStarted) return; audioStarted = true; aC.resume();
+    const bufferSize = 2 * aC.sampleRate, noiseBuffer = aC.createBuffer(1, bufferSize, aC.sampleRate), output = noiseBuffer.getChannelData(0);
+    let lastOut = 0;
+    for (let i = 0; i < bufferSize; i++) {
+        let white = Math.random() * 2 - 1;
+        output[i] = (lastOut + (0.02 * white)) / 1.02; lastOut = output[i]; output[i] *= 3.5;
+    }
+    const noise = aC.createBufferSource(); noise.buffer = noiseBuffer; noise.loop = true;
+    const gain = aC.createGain(); gain.gain.value = 0.015;
+    noise.connect(gain); gain.connect(aC.destination); noise.start();
+}
+function playClick() { startAmbient(); const o = aC.createOscillator(), g = aC.createGain(); o.type = 'triangle'; o.frequency.setValueAtTime(150, aC.currentTime); g.gain.setValueAtTime(0.05, aC.currentTime); o.connect(g); g.connect(aC.destination); o.start(); o.stop(aC.currentTime + 0.1); }
+
+// NEBULOSA
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
-
 function initStars() {
     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    stars = Array.from({length: 200}, () => ({
-        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-        size: Math.random() * 2, opacity: Math.random(), speed: Math.random() * 0.01, dir: 1
-    }));
+    stars = Array.from({length: 200}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2, opacity: Math.random(), speed: Math.random() * 0.01, dir: 1 }));
 }
-
 function animate() {
     let g = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width);
-    g.addColorStop(0, '#05000a'); g.addColorStop(0.5, '#020202'); g.addColorStop(1, '#000000');
+    g.addColorStop(0, '#05000a'); g.addColorStop(1, '#000000');
     ctx.fillStyle = g; ctx.fillRect(0,0,canvas.width,canvas.height);
-
     ctx.globalCompositeOperation = 'lighter';
-    ctx.fillStyle = 'rgba(50, 0, 100, 0.04)';
-    ctx.beginPath(); ctx.arc(canvas.width*0.2, canvas.height*0.3, 400, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(0, 50, 100, 0.03)';
-    ctx.beginPath(); ctx.arc(canvas.width*0.8, canvas.height*0.7, 300, 0, Math.PI*2); ctx.fill();
-    
+    ctx.fillStyle = 'rgba(60, 0, 120, 0.04)'; ctx.beginPath(); ctx.arc(canvas.width*0.3, canvas.height*0.4, 400, 0, Math.PI*2); ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
     stars.forEach(s => {
-        s.opacity += s.speed * s.dir;
-        if(s.opacity >= 1 || s.opacity <= 0.1) s.dir *= -1;
-        ctx.fillStyle = `rgba(255,255,255,${s.opacity * 0.6})`;
-        ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
+        s.opacity += s.speed * s.dir; if(s.opacity >= 1 || s.opacity <= 0.1) s.dir *= -1;
+        ctx.fillStyle = `rgba(255,255,255,${s.opacity * 0.5})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
     });
     requestAnimationFrame(animate);
 }
 initStars(); animate();
 
-// DIGITAÇÃO E PULSO
+// DIGITAÇÃO
 const scriptContent = 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()';
 const scriptElem = document.getElementById('scriptTxt');
 let charIdx = 0;
-
 function typeScript() {
-    if (charIdx < scriptContent.length) {
-        scriptElem.textContent += scriptContent.charAt(charIdx);
-        charIdx++;
-        setTimeout(typeScript, 30);
-    } else {
-        document.getElementById('copyBtn').classList.add('pulse');
-    }
+    if (charIdx < scriptContent.length) { scriptElem.textContent += scriptContent.charAt(charIdx); charIdx++; setTimeout(typeScript, 30); }
+    else { document.getElementById('copyBtn').classList.add('pulse'); }
 }
-setTimeout(typeScript, 1200);
+setTimeout(typeScript, 1500);
 
-// RIPPLE
+// RIPPLE AJUSTADO
 function createRipple(event) {
+    playClick();
     const circle = document.createElement("div");
     circle.classList.add("ripple");
     document.body.appendChild(circle);
-    const size = 100;
+    const size = 60;
     circle.style.width = circle.style.height = `${size}px`;
     circle.style.left = `${event.clientX - size/2}px`;
     circle.style.top = `${event.clientY - size/2}px`;
     setTimeout(() => circle.remove(), 600);
 }
 
-document.getElementById('copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(scriptContent).then(() => {
-        const t = document.getElementById('toast');
-        t.style.opacity = '1';
-        setTimeout(() => t.style.opacity = '0', 2000);
+// TILT (MEXER AO PASSAR O MOUSE)
+document.querySelectorAll('.glass').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const rx = -((e.clientY - r.top - r.height/2) / (r.height/2)) * 6;
+        const ry = ((e.clientX - r.left - r.width/2) / (r.width/2)) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     });
+    card.addEventListener('mouseleave', () => card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)');
 });
 
+// COPIAR E TABS
+document.getElementById('copyBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(scriptContent).then(() => {
+        const t = document.getElementById('toast'); t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2000);
+    });
+});
 function switchTab(evt, tabName) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(tabName).classList.add('active');
     evt.currentTarget.classList.add('active');
 }
-
 document.addEventListener('mousemove', e => {
     const cur = document.getElementById('custom-cursor');
     cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
