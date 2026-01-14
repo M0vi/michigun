@@ -183,7 +183,7 @@
         <h2><i class="fas fa-terminal"></i> Script <div class="status-badge"><div class="status-dot"></div> ONLINE</div></h2>
         
         <div class="custom-media-container">
-            <img src="https://via.placeholder.com/800x300/0a0a0a/ffffff?text=Sua+Imagem+Aqui" alt="Banner do Script">
+            <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1460824942059978875/20zXmdpUHQA-HD.jpg?ex=696852bf&is=6967013f&hm=ec27da5184703aef3dffaa4ed88ebf0d6676f4e2488ae274968f8662547b63cf&" alt="Banner do Script">
         </div>
 
         <div class="script-area">
@@ -196,7 +196,6 @@
 </div>
 
 <script>
-// Troca de Abas
 function switchTab(evt, tabName) {
     const contents = document.querySelectorAll('.tab-content');
     contents.forEach(c => c.classList.remove('active'));
@@ -207,7 +206,6 @@ function switchTab(evt, tabName) {
     playClick(440, 0.05);
 }
 
-// Fundo Animado e Estrelas
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
@@ -233,7 +231,6 @@ function animate() {
 }
 initStars(); animate();
 
-// Áudio Ambiente e Clique
 let audioStarted = false;
 const aC = new (window.AudioContext || window.webkitAudioContext)();
 function startAmbientSound() {
@@ -257,7 +254,6 @@ function playClick(freq = 150, duration = 0.2) {
     o.connect(g); g.connect(aC.destination); o.start(); o.stop(aC.currentTime + duration);
 }
 
-// Copiar Script
 document.getElementById('copyBtn').addEventListener('click', () => {
     const txt = document.getElementById('scriptTxt').innerText;
     navigator.clipboard.writeText(txt).then(() => {
@@ -268,7 +264,6 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     });
 });
 
-// Cursor e Reveal
 document.addEventListener('mousemove', e => {
     const cur = document.getElementById('custom-cursor');
     cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
@@ -277,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => { document.querySelectorAll('.reveal').forEach(el => el.classList.add('active')); }, 500);
 });
 
-// Tilt effect
 document.querySelectorAll('.glass').forEach(card => {
     card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
