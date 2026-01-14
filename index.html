@@ -45,8 +45,6 @@
             margin: 0; 
             overflow-x: hidden; 
             position: relative;
-            /* Improved touch behavior for mobile */
-            touch-action: manipulation;
         }
 
         #geometric-bg {
@@ -96,6 +94,17 @@
 
         #progress-bar-scroll { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, transparent, #fff); z-index: 10001; }
         
+        @media (pointer: fine) {
+            * { cursor: none !important; }
+            #custom-cursor { 
+                width: 22px; height: 22px; position: fixed; pointer-events: none; 
+                z-index: 99999; mix-blend-mode: difference; 
+            }
+            #custom-cursor::before, #custom-cursor::after { content: ''; position: absolute; background: #fff; top: 50%; left: 50%; }
+            #custom-cursor::before { width: 100%; height: 1.5px; transform: translate(-50%, -50%) rotate(45deg); }
+            #custom-cursor::after { width: 1.5px; height: 100%; transform: translate(-50%, -50%) rotate(45deg); }
+        }
+
         .container { max-width: 1000px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 1; }
 
         .glass {
@@ -103,16 +112,9 @@
             border: 1px solid var(--border); border-radius: var(--radius);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease;
-            position: relative; overflow: hidden; height: auto; 
-            touch-action: auto; 
+            position: relative; overflow: hidden; height: auto; touch-action: none;
         }
         .container:has(.glass:hover) .glass:not(:hover) { filter: blur(12px); opacity: 0.3; transform: scale(0.97); }
-        
-        /* Disable the focus/blur effect on mobile to prevent getting stuck */
-        @media (hover: none) {
-            .container:has(.glass:hover) .glass:not(:hover) { filter: none; opacity: 1; transform: none; }
-        }
-
         .glass::before {
             content: ""; position: absolute; inset: 0;
             background: radial-gradient(250px circle at var(--mouse-x) var(--mouse-y), rgba(var(--glow-color), 0.06), transparent 80%);
@@ -135,19 +137,12 @@
         .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); padding: 5px; filter: grayscale(1); box-shadow: 0 0 20px rgba(255, 255, 255, 0.15); }
         .hero h1 { font-size: 1.6rem; font-weight: 700; margin-top: 15px; color: #fff; }
 
-        .video-container { 
-            width: 100%; max-width: 800px; margin: 0 auto 50px; aspect-ratio: 16 / 9; 
-            position: relative;
-            z-index: 10;
-        }
-        .video-container iframe { 
-            width: 100%; height: 100%; border-radius: var(--radius-sm); 
-            border: 1px solid var(--border); 
-            display: block;
-        }
+        .video-container { width: 100%; max-width: 800px; margin: 0 auto 50px; aspect-ratio: 16 / 9; }
+        .video-container iframe { width: 100%; height: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); }
 
         .main-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px; align-items: start; }
-        
+        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
+
         .card { padding: 35px; z-index: 1; }
         h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; letter-spacing: 3px; font-weight: 700; position: relative; z-index: 5; }
 
@@ -162,11 +157,9 @@
         .antiban-badge { font-size: 0.55rem; background: rgba(74, 222, 128, 0.1); color: #4ade80; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(74, 222, 128, 0.2); text-transform: uppercase; font-weight: 800; display: inline-flex; align-items: center; gap: 3px; margin-top: 5px; }
         .info-icon { font-size: 0.8rem; opacity: 0.5; cursor: pointer; margin-left: 8px; }
 
-        /* Reverted buttons size */
-        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; position: relative; z-index: 5; flex-wrap: wrap; }
+        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; position: relative; z-index: 5; }
         .game-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #666; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; cursor: pointer; transition: 0.3s; }
         .game-btn.active { border-color: var(--accent); color: #fff; background: rgba(255, 255, 255, 0.1); }
-        
         .tab-content { display: none; flex-direction: column; gap: 10px; }
         .tab-content.active { display: flex; }
 
@@ -177,15 +170,14 @@
         .copy-icon-btn.pulse { animation: icon-pulse 2s infinite; background: #fff; color: #000; }
         @keyframes icon-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
 
-        #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 20000; opacity: 0; transition: 0.3s; padding: 20px; box-sizing: border-box; }
-        #modal-box { background: rgba(20, 20, 20, 0.9); border: 1px solid var(--border); padding: 40px; border-radius: var(--radius); max-width: 400px; width: 100%; text-align: center; transform: translateY(20px); transition: 0.4s; }
+        #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 20000; opacity: 0; transition: 0.3s; }
+        #modal-box { background: rgba(20, 20, 20, 0.9); border: 1px solid var(--border); padding: 40px; border-radius: var(--radius); max-width: 400px; width: 90%; text-align: center; transform: translateY(20px); transition: 0.4s; }
         #modal-overlay.active { display: flex; opacity: 1; }
         #modal-overlay.active #modal-box { transform: translateY(0); }
         .modal-btn { background: #fff; color: #000; padding: 12px 30px; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; font-size: 0.8rem; text-transform: uppercase; }
         #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 12px 30px; border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005; pointer-events: none; }
         
         .testimonials-section { padding: 80px 0 120px; display: flex; flex-direction: column; align-items: center; perspective: 1200px; }
-        /* Reverted Feedback Stack */
         .testimonial-stack { display: grid; grid-template-areas: "stack"; place-items: center; position: relative; width: 100%; max-width: 550px; margin-top: 60px; height: 350px; }
         
         .testimonial-card {
@@ -208,9 +200,8 @@
         .t-stars { color: #ffd700; font-size: 0.8rem; margin-bottom: 2px; }
         .t-footer { display: flex; justify-content: flex-start; align-items: center; margin-top: auto; color: #555; font-size: 0.7rem; font-weight: 600; }
         
-        /* UPDATED: Cards now have the same size (scale: 1) as requested */
-        .testimonial-card.t-card-0 { z-index: 10; transform: skewY(-8deg) translate(-80px, -60px) scale(1); opacity: 0.5; filter: brightness(0.6); }
-        .testimonial-card.t-card-1 { z-index: 20; transform: skewY(-8deg) translate(0px, 0px) scale(1); opacity: 0.8; }
+        .testimonial-card.t-card-0 { z-index: 10; transform: skewY(-8deg) translate(-80px, -60px) scale(0.9); opacity: 0.5; filter: brightness(0.6); }
+        .testimonial-card.t-card-1 { z-index: 20; transform: skewY(-8deg) translate(0px, 0px) scale(0.95); opacity: 0.8; }
         .testimonial-card.t-card-2 { z-index: 30; transform: skewY(-8deg) translate(80px, 60px) scale(1); }
 
         .testimonial-stack:hover .testimonial-card:not(:hover) { opacity: 0.4; filter: blur(2px) grayscale(0.5); }
@@ -222,34 +213,9 @@
         }
 
         footer { text-align: center; padding: 60px 0; color: #222; font-size: 0.7rem; letter-spacing: 2px; }
-
-        /* --- MOBILE & RESPONSIVE CSS --- */
-        @media (max-width: 900px) { 
-            .main-layout { grid-template-columns: 1fr; } 
-            .shape-1, .shape-2 { opacity: 0.5; }
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 0 15px; margin-top: 30px; }
-            .card { padding: 25px 20px; }
-            h1 { font-size: 1.3rem; }
-            h2 { font-size: 0.75rem; margin-bottom: 20px; }
-            
-            .feature-item { padding: 15px; gap: 12px; font-size: 0.9rem; }
-            .script-area { flex-direction: column; align-items: stretch; }
-            .copy-icon-btn { width: 100%; display: flex; justify-content: center; }
-            
-            /* RESTORED: Removed the scaling reduction to fix feedback card size issue */
-            /* .testimonial-stack { transform: scale(0.85); margin-top: 20px; } */
-        }
     </style>
 </head>
 <body onclick="handleGlobalClick(event)">
-
-<!-- Hidden Audio Player -->
-<audio id="bg-music" loop>
-    <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/e/eb/Tchaikovsky_-_Waltz_of_the_Flowers.ogg/Tchaikovsky_-_Waltz_of_the_Flowers.ogg.mp3" type="audio/mpeg">
-</audio>
 
 <div id="geometric-bg">
     <div class="bg-gradient-overlay"></div>
@@ -261,6 +227,7 @@
 </div>
 
 <div id="progress-bar-scroll"></div>
+<div id="custom-cursor"></div>
 <div id="toast">COPIADO</div>
 
 <div id="modal-overlay" onclick="closeModal()">
@@ -273,7 +240,7 @@
 
 <div class="container">
     <header class="hero reveal">
-        <img src="avatar.png" class="avatar" alt="fp3" onerror="this.src='https://ui-avatars.com/api/?name=F+P&background=random&color=fff'">
+        <img src="avatar.png" class="avatar" alt="fp3">
         <h1>@fp3 | 17</h1>
     </header>
 
@@ -318,7 +285,7 @@
 
     <section class="card glass reveal">
         <h2>SCRIPT</h2>
-        <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1460827984201252875/Screenshot_2026-01-13-23-48-20-191_com.roblox.client-edit.jpg?ex=69685594&is=69670414&hm=2dfd877adcaf758935315ab6856af6c0bfb9cdce81ad707114bd6718e6f94d2a&" class="ui-image" alt="Script UI" onerror="this.style.display='none'">
+        <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1460827984201252875/Screenshot_2026-01-13-23-48-20-191_com.roblox.client-edit.jpg?ex=69685594&is=69670414&hm=2dfd877adcaf758935315ab6856af6c0bfb9cdce81ad707114bd6718e6f94d2a&" class="ui-image" alt="Script UI">
         <div class="script-area">
             <code id="scriptTxt"></code>
             <button class="copy-icon-btn" id="copyBtn"><i class="fas fa-copy"></i></button>
@@ -334,16 +301,7 @@
 </div>
 
 <script>
-// Check if user is on mobile
-const isMobile = window.innerWidth <= 768;
-
-// Initialize Lenis for smooth scrolling, but configure it better for mobile touch
-const lenis = new Lenis({ 
-    duration: 1.2, 
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-    smooth: true,
-    touchMultiplier: 2 
-});
+const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
 function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
@@ -359,14 +317,22 @@ function openModal(title, text) {
 }
 function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
 
-function handleGlobalClick(event) {
-    // Attempt to play music
-    const audio = document.getElementById('bg-music');
-    if (audio.paused) {
-        audio.volume = 0.2; // Keep volume low
-        audio.play().catch(e => console.log("Audio autoplay prevented"));
+const aC = new (window.AudioContext || window.webkitAudioContext)();
+let audioStarted = false;
+function startAmbient() {
+    if (audioStarted) return; audioStarted = true; aC.resume();
+    const bS = 2 * aC.sampleRate, nB = aC.createBuffer(1, bS, aC.sampleRate), out = nB.getChannelData(0);
+    let lO = 0;
+    for (let i = 0; i < bS; i++) {
+        let w = Math.random() * 2 - 1;
+        out[i] = (lO + (0.02 * w)) / 1.02; lO = out[i]; out[i] *= 3.5;
     }
-
+    const noise = aC.createBufferSource(); noise.buffer = nB; noise.loop = true;
+    const gain = aC.createGain(); gain.gain.value = 0.015;
+    noise.connect(gain); gain.connect(aC.destination); noise.start();
+}
+function handleGlobalClick(event) {
+    startAmbient();
     const circle = document.createElement("div");
     circle.classList.add("ripple");
     document.body.appendChild(circle);
@@ -378,7 +344,6 @@ function handleGlobalClick(event) {
 }
 
 function syncPointer(e) {
-    // Re-enabled glass effect tracking on mobile since user requested the "glow" back
     document.querySelectorAll('.glass').forEach(card => {
         const rect = card.getBoundingClientRect();
         card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
@@ -386,12 +351,6 @@ function syncPointer(e) {
     });
 }
 document.addEventListener('pointermove', syncPointer);
-document.addEventListener('touchmove', (e) => {
-    if(e.touches.length > 0) {
-        syncPointer({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
-    }
-}, { passive: true });
-
 
 const scriptContent = 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()';
 const scriptElem = document.getElementById('scriptTxt');
@@ -413,7 +372,10 @@ function switchTab(evt, tabName) {
     document.getElementById(tabName).classList.add('active');
     evt.currentTarget.classList.add('active');
 }
-
+document.addEventListener('mousemove', e => {
+    const cur = document.getElementById('custom-cursor');
+    if(cur) { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; }
+});
 window.addEventListener('scroll', () => {
     const s = window.pageYOffset || document.documentElement.scrollTop;
     const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -448,34 +410,30 @@ function renderTestimonials() {
     const container = document.getElementById('testimonialStack');
     container.innerHTML = '';
     
-    // Always render stack view
     reviewsData.forEach((review, index) => {
         const card = document.createElement('div');
         card.className = `testimonial-card t-card-${index}`;
-        card.innerHTML = getCardHTML(review);
+        card.innerHTML = `
+            <div class="t-header">
+                <div class="t-avatar"><img src="${review.avatar}" alt="${review.name}"></div>
+                <div class="t-info">
+                    <div class="t-name">${review.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" /></svg></div>
+                    <span class="t-handle">${review.handle}</span>
+                </div>
+            </div>
+            <div class="t-stars">⭐⭐⭐⭐⭐</div>
+            <p class="t-content">${review.text}</p>
+            <div class="t-footer">
+                <span>${review.date}</span>
+            </div>
+        `;
+        
         card.addEventListener('mouseenter', () => container.setAttribute('data-hovered', index));
         container.appendChild(card);
     });
+
     container.addEventListener('mouseleave', () => container.removeAttribute('data-hovered'));
 }
-
-function getCardHTML(review) {
-    return `
-        <div class="t-header">
-            <div class="t-avatar"><img src="${review.avatar}" alt="${review.name}" onerror="this.src='https://ui-avatars.com/api/?name=${review.name.charAt(0)}&background=333&color=fff'"></div>
-            <div class="t-info">
-                <div class="t-name">${review.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" /></svg></div>
-                <span class="t-handle">${review.handle}</span>
-            </div>
-        </div>
-        <div class="t-stars">⭐⭐⭐⭐⭐</div>
-        <p class="t-content">${review.text}</p>
-        <div class="t-footer">
-            <span>${review.date}</span>
-        </div>
-    `;
-}
-
 renderTestimonials();
 </script>
 </body>
