@@ -30,47 +30,22 @@
             --radius-sm: 18px;
         }
 
-        #progress-bar {
-            position: fixed;
-            top: 0; left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #fff);
-            z-index: 10001;
-        }
-
+        /* Cursor e Progresso */
+        #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, transparent, #fff); z-index: 10001; }
         @media (pointer: fine) {
             * { cursor: none !important; }
-            #custom-cursor {
-                width: 22px; height: 22px;
-                position: fixed; pointer-events: none; z-index: 10002;
-                mix-blend-mode: difference;
-            }
-            #custom-cursor::before, #custom-cursor::after {
-                content: ''; position: absolute; background: #fff;
-                top: 50%; left: 50%;
-            }
+            #custom-cursor { width: 22px; height: 22px; position: fixed; pointer-events: none; z-index: 10002; mix-blend-mode: difference; }
+            #custom-cursor::before, #custom-cursor::after { content: ''; position: absolute; background: #fff; top: 50%; left: 50%; }
             #custom-cursor::before { width: 100%; height: 1.5px; transform: translate(-50%, -50%) rotate(45deg); }
             #custom-cursor::after { width: 1.5px; height: 100%; transform: translate(-50%, -50%) rotate(45deg); }
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
-        
-        body { 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            margin: 0; 
-            overflow-x: hidden;
-        }
-
+        body { background-color: var(--bg-body); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; overflow-x: hidden; }
         #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        .container { max-width: 1100px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 1; }
 
-        .container { 
-            max-width: 1100px; margin: 60px auto; padding: 0 25px; 
-            position: relative; z-index: 1;
-        }
-
+        /* Cards e Efeitos */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
@@ -82,121 +57,78 @@
             transition: transform 0.1s ease-out;
             position: relative;
         }
-
         .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .skeleton {
-            background: linear-gradient(90deg, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%) !important;
-            background-size: 200% 100% !important;
-            animation: skeleton-pulse 1.5s infinite !important;
-            border-radius: 4px;
-            color: transparent !important;
-            display: inline-block;
-            min-width: 50px;
-        }
-        @keyframes skeleton-pulse { from { background-position: 200% 0; } to { background-position: -200% 0; } }
-
         .hero { text-align: center; margin-bottom: 50px; }
-        
-        /* Glow branco leve no avatar */
         .avatar { 
-            width: 90px; 
-            height: 90px; 
-            border-radius: 50%; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            padding: 5px; 
-            filter: grayscale(1); 
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+            width: 90px; height: 90px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); 
+            padding: 5px; filter: grayscale(1); box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
             transition: 0.5s ease;
         }
-        .avatar:hover {
-            filter: grayscale(0);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-        }
-
         .hero h1 { font-size: 1.6rem; font-weight: 700; margin-top: 15px; letter-spacing: -1px; color: #fff; }
 
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 6px; font-size: 0.65rem; color: #4ade80;
-            background: rgba(74, 222, 128, 0.1); padding: 4px 10px; border-radius: 20px;
-            margin-left: 10px; vertical-align: middle; font-weight: 800;
-        }
-        .status-dot {
-            width: 6px; height: 6px; background: #4ade80; border-radius: 50%;
-            box-shadow: 0 0 8px #4ade80; animation: blink 1.5s infinite;
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
-
-        .main-layout {
-            display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px;
-        }
-
+        /* Grid Layout */
+        .main-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px; }
         @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
 
         .card { padding: 35px; }
         h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; }
 
         .feature-stack { display: flex; flex-direction: column; gap: 10px; }
-        
         .feature-item {
             background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
             padding: 18px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 18px;
             transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative;
         }
-        
-        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(8px) translateZ(20px); }
-        .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; transition: 0.3s; pointer-events: none;}
-        .feature-item strong { display: block; font-size: 0.85rem; font-weight: 600; pointer-events: none;}
-        .feature-item span { font-size: 0.75rem; color: var(--text-muted); pointer-events: none;}
+        .feature-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateX(8px); }
+        .feature-item i { color: var(--accent); font-size: 1rem; opacity: 0.7; width: 20px; text-align: center; }
+        .feature-item strong { display: block; font-size: 0.85rem; font-weight: 600; }
+        .feature-item span { font-size: 0.75rem; color: var(--text-muted); }
 
+        /* Abas */
         .game-nav { display: flex; gap: 8px; margin-bottom: 25px; }
         .game-btn { 
             background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); 
-            color: #666; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; transition: 0.3s;
-            cursor: pointer;
+            color: #666; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; cursor: pointer; transition: 0.3s;
         }
-        .game-btn.active { 
-            border-color: var(--accent); 
-            color: #fff; 
-            background: rgba(255, 255, 255, 0.1); 
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        .game-btn.active { border-color: var(--accent); color: #fff; background: rgba(255, 255, 255, 0.1); }
+        .tab-content { display: none; }
+        .tab-content.active { display: flex; }
+
+        /* Área da Imagem Customizada (Novidade) */
+        .custom-media-container {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            line-height: 0;
+        }
+        .custom-media-container img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            max-height: 300px; /* Ajuste conforme necessário */
         }
 
+        /* Script Section */
         .script-section { width: 100%; margin-top: 25px; }
         .script-area { background: rgba(0,0,0,0.8); padding: 25px; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-top: 10px; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #777; word-break: break-all; }
-        
         .btn-copy {
             width: 100%; margin-top: 20px; padding: 20px; border-radius: var(--radius-sm);
             border: none; background: #fff; color: #000; font-weight: 800;
             cursor: pointer; transition: 0.4s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
-            position: relative; z-index: 10;
-        }
-        .btn-copy:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(255,255,255,0.1); background: #eee; }
-
-        #toast {
-            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background: #fff; color: #000; padding: 12px 30px; border-radius: 10px;
-            font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005;
-            font-size: 0.75rem; text-transform: uppercase; pointer-events: none;
         }
 
-        #back-to-top {
-            position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transition: 0.4s; z-index: 10004; text-decoration: none;
-        }
-        #back-to-top.visible { opacity: 1; visibility: visible; }
-        #back-to-top:hover { background: #fff; color: #000; transform: translateY(-5px); }
+        /* Status & Toast */
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.65rem; color: #4ade80; background: rgba(74, 222, 128, 0.1); padding: 4px 10px; border-radius: 20px; font-weight: 800; margin-left: 10px; }
+        .status-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 12px 30px; border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005; font-size: 0.75rem; }
 
         footer { text-align: center; padding: 60px 0; color: #222; font-size: 0.7rem; letter-spacing: 2px; }
-        
-        /* Ocultar conteúdo de abas inativas */
-        .tab-content { display: none; }
-        .tab-content.active { display: flex; }
     </style>
 </head>
 <body>
@@ -206,51 +138,56 @@
 <canvas id="bg-canvas"></canvas>
 <div id="toast">Copiado</div>
 
-<a href="javascript:void(0)" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" id="back-to-top">
-    <i class="fas fa-chevron-up"></i>
-</a>
-
 <div class="container">
     <header class="hero reveal">
-        <img src="avatar.png" class="avatar skeleton-target" alt="fp3">
-        <h1 class="skeleton-target">@fp3 | 17</h1>
+        <img src="avatar.png" class="avatar" alt="fp3">
+        <h1>@fp3 | 17</h1>
     </header>
 
     <div class="main-layout">
         <section class="card glass reveal">
-            <h2 class="skeleton-target"><i class="fas fa-globe"></i> Globais</h2>
+            <h2><i class="fas fa-globe"></i> Globais</h2>
             <div class="feature-stack">
-                <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong class="skeleton-target">Hitbox expander</strong><span class="skeleton-target">Permite alterar a hitbox dos inimigos</span></div></div>
-                <div class="feature-item"><i class="fas fa-eye"></i><div><strong class="skeleton-target">ESP</strong><span class="skeleton-target">Ver inimigos através da parede</span></div></div>
-                <div class="feature-item"><i class="fas fa-user-gear"></i><div><strong class="skeleton-target">Local</strong><span class="skeleton-target">Modificação de personagem (Speed, noclip, etc.)</span></div></div>
-                <div class="feature-item"><i class="fas fa-robot"></i><div><strong class="skeleton-target">ChatGPT</strong><span class="skeleton-target">Gera e corrige textos automáticos</span></div></div>
-                <div class="feature-item"><i class="fas fa-route"></i><div><strong class="skeleton-target">Parkour (TAS)</strong><span class="skeleton-target">Realiza parkour automaticamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong>Hitbox expander</strong><span>Permite alterar a hitbox dos inimigos</span></div></div>
+                <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP</strong><span>Ver inimigos através da parede</span></div></div>
+                <div class="feature-item"><i class="fas fa-user-gear"></i><div><strong>Local</strong><span>Modificação de personagem (Speed, noclip, etc.)</span></div></div>
+                <div class="feature-item"><i class="fas fa-robot"></i><div><strong>ChatGPT</strong><span>Gera e corrige textos automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-route"></i><div><strong>Parkour (TAS)</strong><span>Realiza parkour automaticamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Auto JJ's</strong><span>Polichinelos automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-sync-alt"></i><div><strong>Auto volver's</strong><span>Comandos volver's automáticos</span></div></div>
+                <div class="feature-item"><i class="fas fa-tools"></i><div><strong>F3X</strong><span>Altera o tamanho dos obstáculos</span></div></div>
+                <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong>Sugestões</strong><span>Feedback anônimo via Discord</span></div></div>
             </div>
         </section>
 
         <section class="card glass reveal">
-            <h2 class="skeleton-target"><i class="fas fa-gamepad"></i> Específicos</h2>
+            <h2><i class="fas fa-gamepad"></i> Específicos</h2>
             <div class="game-nav">
                 <button class="game-btn active" onclick="switchTab(event, 'tevez-tab')">Tevez</button>
                 <button class="game-btn" onclick="switchTab(event, 'delta-tab')">Delta</button>
             </div>
             
             <div id="tevez-tab" class="tab-content feature-stack active">
-                <div class="feature-item"><i class="fas fa-skull"></i><div><strong class="skeleton-target">Kill aura</strong><span class="skeleton-target">Mate inimigos automaticamente</span></div></div>
-                <div class="feature-item"><i class="fas fa-fire-alt"></i><div><strong class="skeleton-target">Mods</strong><span class="skeleton-target">Modifica armas e atributos</span></div></div>
-                <div class="feature-item"><i class="fas fa-vault"></i><div><strong class="skeleton-target">Autofarm</strong><span class="skeleton-target">Rouba o banco automaticamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-skull"></i><div><strong>Kill aura</strong><span>Mate inimigos automaticamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-fire-alt"></i><div><strong>Mods</strong><span>Modifica armas e atributos</span></div></div>
+                <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm</strong><span>Rouba o banco automaticamente</span></div></div>
             </div>
 
             <div id="delta-tab" class="tab-content feature-stack">
-                <div class="feature-item"><i class="fas fa-coins"></i><div><strong class="skeleton-target">Dinheiro infinito</strong><span class="skeleton-target">O máximo de dinheiro instantaneamente</span></div></div>
+                <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Dinheiro infinito</strong><span>O máximo de dinheiro instantaneamente</span></div></div>
             </div>
         </section>
     </div>
 
-    <section class="card glass reveal script-section" id="card-script">
-        <h2 class="skeleton-target"><i class="fas fa-terminal"></i> Script <div class="status-badge"><div class="status-dot"></div> ONLINE</div></h2>
+    <section class="card glass reveal script-section">
+        <h2><i class="fas fa-terminal"></i> Script <div class="status-badge"><div class="status-dot"></div> ONLINE</div></h2>
+        
+        <div class="custom-media-container">
+            <img src="https://via.placeholder.com/800x300/0a0a0a/ffffff?text=Sua+Imagem+Aqui" alt="Banner do Script">
+        </div>
+
         <div class="script-area">
-            <code id="scriptTxt" class="skeleton-target">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
+            <code id="scriptTxt">loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()</code>
         </div>
         <button class="btn-copy" id="copyBtn">Copiar script</button>
     </section>
@@ -259,159 +196,96 @@
 </div>
 
 <script>
-/**
- * SISTEMA DE ABAS
- */
+// Troca de Abas
 function switchTab(evt, tabName) {
     const contents = document.querySelectorAll('.tab-content');
     contents.forEach(c => c.classList.remove('active'));
-    
     const buttons = document.querySelectorAll('.game-btn');
     buttons.forEach(b => b.classList.remove('active'));
-    
     document.getElementById(tabName).classList.add('active');
     evt.currentTarget.classList.add('active');
-    playClick(440, 0.05); // Som leve ao trocar aba
+    playClick(440, 0.05);
 }
 
-/**
- * PROTEÇÃO E CARREGAMENTO
- */
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener("DOMContentLoaded", () => {
-    const targets = document.querySelectorAll('.skeleton-target');
-    targets.forEach(el => el.classList.add('skeleton'));
-    setTimeout(() => {
-        targets.forEach(el => el.classList.remove('skeleton'));
-        document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
-    }, 1200);
-});
-
-/**
- * FUNDO ESTELAR MELHORADO
- */
+// Fundo Animado e Estrelas
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
-
 function initStars() {
     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
     stars = Array.from({length: 200}, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        opacity: Math.random(),
-        speed: Math.random() * 0.01 + 0.005,
-        drift: (Math.random() - 0.5) * 0.2, // Movimento lateral leve
-        dir: 1
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        size: Math.random() * 2, opacity: Math.random(), speed: Math.random() * 0.01 + 0.005,
+        drift: (Math.random() - 0.5) * 0.2, dir: 1
     }));
 }
-
 function animate() {
-    ctx.fillStyle = 'rgba(2, 2, 2, 0.15)'; // Rastro leve para as estrelas
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(2, 2, 2, 0.15)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
     stars.forEach(s => {
         s.opacity += s.speed * s.dir;
         if(s.opacity >= 1 || s.opacity <= 0.1) s.dir *= -1;
         s.x += s.drift;
-        if(s.x < 0) s.x = canvas.width;
-        if(s.x > canvas.width) s.x = 0;
-        
+        if(s.x < 0) s.x = canvas.width; if(s.x > canvas.width) s.x = 0;
         ctx.fillStyle = `rgba(255,255,255,${s.opacity * 0.6})`;
         ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
     });
     requestAnimationFrame(animate);
 }
 initStars(); animate();
-window.addEventListener('resize', initStars);
 
-/**
- * ÁUDIO: AMBIENTE E CLIQUE MELHORADO
- */
+// Áudio Ambiente e Clique
 let audioStarted = false;
 const aC = new (window.AudioContext || window.webkitAudioContext)();
-
 function startAmbientSound() {
-    if (audioStarted) return;
-    audioStarted = true;
-    aC.resume();
-
-    // Ruído rosa/browniano para atmosfera profunda
-    const bufferSize = 2 * aC.sampleRate,
-    noiseBuffer = aC.createBuffer(1, bufferSize, aC.sampleRate),
-    output = noiseBuffer.getChannelData(0);
+    if (audioStarted) return; audioStarted = true; aC.resume();
+    const bufferSize = 2 * aC.sampleRate, noiseBuffer = aC.createBuffer(1, bufferSize, aC.sampleRate), output = noiseBuffer.getChannelData(0);
     let lastOut = 0;
     for (let i = 0; i < bufferSize; i++) {
         let white = Math.random() * 2 - 1;
-        output[i] = (lastOut + (0.02 * white)) / 1.02;
-        lastOut = output[i];
-        output[i] *= 3.5; 
+        output[i] = (lastOut + (0.02 * white)) / 1.02; lastOut = output[i]; output[i] *= 3.5;
     }
-    const noise = aC.createBufferSource();
-    noise.buffer = noiseBuffer;
-    noise.loop = true;
-    const filter = aC.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 400;
-    const gain = aC.createGain();
-    gain.gain.value = 0.02; // Bem suave no fundo
-
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(aC.destination);
-    noise.start();
+    const noise = aC.createBufferSource(); noise.buffer = noiseBuffer; noise.loop = true;
+    const gain = aC.createGain(); gain.gain.value = 0.02;
+    noise.connect(gain); gain.connect(aC.destination); noise.start();
 }
-
 function playClick(freq = 150, duration = 0.2) {
     startAmbientSound();
     const o = aC.createOscillator(), g = aC.createGain();
-    o.type = 'triangle'; // Som mais "macio" que o seno
-    o.frequency.setValueAtTime(freq, aC.currentTime);
+    o.type = 'triangle'; o.frequency.setValueAtTime(freq, aC.currentTime);
     o.frequency.exponentialRampToValueAtTime(10, aC.currentTime + duration);
-    g.gain.setValueAtTime(0.1, aC.currentTime);
-    g.gain.linearRampToValueAtTime(0, aC.currentTime + duration);
-    o.connect(g); g.connect(aC.destination);
-    o.start(); o.stop(aC.currentTime + duration);
+    g.gain.setValueAtTime(0.1, aC.currentTime); g.gain.linearRampToValueAtTime(0, aC.currentTime + duration);
+    o.connect(g); g.connect(aC.destination); o.start(); o.stop(aC.currentTime + duration);
 }
 
+// Copiar Script
 document.getElementById('copyBtn').addEventListener('click', () => {
     const txt = document.getElementById('scriptTxt').innerText;
     navigator.clipboard.writeText(txt).then(() => {
-        playClick(300, 0.3); // Som de confirmação mais grave e longo
+        playClick(300, 0.3);
         const toast = document.getElementById('toast');
         toast.style.opacity = '1';
         setTimeout(() => toast.style.opacity = '0', 2000);
     });
 });
 
-// Cursor
-const cur = document.getElementById('custom-cursor');
+// Cursor e Reveal
 document.addEventListener('mousemove', e => {
-    cur.style.left = e.clientX + 'px';
-    cur.style.top = e.clientY + 'px';
+    const cur = document.getElementById('custom-cursor');
+    cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+});
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => { document.querySelectorAll('.reveal').forEach(el => el.classList.add('active')); }, 500);
 });
 
 // Tilt effect
 document.querySelectorAll('.glass').forEach(card => {
     card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
-        const x = e.clientX - r.left;
-        const y = e.clientY - r.top;
-        const rx = -((y - r.height / 2) / (r.height / 2)) * 5;
-        const ry = ((x - r.width / 2) / (r.width / 2)) * 5;
+        const rx = -((e.clientY - r.top - r.height / 2) / (r.height / 2)) * 5;
+        const ry = ((e.clientX - r.left - r.width / 2) / (r.width / 2)) * 5;
         card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     });
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-    });
-});
-
-window.addEventListener('scroll', () => {
-    const s = window.pageYOffset || document.documentElement.scrollTop;
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    document.getElementById("progress-bar").style.width = (s / h) * 100 + "%";
-    const b = document.getElementById("back-to-top");
-    if (s > 300) b.classList.add('visible'); else b.classList.remove('visible');
+    card.addEventListener('mouseleave', () => { card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`; });
 });
 </script>
 </body>
