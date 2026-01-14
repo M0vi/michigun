@@ -27,11 +27,17 @@
             --border: rgba(255, 255, 255, 0.06);
             --radius: 28px;
             --radius-sm: 18px;
+            /* Cores do Spotlight baseadas no seu site */
+            --glow-color: 255, 255, 255; 
         }
 
-        /* Ocultar Barra de Scroll e Scroll Suave */
+        /* 1. Remover Scrollbar e Ativar Scroll Suave */
         ::-webkit-scrollbar { display: none; }
-        html { scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
+        html { 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            scroll-behavior: smooth; 
+        }
 
         /* Ripple Effect */
         .ripple {
@@ -54,7 +60,7 @@
             #custom-cursor { 
                 width: 22px; height: 22px; 
                 position: fixed; pointer-events: none; 
-                z-index: 99999; /* Cursor sempre acima do modal */
+                z-index: 99999; /* Cursor sempre à frente de tudo */
                 mix-blend-mode: difference; 
             }
             #custom-cursor::before, #custom-cursor::after { content: ''; position: absolute; background: #fff; top: 50%; left: 50%; }
@@ -73,34 +79,70 @@
             z-index: 1; 
         }
 
-        /* Efeito de Foco (Blur no que não é hover) */
+        /* Efeito de Foco cinematográfico ao passar o mouse */
         .container:has(.glass:hover) .glass:not(:hover) {
-            filter: blur(8px);
-            opacity: 0.4;
-            transform: scale(0.98);
+            filter: blur(12px);
+            opacity: 0.3;
+            transform: scale(0.97);
         }
 
+        /* 2. Spotlight Card Logic (CSS Variables Sync) */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
-            height: auto; /* Dimensionamento automático */
+            height: auto; /* Dimensionamento automático mantido */
+            touch-action: none;
         }
-        .glass:hover {
-            transform: scale(1.02);
-            z-index: 10;
+
+        /* Brilho de Superfície */
+        .glass::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                250px circle at var(--mouse-x) var(--mouse-y),
+                rgba(var(--glow-color), 0.06),
+                transparent 80%
+            );
+            z-index: 0;
+            pointer-events: none;
         }
+
+        /* Brilho da Borda (Spotlight) */
+        .glass::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px; /* Espessura da borda */
+            background: radial-gradient(
+                150px circle at var(--mouse-x) var(--mouse-y),
+                rgba(var(--glow-color), 0.6),
+                transparent 100%
+            );
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .glass:hover::after { opacity: 1; }
 
         /* Animação de Entrada Smooth */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease, transform 1s ease;
+            transform: translateY(40px);
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.active {
             opacity: 1;
@@ -118,18 +160,16 @@
         .main-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px; align-items: start; }
         @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
 
-        .card { padding: 35px; height: auto; }
-        
-        /* Corrigido acentos removendo uppercase forçado */
-        h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; letter-spacing: 3px; font-weight: 700; }
+        .card { padding: 35px; z-index: 1; }
+        h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; letter-spacing: 3px; font-weight: 700; position: relative; z-index: 5; }
 
-        .feature-stack { display: flex; flex-direction: column; gap: 10px; }
+        .feature-stack { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 5; }
         .feature-item {
             background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
             padding: 18px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 18px;
             transition: 0.3s ease;
         }
-        .feature-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateX(8px); }
+        .feature-item:hover { background: rgba(255, 255, 255, 0.08); }
 
         .antiban-badge {
             font-size: 0.55rem; background: rgba(74, 222, 128, 0.1); color: #4ade80;
@@ -139,15 +179,15 @@
 
         .info-icon { font-size: 0.8rem; opacity: 0.5; cursor: pointer; margin-left: 8px; }
 
-        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; }
+        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; position: relative; z-index: 5; }
         .game-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #666; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; cursor: pointer; transition: 0.3s; }
         .game-btn.active { border-color: var(--accent); color: #fff; background: rgba(255, 255, 255, 0.1); }
         .tab-content { display: none; flex-direction: column; gap: 10px; }
         .tab-content.active { display: flex; }
 
-        .ui-image { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 20px; }
+        .ui-image { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 20px; position: relative; z-index: 5; }
 
-        .script-area { background: rgba(0,0,0,0.8); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        .script-area { background: rgba(0,0,0,0.8); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 15px; position: relative; z-index: 5; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #aaa; word-break: break-all; }
         
         .copy-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
@@ -187,7 +227,7 @@
     <div id="modal-box" onclick="event.stopPropagation()">
         <span id="modal-title" style="font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: block;">INFO</span>
         <span id="modal-text" style="font-size: 0.9rem; color: #999; line-height: 1.6; margin-bottom: 25px; display: block;"></span>
-        <button class="modal-btn" onclick="closeModal()">Entendi!</button>
+        <button class="modal-btn" onclick="closeModal()">ENTENDIDO</button>
     </div>
 </div>
 
@@ -199,7 +239,7 @@
 
     <!-- YouTube Player -->
     <div class="video-container glass reveal">
-        <iframe src="https://www.youtube.com/watch?v=20zXmdpUHQA" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/20zXmdpUHQA" allowfullscreen></iframe>
     </div>
 
     <div class="main-layout">
@@ -250,6 +290,22 @@
 </div>
 
 <script>
+/**
+ * 3. SPOTLIGHT CARD SYNC (JS Logic)
+ * Sincroniza a posição do mouse com as variáveis CSS de cada card
+ */
+function syncPointer(e) {
+    const cards = document.querySelectorAll('.glass');
+    cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+    });
+}
+document.addEventListener('pointermove', syncPointer);
+
 /**
  * REVEAL ANIMATION ON SCROLL
  */
