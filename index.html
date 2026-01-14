@@ -234,13 +234,13 @@
 </div>
 
 <div id="progress-bar-scroll"></div>
-<div id="toast">Copiado com sucesso!</div>
+<div id="toast">COPIADO</div>
 
 <div id="modal-overlay" onclick="closeModal()">
     <div id="modal-box" onclick="event.stopPropagation()">
         <span id="modal-title" style="font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: block;">INFO</span>
         <span id="modal-text" style="font-size: 0.9rem; color: #999; line-height: 1.6; margin-bottom: 25px; display: block;"></span>
-        <button class="modal-btn" onclick="closeModal()">Entendi!</button>
+        <button class="modal-btn" onclick="closeModal()">ENTENDIDO</button>
     </div>
 </div>
 
@@ -331,7 +331,7 @@ function closeModal() { document.getElementById('modal-overlay').classList.remov
 
 // AUDIO SETUP - ERIK SATIE
 let audioStarted = false;
-const bgMusic = new Audio('https://upload.wikimedia.org/wikipedia/commons/e/e1/Erik_Satie_-_Gymnop%C3%A9die_No._1.ogg');
+const bgMusic = new Audio('ambient.mp3');
 bgMusic.loop = true;
 bgMusic.volume = 0.5;
 
