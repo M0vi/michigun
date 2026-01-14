@@ -17,6 +17,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "v16x524lct");
+    </script>
+
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <style>
@@ -203,9 +211,9 @@
         .t-footer { display: flex; justify-content: flex-start; align-items: center; margin-top: auto; color: #555; font-size: 0.7rem; font-weight: 600; }
         
         @media (min-width: 769px) {
-            .testimonial-card.t-card-0 { z-index: 10; transform: skewY(-8deg) translate(-80px, -60px) scale(0.9); opacity: 0.5; filter: brightness(0.6); }
+            .testimonial-card.t-card-0 { z-index: 10; transform: skewY(-8deg) translate(-120px, -90px) scale(0.9); opacity: 0.5; filter: brightness(0.6); }
             .testimonial-card.t-card-1 { z-index: 20; transform: skewY(-8deg) translate(0px, 0px) scale(0.95); opacity: 0.8; }
-            .testimonial-card.t-card-2 { z-index: 30; transform: skewY(-8deg) translate(80px, 60px) scale(1); }
+            .testimonial-card.t-card-2 { z-index: 30; transform: skewY(-8deg) translate(120px, 90px) scale(1); }
 
             .testimonial-stack:hover .testimonial-card:not(:hover) { opacity: 0.4; filter: blur(2px) grayscale(0.5); }
 
@@ -216,7 +224,16 @@
             }
         }
 
-        footer { text-align: center; padding: 60px 0; color: #222; font-size: 0.7rem; letter-spacing: 2px; }
+        footer { text-align: center; padding: 60px 0; color: #fff; font-size: 0.7rem; letter-spacing: 2px; }
+
+        #mute-btn {
+            position: fixed; top: 25px; left: 25px; width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #fff; cursor: pointer; z-index: 99999; backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+        #mute-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.1); }
     </style>
 </head>
 <body onclick="handleGlobalClick(event)">
@@ -232,6 +249,7 @@
 
 <div id="progress-bar-scroll"></div>
 <div id="toast">COPIADO</div>
+<div id="mute-btn" onclick="toggleMute(event)"><i class="fas fa-volume-up" id="mute-icon"></i></div>
 
 <div id="modal-overlay" onclick="closeModal()">
     <div id="modal-box" onclick="event.stopPropagation()">
@@ -413,21 +431,21 @@ function renderTestimonials() {
     const container = document.getElementById('testimonialStack');
     container.innerHTML = '';
     
-    reviewsData.forEach((review, index) => {
+    reviewsData.forEach((e, index) => {
         const card = document.createElement('div');
         card.className = `testimonial-card t-card-${index}`;
         card.innerHTML = `
             <div class="t-header">
-                <div class="t-avatar"><img src="${review.avatar}" alt="${review.name}"></div>
+                <div class="t-avatar"><img src="${e.avatar}" alt="${e.name}"></div>
                 <div class="t-info">
-                    <div class="t-name">${review.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" /></svg></div>
-                    <span class="t-handle">${review.handle}</span>
+                    <div class="t-name">${e.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" /></svg></div>
+                    <span class="t-handle">${e.handle}</span>
                 </div>
             </div>
             <div class="t-stars">⭐⭐⭐⭐⭐</div>
-            <p class="t-content">${review.text}</p>
+            <p class="t-content">${e.text}</p>
             <div class="t-footer">
-                <span>${review.date}</span>
+                <span>${e.date}</span>
             </div>
         `;
         
@@ -459,6 +477,30 @@ function onPlayerStateChange(event) {
   } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
     bgMusic.play();
   }
+}
+
+function toggleMute(event) {
+    event.stopPropagation();
+    const icon = document.getElementById('mute-icon');
+    bgMusic.muted = !bgMusic.muted;
+    if (bgMusic.muted) {
+        icon.className = 'fas fa-volume-mute';
+    } else {
+        icon.className = 'fas fa-volume-up';
+    }
+}
+
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.onkeydown = function(e) {
+    if (e.keyCode == 123) {
+        return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
+        return false;
+    }
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+    }
 }
 </script>
 </body>
