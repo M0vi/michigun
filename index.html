@@ -27,11 +27,16 @@
             --border: rgba(255, 255, 255, 0.06);
             --radius: 28px;
             --radius-sm: 18px;
+            --glow-color: 255, 255, 255; /* Cor do brilho adaptada para o tema */
         }
 
-        /* Ocultar Barra de Scroll e Scroll Suave */
+        /* 1. Remover Scrollbar e Ativar Scroll Suave */
         ::-webkit-scrollbar { display: none; }
-        html { scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
+        html { 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            scroll-behavior: smooth; 
+        }
 
         /* Ripple Effect */
         .ripple {
@@ -54,7 +59,7 @@
             #custom-cursor { 
                 width: 22px; height: 22px; 
                 position: fixed; pointer-events: none; 
-                z-index: 99999; /* Cursor sempre acima do modal */
+                z-index: 99999;
                 mix-blend-mode: difference; 
             }
             #custom-cursor::before, #custom-cursor::after { content: ''; position: absolute; background: #fff; top: 50%; left: 50%; }
@@ -73,34 +78,70 @@
             z-index: 1; 
         }
 
-        /* Efeito de Foco (Blur no que não é hover) */
+        /* Efeito de Foco cinematográfico ao passar o mouse */
         .container:has(.glass:hover) .glass:not(:hover) {
-            filter: blur(8px);
-            opacity: 0.4;
-            transform: scale(0.98);
+            filter: blur(12px);
+            opacity: 0.3;
+            transform: scale(0.97);
         }
 
+        /* 2. Spotlight Card Logic (CSS Variables Sync) */
         .glass {
             background: var(--bg-card);
             backdrop-filter: blur(25px) saturate(160%) contrast(110%);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
-            height: auto; /* Dimensionamento automático */
+            height: auto; /* Dimensionamento automático mantido */
+            touch-action: none;
         }
-        .glass:hover {
-            transform: scale(1.02);
-            z-index: 10;
+
+        /* Brilho de Superfície */
+        .glass::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                250px circle at var(--mouse-x) var(--mouse-y),
+                rgba(var(--glow-color), 0.06),
+                transparent 80%
+            );
+            z-index: 0;
+            pointer-events: none;
         }
+
+        /* Brilho da Borda (Spotlight) */
+        .glass::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px; /* Espessura da borda */
+            background: radial-gradient(
+                150px circle at var(--mouse-x) var(--mouse-y),
+                rgba(var(--glow-color), 0.6),
+                transparent 100%
+            );
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .glass:hover::after { opacity: 1; }
 
         /* Animação de Entrada Smooth */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease, transform 1s ease;
+            transform: translateY(40px);
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.active {
             opacity: 1;
@@ -118,18 +159,16 @@
         .main-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px; align-items: start; }
         @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
 
-        .card { padding: 35px; height: auto; }
-        
-        /* Corrigido acentos removendo uppercase forçado */
-        h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; letter-spacing: 3px; font-weight: 700; }
+        .card { padding: 35px; z-index: 1; }
+        h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; letter-spacing: 3px; font-weight: 700; position: relative; z-index: 5; }
 
-        .feature-stack { display: flex; flex-direction: column; gap: 10px; }
+        .feature-stack { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 5; }
         .feature-item {
             background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
             padding: 18px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 18px;
             transition: 0.3s ease;
         }
-        .feature-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateX(8px); }
+        .feature-item:hover { background: rgba(255, 255, 255, 0.08); }
 
         .antiban-badge {
             font-size: 0.55rem; background: rgba(74, 222, 128, 0.1); color: #4ade80;
@@ -139,22 +178,22 @@
 
         .info-icon { font-size: 0.8rem; opacity: 0.5; cursor: pointer; margin-left: 8px; }
 
-        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; }
+        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; position: relative; z-index: 5; }
         .game-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #666; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; cursor: pointer; transition: 0.3s; }
         .game-btn.active { border-color: var(--accent); color: #fff; background: rgba(255, 255, 255, 0.1); }
         .tab-content { display: none; flex-direction: column; gap: 10px; }
         .tab-content.active { display: flex; }
 
-        .ui-image { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 20px; }
+        .ui-image { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 20px; position: relative; z-index: 5; }
 
-        .script-area { background: rgba(0,0,0,0.8); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        .script-area { background: rgba(0,0,0,0.8); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 15px; position: relative; z-index: 5; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #aaa; word-break: break-all; }
         
         .copy-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .copy-icon-btn.pulse { animation: icon-pulse 2s infinite; background: #fff; color: #000; }
         @keyframes icon-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
 
-        /* Custom Modal */
+        /* Modal */
         #modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
@@ -172,6 +211,110 @@
 
         #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 12px 30px; border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005; pointer-events: none; }
         
+        /* ======== NEW TESTIMONIALS STYLES ======== */
+        .testimonials-section {
+            padding: 80px 0 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            perspective: 1200px;
+        }
+        .testimonial-stack {
+            display: grid;
+            grid-template-areas: "stack";
+            place-items: center;
+            position: relative;
+            width: 100%;
+            max-width: 480px; /* Aumentei para caber melhor os spreads */
+            margin-top: 60px;
+            height: 350px; /* Mais altura para espaçamento */
+        }
+        .testimonial-card {
+            grid-area: stack;
+            width: 320px;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-origin: center center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            transform: skewY(-8deg); /* Padrão */
+            position: relative;
+            cursor: default;
+        }
+        
+        .t-header { display: flex; gap: 12px; align-items: flex-start; }
+        .t-avatar { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; background: #333; flex-shrink: 0; border: 2px solid #222; }
+        .t-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .t-info { flex: 1; }
+        .t-name { font-weight: 800; font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 5px; }
+        .verified-badge { color: #1d9bf0; width: 16px; height: 16px; }
+        .t-handle { font-size: 0.75rem; color: #666; display: block; }
+        .t-icon { color: #fff; width: 18px; opacity: 0.7; }
+        .t-content { font-size: 0.9rem; color: #ddd; line-height: 1.5; }
+        .t-stars { color: #ffd700; font-size: 0.8rem; margin-bottom: 2px; }
+        .t-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; color: #555; font-size: 0.7rem; font-weight: 600; }
+        .t-stats { display: flex; gap: 12px; }
+        
+        /* === ESTADOS DE EMPILHAMENTO (Mais espaçados e Fundo na Esquerda) === */
+        /* Card 0 (Fundo/Trás): Mais à esquerda e opaco */
+        .testimonial-card.t-card-0 { 
+            z-index: 10; 
+            transform: skewY(-8deg) translate(-50px, -40px) scale(0.9); 
+            opacity: 0.5; 
+            filter: brightness(0.6); 
+        }
+        /* Card 1 (Meio): Centralizado */
+        .testimonial-card.t-card-1 { 
+            z-index: 20; 
+            transform: skewY(-8deg) translate(0px, 10px) scale(0.95); 
+            opacity: 0.8; 
+        }
+        /* Card 2 (Frente): Mais à direita e abaixo */
+        .testimonial-card.t-card-2 { 
+            z-index: 30; 
+            transform: skewY(-8deg) translate(50px, 60px) scale(1); 
+        }
+
+        /* === INTERAÇÃO: HOVER NO CARD (SOBE E DESTACA) === */
+        
+        /* Se passar o mouse no Card 0 (Fundo) */
+        .testimonial-stack[data-hovered="0"] .t-card-0 { 
+            /* Sobe mantendo inclinação e vem para frente */
+            transform: skewY(-8deg) translate(-50px, -80px) scale(0.95); 
+            z-index: 50; 
+            filter: brightness(1); 
+            opacity: 1; 
+            border-color: rgba(255,255,255,0.4); 
+        }
+        /* Os outros se afastam para não tapar */
+        .testimonial-stack[data-hovered="0"] .t-card-1 { transform: skewY(-8deg) translate(80px, 80px) scale(0.95); opacity: 0.3; }
+        .testimonial-stack[data-hovered="0"] .t-card-2 { transform: skewY(-8deg) translate(130px, 130px) scale(1); opacity: 0.2; }
+
+        /* Se passar o mouse no Card 1 (Meio) */
+        .testimonial-stack[data-hovered="1"] .t-card-1 { 
+            transform: skewY(-8deg) translate(0px, -30px) scale(1); 
+            z-index: 50; 
+            opacity: 1; 
+            border-color: rgba(255,255,255,0.4); 
+        }
+        .testimonial-stack[data-hovered="1"] .t-card-0 { transform: skewY(-8deg) translate(-80px, -40px) scale(0.9); opacity: 0.3; }
+        .testimonial-stack[data-hovered="1"] .t-card-2 { transform: skewY(-8deg) translate(100px, 110px) scale(1); opacity: 0.3; }
+
+        /* Se passar o mouse no Card 2 (Frente) */
+        .testimonial-stack[data-hovered="2"] .t-card-2 { 
+            transform: skewY(-8deg) translate(50px, 10px) scale(1.05); 
+            z-index: 50; 
+            border-color: rgba(255,255,255,0.4); 
+        }
+        .testimonial-stack[data-hovered="2"] .t-card-0 { transform: skewY(-8deg) translate(-60px, -40px) scale(0.9); opacity: 0.3; }
+        .testimonial-stack[data-hovered="2"] .t-card-1 { transform: skewY(-8deg) translate(-10px, 10px) scale(0.95); opacity: 0.5; }
+
         footer { text-align: center; padding: 60px 0; color: #222; font-size: 0.7rem; letter-spacing: 2px; }
     </style>
 </head>
@@ -187,7 +330,7 @@
     <div id="modal-box" onclick="event.stopPropagation()">
         <span id="modal-title" style="font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: block;">INFO</span>
         <span id="modal-text" style="font-size: 0.9rem; color: #999; line-height: 1.6; margin-bottom: 25px; display: block;"></span>
-        <button class="modal-btn" onclick="closeModal()">Entendi!</button>
+        <button class="modal-btn" onclick="closeModal()">ENTENDIDO</button>
     </div>
 </div>
 
@@ -199,7 +342,7 @@
 
     <!-- YouTube Player -->
     <div class="video-container glass reveal">
-        <iframe src="https://www.youtube.com/watch?v=20zXmdpUHQA" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/20zXmdpUHQA" allowfullscreen></iframe>
     </div>
 
     <div class="main-layout">
@@ -246,10 +389,111 @@
         </div>
     </section>
 
+    <!-- TWITTER TESTIMONIALS SECTION -->
+    <section class="testimonials-section reveal">
+        <h2>FEEDBACK</h2>
+        <div class="testimonial-stack" id="testimonialStack">
+            <!-- Cards gerados via JS -->
+        </div>
+    </section>
+
     <footer>© 2026 MICHIGUN.XYZ</footer>
 </div>
 
 <script>
+/**
+ * =================================================
+ * CONFIGURAÇÃO DE REVIEWS (EDITE AQUI)
+ * =================================================
+ */
+const reviewsData = [
+    {
+        name: "Lorenzost20",
+        handle: "@Lorenzost20",
+        text: "Se pudesse dar nota 1000, eu daria! Script completo e cheio de funções. Só senti falta de um silent aim, mas é realmente muito bom.",
+        date: "10 Jan 2026",
+        likes: 22,
+        retweets: 4,
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Arthur"
+    },
+    {
+        name: "Onepiece1723",
+        handle: "@Onepiece1723",
+        text: "Cara, esse script só não está perfeito ainda porque não possui silent aim, pois, de resto, está ótimo.",
+        date: "12 Jan 2026",
+        likes: 12,
+        retweets: 2,
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Pedro"
+    },
+    {
+        name: "igorhen200",
+        handle: "@igorhen200",
+        text: "Bom demais, nota 10 mesmo! O farm automático me ajudou a conseguir muito dinheiro em pouco tempo.",
+        date: "13 Jan 2026",
+        likes: 6,
+        retweets: 1,
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lucas"
+    }
+];
+
+function renderTestimonials() {
+    const container = document.getElementById('testimonialStack');
+    container.innerHTML = '';
+    
+    reviewsData.forEach((review, index) => {
+        const card = document.createElement('div');
+        card.className = `testimonial-card t-card-${index}`;
+        card.innerHTML = `
+            <div class="t-header">
+                <div class="t-avatar"><img src="${review.avatar}" alt="${review.name}"></div>
+                <div class="t-info">
+                    <div class="t-name">${review.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" /></svg></div>
+                    <span class="t-handle">${review.handle}</span>
+                </div>
+                <svg class="t-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+            </div>
+            <div class="t-stars">⭐⭐⭐⭐⭐</div>
+            <p class="t-content">${review.text}</p>
+            <div class="t-footer">
+                <span>${review.date}</span>
+                <div class="t-stats">
+                    <div class="t-stat"><i class="far fa-heart"></i> ${review.likes}</div>
+                    <div class="t-stat"><i class="fas fa-retweet"></i> ${review.retweets}</div>
+                </div>
+            </div>
+        `;
+        
+        // Listener para destacar o card específico
+        card.addEventListener('mouseenter', () => {
+            container.setAttribute('data-hovered', index);
+        });
+        
+        container.appendChild(card);
+    });
+
+    // Limpa o estado quando o mouse sai da stack inteira
+    container.addEventListener('mouseleave', () => {
+        container.removeAttribute('data-hovered');
+    });
+}
+// Render on load
+renderTestimonials();
+
+/**
+ * 3. SPOTLIGHT CARD SYNC (JS Logic)
+ */
+function syncPointer(e) {
+    const cards = document.querySelectorAll('.glass');
+    cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+    });
+}
+document.addEventListener('pointermove', syncPointer);
+
 /**
  * REVEAL ANIMATION ON SCROLL
  */
