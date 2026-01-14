@@ -53,6 +53,10 @@
             margin: 0; 
             overflow-x: hidden; 
             position: relative;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         #geometric-bg {
@@ -386,10 +390,18 @@ function typeScript() {
 setTimeout(typeScript, 2000);
 
 document.getElementById('copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(scriptContent).then(() => {
-        const t = document.getElementById('toast'); t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2000);
-    });
+    const textarea = document.createElement('textarea');
+    textarea.value = scriptContent;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    
+    const t = document.getElementById('toast');
+    t.style.opacity = '1';
+    setTimeout(() => t.style.opacity = '0', 2000);
 });
+
 function switchTab(evt, tabName) {
     evt.preventDefault();
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -495,7 +507,7 @@ document.onkeydown = function(e) {
     if (e.keyCode == 123) {
         return false;
     }
-    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) {
         return false;
     }
     if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
