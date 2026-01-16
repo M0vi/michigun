@@ -59,6 +59,61 @@
             user-select: none;
         }
 
+        #intro-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #030303; z-index: 100000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+        }
+        #intro-screen.fade-out { opacity: 0; pointer-events: none; transform: scale(1.1); }
+        
+        .intro-bg-fx {
+            position: absolute; inset: -50%; width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: intro-grid-move 20s linear infinite;
+            z-index: -1;
+            mask-image: radial-gradient(circle at center, black 0%, transparent 60%);
+            -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 60%);
+        }
+        @keyframes intro-grid-move { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(40px); } }
+
+        .intro-avatar {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 50px rgba(255,255,255,0.15);
+            margin-bottom: 30px; filter: grayscale(1);
+            animation: float 6s infinite ease-in-out;
+            position: relative; z-index: 2;
+        }
+
+        .typing-container {
+            font-size: 1.5rem; font-weight: 700; letter-spacing: 1px;
+            color: #fff; position: relative; z-index: 2;
+            min-height: 1.6em;
+            display: flex; align-items: center;
+        }
+        
+        .cursor {
+            display: inline-block; width: 2px; height: 1.2em;
+            background-color: #fff; margin-left: 5px;
+            animation: blink-caret 1s step-end infinite;
+        }
+
+        .click-hint {
+            margin-top: 25px; font-size: 0.75rem; color: #888;
+            text-transform: uppercase; letter-spacing: 4px;
+            animation: pulse-text 2s infinite;
+            position: relative; z-index: 2;
+        }
+
+        @keyframes blink-caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes pulse-text { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
         #geometric-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             overflow: hidden; background: #030303; pointer-events: none;
@@ -106,7 +161,8 @@
 
         #progress-bar-scroll { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, transparent, #fff); z-index: 10001; }
 
-        .container { max-width: 1000px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 1; }
+        .container { max-width: 1000px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 1; opacity: 0; transition: opacity 1s ease; }
+        .container.loaded { opacity: 1; }
 
         .glass {
             background: var(--bg-card); backdrop-filter: blur(30px) saturate(160%) contrast(110%);
@@ -168,39 +224,115 @@
         .tab-content { display: none; flex-direction: column; gap: 10px; }
         .tab-content.active { display: flex; }
 
-        .ui-image { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 20px; position: relative; z-index: 5; }
+        .ui-image { 
+            width: 100%; border-radius: var(--radius-sm); 
+            margin-bottom: 20px; position: relative; z-index: 5;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: box-shadow 0.3s ease;
+        }
+        .ui-image:hover {
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.2);
+        }
+
         .script-area { background: rgba(0,0,0,0.8); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 15px; position: relative; z-index: 5; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #aaa; word-break: break-all; }
         .copy-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .copy-icon-btn.pulse { animation: icon-pulse 2s infinite; background: #fff; color: #000; }
         @keyframes icon-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
 
-        #modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 20000; opacity: 0; transition: 0.3s; }
-        #modal-box { background: rgba(20, 20, 20, 0.9); border: 1px solid var(--border); padding: 40px; border-radius: var(--radius); max-width: 400px; width: 90%; text-align: center; transform: translateY(20px); transition: 0.4s; }
-        #modal-overlay.active { display: flex; opacity: 1; }
-        #modal-overlay.active #modal-box { transform: translateY(0); }
-        .modal-btn { background: #fff; color: #000; padding: 12px 30px; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; font-size: 0.8rem; text-transform: uppercase; }
-        #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 12px 30px; border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005; pointer-events: none; }
-        
-        .testimonials-section { padding: 80px 0 120px; display: flex; flex-direction: column; align-items: center; perspective: 1200px; }
-        .testimonial-stack { display: grid; grid-template-areas: "stack"; place-items: center; position: relative; width: 100%; max-width: 550px; margin-top: 60px; height: 350px; }
-        
-        .testimonial-card {
-            grid-area: stack; width: 340px; background: rgba(15, 15, 15, 0.95);
-            border: 1px solid var(--border); border-radius: 20px; padding: 25px;
-            backdrop-filter: blur(15px); transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform-origin: center center; display: flex; flex-direction: column; gap: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: skewY(-8deg); 
-            position: relative; cursor: default;
+        #modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); 
+            display: none; align-items: center; justify-content: center; z-index: 20000; 
+            opacity: 0; transition: opacity 0.3s ease; 
         }
         
+        #modal-box { 
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 255, 255, 0.05);
+            padding: 40px; border-radius: 24px; max-width: 400px; width: 90%; 
+            text-align: center; 
+            transform: scale(0.8); opacity: 0; 
+        }
+        
+        #modal-overlay.active { display: flex; opacity: 1; }
+        #modal-overlay.active #modal-box {
+            animation: modalPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        #modal-overlay.closing { opacity: 0; pointer-events: none; }
+        #modal-overlay.closing #modal-box {
+            animation: modalPopOut 0.3s ease forwards;
+        }
+
+        @keyframes modalPopIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes modalPopOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0; }
+        }
+
+        .modal-btn { 
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff; 
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 35px; border-radius: 14px; 
+            font-weight: 700; letter-spacing: 1px; font-size: 0.75rem; text-transform: uppercase;
+            cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0); 
+        }
+        .modal-btn:hover { 
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 12px 30px; border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005; pointer-events: none; }
+        
+        .testimonials-section { padding: 40px 0 100px; width: 100%; }
+        
+        .testimonial-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 25px; 
+            width: 100%; 
+            margin-top: 40px; 
+        }
+
+        .testimonial-card {
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid var(--border); border-radius: 20px; padding: 25px;
+            backdrop-filter: blur(10px); 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, background-color 0.3s;
+            display: flex; flex-direction: column; gap: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .testimonial-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); background: rgba(25, 25, 25, 0.9); }
+
+        .testimonial-card.expanded {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1);
+            width: 80vw; max-width: 600px; z-index: 20001;
+            background: #0a0a0a; border-color: #fff;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 0 100vw rgba(0,0,0,0.9);
+            cursor: default;
+        }
+        .testimonial-card.expanded:hover { transform: translate(-50%, -50%) scale(1); border-color: #fff; background: #0a0a0a; }
+
+        @media (max-width: 900px) { .testimonial-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .testimonial-grid { grid-template-columns: 1fr; } }
+        
         @media (max-width: 768px) {
-            .testimonials-section { padding: 40px 0 80px; }
-            .testimonial-stack { display: flex; flex-direction: column; gap: 20px; height: auto; transform: none; margin-top: 30px; width: 100%; }
-            .testimonial-card { 
-                grid-area: auto; transform: none !important; width: 100%; box-sizing: border-box; 
-                opacity: 1 !important; filter: none !important; position: static;
-            }
+            .testimonial-card { cursor: default; }
+            .testimonial-card:hover { transform: none; background: rgba(15, 15, 15, 0.8); }
         }
 
         .t-header { display: flex; gap: 12px; align-items: flex-start; }
@@ -211,23 +343,10 @@
         .verified-badge { color: #1d9bf0; width: 16px; height: 16px; }
         .t-handle { font-size: 0.75rem; color: #666; display: block; }
         .t-content { font-size: 0.9rem; color: #ddd; line-height: 1.5; }
+        .testimonial-card.expanded .t-content { font-size: 1.2rem; }
         .t-stars { color: #ffd700; font-size: 0.8rem; margin-bottom: 2px; }
         .t-footer { display: flex; justify-content: flex-start; align-items: center; margin-top: auto; color: #555; font-size: 0.7rem; font-weight: 600; }
         
-        @media (min-width: 769px) {
-            .testimonial-card.t-card-0 { z-index: 10; transform: skewY(-8deg) translate(-120px, -90px) scale(0.9); opacity: 0.5; filter: brightness(0.6); }
-            .testimonial-card.t-card-1 { z-index: 20; transform: skewY(-8deg) translate(0px, 0px) scale(0.95); opacity: 0.8; }
-            .testimonial-card.t-card-2 { z-index: 30; transform: skewY(-8deg) translate(120px, 90px) scale(1); }
-
-            .testimonial-stack:hover .testimonial-card:not(:hover) { opacity: 0.4; filter: blur(2px) grayscale(0.5); }
-
-            .testimonial-card:hover {
-                transform: skewY(-8deg) translateY(-30px) scale(1.05) !important;
-                z-index: 100 !important; opacity: 1 !important; filter: none !important;
-                border-color: rgba(255,255,255,0.5); box-shadow: 0 30px 60px rgba(255,255,255,0.1);
-            }
-        }
-
         footer { text-align: center; padding: 60px 0; color: #fff; font-size: 0.7rem; letter-spacing: 2px; }
 
         #mute-btn {
@@ -238,9 +357,39 @@
             transition: 0.3s;
         }
         #mute-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.1); }
+        
+        #discord-btn {
+            position: fixed; top: 25px; right: 25px; width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #fff; cursor: pointer; z-index: 99999; backdrop-filter: blur(10px);
+            transition: 0.3s; text-decoration: none;
+        }
+        #discord-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.1); }
+
+        .more-feedback {
+            margin-top: 30px; font-size: 0.9rem; color: #666;
+            text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+            opacity: 0.7;
+        }
+
+        #zoom-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 20000; display: none;
+        }
+        #zoom-overlay.active { display: block; }
     </style>
 </head>
 <body onclick="handleGlobalClick(event)">
+
+<div id="intro-screen" onclick="enterSite()">
+    <div class="intro-bg-fx"></div>
+    <img src="avatar.png" class="intro-avatar" alt="Intro Avatar">
+    <div class="typing-container">
+        <span id="intro-text"></span><span class="cursor"></span>
+    </div>
+    <div class="click-hint">Clique na tela</div>
+</div>
 
 <div id="geometric-bg">
     <div class="bg-gradient-overlay"></div>
@@ -252,18 +401,21 @@
 </div>
 
 <div id="progress-bar-scroll"></div>
-<div id="toast">COPIADO</div>
+<div id="toast">Copiado!</div>
 <div id="mute-btn" onclick="toggleMute(event)"><i class="fas fa-volume-up" id="mute-icon"></i></div>
+<a href="https://discord.gg/michigun" target="_blank" id="discord-btn"><i class="fab fa-discord"></i></a>
+
+<div id="zoom-overlay" onclick="closeZoom()"></div>
 
 <div id="modal-overlay" onclick="closeModal()">
     <div id="modal-box" onclick="event.stopPropagation()">
-        <span id="modal-title" style="font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: block;">INFO</span>
-        <span id="modal-text" style="font-size: 0.9rem; color: #999; line-height: 1.6; margin-bottom: 25px; display: block;"></span>
-        <button class="modal-btn" onclick="closeModal()">ENTENDIDO</button>
+        <span id="modal-title" style="font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: block; color: #fff;">INFO</span>
+        <span id="modal-text" style="font-size: 0.9rem; color: #aaa; line-height: 1.6; margin-bottom: 25px; display: block;"></span>
+        <button class="modal-btn" onclick="handleModalButton(this)">Entendi!</button>
     </div>
 </div>
 
-<div class="container">
+<div class="container" id="main-content">
     <header class="hero reveal">
         <img src="avatar.png" class="avatar" alt="fp3">
         <h1>@fp3 | 17</h1>
@@ -281,6 +433,7 @@
                 <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP <i class="fas fa-info-circle info-icon" onclick="openModal('ESP', 'Permite visualizar inimigos através da parede.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-user-gear"></i><div><strong>Local <i class="fas fa-info-circle info-icon" onclick="openModal('Local', 'Modificações locais como char, noclip, speed, entre outros.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-robot"></i><div><strong>ChatGPT <i class="fas fa-info-circle info-icon" onclick="openModal('ChatGPT', 'Explica, gera e corrige textos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-tachometer-alt"></i><div><strong>Anti-lag <i class="fas fa-info-circle info-icon" onclick="openModal('Anti-lag', 'Otimiza o jogo para ganhos de FPS (frames por segundo), deixando-o mais liso.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-route"></i><div><strong>Parkour (TAS) <i class="fas fa-info-circle info-icon" onclick="openModal('TAS', 'Parkour automático.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-running"></i><div><strong>Auto JJ'S <i class="fas fa-info-circle info-icon" onclick="openModal('JJ\'S', 'Polichinelos automáticos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-sync-alt"></i><div><strong>Auto volver's <i class="fas fa-info-circle info-icon" onclick="openModal('VOLVER\'S', 'Comandos volveres automáticos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
@@ -299,6 +452,7 @@
             <div id="tevez-tab" class="tab-content active">
                 <div class="feature-item"><i class="fas fa-skull"></i><div><strong>Kill aura <i class="fas fa-info-circle info-icon" onclick="openModal('Kill aura', 'Elimina todos os inimigos próximos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-fire-alt"></i><div><strong>Mods <i class="fas fa-info-circle info-icon" onclick="openModal('Mods', 'Modifica armas.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-mobile-alt"></i><div><strong>Spoofer <i class="fas fa-info-circle info-icon" onclick="openModal('Spoofer', 'Permite alterar o seu dispositivo mostrado para os outros, sendo possível realizar treinos mobile no PC e vice-versa.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm <i class="fas fa-info-circle info-icon" onclick="openModal('Autofarm', 'Rouba o banco automaticamente.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
 
@@ -310,7 +464,7 @@
 
     <section class="card glass reveal">
         <h2>SCRIPT</h2>
-        <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1460827984201252875/Screenshot_2026-01-13-23-48-20-191_com.roblox.client-edit.jpg?ex=69685594&is=69670414&hm=2dfd877adcaf758935315ab6856af6c0bfb9cdce81ad707114bd6718e6f94d2a&" class="ui-image" alt="Script UI">
+        <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1461595471977119999/Screenshot_2026-01-16-02-35-00-265_com.roblox.client-edit.jpg?ex=696b205b&is=6969cedb&hm=b03459cdf6f91de1fbd3435b4fbecc9557d84b3b08a453b8cb0980019bb2d595&" class="ui-image" alt="Script UI">
         <div class="script-area">
             <code id="scriptTxt"></code>
             <button class="copy-icon-btn" id="copyBtn"><i class="fas fa-copy"></i></button>
@@ -319,7 +473,8 @@
 
     <section class="testimonials-section reveal">
         <h2>FEEDBACK</h2>
-        <div class="testimonial-stack" id="testimonialStack"></div>
+        <div class="testimonial-grid" id="testimonialGrid"></div>
+        <h3 class="more-feedback">E muito mais...</h3>
     </section>
 
     <footer>© 2026 MICHIGUN.XYZ</footer>
@@ -344,9 +499,36 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 function openModal(title, text) {
     document.getElementById('modal-title').textContent = title;
     document.getElementById('modal-text').textContent = text;
-    document.getElementById('modal-overlay').classList.add('active');
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.remove('closing');
+    overlay.classList.add('active');
 }
-function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
+
+function closeModal() { 
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.add('closing');
+    setTimeout(() => {
+        overlay.classList.remove('active');
+        overlay.classList.remove('closing');
+    }, 300);
+}
+
+function handleModalButton(btn) {
+    const originalBg = btn.style.backgroundColor;
+    const originalCol = btn.style.color;
+    
+    btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+    btn.style.color = '#000';
+    btn.style.transform = 'scale(0.98)';
+    
+    closeModal();
+    
+    setTimeout(() => {
+        btn.style.backgroundColor = '';
+        btn.style.color = '';
+        btn.style.transform = 'scale(1)';
+    }, 300);
+}
 
 let audioStarted = false;
 const bgMusic = new Audio('ambient.mp3');
@@ -361,6 +543,7 @@ function startAmbient() {
 
 function handleGlobalClick(event) {
     startAmbient();
+    if(event.target.closest('.testimonial-card')) return; 
     const circle = document.createElement("div");
     circle.classList.add("ripple");
     document.body.appendChild(circle);
@@ -369,6 +552,37 @@ function handleGlobalClick(event) {
     circle.style.left = `${event.clientX - size/2}px`;
     circle.style.top = `${event.clientY - size/2}px`;
     setTimeout(() => circle.remove(), 600);
+}
+
+function typeIntroText() {
+    const text = "Bem-vindo ao michigun.xyz";
+    const elem = document.getElementById('intro-text');
+    let i = 0;
+    elem.innerHTML = "";
+    
+    function type() {
+        if (i < text.length) {
+            elem.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 60); 
+        }
+    }
+    type();
+}
+window.onload = function() {
+    typeIntroText();
+}
+
+function enterSite() {
+    startAmbient(); 
+    const intro = document.getElementById('intro-screen');
+    const main = document.getElementById('main-content');
+    
+    intro.classList.add('fade-out');
+    setTimeout(() => {
+        intro.style.display = 'none';
+        main.classList.add('loaded'); 
+    }, 800);
 }
 
 function syncPointer(e) {
@@ -416,57 +630,71 @@ window.addEventListener('scroll', () => {
 });
 
 const reviewsData = [
-    {
-        name: "Lorenzost20",
-        handle: "@Lorenzost20",
-        text: "Se pudesse dar nota 1000, eu daria! Script completo e cheio de funções. Só senti falta de um silent aim, mas é realmente muito bom, com funções que pegam até em outros EB's.",
-        date: "10 Jan 2026",
-        avatar: "https://cdn.discordapp.com/embed/avatars/0.png"
-    },
-    {
-        name: "Onepiece1723",
-        handle: "@Onepiece1723",
-        text: "Cara, esse script só não está perfeito ainda porque não possui silent aim, pois, de resto, está ótimo.",
-        date: "12 Jan 2026",
-        avatar: "https://cdn.discordapp.com/embed/avatars/1.png"
-    },
-    {
-        name: "igorhen200",
-        handle: "@igorhen200",
-        text: "Bom demais, nota 10 mesmo!",
-        date: "13 Jan 2026",
-        avatar: "https://cdn.discordapp.com/embed/avatars/2.png"
-    }
+    { name: "Lorenzost20", text: "Se pudesse dar nota 1000, eu daria! Script completo e cheio de funções. Só senti falta de um silent aim, mas é realmente muito bom, com funções que pegam até em outros EB's.", avatar: "https://cdn.discordapp.com/embed/avatars/0.png" },
+    { name: "guruv._", text: "10/10", avatar: "https://cdn.discordapp.com/embed/avatars/1.png" },
+    { name: "Onepiece1723", text: "Cara, esse script só não está perfeito ainda porque não possui silent aim, pois, de resto, está ótimo.", avatar: "https://cdn.discordapp.com/embed/avatars/2.png" },
+    { name: "felipe76ii", text: "muito bom", avatar: "https://cdn.discordapp.com/embed/avatars/3.png" },
+    { name: "Slyther", text: "É o melhor script que já experimentei", avatar: "https://cdn.discordapp.com/embed/avatars/4.png" },
+    { name: "Anônimo", text: "Muito bom! incrível, realmente útil para esses EBs chatos do caralho, toma no cu kkkkkkk, script bão", avatar: "https://cdn.discordapp.com/embed/avatars/5.png" },
+    { name: "igorhen200", text: "Bom demais, nota 10 mesmo!", avatar: "https://cdn.discordapp.com/embed/avatars/0.png" },
+    { name: "kingblox00039", text: "10/10", avatar: "https://cdn.discordapp.com/embed/avatars/1.png" },
+    { name: "85g6b7k", text: "10/10", avatar: "https://cdn.discordapp.com/embed/avatars/2.png" },
+    { name: "Setembrotachegando2", text: "Ninguém mais me ganha no x1, ZIHAHAHAHA", avatar: "https://cdn.discordapp.com/embed/avatars/3.png" },
+    { name: "Anônimo", text: "muito foda te amo", avatar: "https://cdn.discordapp.com/embed/avatars/4.png" },
+    { name: "2zgamis", text: "Top de linha", avatar: "https://cdn.discordapp.com/embed/avatars/5.png" },
+    { name: "Rudol Von Stroheim", text: "10/10", avatar: "https://cdn.discordapp.com/embed/avatars/0.png" },
+    { name: "PHzin", text: "10/10", avatar: "https://cdn.discordapp.com/embed/avatars/1.png" },
+    { name: "Voidskill", text: "10/10", avatar: "https://cdn.discordapp.com/embed/avatars/2.png" },
+    { name: "Numessxzl", text: "Eita apaixonei 10/10", avatar: "https://cdn.discordapp.com/embed/avatars/3.png" },
+    { name: "RX", text: "Script realmente muito útil e indetectável na jogabilidade, meu parabéns ao criador desse maravilhoso script hub 10/10 🔥🔥🥵", avatar: "https://cdn.discordapp.com/embed/avatars/4.png" },
+    { name: "Dark", text: "Definitivamente o melhor script, fez com que eu humilhasse os computadores", avatar: "https://cdn.discordapp.com/embed/avatars/5.png" },
+    { name: "UnoScriptDsOban", text: "Script maravilhoso", avatar: "https://cdn.discordapp.com/embed/avatars/0.png" }
 ];
 
 function renderTestimonials() {
-    const container = document.getElementById('testimonialStack');
+    const container = document.getElementById('testimonialGrid');
     container.innerHTML = '';
     
-    reviewsData.forEach((e, index) => {
+    reviewsData.forEach((e) => {
         const card = document.createElement('div');
-        card.className = `testimonial-card t-card-${index}`;
+        card.className = `testimonial-card`;
+        card.onclick = function() { toggleZoom(this); };
         card.innerHTML = `
             <div class="t-header">
                 <div class="t-avatar"><img src="${e.avatar}" alt="${e.name}"></div>
                 <div class="t-info">
                     <div class="t-name">${e.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" /></svg></div>
-                    <span class="t-handle">${e.handle}</span>
+                    <span class="t-handle">@${e.name.toLowerCase().replace(/\s/g, '')}</span>
                 </div>
             </div>
             <div class="t-stars">⭐⭐⭐⭐⭐</div>
             <p class="t-content">${e.text}</p>
-            <div class="t-footer">
-                <span>${e.date}</span>
-            </div>
         `;
-        
-        card.addEventListener('mouseenter', () => container.setAttribute('data-hovered', index));
         container.appendChild(card);
     });
-
-    container.addEventListener('mouseleave', () => container.removeAttribute('data-hovered'));
 }
+
+function toggleZoom(card) {
+    
+    if (window.innerWidth <= 768) return;
+
+    const isExpanded = card.classList.contains('expanded');
+    const overlay = document.getElementById('zoom-overlay');
+    
+    if (isExpanded) {
+        closeZoom();
+    } else {
+        document.querySelectorAll('.testimonial-card.expanded').forEach(c => c.classList.remove('expanded'));
+        card.classList.add('expanded');
+        overlay.classList.add('active');
+    }
+}
+
+function closeZoom() {
+    document.querySelectorAll('.testimonial-card.expanded').forEach(c => c.classList.remove('expanded'));
+    document.getElementById('zoom-overlay').classList.remove('active');
+}
+
 renderTestimonials();
 
 var tag = document.createElement('script');
