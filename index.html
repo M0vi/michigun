@@ -241,7 +241,6 @@
         .copy-icon-btn.pulse { animation: icon-pulse 2s infinite; background: #fff; color: #000; }
         @keyframes icon-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
 
-        /* --- REDESIGNED MODAL STYLES --- */
         #modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); 
@@ -250,22 +249,20 @@
         }
         
         #modal-box { 
-            background: rgba(10, 10, 10, 0.6); /* Glass style darker */
+            background: rgba(10, 10, 10, 0.6);
             backdrop-filter: blur(25px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 255, 255, 0.05); /* Light white glow */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 255, 255, 0.05);
             padding: 40px; border-radius: 24px; max-width: 400px; width: 90%; 
             text-align: center; 
             transform: scale(0.8); opacity: 0; 
         }
         
-        /* Active State (Entry) */
         #modal-overlay.active { display: flex; opacity: 1; }
         #modal-overlay.active #modal-box {
             animation: modalPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* Closing State (Exit) */
         #modal-overlay.closing { opacity: 0; pointer-events: none; }
         #modal-overlay.closing #modal-box {
             animation: modalPopOut 0.3s ease forwards;
@@ -293,10 +290,9 @@
         .modal-btn:hover { 
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15); /* White glow on hover */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
         }
-        /* ---------------------------- */
 
         #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 12px 30px; border-radius: 10px; font-weight: 800; opacity: 0; transition: 0.5s; z-index: 10005; pointer-events: none; }
         
@@ -334,7 +330,6 @@
         @media (max-width: 900px) { .testimonial-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .testimonial-grid { grid-template-columns: 1fr; } }
         
-        /* Disable Hover/Click effects on Mobile Reviews */
         @media (max-width: 768px) {
             .testimonial-card { cursor: default; }
             .testimonial-card:hover { transform: none; background: rgba(15, 15, 15, 0.8); }
@@ -363,7 +358,6 @@
         }
         #mute-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.1); }
         
-        /* --- NEW DISCORD BTN STYLES --- */
         #discord-btn {
             position: fixed; top: 25px; right: 25px; width: 40px; height: 40px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
@@ -372,15 +366,12 @@
             transition: 0.3s; text-decoration: none;
         }
         #discord-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.1); }
-        /* --------------------------- */
 
-        /* --- NEW SUBTITLE STYLE --- */
         .more-feedback {
             margin-top: 30px; font-size: 0.9rem; color: #666;
             text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
             opacity: 0.7;
         }
-        /* --------------------------- */
 
         #zoom-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -509,37 +500,32 @@ function openModal(title, text) {
     document.getElementById('modal-title').textContent = title;
     document.getElementById('modal-text').textContent = text;
     const overlay = document.getElementById('modal-overlay');
-    // Remove closing class if present from a quick double click
     overlay.classList.remove('closing');
     overlay.classList.add('active');
 }
 
 function closeModal() { 
     const overlay = document.getElementById('modal-overlay');
-    overlay.classList.add('closing'); // Trigger exit animation
+    overlay.classList.add('closing');
     setTimeout(() => {
         overlay.classList.remove('active');
         overlay.classList.remove('closing');
-    }, 300); // Wait for CSS animation
+    }, 300);
 }
 
 function handleModalButton(btn) {
-    // Elegant flash effect matching the new dark style
     const originalBg = btn.style.backgroundColor;
     const originalCol = btn.style.color;
     
-    // Flash White
     btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
     btn.style.color = '#000';
     btn.style.transform = 'scale(0.98)';
     
-    // Trigger close sequence
     closeModal();
     
-    // Reset button style after modal is gone
     setTimeout(() => {
-        btn.style.backgroundColor = ''; // Reverts to CSS
-        btn.style.color = ''; // Reverts to CSS
+        btn.style.backgroundColor = '';
+        btn.style.color = '';
         btn.style.transform = 'scale(1)';
     }, 300);
 }
@@ -689,7 +675,7 @@ function renderTestimonials() {
 }
 
 function toggleZoom(card) {
-    // Disable zoom on mobile
+    
     if (window.innerWidth <= 768) return;
 
     const isExpanded = card.classList.contains('expanded');
