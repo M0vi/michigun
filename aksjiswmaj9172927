@@ -315,14 +315,27 @@
 
         .testimonial-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); background: rgba(25, 25, 25, 0.9); }
 
-        .testimonial-card.expanded {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1);
-            width: 80vw; max-width: 600px; z-index: 20001;
-            background: #0a0a0a; border-color: #fff;
+        /* Estilo para o container de zoom/expandido que vive no body */
+        #expanded-card-view {
+            position: fixed; 
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; max-width: 600px; 
+            z-index: 20002;
+            background: #0a0a0a; border: 1px solid #fff; border-radius: 20px;
+            padding: 25px;
             box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 0 100vw rgba(0,0,0,0.9);
+            display: none; 
+            flex-direction: column; gap: 12px;
             cursor: default;
         }
-        .testimonial-card.expanded:hover { transform: translate(-50%, -50%) scale(1); border-color: #fff; background: #0a0a0a; }
+        #expanded-card-view.active { display: flex; animation: expandCard 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        @keyframes expandCard {
+            from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        #expanded-card-view .t-content { font-size: 1.2rem; }
 
         @media (max-width: 900px) { .testimonial-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .testimonial-grid { grid-template-columns: 1fr; } }
@@ -340,7 +353,6 @@
         .verified-badge { color: #1d9bf0; width: 16px; height: 16px; }
         .t-handle { font-size: 0.75rem; color: #666; display: block; }
         .t-content { font-size: 0.9rem; color: #ddd; line-height: 1.5; }
-        .testimonial-card.expanded .t-content { font-size: 1.2rem; }
         .t-stars { color: #ffd700; font-size: 0.8rem; margin-bottom: 2px; }
         .t-footer { display: flex; justify-content: flex-start; align-items: center; margin-top: auto; color: #555; font-size: 0.7rem; font-weight: 600; }
         
@@ -363,6 +375,17 @@
             transition: 0.3s; text-decoration: none;
         }
         #discord-btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.1); }
+
+        #scroll-top-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
+            background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #fff; cursor: pointer; z-index: 99998; backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            opacity: 0; pointer-events: none; transform: translateY(10px);
+        }
+        #scroll-top-btn.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        #scroll-top-btn:hover { background: #fff; color: #000; transform: translateY(-3px); }
 
         .more-feedback {
             margin-top: 30px; font-size: 0.9rem; color: #666;
@@ -401,8 +424,10 @@
 <div id="toast">Copiado!</div>
 <div id="mute-btn" onclick="toggleMute(event)"><i class="fas fa-volume-up" id="mute-icon"></i></div>
 <a href="https://discord.gg/michigun" target="_blank" id="discord-btn"><i class="fab fa-discord"></i></a>
+<div id="scroll-top-btn" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></div>
 
 <div id="zoom-overlay" onclick="closeZoom()"></div>
+<div id="expanded-card-view" onclick="event.stopPropagation()"></div>
 
 <div id="modal-overlay" onclick="closeModal()">
     <div id="modal-box" onclick="event.stopPropagation()">
@@ -529,8 +554,11 @@ function handleModalButton(btn) {
     }, 300);
 }
 
+// Random Music Logic
 let audioStarted = false;
-const bgMusic = new Audio('ambient.mp3');
+const songs = ['ambient.mp3', 'ambient2.mp3', 'ambient3.mp3'];
+const randomSong = songs[Math.floor(Math.random() * songs.length)];
+const bgMusic = new Audio(randomSong);
 bgMusic.loop = true;
 bgMusic.volume = 0.5;
 
@@ -542,7 +570,7 @@ function startAmbient() {
 
 function handleGlobalClick(event) {
     startAmbient();
-    if(event.target.closest('.testimonial-card')) return; 
+    if(event.target.closest('.testimonial-card') || event.target.closest('#expanded-card-view')) return; 
     const circle = document.createElement("div");
     circle.classList.add("ripple");
     document.body.appendChild(circle);
@@ -622,11 +650,24 @@ function switchTab(evt, tabName) {
     document.getElementById(tabName).classList.add('active');
     evt.currentTarget.classList.add('active');
 }
+
+// Scroll Handling for Progress Bar & Top Button
 window.addEventListener('scroll', () => {
     const s = window.pageYOffset || document.documentElement.scrollTop;
     const h = document.documentElement.scrollHeight - window.innerHeight;
     document.getElementById("progress-bar-scroll").style.width = (s / h) * 100 + "%";
+
+    const btn = document.getElementById("scroll-top-btn");
+    if (s > 300) {
+        btn.classList.add("visible");
+    } else {
+        btn.classList.remove("visible");
+    }
 });
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 const reviewsData = [
     { name: "Lorenzost20", text: "Se pudesse dar nota 1000, eu daria! Script completo e cheio de funções. Só senti falta de um silent aim, mas é realmente muito bom, com funções que pegam até em outros EB's.", avatar: "https://cdn.discordapp.com/embed/avatars/0.png" },
@@ -674,24 +715,24 @@ function renderTestimonials() {
 }
 
 function toggleZoom(card) {
-    
     if (window.innerWidth <= 768) return;
 
-    const isExpanded = card.classList.contains('expanded');
     const overlay = document.getElementById('zoom-overlay');
+    const expandedView = document.getElementById('expanded-card-view');
+
+    // Clone content to the fixed container outside the main flow to ensure proper centering
+    expandedView.innerHTML = card.innerHTML;
     
-    if (isExpanded) {
-        closeZoom();
-    } else {
-        document.querySelectorAll('.testimonial-card.expanded').forEach(c => c.classList.remove('expanded'));
-        card.classList.add('expanded');
-        overlay.classList.add('active');
-    }
+    overlay.classList.add('active');
+    expandedView.classList.add('active');
 }
 
 function closeZoom() {
-    document.querySelectorAll('.testimonial-card.expanded').forEach(c => c.classList.remove('expanded'));
-    document.getElementById('zoom-overlay').classList.remove('active');
+    const overlay = document.getElementById('zoom-overlay');
+    const expandedView = document.getElementById('expanded-card-view');
+    
+    overlay.classList.remove('active');
+    expandedView.classList.remove('active');
 }
 
 renderTestimonials();
