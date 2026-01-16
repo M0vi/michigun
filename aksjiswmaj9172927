@@ -201,10 +201,7 @@
         .video-container { width: 100%; max-width: 800px; margin: 0 auto 50px; aspect-ratio: 16 / 9; }
         .video-container iframe { width: 100%; height: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); }
 
-        .main-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 25px; align-items: start; }
-        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
-
-        .card { padding: 35px; z-index: 1; }
+        .card { padding: 35px; z-index: 1; margin-bottom: 25px; }
         h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; letter-spacing: 3px; font-weight: 700; position: relative; z-index: 5; }
 
         .feature-stack { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 5; }
@@ -425,9 +422,15 @@
         <iframe id="yt-player" src="https://www.youtube.com/embed/20zXmdpUHQA?enablejsapi=1" allowfullscreen></iframe>
     </div>
 
-    <div class="main-layout">
-        <section class="card glass reveal">
-            <h2>GLOBAIS</h2>
+    <section class="card glass reveal">
+        <h2>FUNÇÕES</h2>
+        <div class="game-nav">
+            <button class="game-btn active" onclick="switchTab(event, 'global-tab')">Global</button>
+            <button class="game-btn" onclick="switchTab(event, 'tevez-tab')">Tevez</button>
+            <button class="game-btn" onclick="switchTab(event, 'delta-tab')">Delta</button>
+        </div>
+
+        <div id="global-tab" class="tab-content active">
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong>Hitbox expander <i class="fas fa-info-circle info-icon" onclick="openModal('Hitbox expander', 'Permite modificar a hitbox dos inimigos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP <i class="fas fa-info-circle info-icon" onclick="openModal('ESP', 'Permite visualizar inimigos através da parede.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
@@ -440,27 +443,23 @@
                 <div class="feature-item"><i class="fas fa-tools"></i><div><strong>F3X <i class="fas fa-info-circle info-icon" onclick="openModal('F3X', 'Altera o tamanho de parkours.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong>Sugestões <i class="fas fa-info-circle info-icon" onclick="openModal('Sugestões', 'Feedback anônimo.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
-        </section>
+        </div>
 
-        <section class="card glass reveal">
-            <h2>ESPECÍFICOS</h2>
-            <div class="game-nav">
-                <button class="game-btn active" onclick="switchTab(event, 'tevez-tab')">Tevez</button>
-                <button class="game-btn" onclick="switchTab(event, 'delta-tab')">Delta</button>
-            </div>
-            
-            <div id="tevez-tab" class="tab-content active">
+        <div id="tevez-tab" class="tab-content">
+            <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-skull"></i><div><strong>Kill aura <i class="fas fa-info-circle info-icon" onclick="openModal('Kill aura', 'Elimina todos os inimigos próximos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-fire-alt"></i><div><strong>Mods <i class="fas fa-info-circle info-icon" onclick="openModal('Mods', 'Modifica armas.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-mobile-alt"></i><div><strong>Spoofer <i class="fas fa-info-circle info-icon" onclick="openModal('Spoofer', 'Permite alterar o seu dispositivo mostrado para os outros, sendo possível realizar treinos mobile no PC e vice-versa.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm <i class="fas fa-info-circle info-icon" onclick="openModal('Autofarm', 'Rouba o banco automaticamente.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
+        </div>
 
-            <div id="delta-tab" class="tab-content">
+        <div id="delta-tab" class="tab-content">
+            <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Dinheiro infinito <i class="fas fa-info-circle info-icon" onclick="openModal('Dinheiro', 'Gera o máximo de dinheiro instantaneamente.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
 
     <section class="card glass reveal">
         <h2>SCRIPT</h2>
