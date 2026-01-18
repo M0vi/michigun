@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -25,6 +26,7 @@
         })(window, document, "clarity", "script", "v16x524lct");
     </script>
 
+    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <style>
@@ -59,6 +61,7 @@
             user-select: none;
         }
 
+        /* INTRO SCREEN */
         #intro-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #030303; z-index: 100000;
@@ -114,6 +117,7 @@
         @keyframes blink-caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes pulse-text { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
+        /* BACKGROUND */
         #geometric-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             overflow: hidden; background: #030303; pointer-events: none;
@@ -159,6 +163,7 @@
         }
         @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
 
+        /* UI ELEMENTS */
         #progress-bar-scroll { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, transparent, #fff); z-index: 10001; }
 
         .container { max-width: 1000px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 1; opacity: 0; transition: opacity 1s ease; }
@@ -215,7 +220,7 @@
         .antiban-badge { font-size: 0.55rem; background: rgba(74, 222, 128, 0.1); color: #4ade80; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(74, 222, 128, 0.2); text-transform: uppercase; font-weight: 800; display: inline-flex; align-items: center; gap: 3px; margin-top: 5px; }
         .info-icon { font-size: 0.8rem; opacity: 0.5; cursor: pointer; margin-left: 8px; }
 
-        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; position: relative; z-index: 5; }
+        .game-nav { display: flex; gap: 8px; margin-bottom: 25px; position: relative; z-index: 5; flex-wrap: wrap; }
         .game-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #666; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.7rem; cursor: pointer; transition: 0.3s; }
         .game-btn.active { border-color: var(--accent); color: #fff; background: rgba(255, 255, 255, 0.1); }
         .tab-content { display: none; flex-direction: column; gap: 10px; }
@@ -238,6 +243,7 @@
         .copy-icon-btn.pulse { animation: icon-pulse 2s infinite; background: #fff; color: #000; }
         @keyframes icon-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
 
+        /* MODAL */
         #modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); 
@@ -315,7 +321,6 @@
 
         .testimonial-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); background: rgba(25, 25, 25, 0.9); }
 
-        /* Estilo para o container de zoom/expandido que vive no body */
         #expanded-card-view {
             position: fixed; 
             top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -453,35 +458,52 @@
             <button class="game-btn active" onclick="switchTab(event, 'global-tab')">Global</button>
             <button class="game-btn" onclick="switchTab(event, 'tevez-tab')">Tevez</button>
             <button class="game-btn" onclick="switchTab(event, 'delta-tab')">Delta</button>
+            <button class="game-btn" onclick="switchTab(event, 'soucre-tab')">Soucre</button>
         </div>
 
+        <!-- GLOBAL TAB -->
         <div id="global-tab" class="tab-content active">
             <div class="feature-stack">
+                <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Silent aim <i class="fas fa-info-circle info-icon" onclick="openModal('Silent aim', 'Acerta inimigos sem precisar mirar diretamente.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-expand-arrows-alt"></i><div><strong>Hitbox expander <i class="fas fa-info-circle info-icon" onclick="openModal('Hitbox expander', 'Permite modificar a hitbox dos inimigos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
-                <div class="feature-item"><i class="fas fa-eye"></i><div><strong>ESP <i class="fas fa-info-circle info-icon" onclick="openModal('ESP', 'Permite visualizar inimigos através da parede.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
-                <div class="feature-item"><i class="fas fa-user-gear"></i><div><strong>Local <i class="fas fa-info-circle info-icon" onclick="openModal('Local', 'Modificações locais como char, noclip, speed, entre outros.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-robot"></i><div><strong>ChatGPT <i class="fas fa-info-circle info-icon" onclick="openModal('ChatGPT', 'Explica, gera e corrige textos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
-                <div class="feature-item"><i class="fas fa-tachometer-alt"></i><div><strong>Anti-lag <i class="fas fa-info-circle info-icon" onclick="openModal('Anti-lag', 'Otimiza o jogo para ganhos de FPS (frames por segundo), deixando-o mais liso.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-route"></i><div><strong>Parkour (TAS) <i class="fas fa-info-circle info-icon" onclick="openModal('TAS', 'Parkour automático.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
-                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Auto JJ'S <i class="fas fa-info-circle info-icon" onclick="openModal('JJ\'S', 'Polichinelos automáticos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Auto JJ's <i class="fas fa-info-circle info-icon" onclick="openModal('JJ\'S', 'Polichinelos automáticos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-sync-alt"></i><div><strong>Auto volver's <i class="fas fa-info-circle info-icon" onclick="openModal('VOLVER\'S', 'Comandos volveres automáticos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-tools"></i><div><strong>F3X <i class="fas fa-info-circle info-icon" onclick="openModal('F3X', 'Altera o tamanho de parkours.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-tachometer-alt"></i><div><strong>Anti-lag <i class="fas fa-info-circle info-icon" onclick="openModal('Anti-lag', 'Otimiza o jogo para ganhos de FPS.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-user-gear"></i><div><strong>Local <i class="fas fa-info-circle info-icon" onclick="openModal('Local', 'Modificações locais como char, noclip, speed.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-paper-plane"></i><div><strong>Sugestões <i class="fas fa-info-circle info-icon" onclick="openModal('Sugestões', 'Feedback anônimo.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
         </div>
 
+        <!-- TEVEZ TAB -->
         <div id="tevez-tab" class="tab-content">
             <div class="feature-stack">
+                <div class="feature-item"><i class="fas fa-globe"></i><div><strong>Todas as funções globais <i class="fas fa-info-circle info-icon" onclick="openModal('Global', 'Todas as funções da aba Global funcionam aqui.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-skull"></i><div><strong>Kill aura <i class="fas fa-info-circle info-icon" onclick="openModal('Kill aura', 'Elimina todos os inimigos próximos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-fire-alt"></i><div><strong>Mods <i class="fas fa-info-circle info-icon" onclick="openModal('Mods', 'Modifica armas.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
-                <div class="feature-item"><i class="fas fa-mobile-alt"></i><div><strong>Spoofer <i class="fas fa-info-circle info-icon" onclick="openModal('Spoofer', 'Permite alterar o seu dispositivo mostrado para os outros, sendo possível realizar treinos mobile no PC e vice-versa.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-mobile-alt"></i><div><strong>Spoofer <i class="fas fa-info-circle info-icon" onclick="openModal('Spoofer', 'Altera o dispositivo mostrado para outros.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
                 <div class="feature-item"><i class="fas fa-vault"></i><div><strong>Autofarm <i class="fas fa-info-circle info-icon" onclick="openModal('Autofarm', 'Rouba o banco automaticamente.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
         </div>
 
+        <!-- DELTA TAB -->
         <div id="delta-tab" class="tab-content">
             <div class="feature-stack">
-                <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Dinheiro infinito <i class="fas fa-info-circle info-icon" onclick="openModal('Dinheiro', 'Gera o máximo de dinheiro instantaneamente.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-globe"></i><div><strong>Todas as funções globais <i class="fas fa-info-circle info-icon" onclick="openModal('Global', 'Todas as funções da aba Global funcionam aqui.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-running"></i><div><strong>Auto JJ's <i class="fas fa-info-circle info-icon" onclick="openModal('JJ\'S', 'Polichinelos automáticos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-edit"></i><div><strong>Modificar JJ's <i class="fas fa-info-circle info-icon" onclick="openModal('Modificar JJ\'s', 'Altera a velocidade ou tipo dos polichinelos.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-coins"></i><div><strong>Dinheiro infinito <i class="fas fa-info-circle info-icon" onclick="openModal('Dinheiro', 'Gera o máximo de dinheiro.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-hand-holding-usd"></i><div><strong>Money all <i class="fas fa-info-circle info-icon" onclick="openModal('Money all', 'Dá dinheiro para todos no servidor.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+            </div>
+        </div>
+
+        <!-- SOUCRE TAB -->
+        <div id="soucre-tab" class="tab-content">
+            <div class="feature-stack">
+                <div class="feature-item"><i class="fas fa-globe"></i><div><strong>Todas as funções globais <i class="fas fa-info-circle info-icon" onclick="openModal('Global', 'Todas as funções da aba Global funcionam aqui.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
+                <div class="feature-item"><i class="fas fa-tractor"></i><div><strong>Autofarm <i class="fas fa-info-circle info-icon" onclick="openModal('Autofarm', 'Farm automático.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
             </div>
         </div>
     </section>
@@ -505,10 +527,12 @@
 </div>
 
 <script>
+// SMOOTH SCROLL (Lenis)
 const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
 function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
+// INTERSECTION OBSERVER
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => { 
         if (entry.isIntersecting) {
@@ -520,6 +544,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+// MODAL LOGIC
 function openModal(title, text) {
     document.getElementById('modal-title').textContent = title;
     document.getElementById('modal-text').textContent = text;
@@ -538,15 +563,10 @@ function closeModal() {
 }
 
 function handleModalButton(btn) {
-    const originalBg = btn.style.backgroundColor;
-    const originalCol = btn.style.color;
-    
     btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
     btn.style.color = '#000';
     btn.style.transform = 'scale(0.98)';
-    
     closeModal();
-    
     setTimeout(() => {
         btn.style.backgroundColor = '';
         btn.style.color = '';
@@ -554,7 +574,7 @@ function handleModalButton(btn) {
     }, 300);
 }
 
-// Random Music Logic
+// AUDIO LOGIC
 let audioStarted = false;
 const songs = ['ambient.mp3', 'ambient2.mp3', 'ambient3.mp3'];
 const randomSong = songs[Math.floor(Math.random() * songs.length)];
@@ -581,6 +601,7 @@ function handleGlobalClick(event) {
     setTimeout(() => circle.remove(), 600);
 }
 
+// INTRO TYPING
 function typeIntroText() {
     const text = "Bem-vindo ao michigun.xyz";
     const elem = document.getElementById('intro-text');
@@ -612,6 +633,7 @@ function enterSite() {
     }, 800);
 }
 
+// MOUSE TRACKING FOR GLASS EFFECT
 function syncPointer(e) {
     document.querySelectorAll('.glass').forEach(card => {
         const rect = card.getBoundingClientRect();
@@ -621,12 +643,18 @@ function syncPointer(e) {
 }
 document.addEventListener('pointermove', syncPointer);
 
-const scriptContent = 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/tevez/-/raw/main/tevez"))()';
+// SCRIPT TYPING & COPY (New URL)
+const scriptContent = 'loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/e2bb7476340c585939c6fea777d0dd6751caada7f20570f607625880a7f0f05b/download"))()';
 const scriptElem = document.getElementById('scriptTxt');
 let charIdx = 0;
 function typeScript() {
-    if (charIdx < scriptContent.length) { scriptElem.textContent += scriptContent.charAt(charIdx); charIdx++; setTimeout(typeScript, 30); }
-    else { document.getElementById('copyBtn').classList.add('pulse'); }
+    if (charIdx < scriptContent.length) { 
+        scriptElem.textContent += scriptContent.charAt(charIdx); 
+        charIdx++; 
+        setTimeout(typeScript, 30); 
+    } else { 
+        document.getElementById('copyBtn').classList.add('pulse'); 
+    }
 }
 setTimeout(typeScript, 2000);
 
@@ -643,6 +671,7 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     setTimeout(() => t.style.opacity = '0', 2000);
 });
 
+// TAB SWITCHING
 function switchTab(evt, tabName) {
     evt.preventDefault();
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -651,7 +680,7 @@ function switchTab(evt, tabName) {
     evt.currentTarget.classList.add('active');
 }
 
-// Scroll Handling for Progress Bar & Top Button
+// SCROLL HANDLING
 window.addEventListener('scroll', () => {
     const s = window.pageYOffset || document.documentElement.scrollTop;
     const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -669,6 +698,7 @@ function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// REVIEWS DATA
 const reviewsData = [
     { name: "Lorenzost20", text: "Se pudesse dar nota 1000, eu daria! Script completo e cheio de funções. Só senti falta de um silent aim, mas é realmente muito bom, com funções que pegam até em outros EB's.", avatar: "https://cdn.discordapp.com/embed/avatars/0.png" },
     { name: "guruv._", text: "10/10", avatar: "https://cdn.discordapp.com/embed/avatars/1.png" },
@@ -716,13 +746,9 @@ function renderTestimonials() {
 
 function toggleZoom(card) {
     if (window.innerWidth <= 768) return;
-
     const overlay = document.getElementById('zoom-overlay');
     const expandedView = document.getElementById('expanded-card-view');
-
-    // Clone content to the fixed container outside the main flow to ensure proper centering
     expandedView.innerHTML = card.innerHTML;
-    
     overlay.classList.add('active');
     expandedView.classList.add('active');
 }
@@ -730,13 +756,12 @@ function toggleZoom(card) {
 function closeZoom() {
     const overlay = document.getElementById('zoom-overlay');
     const expandedView = document.getElementById('expanded-card-view');
-    
     overlay.classList.remove('active');
     expandedView.classList.remove('active');
 }
-
 renderTestimonials();
 
+// YOUTUBE API
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -770,18 +795,14 @@ function toggleMute(event) {
     }
 }
 
+// ANTI-INSPECT (Basic)
 document.addEventListener('contextmenu', event => event.preventDefault());
 document.onkeydown = function(e) {
-    if (e.keyCode == 123) {
-        return false;
-    }
-    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) {
-        return false;
-    }
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-        return false;
-    }
+    if (e.keyCode == 123) { return false; }
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) { return false; }
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
 }
 </script>
 </body>
 </html>
+
