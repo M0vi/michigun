@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -26,7 +25,6 @@
         })(window, document, "clarity", "script", "v16x524lct");
     </script>
 
-    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <style>
@@ -461,7 +459,6 @@
             <button class="game-btn" onclick="switchTab(event, 'soucre-tab')">Soucre</button>
         </div>
 
-        <!-- GLOBAL TAB -->
         <div id="global-tab" class="tab-content active">
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-crosshairs"></i><div><strong>Silent aim <i class="fas fa-info-circle info-icon" onclick="openModal('Silent aim', 'Acerta inimigos sem precisar mirar diretamente.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
@@ -477,7 +474,6 @@
             </div>
         </div>
 
-        <!-- TEVEZ TAB -->
         <div id="tevez-tab" class="tab-content">
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-globe"></i><div><strong>Todas as funções globais <i class="fas fa-info-circle info-icon" onclick="openModal('Global', 'Todas as funções da aba Global funcionam aqui.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
@@ -488,7 +484,6 @@
             </div>
         </div>
 
-        <!-- DELTA TAB -->
         <div id="delta-tab" class="tab-content">
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-globe"></i><div><strong>Todas as funções globais <i class="fas fa-info-circle info-icon" onclick="openModal('Global', 'Todas as funções da aba Global funcionam aqui.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
@@ -499,7 +494,6 @@
             </div>
         </div>
 
-        <!-- SOUCRE TAB -->
         <div id="soucre-tab" class="tab-content">
             <div class="feature-stack">
                 <div class="feature-item"><i class="fas fa-globe"></i><div><strong>Todas as funções globais <i class="fas fa-info-circle info-icon" onclick="openModal('Global', 'Todas as funções da aba Global funcionam aqui.')"></i></strong><br><span class="antiban-badge">Seguro</span></div></div>
@@ -510,10 +504,18 @@
 
     <section class="card glass reveal">
         <h2>SCRIPT</h2>
-        <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1461595471977119999/Screenshot_2026-01-16-02-35-00-265_com.roblox.client-edit.jpg?ex=696b205b&is=6969cedb&hm=b03459cdf6f91de1fbd3435b4fbecc9557d84b3b08a453b8cb0980019bb2d595&" class="ui-image" alt="Script UI">
+        <img src="https://cdn.discordapp.com/attachments/1460824919758868501/1463019227995836416/Screenshot_2026-01-20-00-55-21-795_com.roblox.client-edit.jpg?ex=69704e55&is=696efcd5&hm=72ec90a7bf257e1915be4a01a9ef84b37f3a9898a2873611762eabb0e7db21c3&" class="ui-image" alt="Script UI">
+        
+        <div style="margin-bottom: 8px; font-size: 0.7rem; font-weight: 700; color: #aaa; letter-spacing: 1px;">VERSÃO PRINCIPAL - Todas as funções</div>
+        <div class="script-area" style="margin-bottom: 20px;">
+            <code id="scriptMainTxt"></code>
+            <button class="copy-icon-btn" onclick="copyScript('main', this)"><i class="fas fa-copy"></i></button>
+        </div>
+
+        <div style="margin-bottom: 8px; font-size: 0.7rem; font-weight: 700; color: #aaa; letter-spacing: 1px;">VERSÃO LITE - Funções limitadas</div>
         <div class="script-area">
-            <code id="scriptTxt"></code>
-            <button class="copy-icon-btn" id="copyBtn"><i class="fas fa-copy"></i></button>
+            <code id="scriptLiteTxt"></code>
+            <button class="copy-icon-btn" onclick="copyScript('lite', this)"><i class="fas fa-copy"></i></button>
         </div>
     </section>
 
@@ -590,7 +592,7 @@ function startAmbient() {
 
 function handleGlobalClick(event) {
     startAmbient();
-    if(event.target.closest('.testimonial-card') || event.target.closest('#expanded-card-view')) return; 
+    if(event.target.closest('.testimonial-card') || event.target.closest('#expanded-card-view') || event.target.closest('.copy-icon-btn')) return; 
     const circle = document.createElement("div");
     circle.classList.add("ripple");
     document.body.appendChild(circle);
@@ -643,24 +645,38 @@ function syncPointer(e) {
 }
 document.addEventListener('pointermove', syncPointer);
 
-// SCRIPT TYPING & COPY (New URL)
-const scriptContent = 'loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/e2bb7476340c585939c6fea777d0dd6751caada7f20570f607625880a7f0f05b/download"))()';
-const scriptElem = document.getElementById('scriptTxt');
-let charIdx = 0;
-function typeScript() {
-    if (charIdx < scriptContent.length) { 
-        scriptElem.textContent += scriptContent.charAt(charIdx); 
-        charIdx++; 
-        setTimeout(typeScript, 30); 
-    } else { 
-        document.getElementById('copyBtn').classList.add('pulse'); 
-    }
-}
-setTimeout(typeScript, 2000);
+// --- SCRIPT LOGIC (UPDATED) ---
+const scriptContentMain = 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/michigun.xyz/-/raw/main/main"))()';
+const scriptContentLite = 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/michigun.xyz/-/raw/main/lite"))()';
 
-document.getElementById('copyBtn').addEventListener('click', () => {
+function typeWriter(text, elementId, speed) {
+    let i = 0;
+    const elem = document.getElementById(elementId);
+    elem.textContent = ""; 
+    function type() {
+        if (i < text.length) {
+            elem.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            // Animation finished
+        }
+    }
+    type();
+}
+
+setTimeout(() => {
+    typeWriter(scriptContentMain, 'scriptMainTxt', 15);
+    typeWriter(scriptContentLite, 'scriptLiteTxt', 15);
+}, 2000);
+
+function copyScript(type, btnElement) {
+    let content = "";
+    if (type === 'main') content = scriptContentMain;
+    if (type === 'lite') content = scriptContentLite;
+
     const textarea = document.createElement('textarea');
-    textarea.value = scriptContent;
+    textarea.value = content;
     document.body.appendChild(textarea);
     textarea.select();
     document.execCommand('copy');
@@ -669,7 +685,12 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     const t = document.getElementById('toast');
     t.style.opacity = '1';
     setTimeout(() => t.style.opacity = '0', 2000);
-});
+    
+    // Pulse effect on specific button
+    btnElement.classList.add('pulse');
+    setTimeout(() => btnElement.classList.remove('pulse'), 1000);
+}
+// ------------------------------
 
 // TAB SWITCHING
 function switchTab(evt, tabName) {
@@ -733,22 +754,62 @@ function renderTestimonials() {
             <div class="t-header">
                 <div class="t-avatar"><img src="${e.avatar}" alt="${e.name}"></div>
                 <div class="t-info">
-                    <div class="t-name">${e.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.747 1.687.878.633.132 1.29.084 1.897-.136.274.586.705 1.084 1.246 1.439.54.354 1.17.551 1.816.569.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.239 1.266.296 1.903.164.636-.132 1.22-.447 1.68-.907.46-.46.776-1.044.908-1.681s.075-1.299-.165-1.903c.586-.274 1.084-.705 1.439-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" /></svg></div>
-                    <span class="t-handle">@${e.name.toLowerCase().replace(/\s/g, '')}</span>
+                    <div class="t-name">${e.name} <svg class="verified-badge" viewBox="0 0 22 22" fill="currentColor"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1264-.27-1.896-.14-.634.13-1.218.436-1.687.882-.445.47-.75 1.053-.882 1.687-.13.633-.083 1.29.14 1.897-.588.273-1.087.705-1.44 1.245-.354.54-.55 1.17-.569 1.816.017.647.215 1.273.568 1.813.354.54.855.972 1.44 1.24-.224.608-.27 1.265-.14 1.898.13.633.436 1.217.882 1.686.47.446 1.054.75 1.687.883.633.13 1.29.082 1.897-.14.273.587.705 1.086 1.245 1.44.54.354 1.17.552 1.816.57.647-.018 1.274-.214 1.813-.568.54-.354.972-.854 1.24-1.44.608.223 1.265.27 1.898.14.633-.13 1.217-.437 1.686-.882.446-.47.75-1.054.883-1.687.13-.633.082-1.29-.14-1.897.587-.274 1.086-.705 1.44-1.245.354-.54.552-1.17.57-1.816zm-5.703 1.76l-4.75 4.882c-.172.176-.407.275-.653.275s-.48-.1-.653-.275l-2.45-2.52c-.36-.37-.36-.97 0-1.34s.944-.37 1.304 0l1.8 1.85 4.1-4.214c.36-.37.943-.37 1.304 0 .36.37.36.97 0 1.34z"/></svg>
+                    </div>
+                    <span class="t-handle">@${e.name.replace(/\s+/g, '').toLowerCase()}</span>
                 </div>
             </div>
-            <div class="t-stars">⭐⭐⭐⭐⭐</div>
-            <p class="t-content">${e.text}</p>
+            <div class="t-stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <div class="t-content">${e.text}</div>
+            <div class="t-footer">
+                ${generateRandomDate()} · Via Discord
+            </div>
         `;
         container.appendChild(card);
     });
 }
 
+function generateRandomDate() {
+    const dates = ["Há 2 dias", "Há 1 semana", "Ontem", "Hoje", "Há 3 dias", "Há 5 horas"];
+    return dates[Math.floor(Math.random() * dates.length)];
+}
+
+// Inicializar depoimentos
+renderTestimonials();
+
+// MUTE FUNCTION
+function toggleMute(e) {
+    e.stopPropagation();
+    if(bgMusic.paused) {
+        startAmbient();
+        document.getElementById('mute-icon').className = 'fas fa-volume-up';
+    } else {
+        bgMusic.muted = !bgMusic.muted;
+        const icon = document.getElementById('mute-icon');
+        if (bgMusic.muted) {
+            icon.className = 'fas fa-volume-mute';
+        } else {
+            icon.className = 'fas fa-volume-up';
+        }
+    }
+}
+
+// ZOOM / EXPAND CARD LOGIC
 function toggleZoom(card) {
-    if (window.innerWidth <= 768) return;
+    if (window.innerWidth <= 768) return; // Desativa em mobile para evitar bugs de layout
+    
     const overlay = document.getElementById('zoom-overlay');
     const expandedView = document.getElementById('expanded-card-view');
+    
+    // Clona o conteúdo do card clicado para a view expandida
     expandedView.innerHTML = card.innerHTML;
+    
+    // Ajusta estilos específicos para o modo expandido se necessário
+    const content = expandedView.querySelector('.t-content');
+    if(content) content.style.fontSize = '1.1rem';
+
     overlay.classList.add('active');
     expandedView.classList.add('active');
 }
@@ -756,53 +817,29 @@ function toggleZoom(card) {
 function closeZoom() {
     const overlay = document.getElementById('zoom-overlay');
     const expandedView = document.getElementById('expanded-card-view');
+    
     overlay.classList.remove('active');
     expandedView.classList.remove('active');
+    
+    setTimeout(() => {
+        expandedView.innerHTML = '';
+    }, 300);
 }
-renderTestimonials();
 
-// YOUTUBE API
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-var player;
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('yt-player', {
-    events: {
-      'onStateChange': onPlayerStateChange
+// Detectar teclas (ESC para fechar modais)
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        closeModal();
+        closeZoom();
     }
-  });
-}
+});
 
-function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.PLAYING) {
-    bgMusic.pause();
-  } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
-    bgMusic.play();
-  }
-}
-
-function toggleMute(event) {
-    event.stopPropagation();
-    const icon = document.getElementById('mute-icon');
-    bgMusic.muted = !bgMusic.muted;
-    if (bgMusic.muted) {
-        icon.className = 'fas fa-volume-mute';
-    } else {
-        icon.className = 'fas fa-volume-up';
-    }
-}
-
-// ANTI-INSPECT (Basic)
+// Prevenir menu de contexto (clique direito) para proteção básica
 document.addEventListener('contextmenu', event => event.preventDefault());
-document.onkeydown = function(e) {
-    if (e.keyCode == 123) { return false; }
-    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) { return false; }
-    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
-}
+
+console.log("%c MICHIGUN.XYZ ", "background: #000; color: #fff; font-size: 20px; padding: 10px; border-radius: 5px;");
+console.log("Desenvolvido por @fp3");
+
 </script>
 </body>
 </html>
-
