@@ -6,7 +6,6 @@
     <title>michigun.xyz | Compact</title>
     <meta name="theme-color" content="#000000">
     
-    <!-- Fonts & Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
     
@@ -40,7 +39,6 @@
             justify-content: center;
             min-height: 100vh;
             overflow-x: hidden;
-            /* Scanline effect */
             background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
             background-size: 100% 2px, 3px 100%;
         }
@@ -56,7 +54,6 @@
             z-index: 1;
         }
 
-        /* Header */
         header {
             display: flex;
             align-items: center;
@@ -113,7 +110,6 @@
             box-shadow: 0 5px 15px rgba(255,255,255,0.1);
         }
 
-        /* Video */
         .video-box {
             width: 100%;
             aspect-ratio: 16/9;
@@ -130,7 +126,6 @@
             border: none;
         }
 
-        /* Script Section */
         .script-box {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -176,7 +171,6 @@
             box-shadow: 0 0 15px rgba(255,255,255,0.2);
         }
 
-        /* Tabs */
         .nav-tabs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -213,7 +207,6 @@
             box-shadow: 0 2px 10px rgba(255,255,255,0.1);
         }
 
-        /* Grid */
         .tab-content {
             display: none;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -282,7 +275,6 @@
         .badge.risk { background: rgba(239, 68, 68, 0.08); color: var(--risk); border: 1px solid rgba(239, 68, 68, 0.15); }
         .badge.visual { background: rgba(168, 85, 247, 0.08); color: var(--visual); border: 1px solid rgba(168, 85, 247, 0.15); }
 
-        /* Footer */
         footer {
             text-align: center;
             font-size: 0.65rem;
@@ -293,7 +285,6 @@
             letter-spacing: 1px;
         }
 
-        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -361,7 +352,6 @@
             box-shadow: 0 5px 15px rgba(255,255,255,0.15);
         }
 
-        /* Toast */
         #toast {
             position: fixed;
             bottom: 30px;
@@ -398,7 +388,6 @@
 <body>
 
     <div class="wrapper">
-        <!-- Header -->
         <header>
             <img src="avatar.png" class="avatar" alt="fp3" onerror="this.src='https://ui-avatars.com/api/?name=FP&background=333&color=fff&size=128'">
             <div class="header-info">
@@ -410,18 +399,15 @@
             </div>
         </header>
 
-        <!-- Video -->
         <div class="video-box">
             <iframe id="yt-player" src="https://www.youtube.com/embed/20zXmdpUHQA?enablejsapi=1" allowfullscreen></iframe>
         </div>
 
-        <!-- Script Area -->
         <div class="script-box">
             <code id="scriptTxt">...</code>
             <button class="copy-btn" onclick="copyScript()">COPIAR</button>
         </div>
 
-        <!-- Navegação -->
         <nav class="nav-tabs">
             <button class="tab-btn active" onclick="switchTab('global')">GLOBAL</button>
             <button class="tab-btn" onclick="switchTab('tevez')">TEVEZ</button>
@@ -429,7 +415,6 @@
             <button class="tab-btn" onclick="switchTab('soucre')">SOUCRE</button>
         </nav>
 
-        <!-- Container de Funções (Gerado via JS) -->
         <main id="features-container"></main>
 
         <footer>
@@ -437,7 +422,6 @@
         </footer>
     </div>
 
-    <!-- Modals -->
     <div class="modal-overlay" id="modal" onclick="closeModal()">
         <div class="modal-box" onclick="event.stopPropagation()">
             <span class="modal-title" id="m-title">TITLE</span>
@@ -449,15 +433,10 @@
     <div id="toast">Copiado para a área de transferência!</div>
 
     <script>
-        // =========================================================================
-        // CONFIGURAÇÃO DO SITE (EDITE AQUI PARA ALTERAR TEXTOS, LINKS E FUNÇÕES)
-        // =========================================================================
         const CONFIG = {
             script: 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/michigun.xyz/-/raw/main/main"))()',
             discordLink: 'https://discord.gg/pWeJUBabvF',
             
-            // Definição das funções por aba
-            // type: 'safe' (Seguro - Verde), 'risk' (Risco - Vermelho), 'visual' (Visual - Roxo)
             features: {
                 global: [
                     { name: 'Silent aim',     icon: 'fas fa-crosshairs',      type: 'safe',   desc: 'Redireciona os tiros para o inimigo' },
@@ -488,16 +467,10 @@
             }
         };
 
-        // =========================================================================
-        // LÓGICA DO SISTEMA
-        // =========================================================================
-
-        // Inicialização
         document.getElementById('scriptTxt').innerText = CONFIG.script;
         document.getElementById('discord-link').href = CONFIG.discordLink;
         renderFeatures();
 
-        // Sistema de Som
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(freq, type, duration) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -515,7 +488,6 @@
         function playClick() { playTone(800, 'sine', 0.1); }
         function playSuccess() { playTone(600, 'sine', 0.1); setTimeout(() => playTone(1200, 'sine', 0.2), 100); }
 
-        // Renderização Dinâmica das Abas
         function renderFeatures() {
             const container = document.getElementById('features-container');
             container.innerHTML = '';
@@ -544,7 +516,6 @@
             }
         }
 
-        // Navegação
         function switchTab(tabId) {
             playClick();
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -553,7 +524,6 @@
             event.target.classList.add('active');
         }
 
-        // Modal
         function info(title, desc) {
             document.getElementById('m-title').innerText = title;
             document.getElementById('m-desc').innerText = desc;
@@ -565,7 +535,6 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        // Copiar Script
         function copyScript() {
             navigator.clipboard.writeText(CONFIG.script).then(() => {
                 playSuccess();
@@ -577,5 +546,3 @@
     </script>
 </body>
 </html>
-
-
