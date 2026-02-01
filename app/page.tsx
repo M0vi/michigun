@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { NextResponse, NextRequest } from 'next/server'
 
 type FeatureItem = {
   name: string
@@ -308,12 +309,16 @@ export default function Home() {
             <div className="hero-title">Showcase</div>
             <p className="hero-desc">O vídeo pode estar desatualizado</p>
             
-            <div className={`execution-badge ${contentReady ? 'visible' : ''}`}>
-               <i className="fas fa-terminal"></i>
-               <span>
-                 {execCount !== null ? execCount.toLocaleString() : '...'}
-               </span>
-               <span className="exec-label">Execuções</span>
+            <div className={`execution-badge ${contentReady ? 'visible' : ''}`} onMouseEnter={() => playSound('hover')}>
+               <div className="exec-pulse-container">
+                 <div className="exec-pulse"></div>
+               </div>
+               <div className="exec-content">
+                 <span className="exec-number">
+                   {execCount !== null ? execCount.toLocaleString() : '...'}
+                 </span>
+                 <span className="exec-label">EXECUÇÕES</span>
+               </div>
             </div>
           </div>
         </div>
