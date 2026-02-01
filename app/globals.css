@@ -215,7 +215,7 @@ header { display: flex; align-items: center; justify-content: space-between; }
 .play-icon i { font-size: 1.2rem; color: #fff; margin-left: 4px; }
 .video-container:hover .play-icon { background: var(--brand); border-color: var(--brand); transform: scale(1.1); }
 iframe { width: 100%; height: 100%; border: none; }
-.hero-text { margin-top: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.hero-text { margin-top: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; width: 100%; }
 .hero-title { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
 .hero-title span { color: var(--brand); }
 .hero-desc { font-size: 0.9rem; color: var(--text-secondary); max-width: 80%; margin: 0 auto; line-height: 1.5; }
@@ -333,6 +333,91 @@ iframe { width: 100%; height: 100%; border: none; }
 }
 
 .hud-dropdown button:hover { background: #222; color: #fff; }
+
+.editor-window {
+  background: #0d0d0d;
+  border: 1px solid #222;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 580px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 20px 50px -10px rgba(0,0,0,0.8);
+}
+
+.editor-window.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.editor-header {
+  background: #111;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #222;
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.win-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.win-dot.red { background: #ff5f56; }
+.win-dot.yellow { background: #ffbd2e; }
+.win-dot.green { background: #27c93f; }
+
+.editor-filename {
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 600;
+}
+
+.editor-body {
+  display: flex;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  position: relative;
+  background: rgba(10,10,10,0.5);
+}
+
+.line-numbers {
+  background: #0f0f0f;
+  padding: 16px 12px;
+  border-right: 1px solid #1a1a1a;
+  display: flex; flex-direction: column;
+  color: #444;
+  user-select: none;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.code-content {
+  flex: 1;
+  overflow-x: auto;
+  padding: 16px;
+  white-space: nowrap;
+  color: #abb2bf;
+  line-height: 1.5;
+  scrollbar-width: thin;
+}
+
+.code-content::-webkit-scrollbar { height: 6px; }
+.code-content::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+
+.lua-token { color: #ccc; }
+.lua-function { color: #61afef; }
+.lua-string { color: #98c379; }
+.lua-keyword { color: #c678dd; }
+.lua-global { color: #e5c07b; }
+.lua-symbol { color: #56b6c2; }
 
 .trust-grid {
   display: grid;

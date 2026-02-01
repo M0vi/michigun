@@ -42,8 +42,7 @@ type DiscordInviteData = {
 }
 
 const CONFIG = {
-  // Agora usamos o link curto direto do seu dominio
-  script: 'loadstring(game:HttpGet("https://michigun.xyz/script"))()',
+  script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
   videoId: '20zXmdpUHQA',
   discordId: '1163467888259239996',
@@ -83,6 +82,23 @@ const CONFIG = {
       { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Ganha dinheiro automaticamente' }
     ]
   } as Record<string, FeatureItem[]>
+}
+
+const SimpleLuaHighlight = ({ code }: { code: string }) => {
+  const parts = code.split(/(".*?"|\(|\)|\.|{|}|,|=)/g)
+  
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part === '(' || part === ')' || part === '.' || part === '{' || part === '}' || part === ',' || part === '=') return <span key={i} className="lua-symbol">{part}</span>
+        if (part.startsWith('"')) return <span key={i} className="lua-string">{part}</span>
+        if (part === 'loadstring' || part === 'request' || part === 'HttpGet') return <span key={i} className="lua-function">{part}</span>
+        if (part === 'Url' || part === 'Method' || part === 'Body') return <span key={i} className="lua-keyword">{part}</span>
+        if (part === 'game') return <span key={i} className="lua-global">{part}</span>
+        return <span key={i} className="lua-token">{part}</span>
+      })}
+    </>
+  )
 }
 
 const useTypewriter = (text: string, speed: number = 100, delay: number = 0) => {
@@ -295,7 +311,6 @@ export default function Home() {
             <p className="hero-desc">O vídeo pode estar desatualizado</p>
             
             <div className={`action-bar ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
-              
               <div className="stat-segment">
                  <div className="pulse-dot"></div>
                  <div className="stat-text">
@@ -327,7 +342,26 @@ export default function Home() {
                    </div>
                  </div>
               </div>
+            </div>
 
+            <div className={`editor-window ${contentReady ? 'visible' : ''}`}>
+               <div className="editor-header">
+                  <div className="window-controls">
+                     <span className="win-dot red"></span>
+                     <span className="win-dot yellow"></span>
+                     <span className="win-dot green"></span>
+                  </div>
+                  <div className="editor-filename">loader.lua</div>
+               </div>
+               
+               <div className="editor-body">
+                  <div className="line-numbers">
+                     <span>1</span>
+                  </div>
+                  <div className="code-content">
+                     <SimpleLuaHighlight code={CONFIG.script} />
+                  </div>
+               </div>
             </div>
 
           </div>
