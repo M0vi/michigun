@@ -6,7 +6,8 @@
   --text-secondary: #888888;
   --accent: #ffffff;
   --brand: #ff3e3e;
-  --discord: #5865F2;
+  --discord: #5865F2; /* Azul Discord */
+  --discord-glow: #00d4ff; /* Azul claro para o glow */
   --glass: rgba(255, 255, 255, 0.03);
 }
 
@@ -112,13 +113,6 @@ header { display: flex; align-items: center; justify-content: space-between; }
 .avatar:hover { border-color: var(--brand); transform: scale(1.05); }
 .brand-name { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
 .brand-sub { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
-.social-btn {
-  width: 40px; height: 40px; background: var(--surface);
-  border: 1px solid var(--surface-border); border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-secondary); transition: 0.2s; text-decoration: none;
-}
-.social-btn:hover { background: #fff; color: #000; transform: translateY(-2px); }
 
 /* HERO VIDEO */
 .hero-wrapper { position: relative; width: 100%; margin-top: 10px; }
@@ -157,10 +151,10 @@ iframe { width: 100%; height: 100%; border: none; }
 .hero-title span { color: var(--brand); }
 .hero-desc { font-size: 0.9rem; color: var(--text-secondary); max-width: 80%; margin: 0 auto; line-height: 1.5; }
 
-/* TRUST GRID (SUPORTE/KEY) */
+/* TRUST GRID */
 .trust-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 colunas lado a lado */
+  grid-template-columns: 1fr 1fr;
   gap: 15px;
 }
 
@@ -185,21 +179,30 @@ iframe { width: 100%; height: 100%; border: none; }
 .trust-label { font-size: 0.9rem; font-weight: 700; color: #eee; }
 .trust-sub { font-size: 0.75rem; color: #777; line-height: 1.4; }
 
-/* DISCORD CUSTOM SECTION (SEPARADA) */
+/* DISCORD CUSTOM SECTION (GLOW UPDATE) */
 .discord-dock {
-  background: linear-gradient(145deg, #0a0a0a, #0e0e0e);
+  background: #0a0a0a;
   border: 1px solid var(--surface-border);
   border-radius: 24px;
-  padding: 2px; /* Gradient border trick space */
+  padding: 2px;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Permitir que o glow vaze */
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  transition: 0.3s;
 }
 
-.discord-dock::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--discord), transparent);
-  opacity: 0.5;
+/* Glow azul bonito atrás */
+.discord-dock::after {
+  content: ''; position: absolute; top: 10%; left: 5%; width: 90%; height: 80%;
+  background: var(--discord-glow);
+  filter: blur(50px);
+  opacity: 0.15;
+  z-index: -1;
+  transition: 0.3s;
 }
+
+.discord-dock:hover { border-color: rgba(88, 101, 242, 0.4); }
+.discord-dock:hover::after { opacity: 0.25; filter: blur(60px); }
 
 .discord-inner {
   background: #080808;
@@ -208,6 +211,8 @@ iframe { width: 100%; height: 100%; border: none; }
   display: flex;
   flex-direction: column;
   gap: 20px;
+  /* Fundo sutil para destacar dentro do dock */
+  background-image: radial-gradient(circle at top right, rgba(88, 101, 242, 0.05), transparent 40%);
 }
 
 .discord-header-row {
@@ -219,28 +224,34 @@ iframe { width: 100%; height: 100%; border: none; }
 .discord-info-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .discord-logo-box {
-  width: 48px; height: 48px;
-  background: var(--discord);
-  border-radius: 12px;
+  width: 52px; height: 52px;
+  background: #111;
+  border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 8px 20px rgba(88, 101, 242, 0.25);
+  border: 1px solid #222;
+  overflow: hidden;
 }
-.discord-logo-box i { color: #fff; font-size: 1.5rem; }
+.discord-server-icon {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.discord-logo-box i { color: var(--discord); font-size: 1.8rem; }
 
-.discord-names h3 { margin: 0; font-size: 1rem; color: #fff; font-weight: 800; }
-.discord-names p { margin: 0; font-size: 0.75rem; color: #888; margin-top: 2px; }
+.discord-names h3 { margin: 0; font-size: 1.1rem; color: #fff; font-weight: 800; letter-spacing: -0.5px; }
+.discord-names p { margin: 0; font-size: 0.75rem; color: #888; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+
+.online-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; }
 
 .discord-stat-badge {
-  background: rgba(88, 101, 242, 0.1);
-  color: var(--discord);
-  border: 1px solid rgba(88, 101, 242, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 6px 12px;
-  border-radius: 50px;
-  font-size: 0.7rem; font-weight: 700;
+  border-radius: 8px;
+  font-size: 0.7rem; font-weight: 600;
   white-space: nowrap;
 }
 
@@ -253,32 +264,35 @@ iframe { width: 100%; height: 100%; border: none; }
 .members-label { font-size: 0.7rem; color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 
 .members-scroll {
-  display: flex; gap: 12px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none;
+  display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none;
 }
 
 .dm-item {
   position: relative; min-width: 44px; display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
-.dm-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #1a1a1a; background: #222; }
+.dm-avatar { 
+  width: 44px; height: 44px; border-radius: 50%; border: 2px solid #1a1a1a; background: #222; 
+  transition: 0.2s;
+}
+.dm-item:hover .dm-avatar { border-color: var(--discord); transform: scale(1.05); }
+
 .dm-status {
-  position: absolute; bottom: 2px; right: 0; width: 10px; height: 10px;
+  position: absolute; bottom: 2px; right: 0; width: 12px; height: 12px;
   background: #4ade80; border: 2px solid #080808; border-radius: 50%;
 }
 .dm-name { font-size: 0.6rem; color: #777; max-width: 44px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-.discord-actions {
-  display: flex; gap: 10px;
-}
-
 .btn-join-discord {
-  flex: 1; padding: 12px;
+  margin-top: 5px;
+  flex: 1; padding: 14px;
   background: var(--discord); color: #fff;
-  border: none; border-radius: 12px;
-  font-weight: 700; font-size: 0.9rem;
+  border: none; border-radius: 14px;
+  font-weight: 800; font-size: 0.95rem;
   cursor: pointer; transition: 0.2s;
   display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
 }
-.btn-join-discord:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); }
+.btn-join-discord:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(88, 101, 242, 0.4); }
 
 /* GAMES CAROUSEL */
 .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -327,6 +341,7 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #999;
 .feat-card:hover i { color: #fff; }
 .feat-content { display: flex; flex-direction: column; gap: 6px; }
 .feat-name { font-size: 0.9rem; font-weight: 700; color: #ddd; }
+.feat-desc { font-size: 0.75rem; color: #777; line-height: 1.4; }
 .feat-tag { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; margin-top: 10px; display: inline-block; }
 .tag-safe { color: #4ade80; } .tag-risk { color: var(--brand); } .tag-visual { color: #a855f7; }
 

@@ -30,6 +30,17 @@ type DiscordWidgetData = {
   presence_count: number
 }
 
+// Para pegar o ícone e dados extras que o widget.json as vezes não dá, usamos a API de invite
+type DiscordInviteData = {
+  guild: {
+    id: string
+    name: string
+    icon: string
+  }
+  approximate_member_count: number
+  approximate_presence_count: number
+}
+
 const CONFIG = {
   script: 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/michigun.xyz/-/raw/main/main"))()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
@@ -81,7 +92,8 @@ export default function Home() {
   const [modal, setModal] = useState({ open: false, title: '', desc: '' })
   const [toast, setToast] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('/avatar.png')
-  const [discordData, setDiscordData] = useState<DiscordWidgetData | null>(null)
+  const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
+  const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
 
@@ -108,19 +120,28 @@ export default function Home() {
 
     async function fetchData() {
       try {
-        // Avatar
+        // User Avatar
         const resAv = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordId}`)
         const dataAv = await resAv.json()
         if (dataAv.success && dataAv.data.discord_user.avatar) {
           setAvatarUrl(`https://cdn.discordapp.com/avatars/${CONFIG.discordId}/${dataAv.data.discord_user.avatar}.png`)
         }
 
-        // Widget Data Full
+        // Widget Data (Membros online)
         const resWidget = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
         const dataWidget = await resWidget.json()
         if (dataWidget) {
-          setDiscordData(dataWidget)
+          setDiscordWidget(dataWidget)
         }
+
+        // Invite Data (Total membros + Icone)
+        const inviteCode = CONFIG.discordLink.split('/').pop()
+        const resInvite = await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`)
+        const dataInvite = await resInvite.json()
+        if (dataInvite.guild) {
+          setDiscordExtra(dataInvite)
+        }
+
       } catch {}
     }
     fetchData()
@@ -143,6 +164,13 @@ export default function Home() {
     e.currentTarget.src = `https://ui-avatars.com/api/?name=${fallbackName}&background=333&color=fff&size=128`
   }
 
+  const getServerIcon = () => {
+    if (discordExtra?.guild?.icon) {
+      return `https://cdn.discordapp.com/icons/${discordExtra.guild.id}/${discordExtra.guild.icon}.png`
+    }
+    return null
+  }
+
   return (
     <>
       {loading && (
@@ -162,9 +190,6 @@ export default function Home() {
               <div className="brand-sub">Developer</div>
             </div>
           </div>
-          <a href={CONFIG.discordLink} target="_blank" className="social-btn" rel="noreferrer">
-            <i className="fab fa-discord"></i>
-          </a>
         </header>
 
         <div className="hero-wrapper">
@@ -198,7 +223,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* TRUST GRID REVERTIDO (2 Colunas) */}
         <div className="trust-grid">
           <div className="trust-item">
             <i className="far fa-play-circle trust-icon"></i>
@@ -212,20 +236,29 @@ export default function Home() {
           </div>
         </div>
 
-        {/* DISCORD DEDICADO */}
+        {/* DISCORD DOCK (DEDICATED) */}
         <section className="discord-dock">
           <div className="discord-inner">
             <div className="discord-header-row">
               <div className="discord-info-group">
-                <div className="discord-logo-box"><i className="fab fa-discord"></i></div>
+                <div className="discord-logo-box">
+                  {getServerIcon() ? (
+                    <img src={getServerIcon()!} alt="Server" className="discord-server-icon" />
+                  ) : (
+                    <i className="fab fa-discord"></i>
+                  )}
+                </div>
                 <div className="discord-names">
-                  <h3>{discordData?.name || 'Comunidade'}</h3>
-                  <p>{discordData?.presence_count || 0} Membros Online</p>
+                  <h3>{discordWidget?.name || 'Comunidade'}</h3>
+                  <p>
+                    <span className="online-dot"></span>
+                    {discordWidget?.presence_count || 0} Online
+                  </p>
                 </div>
               </div>
-              {discordData && (
+              {discordExtra && (
                 <div className="discord-stat-badge">
-                  {discordData.channels?.length || 0} Canais Ativos
+                  {discordExtra.approximate_member_count} Membros Totais
                 </div>
               )}
             </div>
@@ -233,10 +266,10 @@ export default function Home() {
             <div className="discord-members-area">
               <span className="members-label">Online Agora</span>
               <div className="members-scroll">
-                {contentReady && discordData?.members ? (
-                  discordData.members.map((m) => (
+                {contentReady && discordWidget?.members ? (
+                  discordWidget.members.map((m) => (
                     <div key={m.id} className="dm-item">
-                      <img src={m.avatar_url} className="dm-avatar" alt={m.username} />
+                      <img src={m.avatar_url} className="dm-avatar" alt={m.username} onError={(e) => handleImageError(e, 'User')} />
                       <div className="dm-status"></div>
                     </div>
                   ))
