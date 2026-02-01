@@ -55,30 +55,30 @@ const CONFIG = {
 
   features: {
     global: [
-      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros.' },
-      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta área de acerto.' },
-      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para chat.' },
-      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Parkour automático.' },
-      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs automáticos.' },
-      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas.' },
-      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Ferramenta de construção.' },
-      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Alterador de skin.' }
+      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros ao inimigo' },
+      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta a hitbox dos inimigos' },
+      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar textos e corrigi-los' },
+      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Parkour automático' },
+      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs automáticos' },
+      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza a renderização' },
+      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Permite modificar estruturas, incluindo parkours' },
+      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Permite alterar seu char ou o char de terceiros' }
     ],
     tevez: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
-      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata inimigos próximos.' },
-      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Modificadores de arma.' },
-      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Falsifica dispositivo.' },
-      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Farm de dinheiro auto.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
+      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata todos os inimigos ao redor' },
+      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Modifica a arma' },
+      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Permite alterar o dispositivo no qual você joga que aparece para os outros' },
+      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Ganha dinheiro automaticamente' }
     ],
     delta: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
-      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Dinheiro infinito.' },
-      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Dinheiro para todos.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
+      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Dinheiro infinito' },
+      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Transfere dinheiro infinito para todos' }
     ],
     soucre: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
-      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Autofarm otimizado.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
+      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Ganha dinheiro automaticamente' }
     ]
   } as Record<string, FeatureItem[]>
 }
@@ -115,7 +115,7 @@ export default function Home() {
     const timer = setTimeout(() => {
       setLoading(false)
       setTimeout(() => setContentReady(true), 800)
-    }, 2000)
+    }, 1500)
 
     async function fetchData() {
       try {
@@ -180,12 +180,21 @@ export default function Home() {
         
         <header>
           <div className="profile-container">
-            <img src={avatarUrl} className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} />
+            <img 
+              src={avatarUrl} 
+              className="avatar" 
+              alt="fp3" 
+              onError={(e) => handleImageError(e, 'FP')} 
+              fetchPriority="high"
+            />
             <div>
               <div className="brand-name">fp3</div>
               <div className="brand-sub">Developer</div>
             </div>
           </div>
+          <a href={CONFIG.discordLink} target="_blank" className="social-btn" rel="noreferrer">
+            <i className="fab fa-discord"></i>
+          </a>
         </header>
 
         <div className="hero-wrapper">
@@ -195,7 +204,13 @@ export default function Home() {
             {contentReady ? (
               <div className="video-container" onClick={() => setVideoActive(true)}>
                 {!videoActive ? (
-                  <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
+                  <div className="video-thumb">
+                    <img 
+                      src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
+                      alt="Showcase" 
+                      className="video-bg-img" 
+                      fetchPriority="high"
+                    />
                     <div className="play-icon">
                       <i className="fas fa-play"></i>
                     </div>
@@ -215,7 +230,7 @@ export default function Home() {
 
           <div className="hero-text">
             <div className="hero-title">Showcase</div>
-            <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
+            <p className="hero-desc">O vídeo pode estar desatualizado</p>
           </div>
         </div>
 
@@ -223,12 +238,12 @@ export default function Home() {
           <div className="trust-item">
             <i className="far fa-play-circle trust-icon"></i>
             <span className="trust-label">Suporte</span>
-            <p className="trust-sub">Atualizações constantes.</p>
+            <p className="trust-sub">Atualizações constantes</p>
           </div>
           <div className="trust-item">
             <i className="fas fa-key trust-icon"></i>
             <span className="trust-label">Key System</span>
-            <p className="trust-sub">Rápido e sem spam.</p>
+            <p className="trust-sub">Rápido e direto</p>
           </div>
         </div>
 
@@ -238,7 +253,7 @@ export default function Home() {
               <div className="discord-info-group">
                 <div className="discord-logo-box">
                   {getServerIcon() ? (
-                    <img src={getServerIcon()!} alt="Server" className="discord-server-icon" />
+                    <img src={getServerIcon()!} alt="Server" className="discord-server-icon" loading="lazy" />
                   ) : (
                     <i className="fab fa-discord"></i>
                   )}
@@ -253,18 +268,18 @@ export default function Home() {
               </div>
               {discordExtra && (
                 <div className="discord-stat-badge">
-                  {discordExtra.approximate_member_count} Membros Totais
+                  {discordExtra.approximate_member_count} Membros
                 </div>
               )}
             </div>
 
             <div className="discord-members-area">
-              <span className="members-label">Online Agora</span>
+              <span className="members-label">Online</span>
               <div className="members-scroll">
                 {contentReady && discordWidget?.members ? (
                   discordWidget.members.map((m) => (
                     <div key={m.id} className="dm-item">
-                      <img src={m.avatar_url} className="dm-avatar" alt={m.username} onError={(e) => handleImageError(e, 'User')} />
+                      <img src={m.avatar_url} className="dm-avatar" alt={m.username} onError={(e) => handleImageError(e, 'User')} loading="lazy" />
                       <div className="dm-status"></div>
                     </div>
                   ))
@@ -275,7 +290,7 @@ export default function Home() {
             </div>
 
             <button className="btn-join-discord" onClick={() => window.open(CONFIG.discordLink, '_blank')}>
-              <i className="fab fa-discord"></i> Juntar-se ao Servidor
+              <i className="fab fa-discord"></i> Entrar no servidor
             </button>
           </div>
         </section>
@@ -295,6 +310,7 @@ export default function Home() {
                       className="game-img"
                       alt={game.name}
                       onError={(e) => handleImageError(e, game.name)}
+                      loading="lazy"
                     />
                   ) : (
                     <div className="game-img skeleton"></div>
@@ -310,8 +326,8 @@ export default function Home() {
         </section>
 
         <section className="script-dock">
-          <div className="sec-title">Como usar?</div>
-          <p className="trust-sub">Copie o loader abaixo e cole no seu executor.</p>
+          <div className="sec-title">Como usar</div>
+          <p className="trust-sub">Copie o script abaixo e cole no seu executor</p>
           
           <div className="code-container">
             <code>{CONFIG.script}</code>
@@ -343,6 +359,7 @@ export default function Home() {
                   <i className={item.icon}></i>
                   <div className="feat-content">
                     <div className="feat-name">{item.name}</div>
+                    <div className="feat-desc">{item.desc}</div>
                     <span className={`feat-tag tag-${item.type}`}>
                       {item.type === 'safe' ? 'Seguro' : item.type === 'risk' ? 'Risco' : 'Visual'}
                     </span>
@@ -355,7 +372,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer>© 2026 MICHIGUN.XYZ</footer>
+        <footer>© 2026 michigun.xyz</footer>
 
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>

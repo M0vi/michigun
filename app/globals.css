@@ -33,6 +33,7 @@ body {
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
   background-position: center top;
+  will-change: background-position;
   animation: moveBackground 60s linear infinite;
 }
 
@@ -60,7 +61,7 @@ body::before {
   align-items: center;
   justify-content: center;
   gap: 30px;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.4s ease-out;
   background-image: radial-gradient(circle at center, #111 0%, #000 70%);
 }
 
@@ -140,6 +141,7 @@ header { display: flex; align-items: center; justify-content: space-between; }
   width: 44px; height: 44px; border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.1);
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  object-fit: cover;
 }
 .avatar:hover { border-color: var(--brand); transform: scale(1.05); }
 .brand-name { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
@@ -169,12 +171,17 @@ header { display: flex; align-items: center; justify-content: space-between; }
   border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #111;
 }
 .video-thumb {
-  width: 100%; height: 100%; background-size: cover; background-position: center;
+  position: relative; width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.video-container:hover .video-thumb { transform: scale(1.02); }
+.video-bg-img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0.8;
+}
+.video-container:hover .video-bg-img { transform: scale(1.05); opacity: 1; }
 .play-icon {
+  position: relative; z-index: 2;
   width: 60px; height: 60px; background: rgba(255,255,255,0.1);
   backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -365,15 +372,15 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #999;
 .grid-features { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
 .feat-card {
   background: var(--surface); border: 1px solid var(--surface-border); padding: 20px; border-radius: 16px;
-  display: flex; flex-direction: column; justify-content: space-between; min-height: 130px; cursor: pointer; transition: 0.3s ease; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between; min-height: 140px; cursor: pointer; transition: 0.3s ease; position: relative; overflow: hidden;
 }
 .feat-card:hover { border-color: #444; background: #111; transform: translateY(-4px); }
 .feat-card i { font-size: 1.4rem; color: #555; margin-bottom: 12px; transition: 0.3s; }
 .feat-card:hover i { color: #fff; }
 .feat-content { display: flex; flex-direction: column; gap: 6px; }
 .feat-name { font-size: 0.9rem; font-weight: 700; color: #ddd; }
-.feat-desc { font-size: 0.75rem; color: #777; line-height: 1.4; }
-.feat-tag { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; margin-top: 10px; display: inline-block; }
+.feat-desc { font-size: 0.75rem; color: #777; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.feat-tag { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; margin-top: 8px; display: inline-block; }
 .tag-safe { color: #4ade80; } .tag-risk { color: var(--brand); } .tag-visual { color: #a855f7; }
 
 .modal-overlay {
