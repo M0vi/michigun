@@ -351,7 +351,7 @@ export default function Home() {
                      <span className="win-dot yellow"></span>
                      <span className="win-dot green"></span>
                   </div>
-                  <div className="editor-filename">michigun.lua</div>
+                  <div className="editor-filename">loader.lua</div>
                </div>
                
                <div className="editor-body">
