@@ -309,17 +309,42 @@ export default function Home() {
             <div className="hero-title">Showcase</div>
             <p className="hero-desc">O vídeo pode estar desatualizado</p>
             
-            <div className={`execution-badge ${contentReady ? 'visible' : ''}`} onMouseEnter={() => playSound('hover')}>
-               <div className="exec-pulse-container">
-                 <div className="exec-pulse"></div>
-               </div>
-               <div className="exec-content">
-                 <span className="exec-number">
-                   {execCount !== null ? execCount.toLocaleString() : '...'}
-                 </span>
-                 <span className="exec-label">EXECUÇÕES</span>
-               </div>
+            <div className={`action-bar ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
+              
+              <div className="stat-segment">
+                 <div className="pulse-dot"></div>
+                 <div className="stat-text">
+                    <span className="stat-num">{execCount !== null ? execCount.toLocaleString() : '...'}</span>
+                    <span className="stat-label">EXECUÇÕES</span>
+                 </div>
+              </div>
+
+              <div className="bar-divider"></div>
+
+              <div className="action-buttons">
+                 <button className="hud-btn primary" onClick={copyScript} onMouseEnter={() => playSound('hover')}>
+                    <i className="fas fa-copy"></i>
+                    <span>Copiar</span>
+                 </button>
+
+                 <div className="download-wrapper" style={{position: 'relative'}}>
+                   <button 
+                     className={`hud-btn secondary ${showDownloadMenu ? 'active' : ''}`} 
+                     onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
+                     onMouseEnter={() => playSound('hover')}
+                   >
+                      <i className="fas fa-download"></i>
+                   </button>
+                   
+                   <div className={`hud-dropdown ${showDownloadMenu ? 'show' : ''}`}>
+                      <button onClick={() => handleDownload('txt')}>Texto (.txt)</button>
+                      <button onClick={() => handleDownload('lua')}>Lua (.lua)</button>
+                   </div>
+                 </div>
+              </div>
+
             </div>
+
           </div>
         </div>
 
@@ -416,41 +441,14 @@ export default function Home() {
         </section>
 
         <section className="script-dock">
-          <div className="sec-title">Como usar</div>
-          <p className="trust-sub">Copie o script abaixo e cole no seu executor</p>
+          <div className="sec-title">Prévia do Script</div>
           
-          <div className="code-container" ref={downloadMenuRef}>
+          <div className="code-container">
             <div className="code-header">
               <div className="window-dots">
                 <span className="dot-red"></span>
                 <span className="dot-yellow"></span>
                 <span className="dot-green"></span>
-              </div>
-              
-              <div className="action-group">
-                <div style={{ position: 'relative' }}>
-                  <button 
-                    className="icon-btn" 
-                    onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
-                    aria-label="Baixar"
-                    onMouseEnter={() => playSound('hover')}
-                  >
-                    <i className="fas fa-download"></i>
-                  </button>
-                  
-                  <div className={`download-dropdown ${showDownloadMenu ? 'show' : ''}`}>
-                    <button className="dl-option" onClick={() => handleDownload('txt')}>
-                      <i className="fas fa-file-alt"></i> Texto (.txt)
-                    </button>
-                    <button className="dl-option" onClick={() => handleDownload('lua')}>
-                      <i className="fas fa-code"></i> Lua (.lua)
-                    </button>
-                  </div>
-                </div>
-
-                <button className="icon-btn" onClick={copyScript} aria-label="Copiar" onMouseEnter={() => playSound('hover')}>
-                  <i className="fas fa-copy"></i>
-                </button>
               </div>
             </div>
 
