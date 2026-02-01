@@ -53,29 +53,29 @@ body {
   overflow-x: hidden;
 }
 
-/* Fundo com Imagem e Blur */
+/* Novo Fundo Escuro Abstrato com Blur */
 body::before {
   content: '';
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: -2;
-  /* Imagem Abstrata Escura/Vermelha */
-  background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
+  /* Imagem mais escura e abstrata */
+  background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(8px) brightness(0.6);
-  transform: scale(1.1); /* Escala para esconder bordas do blur */
-  opacity: 0.8;
+  filter: blur(12px) brightness(0.4); /* Blur maior e brilho bem menor */
+  transform: scale(1.1);
+  opacity: 0.7;
 }
 
-/* Vinheta para escurecer as bordas */
+/* Camada extra de escurecimento */
 body::after {
   content: '';
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: -1;
-  background: radial-gradient(circle at center, transparent 0%, #030303 100%);
+  background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, #000000 90%);
   pointer-events: none;
 }
 
@@ -184,12 +184,24 @@ header { display: flex; align-items: center; justify-content: space-between; }
   50% { opacity: 0; }
 }
 
-.hero-wrapper { position: relative; width: 100%; margin-top: 10px; }
+.hero-wrapper { position: relative; width: 100%; margin-top: 10px; display: flex; flex-direction: column; gap: 25px; }
 .hero-glow {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: 100%; height: 100%; background: radial-gradient(circle, rgba(255, 62, 62, 0.1) 0%, transparent 70%);
   filter: blur(60px); z-index: -1; pointer-events: none;
 }
+
+/* Novo estilo para o header do Hero */
+.hero-header-text {
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+  margin-bottom: 5px;
+}
+
+.hero-title { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
+.hero-title span { color: var(--brand); }
+.hero-desc { font-size: 0.9rem; color: var(--text-secondary); max-width: 80%; margin: 0 auto; line-height: 1.5; }
+
 .video-modern-wrapper {
   background: #0a0a0a; padding: 10px; border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -220,28 +232,28 @@ header { display: flex; align-items: center; justify-content: space-between; }
 .play-icon i { font-size: 1.2rem; color: #fff; margin-left: 4px; }
 .video-container:hover .play-icon { background: var(--brand); border-color: var(--brand); transform: scale(1.1); }
 iframe { width: 100%; height: 100%; border: none; }
-.hero-text { margin-top: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; width: 100%; }
-.hero-title { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
-.hero-title span { color: var(--brand); }
-.hero-desc { font-size: 0.9rem; color: var(--text-secondary); max-width: 80%; margin: 0 auto; line-height: 1.5; }
+
+.hero-footer-group {
+  display: flex; flex-direction: column; gap: 20px;
+}
 
 .action-bar {
   display: flex;
   align-items: center;
-  gap: 20px;
-  background: rgba(20, 20, 20, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 8px 12px 8px 20px;
-  border-radius: 100px;
-  margin-top: 30px;
-  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.6);
+  justify-content: space-between;
+  background: rgba(15, 15, 15, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px -5px rgba(0,0,0,0.7);
   opacity: 0;
   transform: translateY(15px);
   transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
   z-index: 100;
+  width: 100%;
 }
 
 .action-bar.visible {
@@ -252,7 +264,8 @@ iframe { width: 100%; height: 100%; border: none; }
 .stat-segment {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  padding-left: 8px;
 }
 
 .pulse-dot {
@@ -275,39 +288,39 @@ iframe { width: 100%; height: 100%; border: none; }
 
 .stat-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.9rem; font-weight: 700; color: #fff;
+  font-size: 1rem; font-weight: 700; color: #fff;
 }
 
 .stat-label {
-  font-size: 0.6rem; font-weight: 600; color: #666; letter-spacing: 0.5px; margin-top: 2px;
+  font-size: 0.65rem; font-weight: 600; color: #777; letter-spacing: 0.5px; margin-top: 3px;
 }
 
 .bar-divider {
-  width: 1px; height: 24px; background: rgba(255,255,255,0.1);
+  width: 1px; height: 32px; background: rgba(255,255,255,0.1); margin: 0 10px;
 }
 
 .action-buttons {
-  display: flex; gap: 8px;
+  display: flex; gap: 10px;
 }
 
 .hud-btn {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.05);
-  color: #ccc;
-  height: 38px;
-  padding: 0 16px;
-  border-radius: 50px;
+  color: #ddd;
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 0.85rem; font-weight: 600;
-  display: flex; align-items: center; gap: 8px;
-  transition: 0.2s;
+  font-size: 0.9rem; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.hud-btn i { font-size: 0.8rem; }
+.hud-btn i { font-size: 0.9rem; }
 
 .hud-btn:hover, .hud-btn.active {
   background: #fff; color: #000; border-color: #fff;
-  transform: translateY(-1px);
+  transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.1);
 }
 
 .hud-btn.primary {
@@ -316,7 +329,7 @@ iframe { width: 100%; height: 100%; border: none; }
 
 .hud-btn.primary:hover {
   background: #ff5555; border-color: #ff5555;
-  box-shadow: 0 0 20px rgba(255, 62, 62, 0.4);
+  box-shadow: 0 5px 20px rgba(255, 62, 62, 0.4);
 }
 
 .hud-dropdown {
@@ -324,7 +337,7 @@ iframe { width: 100%; height: 100%; border: none; }
   background: #111; border: 1px solid #333;
   border-radius: 12px; padding: 6px;
   display: flex; flex-direction: column; gap: 4px;
-  min-width: 130px; z-index: 50;
+  min-width: 140px; z-index: 50;
   opacity: 0; transform: translateY(-10px);
   pointer-events: none; transition: 0.2s;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -334,7 +347,7 @@ iframe { width: 100%; height: 100%; border: none; }
 
 .hud-dropdown button {
   background: transparent; border: none; color: #888;
-  font-size: 0.8rem; font-weight: 600; padding: 10px;
+  font-size: 0.85rem; font-weight: 600; padding: 12px;
   text-align: left; cursor: pointer; border-radius: 8px;
   transition: 0.2s;
 }
@@ -346,9 +359,7 @@ iframe { width: 100%; height: 100%; border: none; }
   border: 1px solid #222;
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 20px;
   width: 100%;
-  max-width: 580px;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
