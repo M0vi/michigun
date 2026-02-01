@@ -322,7 +322,7 @@ export default function Home() {
               <div className="deck-stats">
                 <div className="status-indicator">
                   <div className="status-dot"></div>
-                  <span>LIVE</span>
+                  <span>Tempo real</span>
                 </div>
                 <div className="stat-value">
                   {execCount !== null ? execCount.toLocaleString() : '---'}
@@ -368,7 +368,7 @@ export default function Home() {
                      <span className="win-dot yellow"></span>
                      <span className="win-dot green"></span>
                   </div>
-                  <div className="editor-filename">loader.lua</div>
+                  <div className="editor-filename">michigun.lua</div>
                </div>
                
                <div className="editor-body">
