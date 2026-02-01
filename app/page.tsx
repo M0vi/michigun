@@ -98,16 +98,16 @@ export default function Home() {
       <section>
         <div className="section-header">
           <h2 className="section-title">
-            <span className="t-white">Video</span> <span className="t-red">Showcase</span>
+            Video <span className="t-highlight">Showcase</span>
           </h2>
           <p className="section-desc">Veja o vídeo mostrando o script</p>
         </div>
 
         <div className="mac-container">
           <div className="mac-header">
-            <div className="mac-dot red"></div>
-            <div className="mac-dot yellow"></div>
-            <div className="mac-dot green"></div>
+            <div className="mac-dot"></div>
+            <div className="mac-dot"></div>
+            <div className="mac-dot"></div>
           </div>
           
           <div className="video-area">
@@ -138,28 +138,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- FEATURE LIST (MAC STYLE) --- */}
+      {/* --- FEATURE LIST --- */}
       <section className="mac-container">
         <div className="mac-header">
-          <div className="mac-dot red"></div>
-          <div className="mac-dot yellow"></div>
-          <div className="mac-dot green"></div>
+          <div className="mac-dot"></div>
+          <div className="mac-dot"></div>
+          <div className="mac-dot"></div>
         </div>
         <div className="features-container">
           <div className="feat-item">
             <div className="feat-icon-btn"><i className="far fa-play-circle"></i></div>
-            <span className="feat-title">Suporte</span>
-            <p className="feat-desc">Novas funções e jogos são adicionados constantemente</p>
+            <div className="feat-content">
+              <span className="feat-title">Suporte</span>
+              <p className="feat-desc">Novas funções e jogos são adicionados constantemente</p>
+            </div>
           </div>
           <div className="feat-item">
             <div className="feat-icon-btn"><i className="fas fa-key"></i></div>
-            <span className="feat-title">Key system</span>
-            <p className="feat-desc">Key system fácil de ser concluido</p>
+            <div className="feat-content">
+              <span className="feat-title">Key system</span>
+              <p className="feat-desc">Key system fácil de ser concluido</p>
+            </div>
           </div>
           <div className="feat-item">
             <div className="feat-icon-btn"><i className="fas fa-life-ring"></i></div>
-            <span className="feat-title">Suporte 24/7</span>
-            <p className="feat-desc">Donos ativos no servidor</p>
+            <div className="feat-content">
+              <span className="feat-title">Suporte 24/7</span>
+              <p className="feat-desc">Donos ativos no servidor</p>
+            </div>
           </div>
         </div>
       </section>
@@ -168,7 +174,7 @@ export default function Home() {
       <section>
         <div className="section-header">
           <h2 className="section-title">
-            <span className="t-white">Jogos</span> <span className="t-red">Suportados</span>
+            Jogos <span className="t-highlight">Suportados</span>
           </h2>
           <p className="section-desc">O script possui funções exclusivas para os jogos abaixo</p>
         </div>
@@ -186,21 +192,23 @@ export default function Home() {
                   />
                 </div>
                 <span className="game-name">{game.name}</span>
-                <span className="game-status">Active</span>
+                <span className="game-status">Ativo</span>
               </div>
             ))}
           </div>
         </div>
         
         <div className="hover-info">
-          Clique para pausar • <span className="t-red">{CONFIG.games.length} Jogos suportados</span>
+          Clique para pausar • <span style={{color: '#fff'}}> {CONFIG.games.length} Jogos suportados</span>
         </div>
       </section>
 
       {/* --- SCRIPT --- */}
       <div className="script-box">
         <code>{CONFIG.script}</code>
-        <button className="copy-btn" onClick={copyScript}>COPIAR</button>
+        <button className="copy-btn" onClick={copyScript}>
+          <i className="fas fa-copy"></i>
+        </button>
       </div>
 
       {/* --- TABS --- */}
@@ -246,7 +254,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className={`toast ${toast ? 'show' : ''}`}>Copiado para a área de transferência!</div>
+      <div className={`toast ${toast ? 'show' : ''}`}>Copiado!</div>
     </div>
   )
 }
