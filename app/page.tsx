@@ -42,7 +42,8 @@ type DiscordInviteData = {
 }
 
 const CONFIG = {
-  script: 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/michigun.xyz/-/raw/main/main"))()',
+  // Agora usamos o link curto direto do seu dominio
+  script: 'loadstring(game:HttpGet("https://michigun.xyz/script"))()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
   videoId: '20zXmdpUHQA',
   discordId: '1163467888259239996',
@@ -82,22 +83,6 @@ const CONFIG = {
       { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Ganha dinheiro automaticamente' }
     ]
   } as Record<string, FeatureItem[]>
-}
-
-const SimpleLuaHighlight = ({ code }: { code: string }) => {
-  const parts = code.split(/(".*?"|\(|\)|\.)/g)
-  
-  return (
-    <>
-      {parts.map((part, i) => {
-        if (part === '(' || part === ')' || part === '.') return <span key={i} className="lua-symbol">{part}</span>
-        if (part.startsWith('"')) return <span key={i} className="lua-string">{part}</span>
-        if (part === 'loadstring' || part === 'HttpGet') return <span key={i} className="lua-function">{part}</span>
-        if (part === 'game') return <span key={i} className="lua-global">{part}</span>
-        return <span key={i} className="lua-token">{part}</span>
-      })}
-    </>
-  )
 }
 
 const useTypewriter = (text: string, speed: number = 100, delay: number = 0) => {
@@ -441,24 +426,8 @@ export default function Home() {
         </section>
 
         <section className="script-dock">
-          <div className="sec-title">Prévia do Script</div>
+          <div className="sec-title">Funcionalidades</div>
           
-          <div className="code-container">
-            <div className="code-header">
-              <div className="window-dots">
-                <span className="dot-red"></span>
-                <span className="dot-yellow"></span>
-                <span className="dot-green"></span>
-              </div>
-            </div>
-
-            <div className="code-scroll-area">
-              <code>
-                <SimpleLuaHighlight code={CONFIG.script} />
-              </code>
-            </div>
-          </div>
-
           <div className="tabs">
             {Object.keys(CONFIG.features).map((tab) => (
               <button
