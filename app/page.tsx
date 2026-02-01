@@ -30,7 +30,6 @@ type DiscordWidgetData = {
   presence_count: number
 }
 
-// Para pegar o ícone e dados extras que o widget.json as vezes não dá, usamos a API de invite
 type DiscordInviteData = {
   guild: {
     id: string
@@ -120,21 +119,18 @@ export default function Home() {
 
     async function fetchData() {
       try {
-        // User Avatar
         const resAv = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordId}`)
         const dataAv = await resAv.json()
         if (dataAv.success && dataAv.data.discord_user.avatar) {
           setAvatarUrl(`https://cdn.discordapp.com/avatars/${CONFIG.discordId}/${dataAv.data.discord_user.avatar}.png`)
         }
 
-        // Widget Data (Membros online)
         const resWidget = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
         const dataWidget = await resWidget.json()
         if (dataWidget) {
           setDiscordWidget(dataWidget)
         }
 
-        // Invite Data (Total membros + Icone)
         const inviteCode = CONFIG.discordLink.split('/').pop()
         const resInvite = await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`)
         const dataInvite = await resInvite.json()
@@ -236,7 +232,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* DISCORD DOCK (DEDICATED) */}
         <section className="discord-dock">
           <div className="discord-inner">
             <div className="discord-header-row">
