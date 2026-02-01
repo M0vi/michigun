@@ -120,7 +120,6 @@ export default function Home() {
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
   
-  // -- ATUALIZADO: Estados para contagem Total e Diária
   const [execCount, setExecCount] = useState<number | null>(null)
   const [dailyExecCount, setDailyExecCount] = useState<number | null>(null)
   
@@ -197,7 +196,6 @@ export default function Home() {
         }))
         setDevProfiles(profiles)
         
-        // -- ATUALIZADO: Fetch de Execuções (Total + Diário)
         const resCount = await fetch('/api/stats')
         const dataCount = await resCount.json()
         if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
@@ -322,7 +320,6 @@ export default function Home() {
           </div>
 
           <div className="hero-footer-group">
-            {/* -- ATUALIZADO: Control Deck com Stats Duplos -- */}
             <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
               
               <div className="deck-stats-group">
@@ -543,7 +540,7 @@ export default function Home() {
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.name}`}
                 >
-                  <i className="item.icon"></i>
+                  <i className={item.icon}></i>
                   <div className="feat-content">
                     <div className="feat-name">{item.name}</div>
                     <span className={`feat-tag tag-${item.type}`}>
