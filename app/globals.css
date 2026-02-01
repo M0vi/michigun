@@ -11,6 +11,29 @@
   --glass: rgba(255, 255, 255, 0.03);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand);
+}
+
 * {
   box-sizing: border-box;
   outline: none;
@@ -130,7 +153,7 @@ body::before {
 }
 
 header { display: flex; align-items: center; justify-content: space-between; }
-.profile-container { display: flex; align-items: center; gap: 16px; }
+.profile-container { display: flex; align-items: center; gap: 16px; cursor: default; }
 .avatar {
   width: 44px; height: 44px; border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.1);
@@ -139,7 +162,22 @@ header { display: flex; align-items: center; justify-content: space-between; }
 }
 .avatar:hover { border-color: var(--brand); transform: scale(1.05); }
 .brand-name { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
-.brand-sub { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
+.brand-sub { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; display: flex; align-items: center; }
+
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: var(--brand);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 
 .hero-wrapper { position: relative; width: 100%; margin-top: 10px; }
 .hero-glow {
@@ -339,16 +377,114 @@ iframe { width: 100%; height: 100%; border: none; }
 .game-s { font-size: 0.65rem; font-weight: 600; color: #4ade80; text-transform: uppercase; }
 
 .script-dock { background: #080808; border: 1px solid var(--surface-border); border-radius: 20px; padding: 24px; }
+
 .code-container {
-  display: flex; align-items: center; background: #000; border: 1px solid #222;
-  border-radius: 12px; padding: 6px 6px 6px 16px; margin-top: 15px;
+  display: flex;
+  align-items: center;
+  background: #0d0d0d;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 0;
+  margin-top: 15px;
+  position: relative;
+  overflow: visible;
 }
-code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #999; flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.copy-action {
-  width: 44px; height: 44px; background: #1a1a1a; border: 1px solid #333; color: #fff;
-  border-radius: 10px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: #abb2bf;
+  flex: 1;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 14px 16px;
+  scrollbar-width: none;
 }
-.copy-action:hover { background: #fff; color: #000; }
+code::-webkit-scrollbar { display: none; }
+
+.lua-token { color: #ccc; }
+.lua-function { color: #61afef; }
+.lua-string { color: #98c379; }
+.lua-keyword { color: #c678dd; }
+.lua-global { color: #e5c07b; }
+.lua-symbol { color: #56b6c2; }
+
+.action-group {
+  display: flex;
+  gap: 8px;
+  padding-right: 6px;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.icon-btn:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.download-dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.download-dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dl-option {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dl-option:hover {
+  background: #222;
+  color: #fff;
+}
+
+.dl-option i { font-size: 0.7rem; color: var(--brand); }
+
 .tabs { display: flex; gap: 8px; margin-top: 30px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; }
 .tab {
   background: transparent; border: none; color: #666; font-weight: 700; font-size: 0.9rem; padding: 8px 16px;
