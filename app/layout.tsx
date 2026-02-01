@@ -5,8 +5,8 @@ import { JetBrains_Mono } from 'next/font/google'
 const jetbrains = JetBrains_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'michigun.xyz | Compact',
-  description: 'Michigun script hub',
+  title: 'michigun.xyz | O melhor script de EB',
+  description: 'michigun.xyz',
 }
 
 export default function RootLayout({

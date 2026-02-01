@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 
-// Definição dos tipos para o TypeScript não reclamar
 type FeatureItem = {
   name: string
   icon: string
@@ -78,11 +77,11 @@ export default function Home() {
   return (
     <div className="wrapper">
       <header>
-        <img 
-          src="/avatar.png" 
-          className="avatar" 
-          alt="fp3" 
-          onError={(e) => handleImageError(e, 'FP')} 
+        <img
+          src="/avatar.png"
+          className="avatar"
+          alt="fp3"
+          onError={(e) => handleImageError(e, 'FP')}
         />
         <div className="header-info">
           <h1>@fp3 | 17</h1>
@@ -106,13 +105,13 @@ export default function Home() {
           {!videoActive && (
             <div className="video-cover" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
               <div className="vid-top-left">
-                <img 
-                  src="/avatar.png" 
-                  className="vid-avatar-img" 
+                <img
+                  src="/avatar.png"
+                  className="vid-avatar-img"
                   onError={(e) => handleImageError(e, 'FP')}
                 />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span className="vid-title-text">How to Get Key for Rise Script [Detailed]</span>
+                  <span className="vid-title-text">Vídeo</span>
                   <span className="vid-author">@fp3</span>
                 </div>
               </div>
@@ -146,7 +145,7 @@ export default function Home() {
         <h2 className="games-title">
           <span className="t-white">Jogos</span> <span className="t-red">Suportados</span>
         </h2>
-        <p className="games-desc">Rise Script suporta diversos jogos populares com recursos poderosos.</p>
+        <p className="games-desc">Jogos com funções exclusivas no script.</p>
 
         <div className="carousel-window">
           <div className="carousel-track">
@@ -216,3 +215,5 @@ export default function Home() {
     </div>
   )
 }
+
+
