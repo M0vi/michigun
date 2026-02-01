@@ -94,95 +94,116 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="games-section" style={{ paddingBottom: '0' }}>
-        <h2 className="games-title">
-          <span className="t-white">Video</span> <span className="t-red">Showcase</span>
-        </h2>
-        <p className="games-desc">Veja o script em ação.</p>
-      </div>
+      {/* --- VIDEO SECTION --- */}
+      <section>
+        <div className="section-header">
+          <h2 className="section-title">
+            <span className="t-white">Video</span> <span className="t-red">Showcase</span>
+          </h2>
+          <p className="section-desc">Watch our script in action and see how powerful Rise really is</p>
+        </div>
 
-      <div className="player-container">
+        <div className="mac-container">
+          <div className="mac-header">
+            <div className="mac-dot red"></div>
+            <div className="mac-dot yellow"></div>
+            <div className="mac-dot green"></div>
+          </div>
+          
+          <div className="video-area">
+            <div className="video-wrapper" onClick={() => setVideoActive(true)}>
+              {!videoActive && (
+                <div className="video-cover" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
+                  <div className="vid-play-centered">
+                    <i className="fas fa-play"></i>
+                  </div>
+                </div>
+              )}
+              {videoActive && (
+                <iframe
+                  src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
+                  allowFullScreen
+                  allow="autoplay"
+                ></iframe>
+              )}
+            </div>
+
+            <div className="vid-desc-box">
+              <h3 className="vid-desc-title">Full Feature Showcase</h3>
+              <p className="vid-desc-text">
+                Experience the complete power of Rise Script with our comprehensive showcase video. See all features in action including ESP, auto-farm, speed modifications, and much more. This demonstration covers multiple games and shows why Rise is the most advanced script hub available.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- FEATURE LIST (MAC STYLE) --- */}
+      <section className="mac-container">
         <div className="mac-header">
           <div className="mac-dot red"></div>
           <div className="mac-dot yellow"></div>
           <div className="mac-dot green"></div>
         </div>
-
-        <div className="video-wrapper" onClick={() => setVideoActive(true)}>
-          {!videoActive && (
-            <div className="video-cover" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
-              <div className="vid-top-left">
-                <img
-                  src="/avatar.png"
-                  className="vid-avatar-img"
-                  onError={(e) => handleImageError(e, 'FP')}
-                />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span className="vid-title-text">Vídeo</span>
-                  <span className="vid-author">@fp3</span>
-                </div>
-              </div>
-
-              <div className="vid-play-centered">
-                <i className="fas fa-play"></i>
-              </div>
-
-              <div className="vid-bottom-bar">
-                <div className="vid-icons-left">
-                  <i className="fas fa-share vid-icon-btn"></i>
-                  <i className="far fa-clock vid-icon-btn"></i>
-                </div>
-                <div className="vid-watch-pill">
-                  Assista no <i className="fab fa-youtube" style={{ color: '#fff' }}></i> YouTube
-                </div>
-              </div>
-            </div>
-          )}
-          {videoActive && (
-            <iframe
-              src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
-              allowFullScreen
-              allow="autoplay"
-            ></iframe>
-          )}
+        <div className="features-container">
+          <div className="feat-item">
+            <div className="feat-icon-btn"><i className="far fa-play-circle"></i></div>
+            <span className="feat-title">Game Support</span>
+            <p className="feat-desc">Supports many games, including popular scripts like Evade.</p>
+          </div>
+          <div className="feat-item">
+            <div className="feat-icon-btn"><i className="fas fa-key"></i></div>
+            <span className="feat-title">Easy Key System</span>
+            <p className="feat-desc">Fast and simple key system without annoying link shortener ads.</p>
+          </div>
+          <div className="feat-item">
+            <div className="feat-icon-btn"><i className="fas fa-life-ring"></i></div>
+            <span className="feat-title">24/7 Support</span>
+            <p className="feat-desc">Our 24/7 support team is here to fix bugs and help you anytime.</p>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="vid-desc-box">
-        <h3 className="vid-desc-title">Showcase</h3>
-        <p className="vid-desc-text">
-          Showcase do script. Esse vídeo mostra as funções (será atualizado periodicamente)
-        </p>
-      </div>
-
-      <div className="games-section">
-        <h2 className="games-title">
-          <span className="t-white">Jogos</span> <span className="t-red">Suportados</span>
-        </h2>
-        <p className="games-desc">Jogos com funções exclusivas no script.</p>
+      {/* --- SUPPORTED GAMES --- */}
+      <section>
+        <div className="section-header">
+          <h2 className="section-title">
+            <span className="t-white">Supported</span> <span className="t-red">Games</span>
+          </h2>
+          <p className="section-desc">Rise Script supports multiple popular games with powerful features</p>
+        </div>
 
         <div className="carousel-window">
           <div className="carousel-track">
             {displayGames.map((game, index) => (
-              <div key={index} className="game-card">
-                <img
-                  src={game.icon}
-                  className="game-icon"
-                  alt={game.name}
-                  onError={(e) => handleImageError(e, game.name)}
-                />
+              <div key={index} className="game-card-modern">
+                <div className="game-icon-box">
+                  <img
+                    src={game.icon}
+                    className="game-icon-img"
+                    alt={game.name}
+                    onError={(e) => handleImageError(e, game.name)}
+                  />
+                </div>
                 <span className="game-name">{game.name}</span>
+                <span className="game-status">Active</span>
               </div>
             ))}
           </div>
         </div>
-      </div>
+        
+        <div className="hover-info">
+          Hover to pause • <span className="t-red">{CONFIG.games.length} Games Supported</span>
+        </div>
+      </section>
 
+      {/* --- SCRIPT --- */}
       <div className="script-box">
         <code>{CONFIG.script}</code>
         <button className="copy-btn" onClick={copyScript}>COPIAR</button>
       </div>
 
+      {/* --- TABS --- */}
       <nav className="nav-tabs">
         {Object.keys(CONFIG.features).map((tab) => (
           <button
@@ -215,6 +236,7 @@ export default function Home() {
 
       <footer>© 2026 MICHIGUN.XYZ</footer>
 
+      {/* MODAL & TOAST */}
       {modal.open && (
         <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
@@ -224,10 +246,7 @@ export default function Home() {
           </div>
         </div>
       )}
-
       <div className={`toast ${toast ? 'show' : ''}`}>Copiado para a área de transferência!</div>
     </div>
   )
 }
-
-
