@@ -139,6 +139,7 @@ export default function Home() {
   const [avatarUrl, setAvatarUrl] = useState('/avatar.png')
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
+  const [execCount, setExecCount] = useState<number | null>(null)
   
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
@@ -211,6 +212,10 @@ export default function Home() {
         const resInvite = await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`)
         const dataInvite = await resInvite.json()
         if (dataInvite.guild) setDiscordExtra(dataInvite)
+
+        const resCount = await fetch('/api/stats')
+        const dataCount = await resCount.json()
+        if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
 
       } catch {}
     }
@@ -302,6 +307,14 @@ export default function Home() {
           <div className="hero-text">
             <div className="hero-title">Showcase</div>
             <p className="hero-desc">O vídeo pode estar desatualizado</p>
+            
+            <div className={`execution-badge ${contentReady ? 'visible' : ''}`}>
+               <i className="fas fa-terminal"></i>
+               <span>
+                 {execCount !== null ? execCount.toLocaleString() : '...'}
+               </span>
+               <span className="exec-label">Execuções</span>
+            </div>
           </div>
         </div>
 

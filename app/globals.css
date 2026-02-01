@@ -215,10 +215,42 @@ header { display: flex; align-items: center; justify-content: space-between; }
 .play-icon i { font-size: 1.2rem; color: #fff; margin-left: 4px; }
 .video-container:hover .play-icon { background: var(--brand); border-color: var(--brand); transform: scale(1.1); }
 iframe { width: 100%; height: 100%; border: none; }
-.hero-text { margin-top: 25px; text-align: center; }
+.hero-text { margin-top: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; }
 .hero-title { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
 .hero-title span { color: var(--brand); }
 .hero-desc { font-size: 0.9rem; color: var(--text-secondary); max-width: 80%; margin: 0 auto; line-height: 1.5; }
+
+.execution-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 62, 62, 0.08);
+  border: 1px solid rgba(255, 62, 62, 0.2);
+  padding: 8px 16px;
+  border-radius: 50px;
+  margin-top: 20px;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  box-shadow: 0 0 20px rgba(255, 62, 62, 0.1);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.execution-badge.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.execution-badge i {
+  color: var(--brand);
+}
+
+.exec-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
 
 .trust-grid {
   display: grid;
@@ -429,7 +461,6 @@ code {
   padding: 14px 16px;
 }
 
-/* Custom Scrollbar for Code Block */
 code::-webkit-scrollbar {
   height: 8px;
   width: 8px;
