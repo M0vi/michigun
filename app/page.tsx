@@ -57,10 +57,10 @@ const CONFIG = {
     global: [
       { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros ao inimigo' },
       { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta a hitbox dos inimigos' },
-      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar textos e corrigi-los' },
+      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar textos' },
       { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Parkour automático' },
-      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs automáticos' },
-      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza a renderização' },
+      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs (polichinelos) automáticos' },
+      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza a renderização para ganhar FPS' },
       { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Permite modificar estruturas, incluindo parkours' },
       { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Permite alterar seu char ou o char de terceiros' }
     ],
@@ -180,21 +180,12 @@ export default function Home() {
         
         <header>
           <div className="profile-container">
-            <img 
-              src={avatarUrl} 
-              className="avatar" 
-              alt="fp3" 
-              onError={(e) => handleImageError(e, 'FP')} 
-              fetchPriority="high"
-            />
+            <img src={avatarUrl} className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} />
             <div>
               <div className="brand-name">fp3</div>
               <div className="brand-sub">Developer</div>
             </div>
           </div>
-          <a href={CONFIG.discordLink} target="_blank" className="social-btn" rel="noreferrer">
-            <i className="fab fa-discord"></i>
-          </a>
         </header>
 
         <div className="hero-wrapper">
@@ -204,13 +195,7 @@ export default function Home() {
             {contentReady ? (
               <div className="video-container" onClick={() => setVideoActive(true)}>
                 {!videoActive ? (
-                  <div className="video-thumb">
-                    <img 
-                      src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
-                      alt="Showcase" 
-                      className="video-bg-img" 
-                      fetchPriority="high"
-                    />
+                  <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
                     <div className="play-icon">
                       <i className="fas fa-play"></i>
                     </div>
@@ -230,7 +215,7 @@ export default function Home() {
 
           <div className="hero-text">
             <div className="hero-title">Showcase</div>
-            <p className="hero-desc">O vídeo pode estar desatualizado</p>
+            <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
           </div>
         </div>
 
@@ -238,12 +223,17 @@ export default function Home() {
           <div className="trust-item">
             <i className="far fa-play-circle trust-icon"></i>
             <span className="trust-label">Suporte</span>
-            <p className="trust-sub">Atualizações constantes</p>
+            <p className="trust-sub">Atualizações constantes.</p>
           </div>
           <div className="trust-item">
             <i className="fas fa-key trust-icon"></i>
             <span className="trust-label">Key System</span>
-            <p className="trust-sub">Rápido e direto</p>
+            <p className="trust-sub">Rápido e sem spam.</p>
+          </div>
+          <div className="trust-item">
+            <i className="fab fa-discord trust-icon"></i>
+            <span className="trust-label">24/7</span>
+            <p className="trust-sub">Suporte ativo no DC.</p>
           </div>
         </div>
 
@@ -268,13 +258,13 @@ export default function Home() {
               </div>
               {discordExtra && (
                 <div className="discord-stat-badge">
-                  {discordExtra.approximate_member_count} Membros
+                  {discordExtra.approximate_member_count} Membros Totais
                 </div>
               )}
             </div>
 
             <div className="discord-members-area">
-              <span className="members-label">Online</span>
+              <span className="members-label">Online Agora</span>
               <div className="members-scroll">
                 {contentReady && discordWidget?.members ? (
                   discordWidget.members.map((m) => (
@@ -290,7 +280,7 @@ export default function Home() {
             </div>
 
             <button className="btn-join-discord" onClick={() => window.open(CONFIG.discordLink, '_blank')}>
-              <i className="fab fa-discord"></i> Entrar no servidor
+              <i className="fab fa-discord"></i> Juntar-se ao Servidor
             </button>
           </div>
         </section>
@@ -326,8 +316,8 @@ export default function Home() {
         </section>
 
         <section className="script-dock">
-          <div className="sec-title">Como usar</div>
-          <p className="trust-sub">Copie o script abaixo e cole no seu executor</p>
+          <div className="sec-title">Como usar?</div>
+          <p className="trust-sub">Copie o loader abaixo e cole no seu executor.</p>
           
           <div className="code-container">
             <code>{CONFIG.script}</code>
@@ -359,7 +349,6 @@ export default function Home() {
                   <i className={item.icon}></i>
                   <div className="feat-content">
                     <div className="feat-name">{item.name}</div>
-                    <div className="feat-desc">{item.desc}</div>
                     <span className={`feat-tag tag-${item.type}`}>
                       {item.type === 'safe' ? 'Seguro' : item.type === 'risk' ? 'Risco' : 'Visual'}
                     </span>
@@ -372,7 +361,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer>© 2026 michigun.xyz</footer>
+        <footer>© 2026 MICHIGUN.XYZ</footer>
 
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
