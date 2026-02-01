@@ -130,32 +130,29 @@ export default function Home() {
 
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
-          <div className="mac-frame">
-            <div className="mac-bar">
-              <div className="dot"></div><div className="dot"></div><div className="dot"></div>
-            </div>
-            {contentReady ? (
-              <div className="video-container" onClick={() => setVideoActive(true)}>
-                {!videoActive ? (
-                  <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
-                    <div className="play-icon">
-                      <i className="fas fa-play"></i>
-                    </div>
+          
+          {contentReady ? (
+            <div className="video-clean-frame" onClick={() => setVideoActive(true)}>
+              {!videoActive ? (
+                <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
+                  <div className="play-icon">
+                    <i className="fas fa-play"></i>
                   </div>
-                ) : (
-                  <iframe
-                    src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
-                    allowFullScreen
-                    allow="autoplay"
-                  ></iframe>
-                )}
-              </div>
-            ) : (
-              <div className="video-container skeleton"></div>
-            )}
-          </div>
+                </div>
+              ) : (
+                <iframe
+                  src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
+                  allowFullScreen
+                  allow="autoplay"
+                ></iframe>
+              )}
+            </div>
+          ) : (
+            <div className="video-clean-frame skeleton"></div>
+          )}
+
           <div className="hero-text">
-            <div className="hero-title">Video <span>Showcase</span></div>
+            <div className="hero-title">Showcase</div>
             <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
           </div>
         </div>
@@ -172,7 +169,7 @@ export default function Home() {
             <p className="trust-sub">Rápido e sem spam.</p>
           </div>
           <div className="trust-item">
-            <i className="fas fa-life-ring trust-icon"></i>
+            <i className="fab fa-discord trust-icon"></i>
             <span className="trust-label">24/7</span>
             <p className="trust-sub">Suporte ativo no DC.</p>
           </div>
@@ -180,7 +177,7 @@ export default function Home() {
 
         <section>
           <div className="section-head">
-            <span className="sec-title">Jogos Suportados</span>
+            <span className="sec-title">Jogos suportados</span>
             <span className="sec-badge">{CONFIG.games.length} Jogos</span>
           </div>
           <div className="carousel-wrap">
@@ -253,7 +250,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer>© 2026 MICHIGUN.XYZ</footer>
+        <footer>MICHIGUN.XYZ</footer>
 
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
