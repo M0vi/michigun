@@ -149,7 +149,7 @@ export default function Home() {
       </div>
 
       <div className="vid-desc-box">
-        <h3 className="vid-desc-title">Full Feature Showcase</h3>
+        <h3 className="vid-desc-title">Showcase</h3>
         <p className="vid-desc-text">
           Showcase do script. Esse vídeo mostra as funções (será atualizado periodicamente)
         </p>
