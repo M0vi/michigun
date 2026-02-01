@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { NextResponse, NextRequest } from 'next/server'
 
 type FeatureItem = {
   name: string
@@ -86,7 +85,6 @@ const CONFIG = {
 
 const SimpleLuaHighlight = ({ code }: { code: string }) => {
   const parts = code.split(/(".*?"|\(|\)|\.|{|}|,|=)/g)
-  
   return (
     <>
       {parts.map((part, i) => {
@@ -120,7 +118,6 @@ const useTypewriter = (text: string, speed: number = 100, delay: number = 0) => 
       }
       type()
     }
-
     const initialDelay = setTimeout(startTyping, delay)
     return () => {
       clearTimeout(initialDelay)
@@ -142,13 +139,10 @@ export default function Home() {
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
   const [execCount, setExecCount] = useState<number | null>(null)
-  
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
-
   const displayGames = [...CONFIG.games, ...CONFIG.games]
-  
-  const { displayText: typeText, isFinished: typeFinished } = useTypewriter('dev', 150, 2000)
+  const { displayText: typeText, isFinished: typeFinished } = useTypewriter('Main Dev', 150, 1000)
 
   const playSound = (type: 'hover' | 'click') => {
     try {
@@ -172,13 +166,11 @@ export default function Home() {
 
   useEffect(() => {
     const handleContextMenu = (e: MouseEvent) => e.preventDefault()
-    
     const handleClickOutside = (e: MouseEvent) => {
       if (downloadMenuRef.current && !downloadMenuRef.current.contains(e.target as Node)) {
         setShowDownloadMenu(false)
       }
     }
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
         e.key === 'F12' ||
@@ -195,8 +187,8 @@ export default function Home() {
 
     const timer = setTimeout(() => {
       setLoading(false)
-      setTimeout(() => setContentReady(true), 800)
-    }, 1500)
+      setTimeout(() => setContentReady(true), 300)
+    }, 500)
 
     async function fetchData() {
       try {
@@ -205,6 +197,10 @@ export default function Home() {
         if (dataAv.success && dataAv.data.discord_user.avatar) {
           setAvatarUrl(`https://cdn.discordapp.com/avatars/${CONFIG.discordId}/${dataAv.data.discord_user.avatar}.png`)
         }
+        
+        const resCount = await fetch('/api/stats')
+        const dataCount = await resCount.json()
+        if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
 
         const resWidget = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
         const dataWidget = await resWidget.json()
@@ -214,11 +210,6 @@ export default function Home() {
         const resInvite = await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`)
         const dataInvite = await resInvite.json()
         if (dataInvite.guild) setDiscordExtra(dataInvite)
-
-        const resCount = await fetch('/api/stats')
-        const dataCount = await resCount.json()
-        if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
-
       } catch {}
     }
     fetchData()
@@ -266,7 +257,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* [SEMÂNTICA] Mudança de div para main */}
       <main className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
         
         <header>
@@ -312,7 +302,6 @@ export default function Home() {
                       src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                       alt="Michigun Script Showcase Thumbnail"
                       className="video-thumb-img"
-                      // [PERFORMANCE] fetchPriority para LCP
                       // @ts-ignore
                       fetchPriority="high"
                     />
@@ -334,9 +323,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* Control Deck */}
           <div className="hero-footer-group">
-            
             <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
               <div className="deck-stats">
                 <div className="status-indicator">
@@ -350,7 +337,6 @@ export default function Home() {
               </div>
 
               <div className="deck-actions">
-                {/* [ACESSIBILIDADE] aria-label adicionado */}
                 <button 
                   className="deck-btn copy-btn" 
                   onClick={copyScript} 
@@ -401,7 +387,6 @@ export default function Home() {
                </div>
             </div>
           </div>
-
         </div>
 
         <div className="trust-grid">
@@ -424,7 +409,6 @@ export default function Home() {
               <div className="discord-info-group">
                 <div className="discord-logo-box">
                   {getServerIcon() ? (
-                    // [PERFORMANCE] Lazy loading
                     <img 
                       src={getServerIcon()!} 
                       alt="Server Icon" 
@@ -457,7 +441,6 @@ export default function Home() {
                 {contentReady && discordWidget?.members ? (
                   discordWidget.members.map((m) => (
                     <div key={m.id} className="dm-item">
-                      {/* [PERFORMANCE] Lazy loading para lista de membros */}
                       <img 
                         src={m.avatar_url} 
                         className="dm-avatar" 
@@ -496,7 +479,6 @@ export default function Home() {
               {displayGames.map((game, index) => (
                 <div key={index} className="game-pill" onMouseEnter={() => playSound('hover')}>
                   {contentReady ? (
-                    // [PERFORMANCE] Lazy loading para carrossel
                     <img
                       src={game.icon}
                       className="game-img"
@@ -548,7 +530,7 @@ export default function Home() {
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.name}`}
                 >
-                  <i className={item.icon}></i>
+                  <i className="fas fa-hammer"></i>
                   <div className="feat-content">
                     <div className="feat-name">{item.name}</div>
                     <span className={`feat-tag tag-${item.type}`}>
@@ -588,7 +570,6 @@ export default function Home() {
         >
           Copiado!
         </div>
-
       </main>
     </>
   )
