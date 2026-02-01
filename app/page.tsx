@@ -160,7 +160,7 @@ export default function Home() {
     const element = document.createElement('a')
     const file = new Blob([CONFIG.script], { type: 'text/plain' })
     element.href = URL.createObjectURL(file)
-    element.download = `michigun_script.${ext}`
+    element.download = `michigun.${ext}`
     document.body.appendChild(element)
     element.click()
     document.body.removeChild(element)
