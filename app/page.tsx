@@ -90,7 +90,6 @@ export default function Home() {
 
       <div className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
         
-        {/* HEADER */}
         <header>
           <div className="profile-container">
             <img src="/avatar.png" className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} loading="lazy" />
@@ -104,7 +103,6 @@ export default function Home() {
           </a>
         </header>
 
-        {/* HERO SECTION */}
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
           <div className="mac-frame">
@@ -129,12 +127,11 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-text">
-            <div className="hero-title">Video <span>Showcase</span></div>
-            <p className="hero-desc">Veja o Michigun Script em ação e descubra o poder de automação.</p>
+            <div className="hero-title">Video <span>showcase</span></div>
+            <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
           </div>
         </div>
 
-        {/* TRUST GRID */}
         <div className="trust-grid">
           <div className="trust-item">
             <i className="far fa-play-circle trust-icon"></i>
@@ -153,7 +150,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* GAMES CAROUSEL */}
         <section>
           <div className="section-head">
             <span className="sec-title">Jogos Suportados</span>
@@ -180,10 +176,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SCRIPT SECTION */}
         <section className="script-dock">
-          <div className="sec-title">Instalação</div>
-          <p className="trust-sub">Copie o loader abaixo e execute no seu executor favorito.</p>
+          <div className="sec-title">Como usar?</div>
+          <p className="trust-sub">Copie o loader abaixo e cole no seu executor.</p>
           
           <div className="code-container">
             <code>{CONFIG.script}</code>
@@ -225,7 +220,6 @@ export default function Home() {
 
         <footer>© 2026 MICHIGUN.XYZ</footer>
 
-        {/* MODAL CORRIGIDO */}
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -238,7 +232,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* TOAST */}
         <div 
           style={{
             position: 'fixed', bottom: 30, left: '50%', transform: toast ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
