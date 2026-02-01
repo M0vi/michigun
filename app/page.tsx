@@ -119,11 +119,14 @@ export default function Home() {
   const [devProfiles, setDevProfiles] = useState<DevProfile[]>([])
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
+  
+  // -- ATUALIZADO: Estados para contagem Total e Diária
   const [execCount, setExecCount] = useState<number | null>(null)
+  const [dailyExecCount, setDailyExecCount] = useState<number | null>(null)
+  
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
 
-  // Duplicar várias vezes para garantir loop infinito suave mesmo em telas ultra-wide
   const displayGames = [...CONFIG.games, ...CONFIG.games, ...CONFIG.games, ...CONFIG.games]
 
   const playSound = (type: 'hover' | 'click') => {
@@ -194,9 +197,11 @@ export default function Home() {
         }))
         setDevProfiles(profiles)
         
+        // -- ATUALIZADO: Fetch de Execuções (Total + Diário)
         const resCount = await fetch('/api/stats')
         const dataCount = await resCount.json()
         if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
+        if (dataCount.daily !== undefined) setDailyExecCount(dataCount.daily)
 
         const resWidget = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
         const dataWidget = await resWidget.json()
@@ -266,7 +271,6 @@ export default function Home() {
               </div>
             ))
           ) : (
-            
             <div className="profile-container">
                <div className="skeleton" style={{width:44, height:44, borderRadius:'50%'}}></div>
                <div style={{display:'flex', flexDirection:'column', gap:4}}>
@@ -299,7 +303,7 @@ export default function Home() {
                     src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                     alt="Michigun Script Showcase Thumbnail"
                     className="video-thumb-img"
-                  
+                    // @ts-ignore
                     fetchPriority="high"
                   />
                   <div className="play-icon">
@@ -318,16 +322,31 @@ export default function Home() {
           </div>
 
           <div className="hero-footer-group">
+            {/* -- ATUALIZADO: Control Deck com Stats Duplos -- */}
             <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
-              <div className="deck-stats">
-                <div className="status-indicator">
-                  <div className="status-dot"></div>
-                  <span>Tempo real</span>
+              
+              <div className="deck-stats-group">
+                <div className="deck-stat-item">
+                  <div className="status-indicator">
+                    <div className="status-dot"></div>
+                    <span>TOTAL</span>
+                  </div>
+                  <div className="stat-value">
+                    {execCount !== null ? execCount.toLocaleString() : '---'}
+                  </div>
                 </div>
-                <div className="stat-value">
-                  {execCount !== null ? execCount.toLocaleString() : '---'}
+
+                <div className="vertical-divider"></div>
+
+                <div className="deck-stat-item">
+                  <div className="status-indicator">
+                    <div className="status-dot daily-dot"></div>
+                    <span>HOJE</span>
+                  </div>
+                  <div className="stat-value">
+                    {dailyExecCount !== null ? `+${dailyExecCount.toLocaleString()}` : '---'}
+                  </div>
                 </div>
-                <div className="stat-label">EXECUÇÕES TOTAIS</div>
               </div>
 
               <div className="deck-actions">
@@ -524,7 +543,7 @@ export default function Home() {
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.name}`}
                 >
-                  <i className={item.icon}></i>
+                  <i className="item.icon"></i>
                   <div className="feat-content">
                     <div className="feat-name">{item.name}</div>
                     <span className={`feat-tag tag-${item.type}`}>
