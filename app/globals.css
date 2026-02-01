@@ -29,12 +29,14 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  background-position: center top;
+    radial-gradient(circle at 15% 50%, rgba(255, 62, 62, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(88, 101, 242, 0.08), transparent 25%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0, center top, center top;
   will-change: background-position;
-  animation: moveBackground 60s linear infinite;
+  animation: moveBackground 40s linear infinite;
 }
 
 body::before {
@@ -47,8 +49,8 @@ body::before {
 }
 
 @keyframes moveBackground {
-  0% { background-position: 0 0; }
-  100% { background-position: 50px 50px; }
+  0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 40px 40px, 40px 40px; }
 }
 
 .loading-screen {
@@ -228,16 +230,16 @@ iframe { width: 100%; height: 100%; border: none; }
 }
 
 .discord-dock::after {
-  content: ''; position: absolute; top: 10%; left: 5%; width: 90%; height: 80%;
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   background: var(--discord-glow);
-  filter: blur(50px);
-  opacity: 0.15;
+  filter: blur(80px);
+  opacity: 0.4;
   z-index: -1;
   transition: 0.3s;
 }
 
 .discord-dock:hover { border-color: rgba(88, 101, 242, 0.4); }
-.discord-dock:hover::after { opacity: 0.25; filter: blur(60px); }
+.discord-dock:hover::after { opacity: 0.5; filter: blur(90px); }
 
 .discord-inner {
   background: #080808;
