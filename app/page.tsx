@@ -98,7 +98,7 @@ export default function Home() {
       <section>
         <div className="section-header">
           <h2 className="section-title">
-            Video <span className="t-highlight">Showcase</span>
+            <span className="t-white">Video</span> <span className="t-red">Showcase</span>
           </h2>
           <p className="section-desc">Veja o vídeo mostrando o script</p>
         </div>
@@ -129,7 +129,7 @@ export default function Home() {
             </div>
 
             <div className="vid-desc-box">
-              <h3 className="vid-desc-title">Full Info</h3>
+              <h3 className="vid-desc-title">Info</h3>
               <p className="vid-desc-text">
                 O michigun.xyz foi criado apenas como um hobby.
               </p>
@@ -174,7 +174,7 @@ export default function Home() {
       <section>
         <div className="section-header">
           <h2 className="section-title">
-            Jogos <span className="t-highlight">Suportados</span>
+            <span className="t-white">Jogos</span> <span className="t-red">Suportados</span>
           </h2>
           <p className="section-desc">O script possui funções exclusivas para os jogos abaixo</p>
         </div>
@@ -199,7 +199,7 @@ export default function Home() {
         </div>
         
         <div className="hover-info">
-          Clique para pausar • <span style={{color: '#fff'}}> {CONFIG.games.length} Jogos suportados</span>
+          Clique para pausar • <span className="t-red">{CONFIG.games.length} Jogos suportados</span>
         </div>
       </section>
 
@@ -254,7 +254,9 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className={`toast ${toast ? 'show' : ''}`}>Copiado!</div>
+      <div className={`toast ${toast ? 'show' : ''}`}>Copiado para a área de transferência!</div>
     </div>
   )
 }
+
+
