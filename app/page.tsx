@@ -53,10 +53,9 @@ const CONFIG = {
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
-  // Lista de desenvolvedores para monitorar
   devs: [
-    { id: '1163467888259239996', role: 'Main Dev' },
-    { id: '1062463366792216657', role: 'Developer' }
+    { id: '1163467888259239996', role: 'Main dev' },
+    { id: '1062463366792216657', role: 'SMO' }
   ],
   
   games: [
@@ -168,12 +167,10 @@ export default function Home() {
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('mousedown', handleClickOutside)
 
-    // Removemos o setTimeout artificial para melhorar o LCP/FCP
     setContentReady(true)
 
     async function fetchData() {
       try {
-        // Carrega Perfis dos Desenvolvedores
         const profiles = await Promise.all(CONFIG.devs.map(async (dev) => {
           try {
             const res = await fetch(`https://api.lanyard.rest/v1/users/${dev.id}`)
@@ -187,7 +184,7 @@ export default function Home() {
               }
             }
           } catch {}
-          // Fallback se falhar
+          
           return { 
             id: dev.id, 
             role: dev.role, 
@@ -197,17 +194,14 @@ export default function Home() {
         }))
         setDevProfiles(profiles)
         
-        // Estatisticas
         const resCount = await fetch('/api/stats')
         const dataCount = await resCount.json()
         if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
 
-        // Discord Widget
         const resWidget = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
         const dataWidget = await resWidget.json()
         if (dataWidget) setDiscordWidget(dataWidget)
 
-        // Discord Invite info
         const inviteCode = CONFIG.discordLink.split('/').pop()
         const resInvite = await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`)
         const dataInvite = await resInvite.json()
@@ -272,7 +266,7 @@ export default function Home() {
               </div>
             ))
           ) : (
-            // Skeleton do perfil para não quebrar layout
+            
             <div className="profile-container">
                <div className="skeleton" style={{width:44, height:44, borderRadius:'50%'}}></div>
                <div style={{display:'flex', flexDirection:'column', gap:4}}>
@@ -305,7 +299,7 @@ export default function Home() {
                     src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                     alt="Michigun Script Showcase Thumbnail"
                     className="video-thumb-img"
-                    // @ts-ignore
+                  
                     fetchPriority="high"
                   />
                   <div className="play-icon">
@@ -341,10 +335,10 @@ export default function Home() {
                   className="deck-btn copy-btn" 
                   onClick={copyScript} 
                   onMouseEnter={() => playSound('hover')}
-                  aria-label="Copiar Script"
+                  aria-label="Copiar"
                 >
                   <i className="fas fa-copy"></i>
-                  <span>Copiar Script</span>
+                  <span>Copiar</span>
                 </button>
 
                 <div className="download-wrapper" style={{position: 'relative'}}>
@@ -462,7 +456,7 @@ export default function Home() {
               className="btn-join-discord" 
               onClick={withSound(() => window.open(CONFIG.discordLink, '_blank'))} 
               onMouseEnter={() => playSound('hover')}
-              aria-label="Entrar no servidor do Discord"
+              aria-label="Entrar no servidor"
             >
               <i className="fab fa-discord"></i> Entrar no servidor
             </button>
