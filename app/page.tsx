@@ -143,30 +143,32 @@ export default function Home() {
 
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
-          <div className="mac-frame">
-            <div className="mac-bar">
-              <div className="dot"></div><div className="dot"></div><div className="dot"></div>
-            </div>
-            <div className="video-container" onClick={() => setVideoActive(true)}>
-              {!videoActive ? (
-                <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
-                  <div className="play-icon">
-                    <i className="fas fa-play"></i>
+          
+          <div className="video-modern-wrapper">
+            {contentReady ? (
+              <div className="video-container" onClick={() => setVideoActive(true)}>
+                {!videoActive ? (
+                  <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
+                    <div className="play-icon">
+                      <i className="fas fa-play"></i>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <iframe
-                  src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
-                  allowFullScreen
-                  allow="autoplay"
-                  loading="lazy"
-                ></iframe>
-              )}
-            </div>
+                ) : (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
+                    allowFullScreen
+                    allow="autoplay"
+                  ></iframe>
+                )}
+              </div>
+            ) : (
+              <div className="video-container skeleton"></div>
+            )}
           </div>
+
           <div className="hero-text">
-            <div className="hero-title">Video <span>showcase</span></div>
-            <p className="hero-desc">O vídeo pode estar desatualizado</p>
+            <div className="hero-title">Showcase</div>
+            <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
           </div>
         </div>
 
