@@ -402,34 +402,44 @@ export default function Home() {
           <p className="trust-sub">Copie o script abaixo e cole no seu executor</p>
           
           <div className="code-container" ref={downloadMenuRef}>
-            <code>
-              <SimpleLuaHighlight code={CONFIG.script} />
-            </code>
-            
-            <div className="action-group">
-              <div style={{ position: 'relative' }}>
-                <button 
-                  className="icon-btn" 
-                  onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
-                  aria-label="Baixar"
-                  onMouseEnter={() => playSound('hover')}
-                >
-                  <i className="fas fa-download"></i>
-                </button>
-                
-                <div className={`download-dropdown ${showDownloadMenu ? 'show' : ''}`}>
-                  <button className="dl-option" onClick={() => handleDownload('txt')}>
-                    <i className="fas fa-file-alt"></i> Texto (.txt)
-                  </button>
-                  <button className="dl-option" onClick={() => handleDownload('lua')}>
-                    <i className="fas fa-code"></i> Lua (.lua)
-                  </button>
-                </div>
+            <div className="code-header">
+              <div className="window-dots">
+                <span className="dot-red"></span>
+                <span className="dot-yellow"></span>
+                <span className="dot-green"></span>
               </div>
+              
+              <div className="action-group">
+                <div style={{ position: 'relative' }}>
+                  <button 
+                    className="icon-btn" 
+                    onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
+                    aria-label="Baixar"
+                    onMouseEnter={() => playSound('hover')}
+                  >
+                    <i className="fas fa-download"></i>
+                  </button>
+                  
+                  <div className={`download-dropdown ${showDownloadMenu ? 'show' : ''}`}>
+                    <button className="dl-option" onClick={() => handleDownload('txt')}>
+                      <i className="fas fa-file-alt"></i> Texto (.txt)
+                    </button>
+                    <button className="dl-option" onClick={() => handleDownload('lua')}>
+                      <i className="fas fa-code"></i> Lua (.lua)
+                    </button>
+                  </div>
+                </div>
 
-              <button className="icon-btn" onClick={copyScript} aria-label="Copiar" onMouseEnter={() => playSound('hover')}>
-                <i className="fas fa-copy"></i>
-              </button>
+                <button className="icon-btn" onClick={copyScript} aria-label="Copiar" onMouseEnter={() => playSound('hover')}>
+                  <i className="fas fa-copy"></i>
+                </button>
+              </div>
+            </div>
+
+            <div className="code-scroll-area">
+              <code>
+                <SimpleLuaHighlight code={CONFIG.script} />
+              </code>
             </div>
           </div>
 

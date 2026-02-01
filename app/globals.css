@@ -380,27 +380,73 @@ iframe { width: 100%; height: 100%; border: none; }
 
 .code-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   background: #0d0d0d;
   border: 1px solid #222;
   border-radius: 12px;
-  padding: 0;
   margin-top: 15px;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #111;
+  border-bottom: 1px solid #222;
+}
+
+.window-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.window-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+.code-scroll-area {
+  width: 100%;
+  position: relative;
 }
 
 code {
+  display: block;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-size: 0.8rem;
   color: #abb2bf;
-  flex: 1;
+  width: 100%;
   overflow-x: auto;
   white-space: nowrap;
   padding: 14px 16px;
-  scrollbar-width: none;
 }
-code::-webkit-scrollbar { display: none; }
+
+/* Custom Scrollbar for Code Block */
+code::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+code::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+code::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+code::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
 
 .lua-token { color: #ccc; }
 .lua-function { color: #61afef; }
@@ -412,16 +458,15 @@ code::-webkit-scrollbar { display: none; }
 .action-group {
   display: flex;
   gap: 8px;
-  padding-right: 6px;
 }
 
 .icon-btn {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background: #1a1a1a;
   border: 1px solid #333;
   color: #fff;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
@@ -435,6 +480,8 @@ code::-webkit-scrollbar { display: none; }
   color: #000;
   border-color: #fff;
 }
+
+.icon-btn i { font-size: 0.8rem; }
 
 .download-dropdown {
   position: absolute;
