@@ -27,30 +27,30 @@ const CONFIG = {
 
   features: {
     global: [
-      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros para o inimigo.' },
-      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Permite aumentar a hitbox de quem você desejar.' },
-      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar respostas automáticas.' },
-      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Realiza parkours de forma automática e perfeita.' },
-      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'Realiza JJs (polichinelos) automaticamente.' },
-      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza o client para ganhar FPS.' },
-      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Permite alterar o tamanho de objetos e parkours.' },
-      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Permite alterar sua skin ou a skin de terceiros.' }
+      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros.' },
+      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta área de acerto.' },
+      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para chat.' },
+      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Parkour automático.' },
+      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs automáticos.' },
+      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas.' },
+      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Ferramenta de construção.' },
+      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Alterador de skin.' }
     ],
     tevez: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global.' },
-      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata todos os inimigos ao redor automaticamente.' },
-      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Permite modificar os parâmetros da arma.' },
-      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Falsifica seu dispositivo para aparecer como outro.' },
-      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Autofarm de dinheiro totalmente automatizado.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
+      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata inimigos próximos.' },
+      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Modificadores de arma.' },
+      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Falsifica dispositivo.' },
+      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Farm de dinheiro auto.' }
     ],
     delta: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global.' },
-      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Você receberá dinheiro infinito no jogo.' },
-      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Dá dinheiro infinito para todos do servidor.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
+      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Dinheiro infinito.' },
+      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Dinheiro para todos.' }
     ],
     soucre: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global.' },
-      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Autofarm de dinheiro otimizado.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
+      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Autofarm otimizado.' }
     ]
   } as Record<string, FeatureItem[]>
 }
@@ -59,14 +59,38 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('global')
   const [videoActive, setVideoActive] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [contentReady, setContentReady] = useState(false)
   const [modal, setModal] = useState({ open: false, title: '', desc: '' })
   const [toast, setToast] = useState(false)
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500)
-    return () => clearTimeout(timer)
+    const handleContextMenu = (e: MouseEvent) => e.preventDefault()
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'U')
+      ) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener('contextmenu', handleContextMenu)
+    document.addEventListener('keydown', handleKeyDown)
+
+    const timer = setTimeout(() => {
+      setLoading(false)
+      setTimeout(() => setContentReady(true), 800)
+    }, 2000)
+    
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu)
+      document.removeEventListener('keydown', handleKeyDown)
+      clearTimeout(timer)
+    }
   }, [])
 
   const copyScript = () => {
@@ -84,7 +108,8 @@ export default function Home() {
     <>
       {loading && (
         <div className="loading-screen">
-          <img src="/avatar.png" className="loading-logo" alt="Loading" onError={(e) => handleImageError(e, 'M')} loading="lazy" />
+          <div className="spinner"></div>
+          <div className="loading-text">Carregando</div>
         </div>
       )}
 
@@ -92,7 +117,7 @@ export default function Home() {
         
         <header>
           <div className="profile-container">
-            <img src="/avatar.png" className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} loading="lazy" />
+            <img src="/avatar.png" className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} />
             <div>
               <div className="brand-name">fp3</div>
               <div className="brand-sub">Developer</div>
@@ -109,25 +134,28 @@ export default function Home() {
             <div className="mac-bar">
               <div className="dot"></div><div className="dot"></div><div className="dot"></div>
             </div>
-            <div className="video-container" onClick={() => setVideoActive(true)}>
-              {!videoActive ? (
-                <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
-                  <div className="play-icon">
-                    <i className="fas fa-play"></i>
+            {contentReady ? (
+              <div className="video-container" onClick={() => setVideoActive(true)}>
+                {!videoActive ? (
+                  <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
+                    <div className="play-icon">
+                      <i className="fas fa-play"></i>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <iframe
-                  src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
-                  allowFullScreen
-                  allow="autoplay"
-                  loading="lazy"
-                ></iframe>
-              )}
-            </div>
+                ) : (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
+                    allowFullScreen
+                    allow="autoplay"
+                  ></iframe>
+                )}
+              </div>
+            ) : (
+              <div className="video-container skeleton"></div>
+            )}
           </div>
           <div className="hero-text">
-            <div className="hero-title">Video <span>showcase</span></div>
+            <div className="hero-title">Video <span>Showcase</span></div>
             <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
           </div>
         </div>
@@ -159,13 +187,16 @@ export default function Home() {
             <div className="track">
               {displayGames.map((game, index) => (
                 <div key={index} className="game-pill">
-                  <img
-                    src={game.icon}
-                    className="game-img"
-                    alt={game.name}
-                    onError={(e) => handleImageError(e, game.name)}
-                    loading="lazy"
-                  />
+                  {contentReady ? (
+                    <img
+                      src={game.icon}
+                      className="game-img"
+                      alt={game.name}
+                      onError={(e) => handleImageError(e, game.name)}
+                    />
+                  ) : (
+                    <div className="game-img skeleton"></div>
+                  )}
                   <div className="game-data">
                     <span className="game-t">{game.name}</span>
                     <span className="game-s">Ativo</span>
@@ -201,19 +232,23 @@ export default function Home() {
 
           <div className="grid-features">
             {CONFIG.features[activeTab].map((item, index) => (
-              <div
-                key={index}
-                className="feat-card"
-                onClick={() => setModal({ open: true, title: item.name, desc: item.desc })}
-              >
-                <i className={item.icon}></i>
-                <div>
-                  <div className="feat-name">{item.name}</div>
-                  <span className={`feat-tag tag-${item.type}`}>
-                    {item.type === 'safe' ? 'Seguro' : item.type === 'risk' ? 'Risco' : 'Visual'}
-                  </span>
+              contentReady ? (
+                <div
+                  key={index}
+                  className="feat-card"
+                  onClick={() => setModal({ open: true, title: item.name, desc: item.desc })}
+                >
+                  <i className={item.icon}></i>
+                  <div className="feat-content">
+                    <div className="feat-name">{item.name}</div>
+                    <span className={`feat-tag tag-${item.type}`}>
+                      {item.type === 'safe' ? 'Seguro' : item.type === 'risk' ? 'Risco' : 'Visual'}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div key={index} className="feat-card skeleton"></div>
+              )
             ))}
           </div>
         </section>
