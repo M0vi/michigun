@@ -100,7 +100,7 @@ export default function Home() {
           <h2 className="section-title">
             <span className="t-white">Video</span> <span className="t-red">Showcase</span>
           </h2>
-          <p className="section-desc">Watch our script in action and see how powerful Rise really is</p>
+          <p className="section-desc">Veja o vídeo mostrando o script</p>
         </div>
 
         <div className="mac-container">
@@ -129,9 +129,9 @@ export default function Home() {
             </div>
 
             <div className="vid-desc-box">
-              <h3 className="vid-desc-title">Full Feature Showcase</h3>
+              <h3 className="vid-desc-title">Full Info</h3>
               <p className="vid-desc-text">
-                Experience the complete power of Rise Script with our comprehensive showcase video. See all features in action including ESP, auto-farm, speed modifications, and much more. This demonstration covers multiple games and shows why Rise is the most advanced script hub available.
+                O michigun.xyz foi criado apenas como um hobby.
               </p>
             </div>
           </div>
@@ -168,9 +168,9 @@ export default function Home() {
       <section>
         <div className="section-header">
           <h2 className="section-title">
-            <span className="t-white">Supported</span> <span className="t-red">Games</span>
+            <span className="t-white">Jogos</span> <span className="t-red">Suportados</span>
           </h2>
-          <p className="section-desc">Rise Script supports multiple popular games with powerful features</p>
+          <p className="section-desc">O script possui funções exclusivas para os jogos abaixo</p>
         </div>
 
         <div className="carousel-window">
