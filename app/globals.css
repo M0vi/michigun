@@ -6,6 +6,7 @@
   --text-secondary: #888888;
   --accent: #ffffff;
   --brand: #ff3e3e;
+  --discord: #5865F2;
   --glass: rgba(255, 255, 255, 0.03);
 }
 
@@ -96,7 +97,7 @@ body::before {
 .wrapper {
   width: 100%; max-width: 680px;
   padding: 40px 24px;
-  display: flex; flex-direction: column; gap: 60px;
+  display: flex; flex-direction: column; gap: 50px;
   position: relative; z-index: 1;
 }
 
@@ -156,51 +157,128 @@ iframe { width: 100%; height: 100%; border: none; }
 .hero-title span { color: var(--brand); }
 .hero-desc { font-size: 0.9rem; color: var(--text-secondary); max-width: 80%; margin: 0 auto; line-height: 1.5; }
 
-/* DISCORD CUSTOM WIDGET */
-.discord-section {
-  background: var(--surface);
+/* TRUST GRID (SUPORTE/KEY) */
+.trust-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 colunas lado a lado */
+  gap: 15px;
+}
+
+.trust-item {
+  background: #0f0f0f;
   border: 1px solid var(--surface-border);
-  border-radius: 20px;
   padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.trust-item:hover {
+  background: #141414;
+  border-color: #333;
+  transform: translateY(-2px);
+}
+
+.trust-icon { font-size: 1.4rem; color: #fff; margin-bottom: 4px; }
+.trust-label { font-size: 0.9rem; font-weight: 700; color: #eee; }
+.trust-sub { font-size: 0.75rem; color: #777; line-height: 1.4; }
+
+/* DISCORD CUSTOM SECTION (SEPARADA) */
+.discord-dock {
+  background: linear-gradient(145deg, #0a0a0a, #0e0e0e);
+  border: 1px solid var(--surface-border);
+  border-radius: 24px;
+  padding: 2px; /* Gradient border trick space */
   position: relative;
   overflow: hidden;
 }
-.discord-header {
-  display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-}
-.discord-brand { display: flex; align-items: center; gap: 10px; }
-.discord-brand i { color: #5865F2; font-size: 1.5rem; }
-.discord-title { font-size: 1rem; font-weight: 700; color: #fff; }
-.discord-count { 
-  background: rgba(74, 222, 128, 0.1); color: #4ade80; 
-  padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
-  display: flex; align-items: center; gap: 6px;
-}
-.status-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; animation: pulse-green 2s infinite; }
 
-@keyframes pulse-green { 0% { opacity: 0.5; } 50% { opacity: 1; box-shadow: 0 0 10px #4ade80; } 100% { opacity: 0.5; } }
+.discord-dock::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--discord), transparent);
+  opacity: 0.5;
+}
 
-.members-grid {
-  display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;
+.discord-inner {
+  background: #080808;
+  border-radius: 22px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-.member-item {
-  min-width: 60px; display: flex; flex-direction: column; align-items: center; gap: 6px;
-}
-.member-avatar-box { position: relative; width: 48px; height: 48px; }
-.member-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #222; transition: 0.2s; }
-.member-status-indicator {
-  position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px;
-  background: #4ade80; border: 2px solid var(--surface); border-radius: 50%;
-}
-.member-item:hover .member-img { border-color: var(--brand); transform: scale(1.1); }
-.member-name { font-size: 0.7rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60px; }
 
-.discord-join-btn {
-  margin-top: 15px; width: 100%; padding: 12px;
-  background: #5865F2; color: #fff; border: none; border-radius: 12px;
-  font-weight: 700; cursor: pointer; transition: 0.2s;
+.discord-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
-.discord-join-btn:hover { background: #4752c4; }
+
+.discord-info-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.discord-logo-box {
+  width: 48px; height: 48px;
+  background: var(--discord);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 20px rgba(88, 101, 242, 0.25);
+}
+.discord-logo-box i { color: #fff; font-size: 1.5rem; }
+
+.discord-names h3 { margin: 0; font-size: 1rem; color: #fff; font-weight: 800; }
+.discord-names p { margin: 0; font-size: 0.75rem; color: #888; margin-top: 2px; }
+
+.discord-stat-badge {
+  background: rgba(88, 101, 242, 0.1);
+  color: var(--discord);
+  border: 1px solid rgba(88, 101, 242, 0.2);
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.7rem; font-weight: 700;
+  white-space: nowrap;
+}
+
+.discord-members-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.members-label { font-size: 0.7rem; color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+.members-scroll {
+  display: flex; gap: 12px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none;
+}
+
+.dm-item {
+  position: relative; min-width: 44px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.dm-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #1a1a1a; background: #222; }
+.dm-status {
+  position: absolute; bottom: 2px; right: 0; width: 10px; height: 10px;
+  background: #4ade80; border: 2px solid #080808; border-radius: 50%;
+}
+.dm-name { font-size: 0.6rem; color: #777; max-width: 44px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.discord-actions {
+  display: flex; gap: 10px;
+}
+
+.btn-join-discord {
+  flex: 1; padding: 12px;
+  background: var(--discord); color: #fff;
+  border: none; border-radius: 12px;
+  font-weight: 700; font-size: 0.9rem;
+  cursor: pointer; transition: 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-join-discord:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); }
 
 /* GAMES CAROUSEL */
 .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -269,3 +347,4 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #999;
 .modal-close:hover { transform: scale(0.98); opacity: 0.9; }
 footer { text-align: center; font-size: 0.75rem; color: #444; margin-top: 60px; font-weight: 600; }
 @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 6px)); } }
+@media (max-width: 600px) { .trust-grid { grid-template-columns: 1fr; } }

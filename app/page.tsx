@@ -14,6 +14,22 @@ type GameItem = {
   icon: string
 }
 
+type DiscordMember = {
+  id: string
+  username: string
+  avatar_url: string
+  status: string
+}
+
+type DiscordWidgetData = {
+  id: string
+  name: string
+  instant_invite: string
+  channels: any[]
+  members: DiscordMember[]
+  presence_count: number
+}
+
 const CONFIG = {
   script: 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/michigun.xyz/-/raw/main/main"))()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
@@ -65,7 +81,7 @@ export default function Home() {
   const [modal, setModal] = useState({ open: false, title: '', desc: '' })
   const [toast, setToast] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('/avatar.png')
-  const [discordOnline, setDiscordOnline] = useState<number | null>(null)
+  const [discordData, setDiscordData] = useState<DiscordWidgetData | null>(null)
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
 
@@ -90,28 +106,24 @@ export default function Home() {
       setTimeout(() => setContentReady(true), 800)
     }, 2000)
 
-    async function fetchDiscordAvatar() {
+    async function fetchData() {
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordId}`)
-        const data = await res.json()
-        if (data.success && data.data.discord_user.avatar) {
-          setAvatarUrl(`https://cdn.discordapp.com/avatars/${CONFIG.discordId}/${data.data.discord_user.avatar}.png`)
+        // Avatar
+        const resAv = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordId}`)
+        const dataAv = await resAv.json()
+        if (dataAv.success && dataAv.data.discord_user.avatar) {
+          setAvatarUrl(`https://cdn.discordapp.com/avatars/${CONFIG.discordId}/${dataAv.data.discord_user.avatar}.png`)
+        }
+
+        // Widget Data Full
+        const resWidget = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
+        const dataWidget = await resWidget.json()
+        if (dataWidget) {
+          setDiscordData(dataWidget)
         }
       } catch {}
     }
-
-    async function fetchDiscordStats() {
-      try {
-        const res = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
-        const data = await res.json()
-        if (data.presence_count) {
-          setDiscordOnline(data.presence_count)
-        }
-      } catch {}
-    }
-
-    fetchDiscordAvatar()
-    fetchDiscordStats()
+    fetchData()
     
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu)
@@ -186,6 +198,7 @@ export default function Home() {
           </div>
         </div>
 
+        {/* TRUST GRID REVERTIDO (2 Colunas) */}
         <div className="trust-grid">
           <div className="trust-item">
             <i className="far fa-play-circle trust-icon"></i>
@@ -197,18 +210,47 @@ export default function Home() {
             <span className="trust-label">Key System</span>
             <p className="trust-sub">Rápido e sem spam.</p>
           </div>
-          <div className="trust-item">
-            <i className="fab fa-discord trust-icon"></i>
-            <span className="trust-label">Comunidade</span>
-            <p className="trust-sub">
-              {discordOnline ? (
-                <><span style={{ color: '#4ade80', fontWeight: 'bold' }}>{discordOnline}</span> Online</>
-              ) : (
-                'Junte-se ao Discord'
-              )}
-            </p>
-          </div>
         </div>
+
+        {/* DISCORD DEDICADO */}
+        <section className="discord-dock">
+          <div className="discord-inner">
+            <div className="discord-header-row">
+              <div className="discord-info-group">
+                <div className="discord-logo-box"><i className="fab fa-discord"></i></div>
+                <div className="discord-names">
+                  <h3>{discordData?.name || 'Comunidade'}</h3>
+                  <p>{discordData?.presence_count || 0} Membros Online</p>
+                </div>
+              </div>
+              {discordData && (
+                <div className="discord-stat-badge">
+                  {discordData.channels?.length || 0} Canais Ativos
+                </div>
+              )}
+            </div>
+
+            <div className="discord-members-area">
+              <span className="members-label">Online Agora</span>
+              <div className="members-scroll">
+                {contentReady && discordData?.members ? (
+                  discordData.members.map((m) => (
+                    <div key={m.id} className="dm-item">
+                      <img src={m.avatar_url} className="dm-avatar" alt={m.username} />
+                      <div className="dm-status"></div>
+                    </div>
+                  ))
+                ) : (
+                  [1,2,3,4,5,6].map(i => <div key={i} className="skeleton" style={{width: 44, height: 44, borderRadius: '50%', minWidth: 44}}></div>)
+                )}
+              </div>
+            </div>
+
+            <button className="btn-join-discord" onClick={() => window.open(CONFIG.discordLink, '_blank')}>
+              <i className="fab fa-discord"></i> Juntar-se ao Servidor
+            </button>
+          </div>
+        </section>
 
         <section>
           <div className="section-head">
