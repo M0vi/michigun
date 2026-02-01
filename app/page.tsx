@@ -346,7 +346,7 @@ export default function Home() {
                      className={`deck-btn download-btn ${showDownloadMenu ? 'active' : ''}`} 
                      onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
                      onMouseEnter={() => playSound('hover')}
-                     aria-label="Opções de Download"
+                     aria-label="Opções de download"
                      aria-haspopup="true"
                      aria-expanded={showDownloadMenu}
                    >
