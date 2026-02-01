@@ -62,70 +62,6 @@ body {
   background-attachment: fixed;
 }
 
-.loading-screen {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: #030303;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  transition: opacity 0.4s ease-out;
-}
-
-.spinner {
-  width: 70px;
-  height: 70px;
-  position: relative;
-}
-
-.spinner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  border-top-color: var(--brand);
-  border-right-color: var(--brand);
-  animation: spin 1s linear infinite;
-  box-shadow: 0 0 20px rgba(255, 62, 62, 0.4);
-}
-
-.spinner::after {
-  content: '';
-  position: absolute;
-  inset: 12px;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  border-bottom-color: #fff;
-  border-left-color: #fff;
-  animation: spin 2s linear infinite reverse;
-  opacity: 0.5;
-}
-
-.loading-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); } }
-
-.skeleton {
-  background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
-}
-@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
 .wrapper {
   width: 100%; max-width: 680px;
   padding: 40px 24px;
@@ -133,7 +69,11 @@ body {
   position: relative; z-index: 1;
 }
 
-header { display: flex; align-items: center; justify-content: space-between; }
+/* Novo Header em Stack para múltiplos Devs */
+.header-stack {
+  display: flex; flex-direction: column; gap: 15px;
+}
+
 .profile-container { display: flex; align-items: center; gap: 16px; cursor: default; }
 .avatar {
   width: 44px; height: 44px; border-radius: 50%;

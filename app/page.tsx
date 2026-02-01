@@ -14,6 +14,13 @@ type GameItem = {
   icon: string
 }
 
+type DevProfile = {
+  id: string
+  role: string
+  username: string
+  avatar_url: string
+}
+
 type DiscordMember = {
   id: string
   username: string
@@ -44,8 +51,13 @@ const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
   videoId: '20zXmdpUHQA',
-  discordId: '1163467888259239996',
   discordServerId: '1325182370353119263',
+  
+  // Lista de desenvolvedores para monitorar
+  devs: [
+    { id: '1163467888259239996', role: 'Main Dev' },
+    { id: '1062463366792216657', role: 'Developer' }
+  ],
   
   games: [
     { name: 'Tevez', icon: 'https://tr.rbxcdn.com/180DAY-84c7c1edcc63c7dfab5712b1ad377133/768/432/Image/Webp/noFilter' },
@@ -99,50 +111,21 @@ const SimpleLuaHighlight = ({ code }: { code: string }) => {
   )
 }
 
-const useTypewriter = (text: string, speed: number = 100, delay: number = 0) => {
-  const [displayText, setDisplayText] = useState('')
-  const [isFinished, setIsFinished] = useState(false)
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-    const startTyping = () => {
-      let i = 0
-      const type = () => {
-        if (i < text.length) {
-          setDisplayText(text.substring(0, i + 1))
-          i++
-          timeout = setTimeout(type, speed)
-        } else {
-          setIsFinished(true)
-        }
-      }
-      type()
-    }
-    const initialDelay = setTimeout(startTyping, delay)
-    return () => {
-      clearTimeout(initialDelay)
-      clearTimeout(timeout)
-    }
-  }, [text, speed, delay])
-
-  return { displayText, isFinished }
-}
-
 export default function Home() {
   const [activeTab, setActiveTab] = useState('global')
   const [videoActive, setVideoActive] = useState(false)
-  const [loading, setLoading] = useState(true)
   const [contentReady, setContentReady] = useState(false)
   const [modal, setModal] = useState({ open: false, title: '', desc: '' })
   const [toast, setToast] = useState(false)
-  const [avatarUrl, setAvatarUrl] = useState('/avatar.png')
+  const [devProfiles, setDevProfiles] = useState<DevProfile[]>([])
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
   const [execCount, setExecCount] = useState<number | null>(null)
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
-  const displayGames = [...CONFIG.games, ...CONFIG.games]
-  const { displayText: typeText, isFinished: typeFinished } = useTypewriter('Main Dev', 150, 1000)
+
+  // Duplicar várias vezes para garantir loop infinito suave mesmo em telas ultra-wide
+  const displayGames = [...CONFIG.games, ...CONFIG.games, ...CONFIG.games, ...CONFIG.games]
 
   const playSound = (type: 'hover' | 'click') => {
     try {
@@ -185,27 +168,46 @@ export default function Home() {
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('mousedown', handleClickOutside)
 
-    const timer = setTimeout(() => {
-      setLoading(false)
-      setTimeout(() => setContentReady(true), 300)
-    }, 500)
+    // Removemos o setTimeout artificial para melhorar o LCP/FCP
+    setContentReady(true)
 
     async function fetchData() {
       try {
-        const resAv = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordId}`)
-        const dataAv = await resAv.json()
-        if (dataAv.success && dataAv.data.discord_user.avatar) {
-          setAvatarUrl(`https://cdn.discordapp.com/avatars/${CONFIG.discordId}/${dataAv.data.discord_user.avatar}.png`)
-        }
+        // Carrega Perfis dos Desenvolvedores
+        const profiles = await Promise.all(CONFIG.devs.map(async (dev) => {
+          try {
+            const res = await fetch(`https://api.lanyard.rest/v1/users/${dev.id}`)
+            const data = await res.json()
+            if (data.success) {
+              return {
+                id: dev.id,
+                role: dev.role,
+                username: data.data.discord_user.username,
+                avatar_url: `https://cdn.discordapp.com/avatars/${dev.id}/${data.data.discord_user.avatar}.png`
+              }
+            }
+          } catch {}
+          // Fallback se falhar
+          return { 
+            id: dev.id, 
+            role: dev.role, 
+            username: 'Dev', 
+            avatar_url: 'https://ui-avatars.com/api/?name=Dev&background=333&color=fff' 
+          }
+        }))
+        setDevProfiles(profiles)
         
+        // Estatisticas
         const resCount = await fetch('/api/stats')
         const dataCount = await resCount.json()
         if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
 
+        // Discord Widget
         const resWidget = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
         const dataWidget = await resWidget.json()
         if (dataWidget) setDiscordWidget(dataWidget)
 
+        // Discord Invite info
         const inviteCode = CONFIG.discordLink.split('/').pop()
         const resInvite = await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`)
         const dataInvite = await resInvite.json()
@@ -218,7 +220,6 @@ export default function Home() {
       document.removeEventListener('contextmenu', handleContextMenu)
       document.removeEventListener('keydown', handleKeyDown)
       document.removeEventListener('mousedown', handleClickOutside)
-      clearTimeout(timer)
     }
   }, [])
 
@@ -250,33 +251,36 @@ export default function Home() {
 
   return (
     <>
-      {loading && (
-        <div className="loading-screen">
-          <div className="spinner"></div>
-          <div className="loading-text">Carregando</div>
-        </div>
-      )}
-
-      <main className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
+      <main className="wrapper">
         
-        <header>
-          <div className="profile-container" onMouseEnter={() => playSound('hover')}>
-            <img 
-              src={avatarUrl} 
-              className="avatar" 
-              alt="fp3 profile" 
-              onError={(e) => handleImageError(e, 'FP')}
-              width="44"
-              height="44" 
-            />
-            <div>
-              <div className="brand-name">fp3</div>
-              <div className="brand-sub">
-                {typeText}
-                {!typeFinished && <span className="cursor-blink"></span>}
+        <header className="header-stack">
+          {devProfiles.length > 0 ? (
+            devProfiles.map((dev) => (
+              <div key={dev.id} className="profile-container" onMouseEnter={() => playSound('hover')}>
+                <img 
+                  src={dev.avatar_url} 
+                  className="avatar" 
+                  alt={dev.username} 
+                  onError={(e) => handleImageError(e, dev.username)}
+                  width="44"
+                  height="44" 
+                />
+                <div>
+                  <div className="brand-name">{dev.username}</div>
+                  <div className="brand-sub">{dev.role}</div>
+                </div>
               </div>
+            ))
+          ) : (
+            // Skeleton do perfil para não quebrar layout
+            <div className="profile-container">
+               <div className="skeleton" style={{width:44, height:44, borderRadius:'50%'}}></div>
+               <div style={{display:'flex', flexDirection:'column', gap:4}}>
+                 <div className="skeleton" style={{width:80, height:14}}></div>
+                 <div className="skeleton" style={{width:50, height:10}}></div>
+               </div>
             </div>
-          </div>
+          )}
         </header>
 
         <div className="hero-wrapper">
@@ -288,39 +292,35 @@ export default function Home() {
           </div>
 
           <div className="video-modern-wrapper" onMouseEnter={() => playSound('hover')}>
-            {contentReady ? (
-              <div 
-                className="video-container" 
-                onClick={withSound(() => setVideoActive(true))}
-                role="button"
-                aria-label="Reproduzir vídeo showcase"
-                tabIndex={0}
-              >
-                {!videoActive ? (
-                  <div className="video-thumb">
-                    <img 
-                      src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
-                      alt="Michigun Script Showcase Thumbnail"
-                      className="video-thumb-img"
-                      // @ts-ignore
-                      fetchPriority="high"
-                    />
-                    <div className="play-icon">
-                      <i className="fas fa-play"></i>
-                    </div>
+            <div 
+              className="video-container" 
+              onClick={withSound(() => setVideoActive(true))}
+              role="button"
+              aria-label="Reproduzir vídeo showcase"
+              tabIndex={0}
+            >
+              {!videoActive ? (
+                <div className="video-thumb">
+                  <img 
+                    src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
+                    alt="Michigun Script Showcase Thumbnail"
+                    className="video-thumb-img"
+                    // @ts-ignore
+                    fetchPriority="high"
+                  />
+                  <div className="play-icon">
+                    <i className="fas fa-play"></i>
                   </div>
-                ) : (
-                  <iframe
-                    src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
-                    allowFullScreen
-                    allow="autoplay"
-                    title="Michigun Script Showcase Video"
-                  ></iframe>
-                )}
-              </div>
-            ) : (
-              <div className="video-container skeleton"></div>
-            )}
+                </div>
+              ) : (
+                <iframe
+                  src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
+                  allowFullScreen
+                  allow="autoplay"
+                  title="Michigun Script Showcase Video"
+                ></iframe>
+              )}
+            </div>
           </div>
 
           <div className="hero-footer-group">
@@ -530,7 +530,7 @@ export default function Home() {
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.name}`}
                 >
-                  <i className="fas fa-hammer"></i>
+                  <i className={item.icon}></i>
                   <div className="feat-content">
                     <div className="feat-name">{item.name}</div>
                     <span className={`feat-tag tag-${item.type}`}>
