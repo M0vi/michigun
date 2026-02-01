@@ -64,7 +64,6 @@ export default function Home() {
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
 
-  // Loading Effect
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false)
@@ -85,10 +84,9 @@ export default function Home() {
 
   return (
     <>
-      {/* --- LOADING SCREEN --- */}
       {loading && (
         <div className="loading-screen">
-          <img src="/avatar.png" className="loading-logo" alt="Loading" onError={(e) => handleImageError(e, 'M')} />
+          <img src="/avatar.png" className="loading-logo" alt="Loading" onError={(e) => handleImageError(e, 'M')} loading="lazy" />
           <div className="loading-bar">
             <div className="loading-progress"></div>
           </div>
@@ -97,10 +95,9 @@ export default function Home() {
 
       <div className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s' }}>
         
-        {/* --- HEADER --- */}
         <header>
           <div className="header-left">
-            <img src="/avatar.png" className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} />
+            <img src="/avatar.png" className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} loading="lazy" />
             <div className="header-info">
               <h1>@fp3</h1>
               <span style={{ fontSize: '0.75rem', color: '#666', fontWeight: 600 }}>michigun.xyz</span>
@@ -111,7 +108,6 @@ export default function Home() {
           </a>
         </header>
 
-        {/* --- HERO: VIDEO SHOWCASE --- */}
         <section className="hero-section">
           <div className="video-container-pro">
             <div className="video-frame" onClick={() => setVideoActive(true)}>
@@ -127,6 +123,7 @@ export default function Home() {
                   src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
                   allowFullScreen
                   allow="autoplay"
+                  loading="lazy"
                 ></iframe>
               )}
             </div>
@@ -139,7 +136,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- TRUST GRID (Grid horizontal de features) --- */}
         <section className="trust-grid">
           <div className="trust-card">
             <i className="far fa-play-circle trust-icon"></i>
@@ -158,7 +154,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- GAMES CAROUSEL (Estilo Pílula) --- */}
         <section>
           <div className="section-header">
             <span className="section-label">Jogos Suportados</span>
@@ -174,6 +169,7 @@ export default function Home() {
                     className="game-chip-icon"
                     alt={game.name}
                     onError={(e) => handleImageError(e, game.name)}
+                    loading="lazy"
                   />
                   <div className="game-chip-info">
                     <span className="game-chip-name">{game.name}</span>
@@ -185,7 +181,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- SCRIPT & FEATURES --- */}
         <section>
           <div className="script-area">
             <span className="script-label">Script Loader</span>
@@ -221,6 +216,7 @@ export default function Home() {
                 <i className={`${item.icon} module-icon`}></i>
                 <div className="module-info">
                   <span className="module-name">{item.name}</span>
+                  <p className="module-desc">{item.desc}</p>
                   <span className="module-status">
                     {item.type === 'safe' ? 'Seguro' : item.type === 'risk' ? 'Risco' : 'Visual'}
                   </span>
@@ -234,7 +230,6 @@ export default function Home() {
           © 2026 MICHIGUN.XYZ
         </footer>
 
-        {/* --- MODAL --- */}
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
