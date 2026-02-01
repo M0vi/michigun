@@ -215,7 +215,7 @@ export default function Home() {
 
           <div className="hero-text">
             <div className="hero-title">Showcase</div>
-            <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
+            <p className="hero-desc">O vídeo pode estar desatualizado</p>
           </div>
         </div>
 
@@ -223,17 +223,17 @@ export default function Home() {
           <div className="trust-item">
             <i className="far fa-play-circle trust-icon"></i>
             <span className="trust-label">Suporte</span>
-            <p className="trust-sub">Atualizações constantes.</p>
+            <p className="trust-sub">Atualizações constantes</p>
           </div>
           <div className="trust-item">
             <i className="fas fa-key trust-icon"></i>
             <span className="trust-label">Key System</span>
-            <p className="trust-sub">Rápido e sem spam.</p>
+            <p className="trust-sub">Rápido e direto</p>
           </div>
           <div className="trust-item">
             <i className="fab fa-discord trust-icon"></i>
             <span className="trust-label">24/7</span>
-            <p className="trust-sub">Suporte ativo no DC.</p>
+            <p className="trust-sub">Suporte ativo no Discord</p>
           </div>
         </div>
 
@@ -258,13 +258,13 @@ export default function Home() {
               </div>
               {discordExtra && (
                 <div className="discord-stat-badge">
-                  {discordExtra.approximate_member_count} Membros Totais
+                  {discordExtra.approximate_member_count} Membros
                 </div>
               )}
             </div>
 
             <div className="discord-members-area">
-              <span className="members-label">Online Agora</span>
+              <span className="members-label">Online</span>
               <div className="members-scroll">
                 {contentReady && discordWidget?.members ? (
                   discordWidget.members.map((m) => (
@@ -280,7 +280,7 @@ export default function Home() {
             </div>
 
             <button className="btn-join-discord" onClick={() => window.open(CONFIG.discordLink, '_blank')}>
-              <i className="fab fa-discord"></i> Juntar-se ao Servidor
+              <i className="fab fa-discord"></i> Entrar no servidor
             </button>
           </div>
         </section>
@@ -316,8 +316,8 @@ export default function Home() {
         </section>
 
         <section className="script-dock">
-          <div className="sec-title">Como usar?</div>
-          <p className="trust-sub">Copie o loader abaixo e cole no seu executor.</p>
+          <div className="sec-title">Como usar</div>
+          <p className="trust-sub">Copie o script abaixo e cole no seu executor</p>
           
           <div className="code-container">
             <code>{CONFIG.script}</code>
@@ -361,7 +361,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer>© 2026 MICHIGUN.XYZ</footer>
+        <footer>© 2026 michigun.xyz</footer>
 
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
