@@ -28,30 +28,30 @@ const CONFIG = {
 
   features: {
     global: [
-      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros.' },
-      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta área de acerto.' },
-      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para chat.' },
-      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Parkour automático.' },
-      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs automáticos.' },
-      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas.' },
-      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Ferramenta de construção.' },
-      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Alterador de skin.' }
+      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona tiros para o inimigo' },
+      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta a hitbox do inimigo' },
+      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar textos' },
+      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Realiza parkours automaticamente' },
+      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs (polichinelos) automáticos' },
+      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza a renderização do jogo para aumentar FPS' },
+      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Permite alterar o tamanho de estruturas, incluindo parkours' },
+      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Use char para você ou para os outros' }
     ],
     tevez: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
-      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata inimigos próximos.' },
-      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Modificadores de arma.' },
-      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Falsifica dispositivo.' },
-      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Farm de dinheiro auto.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
+      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata todos os inimigos próximos' },
+      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Modifica a arma' },
+      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Permite escolher o dispositivo no qual você joga para os outros' },
+      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Farma dinheiro automaticamente' }
     ],
     delta: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
-      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Dinheiro infinito.' },
-      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Dinheiro para todos.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
+      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Dinheiro infinito' },
+      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Transfere dinheiro infinito para todos' }
     ],
     soucre: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
-      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Autofarm otimizado.' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
+      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Farma dinheiro automaticamente' }
     ]
   } as Record<string, FeatureItem[]>
 }
