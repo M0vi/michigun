@@ -66,58 +66,52 @@ body::before {
 }
 
 .spinner {
+  width: 70px;
+  height: 70px;
   position: relative;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--brand);
-  box-shadow: 0 0 30px var(--brand);
-  animation: core-pulse 1.5s infinite ease-in-out;
 }
 
-.spinner::before, .spinner::after {
+.spinner::before {
   content: '';
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
   border-radius: 50%;
-  border: 1px solid var(--brand);
-  width: 100%; height: 100%;
-  animation: ripple 2s infinite linear;
+  border: 3px solid transparent;
+  border-top-color: var(--brand);
+  border-right-color: var(--brand);
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(255, 62, 62, 0.4);
 }
 
 .spinner::after {
-  animation-delay: 1s;
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-bottom-color: #fff;
+  border-left-color: #fff;
+  animation: spin 2s linear infinite reverse;
+  opacity: 0.5;
 }
 
 .loading-text {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.9rem;
-  font-weight: 800;
+  font-size: 0.8rem;
+  font-weight: 700;
   color: #fff;
-  letter-spacing: 4px;
+  letter-spacing: 6px;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  animation: text-glitch 2s infinite;
+  animation: pulse 2s infinite ease-in-out;
 }
 
-@keyframes core-pulse {
-  0%, 100% { transform: scale(0.8); opacity: 0.8; }
-  50% { transform: scale(1); opacity: 1; box-shadow: 0 0 50px var(--brand); }
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-@keyframes ripple {
-  0% { width: 60px; height: 60px; opacity: 1; border-width: 2px; }
-  100% { width: 180px; height: 180px; opacity: 0; border-width: 0px; }
-}
-
-@keyframes text-glitch {
-  0%, 100% { opacity: 1; transform: translateX(0); }
-  95% { opacity: 1; transform: translateX(0); }
-  96% { opacity: 0.8; transform: translateX(-2px); }
-  97% { opacity: 1; transform: translateX(2px); }
-  98% { opacity: 0.8; transform: translateX(-1px); }
-  99% { opacity: 1; transform: translateX(0); }
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
 }
 
 .skeleton {
