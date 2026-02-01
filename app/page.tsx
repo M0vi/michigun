@@ -193,7 +193,7 @@ export default function Home() {
         </div>
         
         <div className="hover-info">
-          Hover to pause • <span className="t-red">{CONFIG.games.length} Games Supported</span>
+          Clique para pausar • <span className="t-red">{CONFIG.games.length} Jogos suportados</span>
         </div>
       </section>
 
