@@ -19,6 +19,7 @@ const CONFIG = {
   discordLink: 'https://discord.gg/pWeJUBabvF',
   videoId: '20zXmdpUHQA',
   discordId: '1163467888259239996',
+  discordServerId: '1325182370353119263',
 
   games: [
     { name: 'Tevez', icon: 'https://tr.rbxcdn.com/180DAY-84c7c1edcc63c7dfab5712b1ad377133/768/432/Image/Webp/noFilter' },
@@ -28,30 +29,30 @@ const CONFIG = {
 
   features: {
     global: [
-      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona tiros para o inimigo' },
-      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta a hitbox do inimigo' },
-      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar textos' },
-      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Realiza parkours automaticamente' },
-      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs (polichinelos) automáticos' },
-      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza a renderização do jogo para aumentar FPS' },
-      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Permite alterar o tamanho de estruturas, incluindo parkours' },
-      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Use char para você ou para os outros' }
+      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros.' },
+      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Aumenta área de acerto.' },
+      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para chat.' },
+      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Parkour automático.' },
+      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'JJs automáticos.' },
+      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas.' },
+      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Ferramenta de construção.' },
+      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Alterador de skin.' }
     ],
     tevez: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
-      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata todos os inimigos próximos' },
-      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Modifica a arma' },
-      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Permite escolher o dispositivo no qual você joga para os outros' },
-      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Farma dinheiro automaticamente' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
+      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata inimigos próximos.' },
+      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Modificadores de arma.' },
+      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Falsifica dispositivo.' },
+      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Farm de dinheiro auto.' }
     ],
     delta: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
-      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Dinheiro infinito' },
-      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Transfere dinheiro infinito para todos' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
+      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Dinheiro infinito.' },
+      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Dinheiro para todos.' }
     ],
     soucre: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais' },
-      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Farma dinheiro automaticamente' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Todas funções globais.' },
+      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Autofarm otimizado.' }
     ]
   } as Record<string, FeatureItem[]>
 }
@@ -64,6 +65,7 @@ export default function Home() {
   const [modal, setModal] = useState({ open: false, title: '', desc: '' })
   const [toast, setToast] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('/avatar.png')
+  const [discordOnline, setDiscordOnline] = useState<number | null>(null)
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
 
@@ -97,7 +99,19 @@ export default function Home() {
         }
       } catch {}
     }
+
+    async function fetchDiscordStats() {
+      try {
+        const res = await fetch(`https://discord.com/api/guilds/${CONFIG.discordServerId}/widget.json`)
+        const data = await res.json()
+        if (data.presence_count) {
+          setDiscordOnline(data.presence_count)
+        }
+      } catch {}
+    }
+
     fetchDiscordAvatar()
+    fetchDiscordStats()
     
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu)
@@ -185,8 +199,14 @@ export default function Home() {
           </div>
           <div className="trust-item">
             <i className="fab fa-discord trust-icon"></i>
-            <span className="trust-label">24/7</span>
-            <p className="trust-sub">Suporte ativo no DC.</p>
+            <span className="trust-label">Comunidade</span>
+            <p className="trust-sub">
+              {discordOnline ? (
+                <><span style={{ color: '#4ade80', fontWeight: 'bold' }}>{discordOnline}</span> Online</>
+              ) : (
+                'Junte-se ao Discord'
+              )}
+            </p>
           </div>
         </div>
 
