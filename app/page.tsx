@@ -94,6 +94,13 @@ export default function Home() {
         </div>
       </header>
 
+      <div className="games-section" style={{ paddingBottom: '0' }}>
+        <h2 className="games-title">
+          <span className="t-white">Video</span> <span className="t-red">Showcase</span>
+        </h2>
+        <p className="games-desc">Veja o script em ação.</p>
+      </div>
+
       <div className="player-container">
         <div className="mac-header">
           <div className="mac-dot red"></div>
@@ -139,6 +146,13 @@ export default function Home() {
             ></iframe>
           )}
         </div>
+      </div>
+
+      <div className="vid-desc-box">
+        <h3 className="vid-desc-title">Full Feature Showcase</h3>
+        <p className="vid-desc-text">
+          Veja o poder completo do Rise Script com nosso vídeo detalhado. Confira todas as funções em ação, incluindo ESP, auto-farm, modificações de velocidade e muito mais.
+        </p>
       </div>
 
       <div className="games-section">
