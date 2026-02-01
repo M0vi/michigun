@@ -18,6 +18,7 @@ const CONFIG = {
   script: 'loadstring(game:HttpGet("https://gitlab.com/sanctuaryangels/michigun.xyz/-/raw/main/main"))()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
   videoId: '20zXmdpUHQA',
+  discordId: '1163467888259239996',
 
   games: [
     { name: 'Tevez', icon: 'https://tr.rbxcdn.com/180DAY-84c7c1edcc63c7dfab5712b1ad377133/768/432/Image/Webp/noFilter' },
@@ -62,6 +63,7 @@ export default function Home() {
   const [contentReady, setContentReady] = useState(false)
   const [modal, setModal] = useState({ open: false, title: '', desc: '' })
   const [toast, setToast] = useState(false)
+  const [avatarUrl, setAvatarUrl] = useState('/avatar.png')
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
 
@@ -85,6 +87,17 @@ export default function Home() {
       setLoading(false)
       setTimeout(() => setContentReady(true), 800)
     }, 2000)
+
+    async function fetchDiscordAvatar() {
+      try {
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordId}`)
+        const data = await res.json()
+        if (data.success && data.data.discord_user.avatar) {
+          setAvatarUrl(`https://cdn.discordapp.com/avatars/${CONFIG.discordId}/${data.data.discord_user.avatar}.png`)
+        }
+      } catch {}
+    }
+    fetchDiscordAvatar()
     
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu)
@@ -117,7 +130,7 @@ export default function Home() {
         
         <header>
           <div className="profile-container">
-            <img src="/avatar.png" className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} />
+            <img src={avatarUrl} className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} />
             <div>
               <div className="brand-name">fp3</div>
               <div className="brand-sub">Developer</div>
@@ -130,9 +143,11 @@ export default function Home() {
 
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
-          
-          {contentReady ? (
-            <div className="video-clean-frame" onClick={() => setVideoActive(true)}>
+          <div className="mac-frame">
+            <div className="mac-bar">
+              <div className="dot"></div><div className="dot"></div><div className="dot"></div>
+            </div>
+            <div className="video-container" onClick={() => setVideoActive(true)}>
               {!videoActive ? (
                 <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
                   <div className="play-icon">
@@ -144,16 +159,14 @@ export default function Home() {
                   src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
                   allowFullScreen
                   allow="autoplay"
+                  loading="lazy"
                 ></iframe>
               )}
             </div>
-          ) : (
-            <div className="video-clean-frame skeleton"></div>
-          )}
-
+          </div>
           <div className="hero-text">
-            <div className="hero-title">Showcase</div>
-            <p className="hero-desc">Veja o vídeo. Ele será atualizado periodicamente para mostrar as últimas funções do script.</p>
+            <div className="hero-title">Video <span>showcase</span></div>
+            <p className="hero-desc">O vídeo pode estar desatualizado</p>
           </div>
         </div>
 
@@ -250,7 +263,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer>MICHIGUN.XYZ</footer>
+        <footer>© 2026 MICHIGUN.XYZ</footer>
 
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
