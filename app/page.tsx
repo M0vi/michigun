@@ -27,30 +27,30 @@ const CONFIG = {
 
   features: {
     global: [
-      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros para o inimigo' },
-      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Permite aumentar a hitbox de quem você desejar' },
-      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar respostas' },
-      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Realiza parkours de forma automática e perfeita' },
-      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'Realiza JJs (polichinelos) automaticamente' },
-      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza o client para ganhar FPS' },
-      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Permite alterar o tamanho de objetos e parkours' },
-      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Permite alterar sua skin ou a skin de terceiros para quem você quiser' }
+      { name: 'Silent aim', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Redireciona os tiros para o inimigo.' },
+      { name: 'Hitbox', icon: 'fas fa-arrows-alt', type: 'safe', desc: 'Permite aumentar a hitbox de quem você desejar.' },
+      { name: 'ChatGPT', icon: 'fas fa-robot', type: 'safe', desc: 'IA integrada para gerar respostas automáticas.' },
+      { name: 'Auto parkour', icon: 'fas fa-route', type: 'safe', desc: 'Realiza parkours de forma automática e perfeita.' },
+      { name: 'Auto JJ\'s', icon: 'fas fa-running', type: 'safe', desc: 'Realiza JJs (polichinelos) automaticamente.' },
+      { name: 'Anti-lag', icon: 'fas fa-bolt', type: 'safe', desc: 'Remove texturas e otimiza o client para ganhar FPS.' },
+      { name: 'F3X', icon: 'fas fa-hammer', type: 'safe', desc: 'Permite alterar o tamanho de objetos e parkours.' },
+      { name: 'Char', icon: 'fas fa-user-edit', type: 'visual', desc: 'Permite alterar sua skin ou a skin de terceiros.' }
     ],
     tevez: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global' },
-      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata todos os inimigos ao redor' },
-      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Permite modificar a arma' },
-      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Falsifica seu dispositivo para aparecer como outro' },
-      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Autofarm de dinheiro' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global.' },
+      { name: 'Kill aura', icon: 'fas fa-skull', type: 'risk', desc: 'Mata todos os inimigos ao redor automaticamente.' },
+      { name: 'Mods', icon: 'fas fa-crosshairs', type: 'safe', desc: 'Permite modificar os parâmetros da arma.' },
+      { name: 'Spoofer', icon: 'fas fa-tablet-alt', type: 'safe', desc: 'Falsifica seu dispositivo para aparecer como outro.' },
+      { name: 'Autofarm', icon: 'fas fa-university', type: 'safe', desc: 'Autofarm de dinheiro totalmente automatizado.' }
     ],
     delta: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global' },
-      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Você receberá dinheiro infinito' },
-      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Dá dinheiro infinito para todos do servidor' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global.' },
+      { name: 'Inf money', icon: 'fas fa-coins', type: 'safe', desc: 'Você receberá dinheiro infinito no jogo.' },
+      { name: 'Money all', icon: 'fas fa-parachute-box', type: 'safe', desc: 'Dá dinheiro infinito para todos do servidor.' }
     ],
     soucre: [
-      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global' },
-      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Autofarm de dinheiro' }
+      { name: 'Global +', icon: 'fas fa-globe-americas', type: 'safe', desc: 'Inclui todas as ferramentas da aba Global.' },
+      { name: 'Autofarm', icon: 'fas fa-magnet', type: 'safe', desc: 'Autofarm de dinheiro otimizado.' }
     ]
   } as Record<string, FeatureItem[]>
 }
@@ -65,9 +65,7 @@ export default function Home() {
   const displayGames = [...CONFIG.games, ...CONFIG.games]
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 2000)
+    const timer = setTimeout(() => setLoading(false), 1500)
     return () => clearTimeout(timer)
   }, [])
 
@@ -87,38 +85,40 @@ export default function Home() {
       {loading && (
         <div className="loading-screen">
           <img src="/avatar.png" className="loading-logo" alt="Loading" onError={(e) => handleImageError(e, 'M')} loading="lazy" />
-          <div className="loading-bar">
-            <div className="loading-progress"></div>
-          </div>
         </div>
       )}
 
-      <div className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s' }}>
+      <div className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
         
+        {/* HEADER */}
         <header>
-          <div className="header-left">
+          <div className="profile-container">
             <img src="/avatar.png" className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} loading="lazy" />
-            <div className="header-info">
-              <h1>@fp3</h1>
-              <span style={{ fontSize: '0.75rem', color: '#666', fontWeight: 600 }}>michigun.xyz</span>
+            <div>
+              <div className="brand-name">fp3</div>
+              <div className="brand-sub">Developer</div>
             </div>
           </div>
-          <a href={CONFIG.discordLink} target="_blank" className="icon-btn" rel="noreferrer">
+          <a href={CONFIG.discordLink} target="_blank" className="social-btn" rel="noreferrer">
             <i className="fab fa-discord"></i>
           </a>
         </header>
 
-        <section className="hero-section">
-          <div className="video-container-pro">
-            <div className="video-frame" onClick={() => setVideoActive(true)}>
-              {!videoActive && (
-                <div className="video-cover" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
-                  <div className="play-button-modern">
+        {/* HERO SECTION */}
+        <div className="hero-wrapper">
+          <div className="hero-glow"></div>
+          <div className="mac-frame">
+            <div className="mac-bar">
+              <div className="dot"></div><div className="dot"></div><div className="dot"></div>
+            </div>
+            <div className="video-container" onClick={() => setVideoActive(true)}>
+              {!videoActive ? (
+                <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
+                  <div className="play-icon">
                     <i className="fas fa-play"></i>
                   </div>
                 </div>
-              )}
-              {videoActive && (
+              ) : (
                 <iframe
                   src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
                   allowFullScreen
@@ -128,52 +128,51 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div className="video-meta">
-            <div>
-              <div className="video-title">Showcase Oficial</div>
-              <div className="video-subtitle">Veja o potencial máximo do Michigun Script.</div>
-            </div>
+          <div className="hero-text">
+            <div className="hero-title">Video <span>Showcase</span></div>
+            <p className="hero-desc">Veja o Michigun Script em ação e descubra o poder de automação.</p>
           </div>
-        </section>
+        </div>
 
-        <section className="trust-grid">
-          <div className="trust-card">
+        {/* TRUST GRID */}
+        <div className="trust-grid">
+          <div className="trust-item">
             <i className="far fa-play-circle trust-icon"></i>
-            <span className="trust-title">Suporte</span>
-            <p className="trust-desc">Novas funções e jogos adicionados constantemente.</p>
+            <span className="trust-label">Suporte</span>
+            <p className="trust-sub">Atualizações constantes.</p>
           </div>
-          <div className="trust-card">
+          <div className="trust-item">
             <i className="fas fa-key trust-icon"></i>
-            <span className="trust-title">Key System</span>
-            <p className="trust-desc">Rápido, simples e sem anúncios invasivos.</p>
+            <span className="trust-label">Key System</span>
+            <p className="trust-sub">Rápido e sem spam.</p>
           </div>
-          <div className="trust-card">
+          <div className="trust-item">
             <i className="fas fa-life-ring trust-icon"></i>
-            <span className="trust-title">24/7</span>
-            <p className="trust-desc">Suporte ativo no Discord para tirar dúvidas.</p>
+            <span className="trust-label">24/7</span>
+            <p className="trust-sub">Suporte ativo no DC.</p>
           </div>
-        </section>
+        </div>
 
+        {/* GAMES CAROUSEL */}
         <section>
-          <div className="section-header">
-            <span className="section-label">Jogos Suportados</span>
-            <span className="section-count">{CONFIG.games.length} Jogos</span>
+          <div className="section-head">
+            <span className="sec-title">Jogos Suportados</span>
+            <span className="sec-badge">{CONFIG.games.length} Jogos</span>
           </div>
-
-          <div className="carousel-window">
-            <div className="carousel-track">
+          <div className="carousel-wrap">
+            <div className="track">
               {displayGames.map((game, index) => (
-                <div key={index} className="game-chip">
+                <div key={index} className="game-pill">
                   <img
                     src={game.icon}
-                    className="game-chip-icon"
+                    className="game-img"
                     alt={game.name}
                     onError={(e) => handleImageError(e, game.name)}
                     loading="lazy"
                   />
-                  <div className="game-chip-info">
-                    <span className="game-chip-name">{game.name}</span>
-                    <span className="game-chip-status">Ativo</span>
+                  <div className="game-data">
+                    <span className="game-t">{game.name}</span>
+                    <span className="game-s">Ativo</span>
                   </div>
                 </div>
               ))}
@@ -181,24 +180,23 @@ export default function Home() {
           </div>
         </section>
 
-        <section>
-          <div className="script-area">
-            <span className="script-label">Script Loader</span>
-            <div className="code-block">
-              <code>{CONFIG.script}</code>
-              <button className="copy-btn-modern" onClick={copyScript}>
-                <i className="fas fa-copy"></i>
-              </button>
-            </div>
+        {/* SCRIPT SECTION */}
+        <section className="script-dock">
+          <div className="sec-title">Instalação</div>
+          <p className="trust-sub">Copie o loader abaixo e execute no seu executor favorito.</p>
+          
+          <div className="code-container">
+            <code>{CONFIG.script}</code>
+            <button className="copy-action" onClick={copyScript}>
+              <i className="fas fa-copy"></i>
+            </button>
           </div>
-        </section>
 
-        <section>
-          <div className="tabs-header">
+          <div className="tabs">
             {Object.keys(CONFIG.features).map((tab) => (
               <button
                 key={tab}
-                className={`tab-link ${activeTab === tab ? 'active' : ''}`}
+                className={`tab ${activeTab === tab ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab)}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -206,18 +204,17 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="funcs-grid">
+          <div className="grid-features">
             {CONFIG.features[activeTab].map((item, index) => (
               <div
                 key={index}
-                className="module-card"
+                className="feat-card"
                 onClick={() => setModal({ open: true, title: item.name, desc: item.desc })}
               >
-                <i className={`${item.icon} module-icon`}></i>
-                <div className="module-info">
-                  <span className="module-name">{item.name}</span>
-                  <p className="module-desc">{item.desc}</p>
-                  <span className="module-status">
+                <i className={item.icon}></i>
+                <div>
+                  <div className="feat-name">{item.name}</div>
+                  <span className={`feat-tag tag-${item.type}`}>
                     {item.type === 'safe' ? 'Seguro' : item.type === 'risk' ? 'Risco' : 'Visual'}
                   </span>
                 </div>
@@ -226,26 +223,33 @@ export default function Home() {
           </div>
         </section>
 
-        <footer>
-          © 2026 MICHIGUN.XYZ
-        </footer>
+        <footer>© 2026 MICHIGUN.XYZ</footer>
 
+        {/* MODAL CORRIGIDO */}
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <span className="modal-title">{modal.title}</span>
-              <span className="modal-desc">{modal.desc}</span>
-              <button className="modal-btn-action" onClick={() => setModal({ ...modal, open: false })}>
+              <h3 className="modal-title">{modal.title}</h3>
+              <p className="modal-desc">{modal.desc}</p>
+              <button className="modal-close" onClick={() => setModal({ ...modal, open: false })}>
                 Entendi
               </button>
             </div>
           </div>
         )}
 
-        <div className={`toast ${toast ? 'show' : ''}`}>
-          <i className="fas fa-check-circle" style={{ marginRight: 8 }}></i>
+        {/* TOAST */}
+        <div 
+          style={{
+            position: 'fixed', bottom: 30, left: '50%', transform: toast ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)',
+            opacity: toast ? 1 : 0, transition: '0.4s', background: '#fff', color: '#000', padding: '12px 24px',
+            borderRadius: 50, fontWeight: 700, fontSize: '0.8rem', pointerEvents: 'none', zIndex: 10001,
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+          }}
+        >
           Copiado!
         </div>
+
       </div>
     </>
   )
