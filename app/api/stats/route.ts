@@ -30,14 +30,14 @@ export async function POST(req: NextRequest) {
     const reqTime = Number(timestamp)
 
     if (now - reqTime > 60 || reqTime > now + 5) {
-      return NextResponse.json({ error: 'Request expirada (Time mismatch)' }, { status: 403 })
+      return NextResponse.json({ error: 'Request expirada' }, { status: 403 })
     }
 
     const dataString = `${userId}${timestamp}${envKey}`
     const expectedSignature = crypto.createHash('sha256').update(dataString).digest('hex')
 
     if (signature !== expectedSignature) {
-      return NextResponse.json({ error: 'Assinatura Inválida (Senha ou dados incorretos)' }, { status: 403 })
+      return NextResponse.json({ error: 'Assinatura inválida' }, { status: 403 })
     }
 
     const rateLimitKey = `limit:user:${userId}`
