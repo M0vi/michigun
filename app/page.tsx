@@ -161,7 +161,6 @@ export default function Home() {
   const handleDownload = (ext: 'txt' | 'lua') => {
     playSound('click')
     const element = document.createElement('a')
-    // FIX: Usar application/octet-stream impede que o navegador adicione .txt
     const file = new Blob([CONFIG.script], { type: 'application/octet-stream' })
     element.href = URL.createObjectURL(file)
     element.download = `michigun.${ext}`
@@ -294,7 +293,12 @@ export default function Home() {
             {contentReady ? (
               <div className="video-container" onClick={withSound(() => setVideoActive(true))}>
                 {!videoActive ? (
-                  <div className="video-thumb" style={{ backgroundImage: `url('https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg')` }}>
+                  <div className="video-thumb">
+                    <img 
+                      src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
+                      alt="Thumbnail"
+                      className="video-thumb-img" 
+                    />
                     <div className="play-icon">
                       <i className="fas fa-play"></i>
                     </div>
@@ -312,28 +316,30 @@ export default function Home() {
             )}
           </div>
 
-          {/* Área de Ações e Código movida para baixo do vídeo */}
+          {/* Novo Layout: Control Deck */}
           <div className="hero-footer-group">
-            <div className={`action-bar ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
-              <div className="stat-segment">
-                 <div className="pulse-dot"></div>
-                 <div className="stat-text">
-                    <span className="stat-num">{execCount !== null ? execCount.toLocaleString() : '...'}</span>
-                    <span className="stat-label">EXECUÇÕES</span>
-                 </div>
+            
+            <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
+              <div className="deck-stats">
+                <div className="status-indicator">
+                  <div className="status-dot"></div>
+                  <span>LIVE</span>
+                </div>
+                <div className="stat-value">
+                  {execCount !== null ? execCount.toLocaleString() : '---'}
+                </div>
+                <div className="stat-label">EXECUÇÕES TOTAIS</div>
               </div>
 
-              <div className="bar-divider"></div>
+              <div className="deck-actions">
+                <button className="deck-btn copy-btn" onClick={copyScript} onMouseEnter={() => playSound('hover')}>
+                  <i className="fas fa-copy"></i>
+                  <span>Copiar Script</span>
+                </button>
 
-              <div className="action-buttons">
-                 <button className="hud-btn primary" onClick={copyScript} onMouseEnter={() => playSound('hover')}>
-                    <i className="fas fa-copy"></i>
-                    <span>Copiar Script</span>
-                 </button>
-
-                 <div className="download-wrapper" style={{position: 'relative'}}>
+                <div className="download-wrapper" style={{position: 'relative'}}>
                    <button 
-                     className={`hud-btn secondary ${showDownloadMenu ? 'active' : ''}`} 
+                     className={`deck-btn download-btn ${showDownloadMenu ? 'active' : ''}`} 
                      onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
                      onMouseEnter={() => playSound('hover')}
                    >
