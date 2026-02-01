@@ -148,7 +148,7 @@ export default function Home() {
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
   
-  const { displayText: typeText, isFinished: typeFinished } = useTypewriter('Developer', 150, 2000)
+  const { displayText: typeText, isFinished: typeFinished } = useTypewriter('dev', 150, 2000)
 
   const playSound = (type: 'hover' | 'click') => {
     try {
