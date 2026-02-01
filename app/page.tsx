@@ -287,7 +287,7 @@ export default function Home() {
 
         <section>
           <div className="section-head">
-            <span className="sec-title">Jogos suportados</span>
+            <span className="sec-title">Jogos com funções exclusivas</span>
             <span className="sec-badge">{CONFIG.games.length} Jogos</span>
           </div>
           <div className="carousel-wrap">
