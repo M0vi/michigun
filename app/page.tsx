@@ -148,18 +148,18 @@ export default function Home() {
         <div className="features-container">
           <div className="feat-item">
             <div className="feat-icon-btn"><i className="far fa-play-circle"></i></div>
-            <span className="feat-title">Game Support</span>
-            <p className="feat-desc">Supports many games, including popular scripts like Evade.</p>
+            <span className="feat-title">Suporte</span>
+            <p className="feat-desc">Novas funções e jogos são adicionados constantemente</p>
           </div>
           <div className="feat-item">
             <div className="feat-icon-btn"><i className="fas fa-key"></i></div>
-            <span className="feat-title">Easy Key System</span>
-            <p className="feat-desc">Fast and simple key system without annoying link shortener ads.</p>
+            <span className="feat-title">Key system</span>
+            <p className="feat-desc">Key system fácil de ser concluido</p>
           </div>
           <div className="feat-item">
             <div className="feat-icon-btn"><i className="fas fa-life-ring"></i></div>
-            <span className="feat-title">24/7 Support</span>
-            <p className="feat-desc">Our 24/7 support team is here to fix bugs and help you anytime.</p>
+            <span className="feat-title">Suporte 24/7</span>
+            <p className="feat-desc">Donos ativos no servidor</p>
           </div>
         </div>
       </section>
