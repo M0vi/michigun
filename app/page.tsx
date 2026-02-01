@@ -148,7 +148,7 @@ export default function Home() {
 
   const displayGames = [...CONFIG.games, ...CONFIG.games]
   
-  const { displayText: typeText, isFinished: typeFinished } = useTypewriter('dev', 150, 2000)
+  const { displayText: typeText, isFinished: typeFinished } = useTypewriter('Developer', 150, 2000)
 
   const playSound = (type: 'hover' | 'click') => {
     try {
@@ -266,11 +266,19 @@ export default function Home() {
         </div>
       )}
 
-      <div className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
+      {/* [SEMÂNTICA] Mudança de div para main */}
+      <main className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
         
         <header>
           <div className="profile-container" onMouseEnter={() => playSound('hover')}>
-            <img src={avatarUrl} className="avatar" alt="fp3" onError={(e) => handleImageError(e, 'FP')} />
+            <img 
+              src={avatarUrl} 
+              className="avatar" 
+              alt="fp3 profile" 
+              onError={(e) => handleImageError(e, 'FP')}
+              width="44"
+              height="44" 
+            />
             <div>
               <div className="brand-name">fp3</div>
               <div className="brand-sub">
@@ -291,13 +299,22 @@ export default function Home() {
 
           <div className="video-modern-wrapper" onMouseEnter={() => playSound('hover')}>
             {contentReady ? (
-              <div className="video-container" onClick={withSound(() => setVideoActive(true))}>
+              <div 
+                className="video-container" 
+                onClick={withSound(() => setVideoActive(true))}
+                role="button"
+                aria-label="Reproduzir vídeo showcase"
+                tabIndex={0}
+              >
                 {!videoActive ? (
                   <div className="video-thumb">
                     <img 
                       src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
-                      alt="Thumbnail"
-                      className="video-thumb-img" 
+                      alt="Michigun Script Showcase Thumbnail"
+                      className="video-thumb-img"
+                      // [PERFORMANCE] fetchPriority para LCP
+                      // @ts-ignore
+                      fetchPriority="high"
                     />
                     <div className="play-icon">
                       <i className="fas fa-play"></i>
@@ -308,6 +325,7 @@ export default function Home() {
                     src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
                     allowFullScreen
                     allow="autoplay"
+                    title="Michigun Script Showcase Video"
                   ></iframe>
                 )}
               </div>
@@ -316,14 +334,14 @@ export default function Home() {
             )}
           </div>
 
-          {/* Novo Layout: Control Deck */}
+          {/* Control Deck */}
           <div className="hero-footer-group">
             
             <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
               <div className="deck-stats">
                 <div className="status-indicator">
                   <div className="status-dot"></div>
-                  <span>Tempo real</span>
+                  <span>LIVE</span>
                 </div>
                 <div className="stat-value">
                   {execCount !== null ? execCount.toLocaleString() : '---'}
@@ -332,7 +350,13 @@ export default function Home() {
               </div>
 
               <div className="deck-actions">
-                <button className="deck-btn copy-btn" onClick={copyScript} onMouseEnter={() => playSound('hover')}>
+                {/* [ACESSIBILIDADE] aria-label adicionado */}
+                <button 
+                  className="deck-btn copy-btn" 
+                  onClick={copyScript} 
+                  onMouseEnter={() => playSound('hover')}
+                  aria-label="Copiar Script"
+                >
                   <i className="fas fa-copy"></i>
                   <span>Copiar Script</span>
                 </button>
@@ -342,13 +366,16 @@ export default function Home() {
                      className={`deck-btn download-btn ${showDownloadMenu ? 'active' : ''}`} 
                      onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
                      onMouseEnter={() => playSound('hover')}
+                     aria-label="Opções de Download"
+                     aria-haspopup="true"
+                     aria-expanded={showDownloadMenu}
                    >
                       <i className="fas fa-download"></i>
                    </button>
                    
-                   <div className={`hud-dropdown ${showDownloadMenu ? 'show' : ''}`}>
-                      <button onClick={() => handleDownload('txt')}>Texto (.txt)</button>
-                      <button onClick={() => handleDownload('lua')}>Lua (.lua)</button>
+                   <div className={`hud-dropdown ${showDownloadMenu ? 'show' : ''}`} role="menu">
+                      <button role="menuitem" onClick={() => handleDownload('txt')}>Texto (.txt)</button>
+                      <button role="menuitem" onClick={() => handleDownload('lua')}>Lua (.lua)</button>
                    </div>
                  </div>
               </div>
@@ -361,7 +388,7 @@ export default function Home() {
                      <span className="win-dot yellow"></span>
                      <span className="win-dot green"></span>
                   </div>
-                  <div className="editor-filename">michigun.lua</div>
+                  <div className="editor-filename">loader.lua</div>
                </div>
                
                <div className="editor-body">
@@ -397,7 +424,14 @@ export default function Home() {
               <div className="discord-info-group">
                 <div className="discord-logo-box">
                   {getServerIcon() ? (
-                    <img src={getServerIcon()!} alt="Server" className="discord-server-icon" loading="lazy" />
+                    // [PERFORMANCE] Lazy loading
+                    <img 
+                      src={getServerIcon()!} 
+                      alt="Server Icon" 
+                      className="discord-server-icon" 
+                      loading="lazy"
+                      decoding="async" 
+                    />
                   ) : (
                     <i className="fab fa-discord"></i>
                   )}
@@ -423,7 +457,15 @@ export default function Home() {
                 {contentReady && discordWidget?.members ? (
                   discordWidget.members.map((m) => (
                     <div key={m.id} className="dm-item">
-                      <img src={m.avatar_url} className="dm-avatar" alt={m.username} onError={(e) => handleImageError(e, 'User')} loading="lazy" />
+                      {/* [PERFORMANCE] Lazy loading para lista de membros */}
+                      <img 
+                        src={m.avatar_url} 
+                        className="dm-avatar" 
+                        alt={m.username} 
+                        onError={(e) => handleImageError(e, 'User')} 
+                        loading="lazy" 
+                        decoding="async"
+                      />
                       <div className="dm-status"></div>
                     </div>
                   ))
@@ -433,7 +475,12 @@ export default function Home() {
               </div>
             </div>
 
-            <button className="btn-join-discord" onClick={withSound(() => window.open(CONFIG.discordLink, '_blank'))} onMouseEnter={() => playSound('hover')}>
+            <button 
+              className="btn-join-discord" 
+              onClick={withSound(() => window.open(CONFIG.discordLink, '_blank'))} 
+              onMouseEnter={() => playSound('hover')}
+              aria-label="Entrar no servidor do Discord"
+            >
               <i className="fab fa-discord"></i> Entrar no servidor
             </button>
           </div>
@@ -449,12 +496,14 @@ export default function Home() {
               {displayGames.map((game, index) => (
                 <div key={index} className="game-pill" onMouseEnter={() => playSound('hover')}>
                   {contentReady ? (
+                    // [PERFORMANCE] Lazy loading para carrossel
                     <img
                       src={game.icon}
                       className="game-img"
                       alt={game.name}
                       onError={(e) => handleImageError(e, game.name)}
                       loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div className="game-img skeleton"></div>
@@ -472,13 +521,15 @@ export default function Home() {
         <section className="script-dock">
           <div className="sec-title">Funcionalidades</div>
           
-          <div className="tabs">
+          <div className="tabs" role="tablist">
             {Object.keys(CONFIG.features).map((tab) => (
               <button
                 key={tab}
                 className={`tab ${activeTab === tab ? 'active' : ''}`}
                 onClick={withSound(() => setActiveTab(tab))}
                 onMouseEnter={() => playSound('hover')}
+                role="tab"
+                aria-selected={activeTab === tab}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
@@ -493,6 +544,9 @@ export default function Home() {
                   className="feat-card"
                   onClick={withSound(() => setModal({ open: true, title: item.name, desc: item.desc }))}
                   onMouseEnter={() => playSound('hover')}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Ver detalhes de ${item.name}`}
                 >
                   <i className={item.icon}></i>
                   <div className="feat-content">
@@ -513,7 +567,7 @@ export default function Home() {
 
         {modal.open && (
           <div className="modal-overlay" onClick={() => setModal({ ...modal, open: false })}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
               <h3 className="modal-title">{modal.title}</h3>
               <p className="modal-desc">{modal.desc}</p>
               <button className="modal-close" onClick={withSound(() => setModal({ ...modal, open: false }))}>
@@ -530,11 +584,12 @@ export default function Home() {
             borderRadius: 50, fontWeight: 700, fontSize: '0.8rem', pointerEvents: 'none', zIndex: 10001,
             boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}
+          role="status"
         >
           Copiado!
         </div>
 
-      </div>
+      </main>
     </>
   )
 }
