@@ -161,7 +161,8 @@ export default function Home() {
   const handleDownload = (ext: 'txt' | 'lua') => {
     playSound('click')
     const element = document.createElement('a')
-    const file = new Blob([CONFIG.script], { type: 'text/plain' })
+    // FIX: Usar application/octet-stream impede que o navegador adicione .txt
+    const file = new Blob([CONFIG.script], { type: 'application/octet-stream' })
     element.href = URL.createObjectURL(file)
     element.download = `michigun.${ext}`
     document.body.appendChild(element)
@@ -284,6 +285,11 @@ export default function Home() {
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
           
+          <div className="hero-header-text">
+            <div className="hero-title">Showcase</div>
+            <p className="hero-desc">O vídeo pode estar desatualizado</p>
+          </div>
+
           <div className="video-modern-wrapper" onMouseEnter={() => playSound('hover')}>
             {contentReady ? (
               <div className="video-container" onClick={withSound(() => setVideoActive(true))}>
@@ -306,10 +312,8 @@ export default function Home() {
             )}
           </div>
 
-          <div className="hero-text">
-            <div className="hero-title">Showcase</div>
-            <p className="hero-desc">O vídeo pode estar desatualizado</p>
-            
+          {/* Área de Ações e Código movida para baixo do vídeo */}
+          <div className="hero-footer-group">
             <div className={`action-bar ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
               <div className="stat-segment">
                  <div className="pulse-dot"></div>
@@ -324,7 +328,7 @@ export default function Home() {
               <div className="action-buttons">
                  <button className="hud-btn primary" onClick={copyScript} onMouseEnter={() => playSound('hover')}>
                     <i className="fas fa-copy"></i>
-                    <span>Copiar</span>
+                    <span>Copiar Script</span>
                  </button>
 
                  <div className="download-wrapper" style={{position: 'relative'}}>
@@ -363,8 +367,8 @@ export default function Home() {
                   </div>
                </div>
             </div>
-
           </div>
+
         </div>
 
         <div className="trust-grid">
