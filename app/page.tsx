@@ -151,7 +151,7 @@ export default function Home() {
       <div className="vid-desc-box">
         <h3 className="vid-desc-title">Full Feature Showcase</h3>
         <p className="vid-desc-text">
-          Veja o poder completo do Rise Script com nosso vídeo detalhado. Confira todas as funções em ação, incluindo ESP, auto-farm, modificações de velocidade e muito mais.
+          Showcase do script. Esse vídeo mostra as funções (será atualizado periodicamente)
         </p>
       </div>
 
