@@ -55,7 +55,7 @@ const CONFIG = {
   
   devs: [
     { id: '1163467888259239996', role: 'Main dev' },
-    { id: '1062463366792216657', role: 'SMO' }
+    { id: '1062463366792216657', role: 'CMO' }
   ],
   
   games: [
