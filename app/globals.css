@@ -259,6 +259,12 @@ iframe { width: 100%; height: 100%; border: none; }
 .discord-dock.visible { opacity: 1; transform: translateY(0); }
 .discord-dock:hover { border-color: rgba(88, 101, 242, 0.3); }
 
+.discord-glass-bg {
+  position: absolute; inset: 0;
+  background: rgba(88, 101, 242, 0.03);
+  z-index: 1;
+}
+
 .discord-content-row {
   display: flex; justify-content: space-between; align-items: center;
   padding: 16px; position: relative; z-index: 2;

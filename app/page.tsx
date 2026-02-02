@@ -50,7 +50,7 @@ type DiscordInviteData = {
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  keySystemLink: 'https://link-do-key-system.com', 
+  keySystemLink: 'https://link-do-key-system.com',
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
@@ -171,7 +171,8 @@ export default function Home() {
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('mousedown', handleClickOutside)
 
-    setContentReady(true)
+    setLoading(false)
+    setTimeout(() => setContentReady(true), 100)
 
     async function fetchData() {
       try {
