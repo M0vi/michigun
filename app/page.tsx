@@ -50,12 +50,12 @@ type DiscordInviteData = {
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  keySystemLink: 'https://link-do-key-system.com',
+  keySystemText: 'Link do Key System: https://link-aqui.com',
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
   devs: [
-    { id: '1163467888259239996', role: 'Main Dev' },
+    { id: '1163467888259239996', role: 'Dev' },
     { id: '1062463366792216657', role: 'CMO' }
   ],
   
@@ -121,12 +121,12 @@ export default function Home() {
   const [devProfiles, setDevProfiles] = useState<DevProfile[]>([])
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
-  
   const [execCount, setExecCount] = useState<number | null>(null)
   const [dailyExecCount, setDailyExecCount] = useState<number | null>(null)
-  
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
+  const [showKeySystem, setShowKeySystem] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
+  const keySystemRef = useRef<HTMLDivElement>(null)
 
   const displayGames = [...CONFIG.games, ...CONFIG.games, ...CONFIG.games, ...CONFIG.games]
 
@@ -155,6 +155,9 @@ export default function Home() {
     const handleClickOutside = (e: MouseEvent) => {
       if (downloadMenuRef.current && !downloadMenuRef.current.contains(e.target as Node)) {
         setShowDownloadMenu(false)
+      }
+      if (keySystemRef.current && !keySystemRef.current.contains(e.target as Node)) {
+        setShowKeySystem(false)
       }
     }
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -189,7 +192,6 @@ export default function Home() {
               }
             }
           } catch {}
-          
           return { 
             id: dev.id, 
             role: dev.role, 
@@ -260,25 +262,34 @@ export default function Home() {
 
       <main className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
         
-        <div className="team-section">
-          <h2 className="team-title">Equipe</h2>
-          <div className="team-grid">
-            {devProfiles.map((dev) => (
-              <div key={dev.id} className="team-card" onMouseEnter={() => playSound('hover')}>
+        <header className="header-stack">
+          {devProfiles.length > 0 ? (
+            devProfiles.map((dev) => (
+              <div key={dev.id} className="profile-container" onMouseEnter={() => playSound('hover')}>
                 <img 
                   src={dev.avatar_url} 
-                  className="team-avatar" 
+                  className="avatar" 
                   alt={dev.username} 
                   onError={(e) => handleImageError(e, dev.username)}
+                  width="44"
+                  height="44" 
                 />
-                <div className="team-info">
-                  <div className="team-name">{dev.username}</div>
-                  <div className="team-role">{dev.role}</div>
+                <div>
+                  <div className="brand-name">{dev.username}</div>
+                  <div className="brand-sub">{dev.role}</div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+            ))
+          ) : (
+            <div className="profile-container">
+               <div className="skeleton" style={{width:44, height:44, borderRadius:'50%'}}></div>
+               <div style={{display:'flex', flexDirection:'column', gap:4}}>
+                 <div className="skeleton" style={{width:80, height:14}}></div>
+                 <div className="skeleton" style={{width:50, height:10}}></div>
+               </div>
+            </div>
+          )}
+        </header>
 
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
@@ -300,7 +311,7 @@ export default function Home() {
                 <div className="video-thumb">
                   <img 
                     src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
-                    alt="Michigun Script Showcase Thumbnail"
+                    alt="Thumbnail"
                     className="video-thumb-img"
                     // @ts-ignore
                     fetchPriority="high"
@@ -314,7 +325,7 @@ export default function Home() {
                   src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
                   allowFullScreen
                   allow="autoplay"
-                  title="Michigun Script Showcase Video"
+                  title="Video"
                 ></iframe>
               )}
             </div>
@@ -322,7 +333,6 @@ export default function Home() {
 
           <div className="hero-footer-group">
             <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
-              
               <div className="deck-stats-group">
                 <div className="deck-stat-item">
                   <div className="status-indicator">
@@ -363,9 +373,7 @@ export default function Home() {
                      className={`deck-btn download-btn ${showDownloadMenu ? 'active' : ''}`} 
                      onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
                      onMouseEnter={() => playSound('hover')}
-                     aria-label="Opções de download"
-                     aria-haspopup="true"
-                     aria-expanded={showDownloadMenu}
+                     aria-label="Opções"
                    >
                       <i className="fas fa-download"></i>
                    </button>
@@ -398,28 +406,85 @@ export default function Home() {
                </div>
             </div>
 
-            <div className={`discord-dock ${contentReady ? 'visible' : ''}`} onMouseEnter={() => playSound('hover')}>
+            <div className="dual-grid-row">
+                <div className="trust-cell" ref={keySystemRef}>
+                    <button 
+                        className={`trust-btn ${showKeySystem ? 'active' : ''}`}
+                        onClick={withSound(() => setShowKeySystem(!showKeySystem))}
+                        onMouseEnter={() => playSound('hover')}
+                    >
+                        <i className="fas fa-key"></i>
+                        <span>Key System</span>
+                    </button>
+                    <div className={`trust-popup ${showKeySystem ? 'show' : ''}`}>
+                        <div className="popup-arrow"></div>
+                        <p>{CONFIG.keySystemText}</p>
+                    </div>
+                </div>
+
+                <div className="trust-cell">
+                    <a 
+                        href={CONFIG.discordLink} 
+                        target="_blank" 
+                        className="trust-btn"
+                        onClick={() => playSound('click')}
+                        onMouseEnter={() => playSound('hover')}
+                    >
+                        <i className="fab fa-discord"></i>
+                        <span>Suporte no Discord</span>
+                    </a>
+                </div>
+            </div>
+
+            <section className={`discord-dock ${contentReady ? 'visible' : ''}`} onMouseEnter={() => playSound('hover')}>
               <div className="discord-glass-bg"></div>
               <div className="discord-content-row">
-                <div className="discord-left">
-                  {getServerIcon() ? (
-                    <img 
-                      src={getServerIcon()!} 
-                      alt="Server Icon" 
-                      className="discord-icon-large" 
-                      loading="lazy"
-                      decoding="async" 
-                    />
-                  ) : (
-                    <div className="discord-icon-placeholder"><i className="fab fa-discord"></i></div>
-                  )}
-                  <div className="discord-text">
-                    <h3>{discordWidget?.name || 'Comunidade'}</h3>
-                    <p className="discord-status-text">
-                      <span className="live-dot"></span>
-                      {discordWidget?.presence_count || 0} Online agora
-                    </p>
-                  </div>
+                <div className="discord-meta-col">
+                    <div className="discord-brand">
+                        <div className="discord-logo-box">
+                        {getServerIcon() ? (
+                            <img 
+                            src={getServerIcon()!} 
+                            alt="Server" 
+                            className="discord-server-icon" 
+                            loading="lazy"
+                            decoding="async" 
+                            />
+                        ) : (
+                            <i className="fab fa-discord"></i>
+                        )}
+                        </div>
+                        <div className="discord-txt">
+                            <h3>{discordWidget?.name || 'Comunidade'}</h3>
+                            <div className="discord-badges">
+                                <span className="d-badge online">
+                                    <span className="dot"></span> {discordWidget?.presence_count || 0} Online
+                                </span>
+                                {discordExtra && (
+                                    <span className="d-badge total">
+                                        <span className="dot gray"></span> {discordExtra.approximate_member_count} Membros
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="discord-avatars">
+                    {contentReady && discordWidget?.members ? (
+                        discordWidget.members.slice(0, 8).map((m, i) => (
+                        <img 
+                            key={m.id}
+                            src={m.avatar_url} 
+                            className="stack-avatar" 
+                            alt={m.username} 
+                            style={{zIndex: 10 - i}}
+                            onError={(e) => handleImageError(e, 'User')} 
+                        />
+                        ))
+                    ) : (
+                        [1,2,3,4].map(i => <div key={i} className="skeleton" style={{width: 32, height: 32, borderRadius: '50%'}}></div>)
+                    )}
+                    </div>
                 </div>
                 
                 <button 
@@ -429,33 +494,8 @@ export default function Home() {
                   Entrar
                 </button>
               </div>
-            </div>
-
+            </section>
           </div>
-        </div>
-
-        <div className="unified-trust-bar">
-          <a 
-            href={CONFIG.keySystemLink} 
-            target="_blank" 
-            className="trust-btn"
-            onClick={() => playSound('click')}
-          >
-            <i className="fas fa-key"></i>
-            <span>Key System</span>
-          </a>
-          
-          <div className="trust-sep"></div>
-          
-          <a 
-            href={CONFIG.discordLink} 
-            target="_blank" 
-            className="trust-btn"
-            onClick={() => playSound('click')}
-          >
-            <i className="fab fa-discord"></i>
-            <span>Suporte no Discord</span>
-          </a>
         </div>
 
         <section>
