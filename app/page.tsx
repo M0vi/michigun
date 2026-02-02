@@ -53,7 +53,7 @@ const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
   // CORREÇÃO: Renomeado de keySystemLink para keySystemText para bater com o uso no JSX
-  keySystemText: 'Link do Key System: https://link-aqui.com', 
+  keySystemText: 'Key system fácil de fazer', 
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
@@ -323,7 +323,7 @@ export default function Home() {
               className="video-container" 
               onClick={withSound(() => setVideoActive(true))}
               role="button"
-              aria-label="Reproduzir vídeo showcase"
+              aria-label="Reproduzir"
               tabIndex={0}
             >
               {!videoActive ? (
@@ -450,7 +450,7 @@ export default function Home() {
                         onMouseEnter={() => playSound('hover')}
                     >
                         <i className="fab fa-discord"></i>
-                        <span>Suporte no Discord</span>
+                        <span>Suporte 24/7</span>
                     </a>
                 </div>
             </div>
