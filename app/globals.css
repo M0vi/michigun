@@ -146,79 +146,160 @@ iframe { width: 100%; height: 100%; border: none; }
 
 .hero-footer-group { display: flex; flex-direction: column; gap: 20px; }
 
-.control-deck {
-  display: flex; align-items: center; justify-content: space-between;
-  background: #0f0f0f; border: 1px solid #222; padding: 8px; border-radius: 14px;
-  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8);
-  opacity: 0; transform: translateY(15px);
-  transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  position: relative; z-index: 100; width: 100%;
+.script-terminal {
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -10px rgba(0,0,0,0.8);
+  margin-top: 10px;
 }
-.control-deck.visible { opacity: 1; transform: translateY(0); }
 
-.deck-stats-group {
-  display: flex; align-items: center; gap: 16px; padding-left: 8px;
+.terminal-header {
+  background: #161616;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #222;
 }
-.deck-stat-item { display: flex; flex-direction: column; }
-.vertical-divider { width: 1px; height: 30px; background: rgba(255, 255, 255, 0.1); }
 
-.status-indicator { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
-.status-indicator span { font-size: 0.6rem; font-weight: 700; color: #4ade80; letter-spacing: 1px; }
-.status-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; animation: pulse-green 2s infinite; }
-.daily-dot { background: #facc15; box-shadow: 0 0 8px #facc15; animation: pulse-yellow 2s infinite; }
-
-@keyframes pulse-green { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-@keyframes pulse-yellow { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
-.stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: #fff; line-height: 1.2; }
-
-.deck-actions { display: flex; gap: 8px; background: #161616; padding: 6px; border-radius: 10px; border: 1px solid #222; }
-.deck-btn {
-  border: none; border-radius: 8px; cursor: pointer;
-  font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center;
-  transition: 0.2s; height: 40px;
+.terminal-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
-.copy-btn { background: var(--brand); color: #fff; padding: 0 20px; gap: 8px; box-shadow: 0 4px 15px rgba(255, 62, 62, 0.2); }
-.copy-btn:hover { background: #ff5555; transform: translateY(-1px); }
-.download-btn { background: #222; color: #ccc; width: 40px; }
-.download-btn:hover, .download-btn.active { background: #333; color: #fff; }
 
-.hud-dropdown {
-  position: absolute; top: 115%; right: 0; background: #111; border: 1px solid #333;
-  border-radius: 12px; padding: 6px; display: flex; flex-direction: column; gap: 4px;
-  min-width: 140px; z-index: 50; opacity: 0; transform: translateY(-10px);
+.stat-unit { display: flex; flex-direction: column; gap: 2px; }
+.stat-label { font-size: 0.6rem; color: #666; font-weight: 700; letter-spacing: 0.5px; }
+.stat-val { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: #fff; }
+.stat-val.daily { color: #facc15; }
+.stat-divider { width: 1px; height: 24px; background: #333; }
+
+.terminal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.term-btn {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #222;
+  color: #aaa;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: 0.2s;
+}
+
+.term-btn:hover, .term-btn.active { background: #fff; color: #000; border-color: #fff; }
+.copy-action { background: #1a1a1a; color: #fff; border-color: #444; }
+.copy-action:hover { background: var(--brand); border-color: var(--brand); }
+
+.term-dropdown {
+  position: absolute; top: 110%; right: 0; background: #1a1a1a; border: 1px solid #333;
+  border-radius: 8px; padding: 4px; display: flex; flex-direction: column; gap: 2px;
+  min-width: 120px; z-index: 50; opacity: 0; transform: translateY(-10px);
   pointer-events: none; transition: 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-.hud-dropdown.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-.hud-dropdown button {
-  background: transparent; border: none; color: #888; font-size: 0.85rem; font-weight: 600;
-  padding: 12px; text-align: left; cursor: pointer; border-radius: 8px; transition: 0.2s;
+.term-dropdown.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.term-dropdown button {
+  background: transparent; border: none; color: #888; font-size: 0.8rem; font-weight: 600;
+  padding: 8px; text-align: left; cursor: pointer; border-radius: 6px; transition: 0.2s;
 }
-.hud-dropdown button:hover { background: #222; color: #fff; }
+.term-dropdown button:hover { background: #333; color: #fff; }
 
-.editor-window {
-  background: #0d0d0d; border: 1px solid #222; border-radius: 12px; overflow: hidden;
-  width: 100%; opacity: 0; transform: translateY(10px);
-  transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: 0 20px 50px -10px rgba(0,0,0,0.8); position: relative; z-index: 1;
+.terminal-body {
+  background: #0a0a0a;
+  padding: 16px;
+  position: relative;
 }
-.editor-window.visible { opacity: 1; transform: translateY(0); }
-.editor-header { background: #111; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #222; }
-.window-controls { display: flex; gap: 8px; }
-.win-dot { width: 10px; height: 10px; border-radius: 50%; }
-.win-dot.red { background: #ff5f56; }
-.win-dot.yellow { background: #ffbd2e; }
-.win-dot.green { background: #27c93f; }
-.editor-filename { font-size: 0.75rem; color: #666; font-weight: 600; }
-.editor-body { display: flex; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.8rem; position: relative; background: rgba(10,10,10,0.5); }
-.line-numbers {
-  background: #0f0f0f; padding: 16px 12px; border-right: 1px solid #1a1a1a;
-  display: flex; flex-direction: column; color: #444; user-select: none;
-  font-size: 0.8rem; line-height: 1.5;
+
+.code-block {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: #abb2bf;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-.code-content { flex: 1; overflow-x: auto; padding: 16px; white-space: nowrap; color: #abb2bf; line-height: 1.5; scrollbar-width: thin; }
-.code-content::-webkit-scrollbar { height: 6px; }
-.code-content::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+.code-block::-webkit-scrollbar { display: none; }
+
+.unified-trust-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  padding: 16px;
+  margin: 10px 0;
+  backdrop-filter: blur(10px);
+}
+
+.trust-unit {
+  display: flex; align-items: center; gap: 8px;
+  color: #ddd; font-weight: 600; font-size: 0.85rem;
+}
+.trust-unit i { color: #666; }
+.trust-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.1); }
+
+.discord-dock {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 10px;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6);
+}
+
+.discord-glass-bg {
+  position: absolute; inset: 0;
+  background: rgba(88, 101, 242, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1;
+}
+
+.discord-content {
+  position: relative; z-index: 2;
+  padding: 24px;
+  border: 1px solid rgba(88, 101, 242, 0.1);
+  border-radius: 20px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+.discord-top {
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.server-brand { display: flex; align-items: center; gap: 14px; }
+.server-img, .server-placeholder {
+  width: 48px; height: 48px; border-radius: 14px; object-fit: cover;
+  background: #222; display: flex; align-items: center; justify-content: center;
+  color: var(--discord); font-size: 1.5rem;
+}
+.server-txt h3 { margin: 0; font-size: 1rem; color: #fff; font-weight: 700; }
+.live-status { font-size: 0.75rem; color: #aaa; display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+.live-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 6px #4ade80; }
+
+.discord-cta {
+  background: var(--discord); color: #fff; border: none;
+  padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;
+  cursor: pointer; transition: 0.2s;
+}
+.discord-cta:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4); }
+
+.discord-avatars { display: flex; align-items: center; padding-left: 10px; }
+.stack-avatar {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid #0a0a0a;
+  margin-left: -10px; position: relative; background: #222;
+}
+.stack-count {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid #0a0a0a;
+  background: #222; margin-left: -10px; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; color: #888;
+}
 
 .lua-token { color: #ccc; }
 .lua-function { color: #61afef; }
@@ -236,208 +317,6 @@ iframe { width: 100%; height: 100%; border: none; }
 .trust-icon { font-size: 1.4rem; color: #fff; margin-bottom: 4px; }
 .trust-label { font-size: 0.9rem; font-weight: 700; color: #eee; }
 .trust-sub { font-size: 0.75rem; color: #777; line-height: 1.4; }
-
-.discord-dock {
-  background: rgba(10, 10, 10, 0.6);
-  border: 1px solid rgba(88, 101, 242, 0.15);
-  border-radius: 20px;
-  padding: 4px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.discord-dock:hover {
-  border-color: rgba(88, 101, 242, 0.4);
-  transform: translateY(-4px);
-  box-shadow: 0 30px 60px -15px rgba(88, 101, 242, 0.15);
-}
-
-.discord-inner {
-  background: linear-gradient(180deg, rgba(30, 30, 35, 0.6) 0%, rgba(15, 15, 20, 0.8) 100%);
-  border-radius: 16px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.discord-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.discord-info-group {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.discord-logo-box {
-  width: 56px;
-  height: 56px;
-  background: #1e2124;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-}
-
-.discord-server-icon {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.discord-logo-box i {
-  color: var(--discord);
-  font-size: 2rem;
-}
-
-.discord-names h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #fff;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.discord-names p {
-  margin: 0;
-  font-size: 0.75rem;
-  color: #949BA4;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-}
-
-.online-dot {
-  width: 8px;
-  height: 8px;
-  background: #23a559;
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(35, 165, 89, 0.5);
-  animation: pulse-green 2s infinite;
-}
-
-.discord-stat-badge {
-  background: rgba(88, 101, 242, 0.1);
-  color: #fff;
-  border: 1px solid rgba(88, 101, 242, 0.2);
-  padding: 6px 12px;
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.discord-members-area {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.members-label {
-  font-size: 0.7rem;
-  color: #949BA4;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-left: 4px;
-}
-
-.members-scroll {
-  display: flex;
-  gap: 0; 
-  padding-left: 10px;
-  padding-bottom: 5px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.dm-item {
-  position: relative;
-  min-width: 44px;
-  margin-left: -10px;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.dm-item:first-child {
-  margin-left: 0;
-}
-
-.dm-item:hover {
-  transform: translateY(-4px) scale(1.1);
-  z-index: 10;
-}
-
-.dm-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 3px solid #161616;
-  background: #2f3136;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.dm-status {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 12px;
-  height: 12px;
-  background: #23a559;
-  border: 3px solid #161616;
-  border-radius: 50%;
-}
-
-.btn-join-discord {
-  margin-top: 10px;
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(90deg, #5865F2 0%, #4752C4 100%);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  box-shadow: 0 4px 20px rgba(88, 101, 242, 0.4);
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-join-discord::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(rgba(255,255,255,0.1), transparent);
-  opacity: 0;
-  transition: 0.2s;
-}
-
-.btn-join-discord:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(88, 101, 242, 0.5);
-}
-
-.btn-join-discord:hover::before {
-  opacity: 1;
-}
 
 .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .sec-title { font-size: 1.1rem; font-weight: 700; color: #fff; }

@@ -113,6 +113,7 @@ const SimpleLuaHighlight = ({ code }: { code: string }) => {
 export default function Home() {
   const [activeTab, setActiveTab] = useState('global')
   const [videoActive, setVideoActive] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [contentReady, setContentReady] = useState(false)
   const [modal, setModal] = useState({ open: false, title: '', desc: '' })
   const [toast, setToast] = useState(false)
@@ -319,165 +320,120 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-footer-group">
-            <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
-              
-              <div className="deck-stats-group">
-                <div className="deck-stat-item">
-                  <div className="status-indicator">
-                    <div className="status-dot"></div>
-                    <span>TOTAL</span>
-                  </div>
-                  <div className="stat-value">
-                    {execCount !== null ? execCount.toLocaleString() : '---'}
-                  </div>
+          <div className="script-terminal">
+            <div className="terminal-header" ref={downloadMenuRef}>
+              <div className="terminal-stats">
+                <div className="stat-unit">
+                  <span className="stat-label">TOTAL</span>
+                  <span className="stat-val">{execCount !== null ? execCount.toLocaleString() : '...'}</span>
                 </div>
-
-                <div className="vertical-divider"></div>
-
-                <div className="deck-stat-item">
-                  <div className="status-indicator">
-                    <div className="status-dot daily-dot"></div>
-                    <span>HOJE</span>
-                  </div>
-                  <div className="stat-value">
-                    {dailyExecCount !== null ? `+${dailyExecCount.toLocaleString()}` : '---'}
-                  </div>
+                <div className="stat-divider"></div>
+                <div className="stat-unit">
+                  <span className="stat-label">HOJE</span>
+                  <span className="stat-val daily">{dailyExecCount !== null ? dailyExecCount.toLocaleString() : '...'}</span>
                 </div>
               </div>
 
-              <div className="deck-actions">
+              <div className="terminal-actions">
                 <button 
-                  className="deck-btn copy-btn" 
+                  className="term-btn copy-action" 
                   onClick={copyScript} 
                   onMouseEnter={() => playSound('hover')}
-                  aria-label="Copiar"
+                  aria-label="Copiar Script"
                 >
                   <i className="fas fa-copy"></i>
-                  <span>Copiar</span>
                 </button>
 
-                <div className="download-wrapper" style={{position: 'relative'}}>
+                <div className="dl-wrapper" style={{position: 'relative'}}>
                    <button 
-                     className={`deck-btn download-btn ${showDownloadMenu ? 'active' : ''}`} 
+                     className={`term-btn dl-action ${showDownloadMenu ? 'active' : ''}`} 
                      onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
                      onMouseEnter={() => playSound('hover')}
-                     aria-label="Opções de download"
-                     aria-haspopup="true"
-                     aria-expanded={showDownloadMenu}
+                     aria-label="Download"
                    >
                       <i className="fas fa-download"></i>
                    </button>
                    
-                   <div className={`hud-dropdown ${showDownloadMenu ? 'show' : ''}`} role="menu">
-                      <button role="menuitem" onClick={() => handleDownload('txt')}>Texto (.txt)</button>
-                      <button role="menuitem" onClick={() => handleDownload('lua')}>Lua (.lua)</button>
+                   <div className={`term-dropdown ${showDownloadMenu ? 'show' : ''}`}>
+                      <button onClick={() => handleDownload('txt')}>Texto (.txt)</button>
+                      <button onClick={() => handleDownload('lua')}>Lua (.lua)</button>
                    </div>
                  </div>
               </div>
             </div>
 
-            <div className={`editor-window ${contentReady ? 'visible' : ''}`}>
-               <div className="editor-header">
-                  <div className="window-controls">
-                     <span className="win-dot red"></span>
-                     <span className="win-dot yellow"></span>
-                     <span className="win-dot green"></span>
-                  </div>
-                  <div className="editor-filename">michigun.lua</div>
-               </div>
-               
-               <div className="editor-body">
-                  <div className="line-numbers">
-                     <span>1</span>
-                  </div>
-                  <div className="code-content">
-                     <SimpleLuaHighlight code={CONFIG.script} />
-                  </div>
+            <div className="terminal-body">
+               <div className="code-block">
+                  <SimpleLuaHighlight code={CONFIG.script} />
                </div>
             </div>
           </div>
-        </div>
-
-        <div className="trust-grid">
-          {[
-            { icon: 'far fa-play-circle', label: 'Suporte', sub: 'Atualizações constantes' },
-            { icon: 'fas fa-key', label: 'Key System', sub: 'Rápido e direto' },
-            { icon: 'fab fa-discord', label: '24/7', sub: 'Suporte ativo no Discord' }
-          ].map((item, i) => (
-            <div key={i} className="trust-item" onMouseEnter={() => playSound('hover')}>
-              <i className={`${item.icon} trust-icon`}></i>
-              <span className="trust-label">{item.label}</span>
-              <p className="trust-sub">{item.sub}</p>
-            </div>
-          ))}
         </div>
 
         <section className="discord-dock" onMouseEnter={() => playSound('hover')}>
-          <div className="discord-inner">
-            <div className="discord-header-row">
-              <div className="discord-info-group">
-                <div className="discord-logo-box">
-                  {getServerIcon() ? (
-                    <img 
-                      src={getServerIcon()!} 
-                      alt="Server Icon" 
-                      className="discord-server-icon" 
-                      loading="lazy"
-                      decoding="async" 
-                    />
-                  ) : (
-                    <i className="fab fa-discord"></i>
-                  )}
-                </div>
-                <div className="discord-names">
+          <div className="discord-glass-bg"></div>
+          <div className="discord-content">
+            <div className="discord-top">
+              <div className="server-brand">
+                {getServerIcon() ? (
+                  <img src={getServerIcon()!} alt="Icon" className="server-img" />
+                ) : (
+                  <div className="server-placeholder"><i className="fab fa-discord"></i></div>
+                )}
+                <div className="server-txt">
                   <h3>{discordWidget?.name || 'Comunidade'}</h3>
-                  <p>
-                    <span className="online-dot"></span>
+                  <div className="live-status">
+                    <span className="live-dot"></span>
                     {discordWidget?.presence_count || 0} Online
-                  </p>
+                  </div>
                 </div>
               </div>
+              <button 
+                className="discord-cta" 
+                onClick={withSound(() => window.open(CONFIG.discordLink, '_blank'))}
+              >
+                Entrar
+              </button>
+            </div>
+            
+            <div className="discord-avatars">
+              {contentReady && discordWidget?.members ? (
+                discordWidget.members.slice(0, 8).map((m, i) => (
+                  <img 
+                    key={m.id}
+                    src={m.avatar_url} 
+                    className="stack-avatar" 
+                    alt={m.username} 
+                    style={{zIndex: 10 - i}}
+                    onError={(e) => handleImageError(e, 'User')} 
+                  />
+                ))
+              ) : (
+                [1,2,3,4].map(i => <div key={i} className="skeleton" style={{width: 32, height: 32, borderRadius: '50%'}}></div>)
+              )}
               {discordExtra && (
-                <div className="discord-stat-badge">
-                  {discordExtra.approximate_member_count} Membros
-                </div>
+                <div className="stack-count">+{discordExtra.approximate_member_count}</div>
               )}
             </div>
-
-            <div className="discord-members-area">
-              <span className="members-label">Online</span>
-              <div className="members-scroll">
-                {contentReady && discordWidget?.members ? (
-                  discordWidget.members.map((m) => (
-                    <div key={m.id} className="dm-item">
-                      <img 
-                        src={m.avatar_url} 
-                        className="dm-avatar" 
-                        alt={m.username} 
-                        onError={(e) => handleImageError(e, 'User')} 
-                        loading="lazy" 
-                        decoding="async"
-                      />
-                      <div className="dm-status"></div>
-                    </div>
-                  ))
-                ) : (
-                  [1,2,3,4,5,6].map(i => <div key={i} className="skeleton" style={{width: 44, height: 44, borderRadius: '50%', minWidth: 44}}></div>)
-                )}
-              </div>
-            </div>
-
-            <button 
-              className="btn-join-discord" 
-              onClick={withSound(() => window.open(CONFIG.discordLink, '_blank'))} 
-              onMouseEnter={() => playSound('hover')}
-              aria-label="Entrar no servidor"
-            >
-              <i className="fab fa-discord"></i> Entrar no servidor
-            </button>
           </div>
         </section>
+
+        <div className="unified-trust-bar">
+          <div className="trust-unit">
+            <i className="far fa-play-circle"></i>
+            <span>Suporte</span>
+          </div>
+          <div className="trust-sep"></div>
+          <div className="trust-unit">
+            <i className="fas fa-key"></i>
+            <span>Key System</span>
+          </div>
+          <div className="trust-sep"></div>
+          <div className="trust-unit">
+            <i className="fab fa-discord"></i>
+            <span>24/7</span>
+          </div>
+        </div>
 
         <section>
           <div className="section-head">
