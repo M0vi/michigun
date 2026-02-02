@@ -19,6 +19,8 @@ type DevProfile = {
   role: string
   username: string
   avatar_url: string
+  status_text?: string
+  status_color?: string
 }
 
 type DiscordMember = {
@@ -50,12 +52,12 @@ type DiscordInviteData = {
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  keySystemText: 'Key system fácil de fazer',
+  keySystemLink: 'https://link-do-key-system.com',
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
   devs: [
-    { id: '1163467888259239996', role: 'Dev' },
+    { id: '1163467888259239996', role: 'Main Dev' },
     { id: '1062463366792216657', role: 'CMO' }
   ],
   
@@ -121,8 +123,10 @@ export default function Home() {
   const [devProfiles, setDevProfiles] = useState<DevProfile[]>([])
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
+  
   const [execCount, setExecCount] = useState<number | null>(null)
   const [dailyExecCount, setDailyExecCount] = useState<number | null>(null)
+  
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const [showKeySystem, setShowKeySystem] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
@@ -184,14 +188,31 @@ export default function Home() {
             const res = await fetch(`https://api.lanyard.rest/v1/users/${dev.id}`)
             const data = await res.json()
             if (data.success) {
+              let statusText = ''
+              let statusColor = '#4ade80'
+
+              if (data.data.listening_to_spotify && data.data.spotify) {
+                statusText = `Ouvindo ${data.data.spotify.song}`
+                statusColor = '#1DB954'
+              } else if (data.data.activities && data.data.activities.length > 0) {
+                const game = data.data.activities.find((a: any) => a.type === 0)
+                if (game) {
+                  statusText = `Jogando ${game.name}`
+                  statusColor = '#7289da'
+                }
+              }
+
               return {
                 id: dev.id,
                 role: dev.role,
                 username: data.data.discord_user.username,
-                avatar_url: `https://cdn.discordapp.com/avatars/${dev.id}/${data.data.discord_user.avatar}.png`
+                avatar_url: `https://cdn.discordapp.com/avatars/${dev.id}/${data.data.discord_user.avatar}.png`,
+                status_text: statusText,
+                status_color: statusColor
               }
             }
           } catch {}
+          
           return { 
             id: dev.id, 
             role: dev.role, 
@@ -262,34 +283,31 @@ export default function Home() {
 
       <main className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
         
-        <header className="header-stack">
-          {devProfiles.length > 0 ? (
-            devProfiles.map((dev) => (
-              <div key={dev.id} className="profile-container" onMouseEnter={() => playSound('hover')}>
+        <div className="team-section">
+          <h2 className="team-title">Equipe</h2>
+          <div className="team-grid">
+            {devProfiles.map((dev) => (
+              <div key={dev.id} className="team-card" onMouseEnter={() => playSound('hover')}>
                 <img 
                   src={dev.avatar_url} 
-                  className="avatar" 
+                  className="team-avatar" 
                   alt={dev.username} 
                   onError={(e) => handleImageError(e, dev.username)}
-                  width="44"
-                  height="44" 
                 />
-                <div>
-                  <div className="brand-name">{dev.username}</div>
-                  <div className="brand-sub">{dev.role}</div>
+                <div className="team-info">
+                  <div className="team-name">{dev.username}</div>
+                  <div className="team-role">{dev.role}</div>
+                  {dev.status_text && (
+                    <div className="team-status" style={{ color: dev.status_color }}>
+                      <span className="status-dot-small" style={{ background: dev.status_color }}></span>
+                      {dev.status_text}
+                    </div>
+                  )}
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="profile-container">
-               <div className="skeleton" style={{width:44, height:44, borderRadius:'50%'}}></div>
-               <div style={{display:'flex', flexDirection:'column', gap:4}}>
-                 <div className="skeleton" style={{width:80, height:14}}></div>
-                 <div className="skeleton" style={{width:50, height:10}}></div>
-               </div>
-            </div>
-          )}
-        </header>
+            ))}
+          </div>
+        </div>
 
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
@@ -333,6 +351,7 @@ export default function Home() {
 
           <div className="hero-footer-group">
             <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
+              
               <div className="deck-stats-group">
                 <div className="deck-stat-item">
                   <div className="status-indicator">
@@ -359,13 +378,12 @@ export default function Home() {
 
               <div className="deck-actions">
                 <button 
-                  className="deck-btn copy-btn" 
+                  className="deck-btn download-btn" 
                   onClick={copyScript} 
                   onMouseEnter={() => playSound('hover')}
                   aria-label="Copiar"
                 >
                   <i className="fas fa-copy"></i>
-                  <span>Copiar</span>
                 </button>
 
                 <div className="download-wrapper" style={{position: 'relative'}}>
@@ -605,3 +623,5 @@ export default function Home() {
     </>
   )
 }
+
+
