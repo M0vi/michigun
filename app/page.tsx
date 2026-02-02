@@ -50,11 +50,12 @@ type DiscordInviteData = {
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
+  keySystemLink: 'https://link-do-key-system.com', 
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
   devs: [
-    { id: '1163467888259239996', role: 'Main dev' },
+    { id: '1163467888259239996', role: 'Main Dev' },
     { id: '1062463366792216657', role: 'CMO' }
   ],
   
@@ -249,36 +250,34 @@ export default function Home() {
 
   return (
     <>
-      <main className="wrapper">
+      {loading && (
+        <div className="loading-screen">
+          <div className="spinner"></div>
+          <div className="loading-text">Carregando</div>
+        </div>
+      )}
+
+      <main className="wrapper" style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.8s ease' }}>
         
-        <header className="header-stack">
-          {devProfiles.length > 0 ? (
-            devProfiles.map((dev) => (
-              <div key={dev.id} className="profile-container" onMouseEnter={() => playSound('hover')}>
+        <div className="team-section">
+          <h2 className="team-title">Equipe</h2>
+          <div className="team-grid">
+            {devProfiles.map((dev) => (
+              <div key={dev.id} className="team-card" onMouseEnter={() => playSound('hover')}>
                 <img 
                   src={dev.avatar_url} 
-                  className="avatar" 
+                  className="team-avatar" 
                   alt={dev.username} 
                   onError={(e) => handleImageError(e, dev.username)}
-                  width="44"
-                  height="44" 
                 />
-                <div>
-                  <div className="brand-name">{dev.username}</div>
-                  <div className="brand-sub">{dev.role}</div>
+                <div className="team-info">
+                  <div className="team-name">{dev.username}</div>
+                  <div className="team-role">{dev.role}</div>
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="profile-container">
-               <div className="skeleton" style={{width:44, height:44, borderRadius:'50%'}}></div>
-               <div style={{display:'flex', flexDirection:'column', gap:4}}>
-                 <div className="skeleton" style={{width:80, height:14}}></div>
-                 <div className="skeleton" style={{width:50, height:10}}></div>
-               </div>
-            </div>
-          )}
-        </header>
+            ))}
+          </div>
+        </div>
 
         <div className="hero-wrapper">
           <div className="hero-glow"></div>
@@ -320,119 +319,142 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="script-terminal">
-            <div className="terminal-header" ref={downloadMenuRef}>
-              <div className="terminal-stats">
-                <div className="stat-unit">
-                  <span className="stat-label">TOTAL</span>
-                  <span className="stat-val">{execCount !== null ? execCount.toLocaleString() : '...'}</span>
+          <div className="hero-footer-group">
+            <div className={`control-deck ${contentReady ? 'visible' : ''}`} ref={downloadMenuRef}>
+              
+              <div className="deck-stats-group">
+                <div className="deck-stat-item">
+                  <div className="status-indicator">
+                    <div className="status-dot"></div>
+                    <span>TOTAL</span>
+                  </div>
+                  <div className="stat-value">
+                    {execCount !== null ? execCount.toLocaleString() : '---'}
+                  </div>
                 </div>
-                <div className="stat-divider"></div>
-                <div className="stat-unit">
-                  <span className="stat-label">HOJE</span>
-                  <span className="stat-val daily">{dailyExecCount !== null ? dailyExecCount.toLocaleString() : '...'}</span>
+
+                <div className="vertical-divider"></div>
+
+                <div className="deck-stat-item">
+                  <div className="status-indicator">
+                    <div className="status-dot daily-dot"></div>
+                    <span>HOJE</span>
+                  </div>
+                  <div className="stat-value">
+                    {dailyExecCount !== null ? `${dailyExecCount.toLocaleString()}` : '---'}
+                  </div>
                 </div>
               </div>
 
-              <div className="terminal-actions">
+              <div className="deck-actions">
                 <button 
-                  className="term-btn copy-action" 
+                  className="deck-btn copy-btn" 
                   onClick={copyScript} 
                   onMouseEnter={() => playSound('hover')}
-                  aria-label="Copiar Script"
+                  aria-label="Copiar"
                 >
                   <i className="fas fa-copy"></i>
+                  <span>Copiar</span>
                 </button>
 
-                <div className="dl-wrapper" style={{position: 'relative'}}>
+                <div className="download-wrapper" style={{position: 'relative'}}>
                    <button 
-                     className={`term-btn dl-action ${showDownloadMenu ? 'active' : ''}`} 
+                     className={`deck-btn download-btn ${showDownloadMenu ? 'active' : ''}`} 
                      onClick={withSound(() => setShowDownloadMenu(!showDownloadMenu))}
                      onMouseEnter={() => playSound('hover')}
-                     aria-label="Download"
+                     aria-label="Opções de download"
+                     aria-haspopup="true"
+                     aria-expanded={showDownloadMenu}
                    >
                       <i className="fas fa-download"></i>
                    </button>
                    
-                   <div className={`term-dropdown ${showDownloadMenu ? 'show' : ''}`}>
-                      <button onClick={() => handleDownload('txt')}>Texto (.txt)</button>
-                      <button onClick={() => handleDownload('lua')}>Lua (.lua)</button>
+                   <div className={`hud-dropdown ${showDownloadMenu ? 'show' : ''}`} role="menu">
+                      <button role="menuitem" onClick={() => handleDownload('txt')}>Texto (.txt)</button>
+                      <button role="menuitem" onClick={() => handleDownload('lua')}>Lua (.lua)</button>
                    </div>
                  </div>
               </div>
             </div>
 
-            <div className="terminal-body">
-               <div className="code-block">
-                  <SimpleLuaHighlight code={CONFIG.script} />
+            <div className={`editor-window ${contentReady ? 'visible' : ''}`}>
+               <div className="editor-header">
+                  <div className="window-controls">
+                     <span className="win-dot red"></span>
+                     <span className="win-dot yellow"></span>
+                     <span className="win-dot green"></span>
+                  </div>
+                  <div className="editor-filename">michigun.lua</div>
+               </div>
+               
+               <div className="editor-body">
+                  <div className="line-numbers">
+                     <span>1</span>
+                  </div>
+                  <div className="code-content">
+                     <SimpleLuaHighlight code={CONFIG.script} />
+                  </div>
                </div>
             </div>
+
+            <div className={`discord-dock ${contentReady ? 'visible' : ''}`} onMouseEnter={() => playSound('hover')}>
+              <div className="discord-glass-bg"></div>
+              <div className="discord-content-row">
+                <div className="discord-left">
+                  {getServerIcon() ? (
+                    <img 
+                      src={getServerIcon()!} 
+                      alt="Server Icon" 
+                      className="discord-icon-large" 
+                      loading="lazy"
+                      decoding="async" 
+                    />
+                  ) : (
+                    <div className="discord-icon-placeholder"><i className="fab fa-discord"></i></div>
+                  )}
+                  <div className="discord-text">
+                    <h3>{discordWidget?.name || 'Comunidade'}</h3>
+                    <p className="discord-status-text">
+                      <span className="live-dot"></span>
+                      {discordWidget?.presence_count || 0} Online agora
+                    </p>
+                  </div>
+                </div>
+                
+                <button 
+                  className="discord-join-btn" 
+                  onClick={withSound(() => window.open(CONFIG.discordLink, '_blank'))}
+                >
+                  Entrar
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <section className="discord-dock" onMouseEnter={() => playSound('hover')}>
-          <div className="discord-glass-bg"></div>
-          <div className="discord-content">
-            <div className="discord-top">
-              <div className="server-brand">
-                {getServerIcon() ? (
-                  <img src={getServerIcon()!} alt="Icon" className="server-img" />
-                ) : (
-                  <div className="server-placeholder"><i className="fab fa-discord"></i></div>
-                )}
-                <div className="server-txt">
-                  <h3>{discordWidget?.name || 'Comunidade'}</h3>
-                  <div className="live-status">
-                    <span className="live-dot"></span>
-                    {discordWidget?.presence_count || 0} Online
-                  </div>
-                </div>
-              </div>
-              <button 
-                className="discord-cta" 
-                onClick={withSound(() => window.open(CONFIG.discordLink, '_blank'))}
-              >
-                Entrar
-              </button>
-            </div>
-            
-            <div className="discord-avatars">
-              {contentReady && discordWidget?.members ? (
-                discordWidget.members.slice(0, 8).map((m, i) => (
-                  <img 
-                    key={m.id}
-                    src={m.avatar_url} 
-                    className="stack-avatar" 
-                    alt={m.username} 
-                    style={{zIndex: 10 - i}}
-                    onError={(e) => handleImageError(e, 'User')} 
-                  />
-                ))
-              ) : (
-                [1,2,3,4].map(i => <div key={i} className="skeleton" style={{width: 32, height: 32, borderRadius: '50%'}}></div>)
-              )}
-              {discordExtra && (
-                <div className="stack-count">+{discordExtra.approximate_member_count}</div>
-              )}
-            </div>
-          </div>
-        </section>
-
         <div className="unified-trust-bar">
-          <div className="trust-unit">
-            <i className="far fa-play-circle"></i>
-            <span>Suporte</span>
-          </div>
-          <div className="trust-sep"></div>
-          <div className="trust-unit">
+          <a 
+            href={CONFIG.keySystemLink} 
+            target="_blank" 
+            className="trust-btn"
+            onClick={() => playSound('click')}
+          >
             <i className="fas fa-key"></i>
             <span>Key System</span>
-          </div>
+          </a>
+          
           <div className="trust-sep"></div>
-          <div className="trust-unit">
+          
+          <a 
+            href={CONFIG.discordLink} 
+            target="_blank" 
+            className="trust-btn"
+            onClick={() => playSound('click')}
+          >
             <i className="fab fa-discord"></i>
-            <span>24/7</span>
-          </div>
+            <span>Suporte no Discord</span>
+          </a>
         </div>
 
         <section>
@@ -496,7 +518,9 @@ export default function Home() {
                   tabIndex={0}
                   aria-label={`Ver detalhes de ${item.name}`}
                 >
-                  <i className={item.icon}></i>
+                  <div className="feat-icon-box">
+                    <i className={item.icon}></i>
+                  </div>
                   <div className="feat-content">
                     <div className="feat-name">{item.name}</div>
                     <span className={`feat-tag tag-${item.type}`}>
