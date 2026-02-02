@@ -52,13 +52,12 @@ type DiscordInviteData = {
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  // CORREÇÃO: Renomeado de keySystemLink para keySystemText para bater com o uso no JSX
-  keySystemText: 'Key system fácil de fazer', 
+  keySystemText: 'Link do Key System: https://link-aqui.com',
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
   devs: [
-    { id: '1163467888259239996', role: 'Main Dev' },
+    { id: '1163467888259239996', role: 'Main dev' },
     { id: '1062463366792216657', role: 'CMO' }
   ],
   
@@ -182,7 +181,7 @@ export default function Home() {
     setLoading(false)
     setTimeout(() => setContentReady(true), 100)
 
-    async function fetchData() {
+    const fetchDevStatus = async () => {
       try {
         const profiles = await Promise.all(CONFIG.devs.map(async (dev) => {
           try {
@@ -222,7 +221,11 @@ export default function Home() {
           }
         }))
         setDevProfiles(profiles)
-        
+      } catch {}
+    }
+
+    async function fetchGlobalData() {
+      try {
         const resCount = await fetch('/api/stats')
         const dataCount = await resCount.json()
         if (dataCount.executions !== undefined) setExecCount(dataCount.executions)
@@ -238,12 +241,17 @@ export default function Home() {
         if (dataInvite.guild) setDiscordExtra(dataInvite)
       } catch {}
     }
-    fetchData()
+    
+    fetchDevStatus()
+    fetchGlobalData()
+
+    const interval = setInterval(fetchDevStatus, 10000)
     
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu)
       document.removeEventListener('keydown', handleKeyDown)
       document.removeEventListener('mousedown', handleClickOutside)
+      clearInterval(interval)
     }
   }, [])
 
@@ -323,7 +331,7 @@ export default function Home() {
               className="video-container" 
               onClick={withSound(() => setVideoActive(true))}
               role="button"
-              aria-label="Reproduzir"
+              aria-label="Reproduzir vídeo showcase"
               tabIndex={0}
             >
               {!videoActive ? (
@@ -332,8 +340,7 @@ export default function Home() {
                     src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                     alt="Thumbnail"
                     className="video-thumb-img"
-                    // @ts-ignore
-                    fetchPriority="high"
+                    {...({ fetchPriority: 'high' } as any)}
                   />
                   <div className="play-icon">
                     <i className="fas fa-play"></i>
@@ -450,7 +457,7 @@ export default function Home() {
                         onMouseEnter={() => playSound('hover')}
                     >
                         <i className="fab fa-discord"></i>
-                        <span>Suporte 24/7</span>
+                        <span>Suporte no Discord</span>
                     </a>
                 </div>
             </div>
