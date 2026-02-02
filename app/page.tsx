@@ -123,8 +123,10 @@ export default function Home() {
   const [devProfiles, setDevProfiles] = useState<DevProfile[]>([])
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
+  
   const [execCount, setExecCount] = useState<number | null>(null)
   const [dailyExecCount, setDailyExecCount] = useState<number | null>(null)
+  
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const [showKeySystem, setShowKeySystem] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
@@ -188,22 +190,26 @@ export default function Home() {
             if (data.success) {
               const user = data.data
               let statusText = ''
-              let statusColor = '#888' 
+              let statusColor = '#888'
 
               if (user.listening_to_spotify && user.spotify) {
                 statusText = `Ouvindo ${user.spotify.song}`
                 statusColor = '#1DB954'
               } else if (user.activities && user.activities.length > 0) {
-                const activity = user.activities.find((a: any) => a.type !== 4) 
-                if (activity) {
-                  statusText = activity.name === 'Visual Studio Code' ? 'Codando' : `Jogando ${activity.name}`
-                  statusColor = activity.name === 'Visual Studio Code' ? '#007acc' : '#7289da'
+                const game = user.activities.find((a: any) => a.type === 0 || a.type === 1)
+                const code = user.activities.find((a: any) => a.name === 'Visual Studio Code')
+                
+                if (code) {
+                  statusText = 'Codando'
+                  statusColor = '#007acc'
+                } else if (game) {
+                  statusText = `Jogando ${game.name}`
+                  statusColor = '#7289da'
                 } else {
-                    const custom = user.activities.find((a: any) => a.type === 4)
-                    if (custom && custom.state) {
-                         statusText = custom.state
-                         statusColor = '#aaa'
-                    }
+                  const custom = user.activities.find((a: any) => a.type === 4)
+                  if (custom && custom.state) {
+                    statusText = custom.state
+                  }
                 }
               }
 
@@ -231,7 +237,7 @@ export default function Home() {
             id: dev.id, 
             role: dev.role, 
             username: 'Dev', 
-            avatar_url: 'https://ui-avatars.com/api/?name=Dev&background=333&color=fff',
+            avatar_url: `https://cdn.discordapp.com/avatars/${dev.id}/placeholder.png`,
             status_text: 'Offline',
             status_color: '#555'
           }
@@ -261,7 +267,7 @@ export default function Home() {
     fetchDevStatus()
     fetchGlobalData()
 
-    const interval = setInterval(fetchDevStatus, 10000)
+    const interval = setInterval(fetchDevStatus, 5000)
     
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu)
