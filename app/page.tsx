@@ -123,10 +123,8 @@ export default function Home() {
   const [devProfiles, setDevProfiles] = useState<DevProfile[]>([])
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
-  
   const [execCount, setExecCount] = useState<number | null>(null)
   const [dailyExecCount, setDailyExecCount] = useState<number | null>(null)
-  
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const [showKeySystem, setShowKeySystem] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
@@ -196,20 +194,19 @@ export default function Home() {
                 statusText = `Ouvindo ${user.spotify.song}`
                 statusColor = '#1DB954'
               } else if (user.activities && user.activities.length > 0) {
-                const game = user.activities.find((a: any) => a.type === 0 || a.type === 1)
-                const code = user.activities.find((a: any) => a.name === 'Visual Studio Code')
-                
-                if (code) {
+                const vscode = user.activities.find((a: any) => a.name === 'Visual Studio Code' || a.name === 'Code')
+                const game = user.activities.find((a: any) => a.type === 0)
+                const custom = user.activities.find((a: any) => a.type === 4)
+
+                if (vscode) {
                   statusText = 'Codando'
                   statusColor = '#007acc'
                 } else if (game) {
                   statusText = `Jogando ${game.name}`
                   statusColor = '#7289da'
-                } else {
-                  const custom = user.activities.find((a: any) => a.type === 4)
-                  if (custom && custom.state) {
-                    statusText = custom.state
-                  }
+                } else if (custom && custom.state) {
+                  statusText = custom.state
+                  statusColor = '#aaa'
                 }
               }
 
