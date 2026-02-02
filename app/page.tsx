@@ -52,12 +52,12 @@ type DiscordInviteData = {
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  keySystemText: 'Fácil de fazer',
+  keySystemText: 'Link do Key System: https://link-aqui.com',
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
   devs: [
-    { id: '1163467888259239996', role: 'Dev' },
+    { id: '1163467888259239996', role: 'Main Dev' },
     { id: '1062463366792216657', role: 'CMO' }
   ],
   
@@ -123,10 +123,8 @@ export default function Home() {
   const [devProfiles, setDevProfiles] = useState<DevProfile[]>([])
   const [discordWidget, setDiscordWidget] = useState<DiscordWidgetData | null>(null)
   const [discordExtra, setDiscordExtra] = useState<DiscordInviteData | null>(null)
-  
   const [execCount, setExecCount] = useState<number | null>(null)
   const [dailyExecCount, setDailyExecCount] = useState<number | null>(null)
-  
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
   const [showKeySystem, setShowKeySystem] = useState(false)
   const downloadMenuRef = useRef<HTMLDivElement>(null)
@@ -188,25 +186,41 @@ export default function Home() {
             const res = await fetch(`https://api.lanyard.rest/v1/users/${dev.id}`)
             const data = await res.json()
             if (data.success) {
+              const user = data.data
               let statusText = ''
-              let statusColor = '#4ade80'
+              let statusColor = '#888' 
 
-              if (data.data.listening_to_spotify && data.data.spotify) {
-                statusText = `Ouvindo ${data.data.spotify.song}`
+              if (user.listening_to_spotify && user.spotify) {
+                statusText = `Ouvindo ${user.spotify.song}`
                 statusColor = '#1DB954'
-              } else if (data.data.activities && data.data.activities.length > 0) {
-                const game = data.data.activities.find((a: any) => a.type === 0)
-                if (game) {
-                  statusText = `Jogando ${game.name}`
-                  statusColor = '#7289da'
+              } else if (user.activities && user.activities.length > 0) {
+                const activity = user.activities.find((a: any) => a.type !== 4) 
+                if (activity) {
+                  statusText = activity.name === 'Visual Studio Code' ? 'Codando' : `Jogando ${activity.name}`
+                  statusColor = activity.name === 'Visual Studio Code' ? '#007acc' : '#7289da'
+                } else {
+                    const custom = user.activities.find((a: any) => a.type === 4)
+                    if (custom && custom.state) {
+                         statusText = custom.state
+                         statusColor = '#aaa'
+                    }
                 }
+              }
+
+              if (!statusText) {
+                 switch (user.discord_status) {
+                     case 'online': statusText = 'Online'; statusColor = '#4ade80'; break;
+                     case 'idle': statusText = 'Ausente'; statusColor = '#facc15'; break;
+                     case 'dnd': statusText = 'Não Perturbe'; statusColor = '#ef4444'; break;
+                     default: statusText = 'Offline'; statusColor = '#555';
+                 }
               }
 
               return {
                 id: dev.id,
                 role: dev.role,
-                username: data.data.discord_user.username,
-                avatar_url: `https://cdn.discordapp.com/avatars/${dev.id}/${data.data.discord_user.avatar}.png`,
+                username: user.discord_user.username,
+                avatar_url: `https://cdn.discordapp.com/avatars/${dev.id}/${user.discord_user.avatar}.png`,
                 status_text: statusText,
                 status_color: statusColor
               }
@@ -217,7 +231,9 @@ export default function Home() {
             id: dev.id, 
             role: dev.role, 
             username: 'Dev', 
-            avatar_url: 'https://ui-avatars.com/api/?name=Dev&background=333&color=fff' 
+            avatar_url: 'https://ui-avatars.com/api/?name=Dev&background=333&color=fff',
+            status_text: 'Offline',
+            status_color: '#555'
           }
         }))
         setDevProfiles(profiles)
@@ -331,7 +347,7 @@ export default function Home() {
               className="video-container" 
               onClick={withSound(() => setVideoActive(true))}
               role="button"
-              aria-label="Reproduzir vídeo"
+              aria-label="Reproduzir vídeo showcase"
               tabIndex={0}
             >
               {!videoActive ? (
@@ -340,7 +356,8 @@ export default function Home() {
                     src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                     alt="Thumbnail"
                     className="video-thumb-img"
-                    {...({ fetchPriority: 'high' } as any)}
+                    // @ts-ignore
+                    fetchPriority="high"
                   />
                   <div className="play-icon">
                     <i className="fas fa-play"></i>
