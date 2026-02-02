@@ -477,7 +477,7 @@ export default function Home() {
                         onMouseEnter={() => playSound('hover')}
                     >
                         <i className="fab fa-discord"></i>
-                        <span>Suporte no Discord</span>
+                        <span>Suporte ativo</span>
                     </a>
                 </div>
             </div>
