@@ -78,7 +78,7 @@ body {
 }
 
 .team-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
 }
 
 .team-card {
@@ -98,27 +98,15 @@ body {
   border: 2px solid rgba(255,255,255,0.08); flex-shrink: 0;
 }
 
-.team-info {
-  display: flex; flex-direction: column; min-width: 0; flex: 1;
-}
-
-.team-name {
-  font-size: 0.9rem; font-weight: 700; color: #fff;
-}
-
-.team-role {
-  font-size: 0.7rem; color: #888; font-weight: 600; margin-bottom: 3px;
-}
-
+.team-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.team-name { font-size: 0.9rem; font-weight: 700; color: #fff; }
+.team-role { font-size: 0.7rem; color: #888; font-weight: 600; margin-bottom: 2px; }
 .team-status {
   display: flex; align-items: center; gap: 6px; font-size: 0.65rem;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   font-weight: 500;
 }
-
-.status-dot-small {
-  width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0;
-}
+.status-dot-small { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 
 .hero-wrapper { position: relative; width: 100%; display: flex; flex-direction: column; gap: 20px; }
 .hero-glow {
@@ -253,23 +241,17 @@ iframe { width: 100%; height: 100%; border: none; }
 .lua-symbol { color: #56b6c2; }
 
 .discord-dock {
-  background: #0f0f0f;
-  border: 1px solid #222;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  margin-top: -12px;
+  background: #0f0f0f; border: 1px solid #222; border-radius: 12px;
+  position: relative; overflow: hidden; margin-top: 5px;
   box-shadow: 0 15px 30px -5px rgba(0,0,0,0.5);
-  opacity: 0;
-  transform: translateY(10px);
+  opacity: 0; transform: translateY(10px);
   transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .discord-dock.visible { opacity: 1; transform: translateY(0); }
 .discord-dock:hover { border-color: rgba(88, 101, 242, 0.3); }
 
 .discord-glass-bg {
-  position: absolute; inset: 0;
-  background: rgba(88, 101, 242, 0.03);
+  position: absolute; inset: 0; background: rgba(88, 101, 242, 0.03);
   z-index: 1;
 }
 
@@ -282,8 +264,8 @@ iframe { width: 100%; height: 100%; border: none; }
 
 .discord-brand { display: flex; align-items: center; gap: 14px; }
 .discord-logo-box {
-  width: 48px; height: 48px; border-radius: 12px; object-fit: cover;
-  background: #1a1a1a; display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; background: #1a1a1a; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
   color: var(--discord); font-size: 1.8rem; overflow: hidden; flex-shrink: 0;
 }
 .discord-server-icon { width: 100%; height: 100%; object-fit: cover; }
@@ -307,8 +289,7 @@ iframe { width: 100%; height: 100%; border: none; }
 .discord-join-btn {
   background: var(--discord); color: #fff; border: none;
   padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 0.85rem;
-  cursor: pointer; transition: 0.2s;
-  box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+  cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
   white-space: nowrap; align-self: center; margin-top: 0;
 }
 .discord-join-btn:hover { background: #4752c4; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4); }
@@ -320,8 +301,8 @@ iframe { width: 100%; height: 100%; border: none; }
 
 .trust-btn {
   background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 10px;
-  color: #ddd; font-weight: 600; font-size: 0.85rem; text-decoration: none; cursor: pointer;
+  border-radius: 14px; padding: 16px; display: flex; align-items: center; justify-content: center; gap: 10px;
+  color: #ddd; font-weight: 700; font-size: 0.9rem; text-decoration: none; cursor: pointer;
   transition: 0.3s; width: 100%;
 }
 .trust-btn.active, .trust-btn:hover {
@@ -361,32 +342,56 @@ iframe { width: 100%; height: 100%; border: none; }
 .game-s { font-size: 0.6rem; font-weight: 600; color: #4ade80; text-transform: uppercase; }
 
 .script-dock { background: #080808; border: 1px solid var(--surface-border); border-radius: 20px; padding: 24px; }
-.tabs { display: flex; gap: 10px; margin-top: 30px; margin-bottom: 25px; overflow-x: auto; scrollbar-width: none; }
-.tab {
-  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-  color: #888; font-weight: 700; font-size: 0.85rem; padding: 10px 20px;
-  cursor: pointer; transition: 0.2s; border-radius: 100px; white-space: nowrap;
-}
-.tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
-.tab.active { color: #000; background: #fff; border-color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.2); }
 
+/* --- NOVO ESTILO: TABS TIPO SCRIPT --- */
+.tabs { display: flex; gap: 8px; margin-top: 30px; margin-bottom: 25px; overflow-x: auto; scrollbar-width: none; }
+.tab {
+  background: #111; border: 1px solid #333; color: #777;
+  font-family: 'JetBrains Mono', monospace; /* Fonte Monospace */
+  font-weight: 600; font-size: 0.75rem; letter-spacing: 0.5px;
+  padding: 10px 18px; cursor: pointer; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-radius: 8px; white-space: nowrap; text-transform: uppercase;
+}
+.tab:hover { background: #1a1a1a; color: #ccc; border-color: #555; }
+.tab.active {
+  background: #fff; color: #000; border-color: #fff;
+  box-shadow: 0 0 15px rgba(255,255,255,0.15); transform: translateY(-1px);
+}
+
+/* --- NOVO ESTILO: CARDS DE FUNÇÕES --- */
 .grid-features { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
 .feat-card {
-  background: linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%);
-  border: 1px solid var(--surface-border); padding: 20px; border-radius: 16px;
-  display: flex; flex-direction: column; gap: 15px; min-height: 140px; cursor: pointer; transition: 0.3s ease; position: relative; overflow: hidden;
+  background: #0b0b0b; border: 1px solid #222;
+  border-radius: 12px; padding: 18px;
+  display: flex; flex-direction: column; gap: 14px; min-height: 130px;
+  cursor: pointer; transition: all 0.2s ease-out; position: relative; overflow: hidden;
 }
-.feat-card:hover { border-color: #444; transform: translateY(-4px); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); }
+.feat-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: #222; transition: 0.3s;
+}
+.feat-card:hover {
+  background: #111; border-color: #444; transform: translateY(-3px);
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+}
+.feat-card:hover::before { background: var(--brand); }
+
 .feat-icon-box {
-  width: 40px; height: 40px; background: rgba(255,255,255,0.03); border-radius: 10px;
-  display: flex; align-items: center; justify-content: center; transition: 0.3s;
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: flex-start;
 }
-.feat-card:hover .feat-icon-box { background: var(--brand); color: #fff; }
-.feat-card i { font-size: 1.2rem; color: #666; transition: 0.3s; }
-.feat-card:hover i { color: #fff; }
+.feat-card i { font-size: 1.3rem; color: #555; transition: 0.2s; }
+.feat-card:hover i { color: #fff; transform: translateX(2px); }
+
 .feat-content { display: flex; flex-direction: column; gap: 6px; }
-.feat-name { font-size: 0.95rem; font-weight: 700; color: #eee; }
-.feat-tag { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; display: inline-block; opacity: 0.8; }
+.feat-name {
+  font-family: 'JetBrains Mono', monospace; /* Fonte Monospace */
+  font-size: 0.8rem; font-weight: 700; color: #ddd; letter-spacing: -0.3px;
+}
+.feat-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 700;
+  text-transform: uppercase; display: inline-block; opacity: 0.9;
+  padding: 2px 0;
+}
 .tag-safe { color: #4ade80; } .tag-risk { color: var(--brand); } .tag-visual { color: #a855f7; }
 
 .modal-overlay {
