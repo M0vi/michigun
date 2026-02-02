@@ -52,12 +52,12 @@ type DiscordInviteData = {
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  keySystemText: 'Link do Key System: https://link-aqui.com',
+  keySystemText: 'Fácil de fazer',
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   
   devs: [
-    { id: '1163467888259239996', role: 'Main Dev' },
+    { id: '1163467888259239996', role: 'Dev' },
     { id: '1062463366792216657', role: 'CMO' }
   ],
   
@@ -350,7 +350,7 @@ export default function Home() {
               className="video-container" 
               onClick={withSound(() => setVideoActive(true))}
               role="button"
-              aria-label="Reproduzir vídeo showcase"
+              aria-label="Reproduzir vídeo"
               tabIndex={0}
             >
               {!videoActive ? (
