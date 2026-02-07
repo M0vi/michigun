@@ -5,37 +5,40 @@ import { JetBrains_Mono } from 'next/font/google'
 const jetbrains = JetBrains_Mono({ subsets: ['latin'] })
 
 export const viewport: Viewport = {
-  themeColor: '#FF0000', 
+  themeColor: '#FFFFFF', // Cor da barra lateral
 }
 
 export const metadata: Metadata = {
-  // ... outras configurações
-  title: {
-    default: 'Michigun Script | Elite Roblox Hub', 
-    template: '%s | Michigun'
-  },
-  // AQUI VAI O TEXTO (Escolha uma das opções acima):
-  description: 'A ferramenta definitiva para o cenário de Exército Brasileiro no Roblox. O Michigun oferece um conjunto robusto de funcionalidades. Usuários Premium têm acesso imediato sem Key System e ferramentas exclusivas.',
+  metadataBase: new URL('https://michigun.xyz'), // Importante para a imagem carregar
+
+  description: 'O script de elite para Exército Brasileiro. Acesse funções exclusivas e garanta sua superioridade no jogo com a ferramenta mais confiável e otimizada da atualidade.',
   
   openGraph: {
-    // Título do Embed
     title: 'michigun.xyz',
-    // Descrição do Embed (A mesma de cima)
-    description: 'O melhor script feito para jogos de Exército Brasileiro no Roblox, que possui diversas funções exclusivas para garantir sua vitória no jogo!',
+    description: 'O script de elite para Exército Brasileiro. Acesse funções exclusivas e garanta sua superioridade no jogo com a ferramenta mais confiável e otimizada da atualidade.',
     url: 'https://michigun.xyz',
-    siteName: 'michigun.xyz',
+    siteName: '@fp3', // Isso aparece pequeno no "rodapé" do embed
     images: [
       {
         url: '/avatar.png',
-        width: 800,
-        height: 600,
-        alt: 'imagem',
+        width: 500, // Recomendo imagem quadrada para ficar pequena perfeita
+        height: 500,
+        alt: 'logo',
       },
     ],
     locale: 'pt_BR',
     type: 'website',
   },
+
+  // 👇 É ISSO AQUI QUE DEIXA A IMAGEM PEQUENA
+  twitter: {
+    card: 'summary', // 'summary' = pequena. 'summary_large_image' = grande.
+    title: 'michigun.xyz',
+    description: 'michigun.xyz',
+    images: ['/avatar.png'], // Mesma imagem
+  },
 }
+
 
 export default function RootLayout({
   children,
