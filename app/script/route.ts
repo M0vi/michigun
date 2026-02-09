@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
     return new NextResponse(null, { status: 200 })
   }
 
-  const scriptReal = `loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"))()`
+  const scriptUrl = "https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"
+  let scriptToReturn = `loadstring(game:HttpGet("${scriptUrl}"))()`
 
   try {
     const userId = req.headers.get('x-user-id')
@@ -23,8 +24,6 @@ export async function GET(req: NextRequest) {
     const timestamp = req.headers.get('x-timestamp')
     const signature = req.headers.get('x-signature')
     const secret = process.env.SCRIPT_SECRET
-
-    let isValid = false
 
     if (userId && placeId && timestamp && signature && secret) {
       const now = Math.floor(Date.now() / 1000)
@@ -35,25 +34,33 @@ export async function GET(req: NextRequest) {
         const expectedSignature = crypto.createHash('sha256').update(dataString).digest('hex')
 
         if (signature === expectedSignature) {
-          isValid = true
+          const dedupeKey = `dedupe:${signature}`
+          
+          // Tenta reservar essa execução por 15 segundos
+          const isFirstRequest = await redis.set(dedupeKey, '1', { ex: 15, nx: true })
+
+          if (!isFirstRequest) {
+            // SE FOR DUPLICADA: Retorna código vazio para não executar 2x
+            return new NextResponse('print("Execução duplicada ignorada pelo servidor.")', {
+              status: 200,
+              headers: { 'Content-Type': 'text/plain' },
+            })
+          }
+
+          const dateKey = `daily_executions:${getBrazilDateKey()}`
+          await Promise.all([
+            redis.incr('script_executions'),
+            redis.incr(dateKey)
+          ])
+          redis.expire(dateKey, 172800)
         }
       }
     }
-
-    if (isValid) {
-      const dateKey = `daily_executions:${getBrazilDateKey()}`
-      await Promise.all([
-        redis.incr('script_executions'),
-        redis.incr(dateKey)
-      ])
-      redis.expire(dateKey, 172800)
-    }
-
   } catch (error) {
     console.error(error)
   }
 
-  return new NextResponse(scriptReal, {
+  return new NextResponse(scriptToReturn, {
     status: 200,
     headers: { 'Content-Type': 'text/plain' },
   })
