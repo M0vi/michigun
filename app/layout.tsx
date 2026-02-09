@@ -4,8 +4,6 @@ import { JetBrains_Mono } from 'next/font/google'
 
 const jetbrains = JetBrains_Mono({ subsets: ['latin'] })
 
-import type { Metadata, Viewport } from 'next'
-
 export const viewport: Viewport = {
   themeColor: '#FFFFFF',
 }
