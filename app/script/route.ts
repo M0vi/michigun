@@ -15,14 +15,14 @@ export async function GET(req: NextRequest) {
     return new NextResponse(null, { status: 200 })
   }
 
-  const scriptUrl = "https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"
-  let scriptToReturn = `loadstring(game:HttpGet("${scriptUrl}"))()`
+  const scriptToReturn = `loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"))()`
 
   try {
     const userId = req.headers.get('x-user-id')
     const placeId = req.headers.get('x-place-id')
     const timestamp = req.headers.get('x-timestamp')
     const signature = req.headers.get('x-signature')
+    const mode = req.headers.get('x-mode')
     const secret = process.env.SCRIPT_SECRET
 
     if (userId && placeId && timestamp && signature && secret) {
@@ -36,23 +36,20 @@ export async function GET(req: NextRequest) {
         if (signature === expectedSignature) {
           const dedupeKey = `dedupe:${signature}`
           
-          // Tenta reservar essa execução por 15 segundos
-          const isFirstRequest = await redis.set(dedupeKey, '1', { ex: 15, nx: true })
+          const isNewRequest = await redis.set(dedupeKey, '1', { ex: 30, nx: true })
 
-          if (!isFirstRequest) {
-            // SE FOR DUPLICADA: Retorna código vazio para não executar 2x
-            return new NextResponse('print("Execução duplicada ignorada pelo servidor.")', {
-              status: 200,
-              headers: { 'Content-Type': 'text/plain' },
-            })
+          if (isNewRequest) {
+            const dateKey = `daily_executions:${getBrazilDateKey()}`
+            await Promise.all([
+              redis.incr('script_executions'),
+              redis.incr(dateKey)
+            ])
+            redis.expire(dateKey, 172800)
           }
 
-          const dateKey = `daily_executions:${getBrazilDateKey()}`
-          await Promise.all([
-            redis.incr('script_executions'),
-            redis.incr(dateKey)
-          ])
-          redis.expire(dateKey, 172800)
+          if (mode === 'check') {
+            return new NextResponse('OK', { status: 200 })
+          }
         }
       }
     }
