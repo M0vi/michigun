@@ -10,70 +10,48 @@ function getBrazilDateKey() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" })
 }
 
-export async function GET() {
-  const dateKey = `daily_executions:${getBrazilDateKey()}`
-  
-  const [total, daily] = await Promise.all([
-    redis.get<number>('script_executions'),
-    redis.get<number>(dateKey)
-  ])
-  
-  return NextResponse.json({
-    executions: total || 0,
-    daily: daily || 0
-  }, { status: 200 })
-}
-
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const body = await req.json().catch(() => null)
-    
-    if (!body) return NextResponse.json({ error: 'Body vazio' }, { status: 400 })
-    
-    const envKey = process.env.API_KEY || ''
-    const { userId, timestamp, signature } = body
-    
-    if (!userId || !timestamp || !signature) {
-      return NextResponse.json({ error: 'Dados faltando' }, { status: 400 })
+    const userId = req.headers.get('x-user-id')
+    const placeId = req.headers.get('x-place-id')
+    const timestamp = req.headers.get('x-timestamp')
+    const signature = req.headers.get('x-signature')
+    const secret = process.env.SCRIPT_SECRET || ''
+
+    if (!userId || !placeId || !timestamp || !signature || !secret) {
+      return new NextResponse('Access Denied', { status: 403 })
     }
-    
+
     const now = Math.floor(Date.now() / 1000)
     const reqTime = Number(timestamp)
-    
-    if (now - reqTime > 60 || reqTime > now + 5) {
-      return NextResponse.json({ error: 'Request expirada' }, { status: 403 })
+
+    if (isNaN(reqTime) || Math.abs(now - reqTime) > 60) {
+      return new NextResponse('Expired', { status: 403 })
     }
-    
-    const dataString = `${userId}${timestamp}${envKey}`
+
+    const dataString = `${userId}${placeId}${timestamp}${secret}`
     const expectedSignature = crypto.createHash('sha256').update(dataString).digest('hex')
-    
+
     if (signature !== expectedSignature) {
-      return NextResponse.json({ error: 'Assinatura inválida' }, { status: 403 })
+      return new NextResponse('Invalid Signature', { status: 403 })
     }
-    
-    const rateLimitKey = `limit:user:${userId}`
-    const allowed = await redis.set(rateLimitKey, '1', { ex: 30, nx: true })
-    
-    if (!allowed) {
-      return NextResponse.json({ error: 'Rate Limit' }, { status: 429 })
-    }
-    
+
     const dateKey = `daily_executions:${getBrazilDateKey()}`
     
-    const [newTotal, newDaily] = await Promise.all([
+    await Promise.all([
       redis.incr('script_executions'),
       redis.incr(dateKey)
     ])
-    
     redis.expire(dateKey, 172800)
-    
-    return NextResponse.json({
-      success: true,
-      executions: newTotal,
-      daily: newDaily
-    }, { status: 200 })
-    
+
+    const luaCode = `loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"))()`
+
+    return new NextResponse(luaCode, {
+      status: 200,
+      headers: { 'Content-Type': 'text/plain' },
+    })
+
   } catch (error) {
-    return NextResponse.json({ error: 'Server Error' }, { status: 500 })
+    return new NextResponse('Server Error', { status: 500 })
   }
 }
