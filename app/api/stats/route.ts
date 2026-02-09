@@ -6,18 +6,12 @@ export const dynamic = 'force-dynamic'
 
 const redis = Redis.fromEnv()
 
-// Helper para pegar a data atual em Brasília (YYYY-MM-DD)
 function getBrazilDateKey() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" })
 }
 
 export async function GET() {
-  // Coloque o código do seu script Lua dentro desta string (usando crase ` `)
-  const luaScript = `
-    loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()
-  `
-  
-  return new NextResponse(luaScript, {
+  return new NextResponse('loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()', {
     status: 200,
     headers: {
       'Content-Type': 'text/plain',
@@ -36,12 +30,10 @@ export async function POST(req: NextRequest) {
     const { userId, timestamp, signature } = body
     const envKey = process.env.API_KEY
     
-    // 1. Validação de Dados
     if (!userId || !timestamp || !signature) {
       return NextResponse.json({ error: 'Dados faltando' }, { status: 400 })
     }
     
-    // 2. Validação de Tempo
     const now = Math.floor(Date.now() / 1000)
     const reqTime = Number(timestamp)
     
@@ -49,7 +41,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Request expirada' }, { status: 403 })
     }
     
-    // 3. Validação de Integridade (HMAC)
     const dataString = `${userId}${timestamp}${envKey}`
     const expectedSignature = crypto.createHash('sha256').update(dataString).digest('hex')
     
@@ -57,7 +48,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Assinatura inválida' }, { status: 403 })
     }
     
-    // 4. Rate Limit
     const rateLimitKey = `limit:user:${userId}`
     const allowed = await redis.set(rateLimitKey, '1', { ex: 30, nx: true })
     
@@ -65,15 +55,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Rate Limit' }, { status: 429 })
     }
     
-    // 5. Incremento (Total e Diário)
     const dateKey = `daily_executions:${getBrazilDateKey()}`
     
     const [newTotal, newDaily] = await Promise.all([
-      redis.incr('script_executions'), // Incrementa Total
-      redis.incr(dateKey) // Incrementa Diário
+      redis.incr('script_executions'),
+      redis.incr(dateKey)
     ])
     
-    // Expira a chave diária em 48h para limpar o banco
     redis.expire(dateKey, 172800)
     
     return NextResponse.json({
@@ -83,7 +71,6 @@ export async function POST(req: NextRequest) {
     }, { status: 200 })
     
   } catch (error) {
-    console.error(error)
     return NextResponse.json({ error: 'Server Error' }, { status: 500 })
   }
 }
