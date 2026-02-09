@@ -10,7 +10,6 @@ function getBrazilDateKey() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" })
 }
 
-// GET: Retorna JSON para o site mostrar os números
 export async function GET() {
   const dateKey = `daily_executions:${getBrazilDateKey()}`
   
@@ -25,7 +24,6 @@ export async function GET() {
   }, { status: 200 })
 }
 
-// POST: Recebe o ping do script Lua para contar a execução
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => null)
@@ -33,8 +31,6 @@ export async function POST(req: NextRequest) {
     if (!body) return NextResponse.json({ error: 'Body vazio' }, { status: 400 })
     
     const envKey = process.env.API_KEY || ''
-    if (!envKey) return NextResponse.json({ error: 'Config error' }, { status: 500 })
-
     const { userId, timestamp, signature } = body
     
     if (!userId || !timestamp || !signature) {
@@ -58,7 +54,9 @@ export async function POST(req: NextRequest) {
     const rateLimitKey = `limit:user:${userId}`
     const allowed = await redis.set(rateLimitKey, '1', { ex: 30, nx: true })
     
-    if (!allowed) return NextResponse.json({ error: 'Rate Limit' }, { status: 429 })
+    if (!allowed) {
+      return NextResponse.json({ error: 'Rate Limit' }, { status: 429 })
+    }
     
     const dateKey = `daily_executions:${getBrazilDateKey()}`
     
