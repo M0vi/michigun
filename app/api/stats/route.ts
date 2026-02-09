@@ -10,30 +10,30 @@ function getBrazilDateKey() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" })
 }
 
+// GET: Retorna JSON para o site mostrar os números
 export async function GET() {
-  return new NextResponse('loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()', {
-    status: 200,
-    headers: {
-      'Content-Type': 'text/plain',
-    },
-  })
+  const dateKey = `daily_executions:${getBrazilDateKey()}`
+  
+  const [total, daily] = await Promise.all([
+    redis.get<number>('script_executions'),
+    redis.get<number>(dateKey)
+  ])
+  
+  return NextResponse.json({
+    executions: total || 0,
+    daily: daily || 0
+  }, { status: 200 })
 }
 
+// POST: Recebe o ping do script Lua para contar a execução
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => null)
     
-    if (!body) {
-      return NextResponse.json({ error: 'Body vazio' }, { status: 400 })
-    }
+    if (!body) return NextResponse.json({ error: 'Body vazio' }, { status: 400 })
     
-    // Força o TypeScript a entender que isso é uma string ou vazio
     const envKey = process.env.API_KEY || ''
-    
-    if (!envKey) {
-       console.error("API_KEY não configurada na Vercel")
-       return NextResponse.json({ error: 'Erro de configuração no servidor' }, { status: 500 })
-    }
+    if (!envKey) return NextResponse.json({ error: 'Config error' }, { status: 500 })
 
     const { userId, timestamp, signature } = body
     
@@ -58,9 +58,7 @@ export async function POST(req: NextRequest) {
     const rateLimitKey = `limit:user:${userId}`
     const allowed = await redis.set(rateLimitKey, '1', { ex: 30, nx: true })
     
-    if (!allowed) {
-      return NextResponse.json({ error: 'Rate Limit' }, { status: 429 })
-    }
+    if (!allowed) return NextResponse.json({ error: 'Rate Limit' }, { status: 429 })
     
     const dateKey = `daily_executions:${getBrazilDateKey()}`
     
