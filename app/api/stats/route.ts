@@ -27,8 +27,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Body vazio' }, { status: 400 })
     }
     
+    // Força o TypeScript a entender que isso é uma string ou vazio
+    const envKey = process.env.API_KEY || ''
+    
+    if (!envKey) {
+       console.error("API_KEY não configurada na Vercel")
+       return NextResponse.json({ error: 'Erro de configuração no servidor' }, { status: 500 })
+    }
+
     const { userId, timestamp, signature } = body
-    const envKey = process.env.API_KEY
     
     if (!userId || !timestamp || !signature) {
       return NextResponse.json({ error: 'Dados faltando' }, { status: 400 })
