@@ -12,18 +12,17 @@ function getBrazilDateKey() {
 }
 
 export async function GET() {
-  const dateKey = `daily_executions:${getBrazilDateKey()}`
+  // Coloque o código do seu script Lua dentro desta string (usando crase ` `)
+  const luaScript = `
+    loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()
+  `
   
-  // Busca TOTAL e DIÁRIO simultaneamente
-  const [total, daily] = await Promise.all([
-    redis.get < number > ('script_executions'),
-    redis.get < number > (dateKey)
-  ])
-  
-  return NextResponse.json({
-    executions: total || 0,
-    daily: daily || 0
-  }, { status: 200 })
+  return new NextResponse(luaScript, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+  })
 }
 
 export async function POST(req: NextRequest) {
