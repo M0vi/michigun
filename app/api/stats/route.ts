@@ -13,8 +13,8 @@ export async function GET() {
   const dateKey = `daily_executions:${getBrazilDateKey()}`
   
   const [total, daily] = await Promise.all([
-    redis.get<number>('script_executions'),
-    redis.get<number>(dateKey)
+    redis.get < number > ('script_executions'),
+    redis.get < number > (dateKey)
   ])
   
   return NextResponse.json({

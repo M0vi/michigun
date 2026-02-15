@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import useSWR from 'swr'
 import { Copy, Check, Download, Key, MonitorPlay, AlertTriangle } from 'lucide-react'
 import { CONFIG } from '@/lib/constants'
-import { playSound } from '@/lib/utils'
+import { playSound, fetcher } from '@/lib/utils'
 import TeamSection from '@/components/TeamSection'
 import StatsDeck from '@/components/StatsDeck'
 import FeatureSection from '@/components/FeatureSection'
@@ -69,7 +70,7 @@ export default function Home() {
 
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-black text-white tracking-tighter cursor-default">
-            MICHIGUN<span className="text-zinc-500">.XYZ</span>
+            michigun<span className="text-zinc-500">.xyz</span>
           </h1>
           <p className="text-zinc-400 text-sm max-w-md mx-auto pointer-events-none">
              michigun.xyz
@@ -153,7 +154,7 @@ export default function Home() {
                   <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
                   <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                 </div>
-                <span className="text-zinc-500 ml-2">preview.lua</span>
+                <span className="text-zinc-500 ml-2">michigun.lua</span>
               </div>
               <div className="p-4 overflow-x-auto">
                 <CodeBlock code={CONFIG.script} />
@@ -192,7 +193,7 @@ export default function Home() {
                   <Image src={game.icon} alt={game.name} width={24} height={24} className="rounded-full bg-zinc-800 pointer-events-none" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-white leading-none">{game.name}</span>
-                    <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5 uppercase">Undetected</span>
+                    <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5 uppercase">Indetectado</span>
                   </div>
                 </div>
               ))}
@@ -204,6 +205,10 @@ export default function Home() {
 
       <footer className="text-center pb-8 space-y-2">
         <p className="text-xs font-bold text-zinc-700">© 2026 michigun.xyz</p>
+        <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-700">
+           <AlertTriangle size={10} />
+           <span>Código para fins educacionais. Use com responsabilidade.</span>
+        </div>
       </footer>
       
       <AnimatePresence>
@@ -222,4 +227,3 @@ export default function Home() {
     </main>
   )
 }
-  
