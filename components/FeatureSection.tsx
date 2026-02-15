@@ -12,8 +12,8 @@ export default function FeatureSection() {
   const [modal, setModal] = useState<{ open: boolean; title: string; desc: string } | null>(null)
 
   const filteredFeatures = useMemo(() => {
-    return CONFIG.features[activeTab].filter(f => 
-      f.name.toLowerCase().includes(search.toLowerCase()) || 
+    return CONFIG.features[activeTab].filter(f =>
+      f.name.toLowerCase().includes(search.toLowerCase()) ||
       f.desc.toLowerCase().includes(search.toLowerCase())
     )
   }, [activeTab, search])
@@ -24,9 +24,9 @@ export default function FeatureSection() {
         <h2 className="text-lg font-bold text-white">Funcionalidades</h2>
         <div className="relative w-full md:w-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={14} />
-          <input 
-            type="text" 
-            placeholder="Buscar função..." 
+          <input
+            type="text"
+            placeholder="Buscar função..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full md:w-64 bg-black/40 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-zinc-600 focus:border-red-500/50 transition-colors"
@@ -46,7 +46,7 @@ export default function FeatureSection() {
             )}
           >
             {activeTab === tab && (
-              <motion.div 
+              <motion.div
                 layoutId="tabHighlight"
                 className="absolute inset-0 bg-white/10 rounded-lg"
                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
@@ -57,8 +57,8 @@ export default function FeatureSection() {
         ))}
       </div>
 
-      <motion.div 
-        layout 
+      <motion.div
+        layout
         className="grid grid-cols-2 md:grid-cols-4 gap-3"
       >
         <AnimatePresence mode="popLayout">
@@ -78,20 +78,20 @@ export default function FeatureSection() {
                 item.type === 'safe' ? "bg-green-500" : item.type === 'risk' ? "bg-red-500" : "bg-purple-500",
                 "opacity-0 group-hover:opacity-100"
               )} />
-              
+
               <item.icon className="text-zinc-500 group-hover:text-white transition-colors mb-3" size={20} />
-              
+
               <div className="font-mono text-xs font-bold text-zinc-300 group-hover:text-white mb-1">
                 {item.name}
               </div>
-              
+
               <div className={cn(
                 "text-[10px] font-bold uppercase tracking-wider inline-block px-1.5 py-0.5 rounded",
-                item.type === 'safe' ? "text-green-400 bg-green-500/10" : 
-                item.type === 'risk' ? "text-red-400 bg-red-500/10" : 
-                "text-purple-400 bg-purple-500/10"
+                item.type === 'safe' ? "text-green-400 bg-green-500/10" :
+                  item.type === 'risk' ? "text-red-400 bg-red-500/10" :
+                    "text-purple-400 bg-purple-500/10"
               )}>
-                {item.type}
+                {item.type === 'safe' ? 'SEGURO' : item.type === 'risk' ? 'RISCO' : 'VISUAL'}
               </div>
             </motion.div>
           ))}
@@ -101,21 +101,21 @@ export default function FeatureSection() {
       <AnimatePresence>
         {modal?.open && (
           <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setModal(null)}
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               className="relative w-full max-w-sm bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 shadow-2xl overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
-              <button 
+              <button
                 onClick={() => setModal(null)}
                 className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
               >
