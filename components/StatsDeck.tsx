@@ -4,6 +4,7 @@ import useSWR from 'swr'
 import { fetcher } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { StatsData } from '@/lib/types'
+import { Activity, Clock, BarChart3 } from 'lucide-react'
 
 const CountUp = ({ end }: { end: number }) => {
   const [count, setCount] = useState(0)
@@ -47,33 +48,42 @@ const Countdown = () => {
     return () => clearInterval(timer)
   }, [])
 
-  return <span className="text-[10px] text-zinc-500 ml-2 font-mono">Reset: {timeLeft}</span>
+  return <span>{timeLeft}</span>
 }
 
 export default function StatsDeck() {
   const { data } = useSWR<StatsData>('/api/stats', fetcher, { refreshInterval: 10000 })
 
   return (
-    <div className="flex items-center gap-6 px-4">
-      <div className="flex flex-col">
+    <div className="grid grid-cols-3 divide-x divide-white/10 w-full">
+      <div className="flex flex-col items-center justify-center py-1 px-2">
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)] animate-pulse" />
-          <span className="text-[10px] font-bold text-green-400 tracking-widest">TOTAL</span>
+          <Activity size={12} className="text-zinc-500" />
+          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Total</span>
         </div>
-        <div className="font-mono text-xl font-bold leading-none text-white">
-          {data ? <CountUp end={data.executions} /> : '---'}
-        </div>
+        <span className="font-mono text-sm font-bold text-white">
+          {data ? <CountUp end={data.executions} /> : '...'}
+        </span>
       </div>
-      <div className="w-px h-8 bg-white/10" />
-      <div className="flex flex-col">
+
+      <div className="flex flex-col items-center justify-center py-1 px-2">
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.5)] animate-pulse" />
-          <span className="text-[10px] font-bold text-yellow-400 tracking-widest">HOJE</span>
+          <BarChart3 size={12} className="text-zinc-500" />
+          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Hoje</span>
+        </div>
+        <span className="font-mono text-sm font-bold text-white">
+          {data ? <CountUp end={data.daily} /> : '...'}
+        </span>
+      </div>
+
+      <div className="flex flex-col items-center justify-center py-1 px-2">
+        <div className="flex items-center gap-2 mb-1">
+          <Clock size={12} className="text-zinc-500" />
+          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Reset</span>
+        </div>
+        <span className="font-mono text-sm font-bold text-white">
           <Countdown />
-        </div>
-        <div className="font-mono text-xl font-bold leading-none text-white">
-          {data ? <CountUp end={data.daily} /> : '---'}
-        </div>
+        </span>
       </div>
     </div>
   )
