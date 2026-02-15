@@ -4,28 +4,8 @@ import path from 'path'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const headers = request.headers
-    const userAgent = headers.get('user-agent') || ''
-    const secFetchMode = headers.get('sec-fetch-mode')
-    const secFetchDest = headers.get('sec-fetch-dest')
-    const acceptLanguage = headers.get('accept-language')
-
-    if (
-      userAgent.includes('Mozilla') || 
-      userAgent.includes('Chrome') || 
-      userAgent.includes('Safari') || 
-      userAgent.includes('Edge') ||
-      userAgent.includes('Opera') ||
-      secFetchMode === 'navigate' ||
-      secFetchMode === 'cors' ||
-      secFetchDest === 'document' ||
-      acceptLanguage?.includes('text/html')
-    ) {
-      return new NextResponse(null, { status: 404 })
-    }
-
     const scriptsDir = path.join(process.cwd(), 'scripts')
 
     if (!fs.existsSync(scriptsDir)) {
@@ -44,9 +24,9 @@ export async function GET(request: Request) {
       const filePath = path.join(scriptsDir, file)
       const content = fs.readFileSync(filePath, 'utf8')
       
-      fullBundle += `\n\n-- [[ Inicio: ${file} ]] --\n\n`
+      fullBundle += `\n\n-- [[ START OF FILE: ${file} ]] --\n\n`
       fullBundle += content
-      fullBundle += `\n\n-- [[ Fim: ${file} ]] --\n\n`
+      fullBundle += `\n\n-- [[ END OF FILE: ${file} ]] --\n\n`
     }
 
     return new NextResponse(fullBundle, {
