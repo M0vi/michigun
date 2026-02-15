@@ -17,7 +17,7 @@ const TeamCard = ({ dev }: { dev: { id: string; role: string } }) => {
   const spotify = user?.listening_to_spotify && user.spotify
 
   let statusText = 'Offline'
-  let statusColor = '#555'
+  let statusColor = '#71717a'
 
   if (spotify) {
     statusText = `Ouvindo ${user.spotify.song}`
@@ -40,6 +40,12 @@ const TeamCard = ({ dev }: { dev: { id: string; role: string } }) => {
   } else if (user?.discord_status === 'online') {
     statusText = 'Online'
     statusColor = '#4ade80'
+  } else if (user?.discord_status === 'idle') {
+    statusText = 'Ausente'
+    statusColor = '#facc15'
+  } else if (user?.discord_status === 'dnd') {
+    statusText = 'Ocupado'
+    statusColor = '#ef4444'
   }
 
   const avatarUrl = user?.discord_user?.avatar 
