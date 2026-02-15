@@ -12,11 +12,11 @@ import StatsDeck from '@/components/StatsDeck'
 import FeatureSection from '@/components/FeatureSection'
 
 const CodeBlock = ({ code }: { code: string }) => (
-  <pre className="font-mono text-xs text-zinc-500 whitespace-pre-wrap break-all select-none">
-    <span className="text-zinc-400">loadstring</span>(
-    <span className="text-zinc-300">game</span>:
-    <span className="text-zinc-300">HttpGet</span>(
-    <span className="text-zinc-500">"{code.match(/"([^"]+)"/)?.[1]}"</span>
+  <pre className="font-mono text-xs text-zinc-400 whitespace-pre-wrap break-all">
+    <span className="text-purple-400">loadstring</span>(
+    <span className="text-blue-400">game</span>:
+    <span className="text-yellow-400">HttpGet</span>(
+    <span className="text-green-400">"{code.match(/"([^"]+)"/)?.[1]}"</span>
     ))()
   </pre>
 )
@@ -74,25 +74,24 @@ export default function Home() {
 
   return (
     <main className="w-full max-w-[680px] p-6 flex flex-col gap-10 relative z-10 select-none">
-      
       <TeamSection />
 
       <div className="relative flex flex-col gap-6">
-        {/* Glow de fundo sutil em branco para o estilo Noir */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/5 blur-[120px] -z-10 rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-500/10 blur-[100px] -z-10 rounded-full pointer-events-none" />
 
         <div className="text-center space-y-2">
+          {/* TÍTULO EM PRETO E BRANCO */}
           <h1 className="text-4xl font-black text-white tracking-tighter cursor-default">
-            MICHIGUN<span className="text-zinc-600">.XYZ</span>
+            michigun<span className="text-zinc-500">.xyz</span>
           </h1>
-          <p className="text-zinc-500 text-sm max-w-md mx-auto pointer-events-none font-medium">
+          <p className="text-zinc-400 text-sm max-w-md mx-auto select-none">
              michigun.xyz
           </p>
         </div>
 
         <div className="glass-panel p-2 rounded-2xl shadow-2xl overflow-hidden group">
           <div 
-            className="relative aspect-video bg-black rounded-xl overflow-hidden cursor-pointer border border-white/10"
+            className="relative aspect-video bg-black rounded-xl overflow-hidden cursor-pointer border border-white/5"
             onClick={() => { setVideoActive(true); playSound('click'); }}
           >
             {!videoActive ? (
@@ -101,11 +100,11 @@ export default function Home() {
                   src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                   alt="Thumbnail" 
                   fill 
-                  className="object-cover opacity-60 group-hover/video:opacity-100 group-hover/video:scale-105 transition-all duration-700 pointer-events-none grayscale"
+                  className="object-cover opacity-80 group-hover/video:opacity-100 group-hover/video:scale-105 transition-all duration-500"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/20 shadow-lg group-hover/video:scale-110 group-hover/video:bg-white group-hover/video:border-white transition-all duration-300">
-                    <MonitorPlay className="fill-white text-white group-hover/video:fill-black group-hover/video:text-black ml-1 transition-colors" size={24} />
+                  <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-lg group-hover/video:scale-110 transition-transform">
+                    <MonitorPlay className="fill-white text-white ml-1" size={24} />
                   </div>
                 </div>
               </div>
@@ -120,22 +119,22 @@ export default function Home() {
           </div>
 
           <div className="mt-4 p-2 flex flex-col gap-4">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-zinc-900/40 rounded-xl p-3 border border-white/5">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/40 rounded-xl p-3 border border-white/5">
               <StatsDeck />
               
               <div className="flex gap-2 w-full sm:w-auto">
                 <button 
                   onClick={handleCopy}
-                  className="flex-1 sm:flex-none h-11 px-6 bg-white text-black rounded-lg font-bold text-sm hover:bg-zinc-300 active:scale-95 transition-all flex items-center justify-center gap-2 group/btn"
+                  className="flex-1 sm:flex-none h-11 px-6 bg-white text-black rounded-lg font-bold text-sm hover:bg-zinc-200 active:scale-95 transition-all flex items-center justify-center gap-2 group/btn"
                 >
-                  {copied ? <Check size={18} className="text-black" /> : <Copy size={18} className="group-hover/btn:rotate-12 transition-transform" />}
+                  {copied ? <Check size={18} className="text-green-600" /> : <Copy size={18} className="group-hover/btn:rotate-12 transition-transform" />}
                   {copied ? 'COPIADO' : 'COPIAR'}
                 </button>
                 
                 <div className="relative">
                   <button 
                     onClick={() => setShowDownload(!showDownload)}
-                    className="h-11 w-11 bg-zinc-900 rounded-lg flex items-center justify-center hover:bg-white hover:text-black active:scale-95 transition-all text-white border border-white/10"
+                    className="h-11 w-11 bg-zinc-800 rounded-lg flex items-center justify-center hover:bg-zinc-700 active:scale-95 transition-all text-white border border-white/5"
                     aria-label="Download Options"
                   >
                     <Download size={18} />
@@ -149,10 +148,10 @@ export default function Home() {
                           initial={{ opacity: 0, y: 10, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          className="absolute bottom-full right-0 mb-2 w-32 bg-black border border-white/20 rounded-xl overflow-hidden shadow-2xl z-50 flex flex-col"
+                          className="absolute bottom-full right-0 mb-2 w-32 bg-zinc-900 border border-white/10 rounded-xl overflow-hidden shadow-xl z-50 flex flex-col"
                         >
-                          <button onClick={() => handleDownload('txt')} className="px-4 py-3 text-xs text-left hover:bg-white hover:text-black text-zinc-400 transition-colors">Arquivo .txt</button>
-                          <button onClick={() => handleDownload('lua')} className="px-4 py-3 text-xs text-left hover:bg-white hover:text-black text-zinc-400 transition-colors border-t border-white/10">Arquivo .lua</button>
+                          <button onClick={() => handleDownload('txt')} className="px-4 py-3 text-xs text-left hover:bg-white/5 text-zinc-300 hover:text-white transition-colors">Arquivo .txt</button>
+                          <button onClick={() => handleDownload('lua')} className="px-4 py-3 text-xs text-left hover:bg-white/5 text-zinc-300 hover:text-white transition-colors border-t border-white/5">Arquivo .lua</button>
                         </motion.div>
                       </>
                     )}
@@ -161,14 +160,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-black rounded-xl border border-white/10 overflow-hidden font-mono text-xs">
-              <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 border-b border-white/10">
+            <div className="bg-[#0d0d0d] rounded-xl border border-white/5 overflow-hidden font-mono text-xs">
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border-b border-white/5">
                 <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-zinc-600" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                 </div>
-                <span className="text-zinc-500 ml-2">michigun.lua</span>
+                <span className="text-zinc-500 ml-2">preview.lua</span>
               </div>
               <div className="p-4 overflow-x-auto">
                 <CodeBlock code={CONFIG.script} />
@@ -176,14 +175,14 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-               <button className="flex items-center justify-center gap-2 p-3 rounded-xl bg-zinc-900/30 border border-white/5 text-xs font-bold text-zinc-500 hover:bg-white hover:text-black transition-all group">
-                 <Key size={14} className="group-hover:text-black transition-colors" />
+               <button className="flex items-center justify-center gap-2 p-3 rounded-xl bg-zinc-900/50 border border-white/5 text-xs font-bold text-zinc-400 hover:bg-white/5 hover:text-white transition-all group">
+                 <Key size={14} className="group-hover:text-yellow-400 transition-colors" />
                  {CONFIG.keySystemText}
                </button>
                <a 
                  href={CONFIG.discordLink} 
                  target="_blank" 
-                 className="flex items-center justify-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-zinc-300 hover:bg-white hover:text-black transition-all"
+                 className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#5865F2]/10 border border-[#5865F2]/20 text-xs font-bold text-[#5865F2] hover:bg-[#5865F2] hover:text-white transition-all"
                >
                  Suporte
                </a>
@@ -194,8 +193,8 @@ export default function Home() {
 
       <div className="space-y-4 overflow-hidden w-full">
         <div className="flex items-center justify-between px-2">
-          <h3 className="text-sm font-bold text-zinc-500">Jogos suportados</h3>
-          <span className="text-[10px] bg-white/10 text-white px-2 py-0.5 rounded-full font-bold border border-white/10">
+          <h3 className="text-sm font-bold text-zinc-400">Jogos suportados</h3>
+          <span className="text-[10px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-bold">
             {CONFIG.games.length} ATIVOS
           </span>
         </div>
@@ -205,36 +204,33 @@ export default function Home() {
               {infiniteGames.map((game, i) => (
                 <div 
                   key={i} 
-                  className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap hover:border-white transition-colors select-none"
+                  className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap hover:border-white/20 transition-colors select-none"
                 >
                   <Image 
                     src={game.icon} 
                     alt={game.name} 
                     width={24} 
                     height={24} 
-                    className="rounded-full bg-black pointer-events-none grayscale"
-                    onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=Game&background=111&color=fff' }}
+                    className="rounded-full bg-zinc-800"
+                    onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=Game&background=333&color=fff' }}
                   />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-white leading-none">{game.name}</span>
-                    <span className="text-[10px] text-zinc-500 font-bold leading-none mt-0.5 uppercase">Undetected</span>
+                    <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5 uppercase">Undetected</span>
                   </div>
                 </div>
               ))}
            </div>
-           {/* Fade suave nas laterais do carrossel */}
-           <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-black to-transparent pointer-events-none" />
-           <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-black to-transparent pointer-events-none" />
         </div>
       </div>
 
       <FeatureSection />
 
       <footer className="text-center pb-8 space-y-2">
-        <p className="text-xs font-bold text-zinc-700">© 2026 Michigun Team</p>
-        <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-800">
+        <p className="text-xs font-bold text-zinc-600">© 2026 michigun.xyz</p>
+        <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-700">
            <AlertTriangle size={10} />
-           <span>Uso restrito para fins educacionais.</span>
+           <span>Use com responsabilidade</span>
         </div>
       </footer>
       
@@ -246,7 +242,7 @@ export default function Home() {
             exit={{ y: 50, opacity: 0 }}
             className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-3 rounded-full font-bold shadow-2xl z-[100] flex items-center gap-2 pointer-events-none"
           >
-            <Check size={16} className="text-black" />
+            <Check size={16} className="text-green-600" />
             Copiado!
           </motion.div>
         )}

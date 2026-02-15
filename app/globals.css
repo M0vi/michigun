@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --bg: #000000;
+  --bg: #030303;
   --surface: #0a0a0a;
-  --surface-border: #333333;
-  --brand: #ffffff;
-  --discord: #ffffff;
-  --text-secondary: #888888;
+  --surface-border: #1f1f1f;
+  --brand: #ff3e3e;
+  --discord: #5865F2;
+  --text-secondary: #a1a1a1;
 }
 
 html {
@@ -18,11 +18,11 @@ html {
 body {
   background-color: var(--bg);
   color: #ffffff;
-  
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(255, 62, 62, 0.08) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(88, 101, 242, 0.08) 0%, transparent 20%);
   background-attachment: fixed;
-  user-select: none;
+  user-select: none; /* Proíbe seleção */
   -webkit-user-select: none;
 }
 
@@ -39,18 +39,13 @@ body {
   animation-play-state: paused;
 }
 
-::selection {
-  background: #333;
-  color: #fff;
-}
-
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #fff; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand); }
 
 .glass-panel {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(10, 10, 10, 0.7);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
