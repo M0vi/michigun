@@ -1,4 +1,5 @@
--- sai daqui :(
+-- sai daqui, quer a source pra quê? :(
+
 return {
     silent = "silent.lua",
     hitbox = "hitbox.lua",
@@ -6,7 +7,7 @@ return {
     tas = "tas.lua",
     jj = "jj.lua",
     f3x = "f3x.lua",
-    char = "char.lua",
+    char = "char2.lua",
     antilag = "antilag.lua",
     chatgpt = "chatgpt.lua",
     player = "player.lua",
