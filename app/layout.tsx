@@ -14,12 +14,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://michigun.xyz'),
   title: 'michigun.xyz',
-  description: 'O melhor script para Exército Brasileiro do Roblox',
+  description: 'O melhor script para jogos de Exército Brasileiro no Roblox. Desenvolvido e mantido por @fp3',
   keywords: ['roblox', 'script', 'exercito brasileiro', 'michigun', 'delta', 'executor'],
   authors: [{ name: 'michigun.xyz' }],
   openGraph: {
     title: 'michigun.xyz',
-    description: 'Acesse funções exclusivas',
+    description: 'O melhor script para jogos de Exército Brasileiro no Roblox. Desenvolvido e mantido por @fp3',
     url: 'https://michigun.xyz',
     siteName: 'michigun.xyz',
     images: [{ url: '/avatar.png', width: 500, height: 500 }],
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'michigun.xyz',
-    description: 'O melhor script para jogos de Exército Brasileiro no Roblox',
+    description: 'O melhor script para jogos de Exército Brasileiro no Roblox. Desenvolvido e mantido por @fp3',
     images: ['/avatar.png'],
   },
 }

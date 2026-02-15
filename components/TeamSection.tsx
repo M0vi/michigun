@@ -30,8 +30,21 @@ const TeamCard = ({ dev }: { dev: { id: string; role: string } }) => {
     } else if (user.discord_status === 'online') { 
       statusText = 'Online'
       statusColor = '#4ade80' 
+    } else if (user.discord_status === 'idle') {
+      statusText = 'Ausente'
+      statusColor = '#facc15'
+    } else if (user.discord_status === 'dnd') {
+      statusText = 'Ocupado'
+      statusColor = '#ef4444'
     }
+  } else if (user?.discord_status === 'online') {
+    statusText = 'Online'
+    statusColor = '#4ade80'
   }
+
+  const avatarUrl = user?.discord_user?.avatar 
+    ? `https://cdn.discordapp.com/avatars/${dev.id}/${user.discord_user.avatar}.png`
+    : `https://ui-avatars.com/api/?name=Dev&background=333&color=fff`
 
   return (
     <div 
@@ -40,12 +53,12 @@ const TeamCard = ({ dev }: { dev: { id: string; role: string } }) => {
     >
       <div className="relative">
         <Image
-          src={`https://cdn.discordapp.com/avatars/${dev.id}/${user?.discord_user?.avatar}.png`}
+          src={avatarUrl}
           alt="Avatar"
           width={42}
           height={42}
-          className="rounded-full border-2 border-white/10"
-          onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=Dev&background=333&color=fff' }}
+          className="rounded-full border-2 border-white/10 bg-zinc-800"
+          unoptimized
         />
         <div 
           className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0a0a0a]"
@@ -53,7 +66,7 @@ const TeamCard = ({ dev }: { dev: { id: string; role: string } }) => {
         />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="font-bold text-sm text-white truncate">{user?.discord_user?.username || 'Dev'}</div>
+        <div className="font-bold text-sm text-white truncate">{user?.discord_user?.username || 'Carregando...'}</div>
         <div className="text-xs text-zinc-500 font-semibold">{dev.role}</div>
         
         {spotify ? (
