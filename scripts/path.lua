@@ -1,4 +1,4 @@
--- [[ sai daqui cara :sob:]]
+-- sai daqui :(
 return {
     silent = "silent.lua",
     hitbox = "hitbox.lua",
