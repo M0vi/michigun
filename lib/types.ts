@@ -1,7 +1,7 @@
 export interface FeatureItem {
   name: string
   icon: any
-  type: 'safe' | 'risk' | 'visual'
+  type: 'INDETECTAVEL' | 'RISCO' | 'VISUAL'
   desc: string
 }
 
