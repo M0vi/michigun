@@ -183,7 +183,7 @@ export default function Home() {
                   <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
                   <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                 </div>
-                <span className="text-zinc-500 ml-2">preview.lua</span>
+                <span className="text-zinc-500 ml-2">michigun.lua</span>
               </div>
               <div className="p-4 overflow-x-auto">
                 <CodeBlock code={CONFIG.script} />
@@ -235,7 +235,7 @@ export default function Home() {
                   />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-white leading-none">{game.name}</span>
-                    <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5">UNDETECTED</span>
+                    <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5">Indetectado</span>
                   </div>
                 </div>
               ))}
@@ -246,10 +246,10 @@ export default function Home() {
       <FeatureSection />
 
       <footer className="text-center pb-8 space-y-2">
-        <p className="text-xs font-bold text-zinc-600">© 2026 Michigun Team</p>
+        <p className="text-xs font-bold text-zinc-600">© 2026 michigun.xyz</p>
         <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-700">
            <AlertTriangle size={10} />
-           <span>Código para fins educacionais. Use com responsabilidade.</span>
+           <span>Use com responsabilidade</span>
         </div>
       </footer>
       
