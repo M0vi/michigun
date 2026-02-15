@@ -6,29 +6,33 @@ import { fetcher, playSound } from '@/lib/utils'
 import { CONFIG } from '@/lib/constants'
 import { Music } from 'lucide-react'
 
-const TeamCard = ({ dev }: { dev: { id: string;role: string } }) => {
-  const { data } = useSWR < { success: boolean;data: any } > (
+const TeamCard = ({ dev }: { dev: { id: string; role: string } }) => {
+  const { data } = useSWR<{ success: boolean; data: any }>(
     `https://api.lanyard.rest/v1/users/${dev.id}`,
-    fetcher, { refreshInterval: 30000 }
+    fetcher,
+    { refreshInterval: 30000 }
   )
-  
+
   const user = data?.success ? data.data : null
   const spotify = user?.listening_to_spotify && user.spotify
-  
+
   let statusText = 'Offline'
   let statusColor = '#555'
-  
+
   if (spotify) {
     statusText = `Ouvindo ${user.spotify.song}`
     statusColor = '#1DB954'
   } else if (user?.activities?.length > 0) {
     const vscode = user.activities.find((a: any) => a.name === 'Visual Studio Code' || a.name === 'Code')
-    if (vscode) { statusText = 'Codando';
-      statusColor = '#007acc' }
-    else if (user.discord_status === 'online') { statusText = 'Online';
-      statusColor = '#4ade80' }
+    if (vscode) { 
+      statusText = 'Codando'
+      statusColor = '#007acc' 
+    } else if (user.discord_status === 'online') { 
+      statusText = 'Online'
+      statusColor = '#4ade80' 
+    }
   }
-  
+
   return (
     <div 
       className="flex items-center gap-3 p-3 bg-white/5 border border-white/5 rounded-xl transition-all hover:bg-white/10 hover:-translate-y-1 group"
