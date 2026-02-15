@@ -3,10 +3,9 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import useSWR from 'swr'
 import { Copy, Check, Download, Key, MonitorPlay, AlertTriangle } from 'lucide-react'
 import { CONFIG } from '@/lib/constants'
-import { playSound, fetcher } from '@/lib/utils'
+import { playSound } from '@/lib/utils'
 import TeamSection from '@/components/TeamSection'
 import StatsDeck from '@/components/StatsDeck'
 import FeatureSection from '@/components/FeatureSection'
@@ -70,7 +69,7 @@ export default function Home() {
 
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-black text-white tracking-tighter cursor-default">
-            michigun<span className="text-zinc-500">.xyz</span>
+            MICHIGUN<span className="text-zinc-500">.XYZ</span>
           </h1>
           <p className="text-zinc-400 text-sm max-w-md mx-auto pointer-events-none">
              michigun.xyz
@@ -123,7 +122,6 @@ export default function Home() {
                   <button 
                     onClick={() => setShowDownload(!showDownload)}
                     className="h-11 w-11 bg-zinc-800 rounded-lg flex items-center justify-center hover:bg-zinc-700 active:scale-95 transition-all text-white border border-white/5"
-                    aria-label="Download Options"
                   >
                     <Download size={18} />
                   </button>
@@ -191,7 +189,7 @@ export default function Home() {
            <div className="flex gap-3 w-max animate-scroll">
               {infiniteGames.map((game, i) => (
                 <div key={i} className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap">
-                  <Image src={game.icon} alt={game.name} width={24} height={24} className="rounded-full bg-zinc-800" />
+                  <Image src={game.icon} alt={game.name} width={24} height={24} className="rounded-full bg-zinc-800 pointer-events-none" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-white leading-none">{game.name}</span>
                     <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5 uppercase">Undetected</span>
@@ -205,7 +203,7 @@ export default function Home() {
       <FeatureSection />
 
       <footer className="text-center pb-8 space-y-2">
-        <p className="text-xs font-bold text-zinc-700">© 2026 Michigun Team</p>
+        <p className="text-xs font-bold text-zinc-700">© 2026 michigun.xyz</p>
       </footer>
       
       <AnimatePresence>
@@ -224,3 +222,4 @@ export default function Home() {
     </main>
   )
 }
+  
