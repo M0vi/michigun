@@ -2,7 +2,7 @@
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}", // <--- OBRIGATÓRIO: Aponta para sua pasta components na raiz
     "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
