@@ -1,52 +1,45 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
+import { GeistSans } from 'geist/font/sans'
 import { JetBrains_Mono } from 'next/font/google'
 
-const jetbrains = JetBrains_Mono({ subsets: ['latin'] })
+const jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 export const viewport: Viewport = {
-  themeColor: '#FFFFFF',
+  themeColor: '#030303',
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://michigun.xyz'),
-  title: 'michigun.xyz',
-  description: 'O script de elite para Exército Brasileiro. Acesse funções exclusivas e garanta sua superioridade no jogo com a ferramenta mais confiável e otimizada da atualidade.',
+  title: 'michigun.xyz - Elite Script',
+  description: 'O script de elite para Exército Brasileiro. Domine o jogo com funções exclusivas e otimização máxima.',
+  keywords: ['roblox', 'script', 'exercito brasileiro', 'michigun', 'delta', 'executor'],
+  authors: [{ name: 'Michigun Team' }],
   openGraph: {
     title: 'michigun.xyz',
-    description: 'O script de elite para Exército Brasileiro. Acesse funções exclusivas e garanta sua superioridade no jogo com a ferramenta mais confiável e otimizada da atualidade.',
+    description: 'Acesse funções exclusivas e garanta sua superioridade no jogo.',
     url: 'https://michigun.xyz',
-    siteName: '@fp3',
-    images: [
-      {
-        url: '/avatar.png',
-        width: 500,
-        height: 500,
-        alt: 'logo',
-      },
-    ],
+    siteName: 'michigun.xyz',
+    images: [{ url: '/avatar.png', width: 500, height: 500 }],
     locale: 'pt_BR',
     type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'michigun.xyz',
-    description: 'michigun.xyz',
+    description: 'O script de elite para Exército Brasileiro.',
     images: ['/avatar.png'],
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-br">
-      <head>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-      </head>
-      <body className={jetbrains.className}>{children}</body>
+    <html lang="pt-br" className={`${GeistSans.variable} ${jetbrains.variable}`}>
+      <body className="font-sans antialiased min-h-screen flex justify-center overflow-x-hidden">
+        {children}
+      </body>
     </html>
   )
 }
