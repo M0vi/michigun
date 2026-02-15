@@ -2,9 +2,10 @@
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}', // <--- ESSENCIAL
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './lib/**/*.{js,ts,jsx,tsx,mdx}',        // <--- ESSENCIAL
+    './src/**/*.{js,ts,jsx,tsx,mdx}',  // Adicionei caso você use pasta src
+    './lib/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -12,9 +13,6 @@ module.exports = {
         sans: ['var(--font-geist-sans)'],
         mono: ['var(--font-mono)'],
       },
-      animation: {
-        'spin-slow': 'spin 3s linear infinite',
-      }
     },
   },
   plugins: [],
