@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --bg: #030303;
+  --bg: #020202; /* Preto quase absoluto */
   --surface: #0a0a0a;
-  --surface-border: #1f1f1f;
-  --brand: #ff3e3e;
-  --discord: #5865F2;
+  --surface-border: #27272a;
+  --brand: #ffffff; /* Marca agora é branca */
   --text-secondary: #a1a1a1;
 }
 
@@ -18,9 +17,9 @@ html {
 body {
   background-color: var(--bg);
   color: #ffffff;
+  /* Luz branca sutil no topo para dar profundidade */
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(255, 62, 62, 0.08) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(88, 101, 242, 0.08) 0%, transparent 20%);
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 45%);
   background-attachment: fixed;
   user-select: none;
   -webkit-user-select: none;
@@ -42,10 +41,10 @@ body {
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+::-webkit-scrollbar-thumb:hover { background: #fff; }
 
 .glass-panel {
-  background: rgba(10, 10, 10, 0.7);
+  background: rgba(5, 5, 5, 0.6);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }

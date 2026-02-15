@@ -65,7 +65,7 @@ export default function Home() {
       <TeamSection />
 
       <div className="relative flex flex-col gap-6">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-500/10 blur-[100px] -z-10 rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/5 blur-[120px] -z-10 rounded-full pointer-events-none" />
 
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-black text-white tracking-tighter cursor-default">
@@ -197,7 +197,7 @@ export default function Home() {
       <div className="space-y-4 overflow-hidden w-full">
         <div className="flex items-center justify-between px-2">
           <h3 className="text-sm font-bold text-zinc-400">Jogos suportados</h3>
-          <span className="text-[10px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-bold">
+          <span className="text-[10px] bg-white/10 text-white px-2 py-0.5 rounded-full font-bold border border-white/10">
             {CONFIG.games.length} ATIVOS
           </span>
         </div>
@@ -206,10 +206,10 @@ export default function Home() {
            <div className="flex gap-3 w-max animate-scroll">
               {infiniteGames.map((game, i) => (
                 <div key={i} className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap hover:border-white transition-colors select-none group/game">
-                  <Image src={game.icon} alt={game.name} width={24} height={24} className="rounded-full bg-zinc-800 pointer-events-none" />
+                  <Image src={game.icon} alt={game.name} width={24} height={24} className="rounded-full bg-zinc-800 pointer-events-none grayscale group-hover/game:grayscale-0 transition-all" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-white leading-none">{game.name}</span>
-                    <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5 uppercase">Indetectado</span>
+                    <span className="text-[10px] text-zinc-500 font-bold leading-none mt-0.5 uppercase group-hover/game:text-white transition-colors">Indetectado</span>
                   </div>
                 </div>
               ))}
@@ -242,4 +242,4 @@ export default function Home() {
       </AnimatePresence>
     </main>
   )
-} 
+}
