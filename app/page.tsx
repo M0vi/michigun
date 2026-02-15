@@ -72,7 +72,7 @@ export default function Home() {
             michigun<span className="text-zinc-500">.xyz</span>
           </h1>
           <p className="text-zinc-400 text-sm max-w-md mx-auto pointer-events-none">
-             script para jogos de Exército Brasileiro
+             O michigun.xyz foi desenvolvido por @fp3 e serve apenas para fins educacionais
           </p>
         </div>
 
