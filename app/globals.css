@@ -22,7 +22,7 @@ body {
     radial-gradient(circle at 10% 20%, rgba(255, 62, 62, 0.08) 0%, transparent 20%),
     radial-gradient(circle at 90% 80%, rgba(88, 101, 242, 0.08) 0%, transparent 20%);
   background-attachment: fixed;
-  user-select: none; /* Proíbe seleção */
+  user-select: none;
   -webkit-user-select: none;
 }
 

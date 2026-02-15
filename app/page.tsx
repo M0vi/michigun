@@ -12,7 +12,7 @@ import StatsDeck from '@/components/StatsDeck'
 import FeatureSection from '@/components/FeatureSection'
 
 const CodeBlock = ({ code }: { code: string }) => (
-  <pre className="font-mono text-xs text-zinc-400 whitespace-pre-wrap break-all">
+  <pre className="font-mono text-xs text-zinc-400 whitespace-pre-wrap break-all select-none">
     <span className="text-purple-400">loadstring</span>(
     <span className="text-blue-400">game</span>:
     <span className="text-yellow-400">HttpGet</span>(
@@ -26,33 +26,22 @@ export default function Home() {
   const [showDownload, setShowDownload] = useState(false)
   const [videoActive, setVideoActive] = useState(false)
   
-  const infiniteGames = [...CONFIG.games, ...CONFIG.games, ...CONFIG.games, ...CONFIG.games]
+  const infiniteGames = [...CONFIG.games, ...CONFIG.games, ...CONFIG.games]
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        e.key === 'F12' || 
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-        (e.ctrlKey && e.key === 'u')
-      ) {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'u')) {
         e.preventDefault()
       }
     }
-    
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault()
-    }
-
+    const handleContextMenu = (e: MouseEvent) => e.preventDefault()
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('contextmenu', handleContextMenu)
-    
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
       document.removeEventListener('contextmenu', handleContextMenu)
     }
   }, [])
-
-  const { data: versionCheck } = useSWR('/api/version', fetcher, { refreshInterval: 60000 })
 
   const handleCopy = () => {
     playSound('click')
@@ -80,11 +69,10 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-500/10 blur-[100px] -z-10 rounded-full pointer-events-none" />
 
         <div className="text-center space-y-2">
-          {/* TÍTULO EM PRETO E BRANCO */}
           <h1 className="text-4xl font-black text-white tracking-tighter cursor-default">
             michigun<span className="text-zinc-500">.xyz</span>
           </h1>
-          <p className="text-zinc-400 text-sm max-w-md mx-auto select-none">
+          <p className="text-zinc-400 text-sm max-w-md mx-auto pointer-events-none">
              michigun.xyz
           </p>
         </div>
@@ -100,7 +88,7 @@ export default function Home() {
                   src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                   alt="Thumbnail" 
                   fill 
-                  className="object-cover opacity-80 group-hover/video:opacity-100 group-hover/video:scale-105 transition-all duration-500"
+                  className="object-cover opacity-80 group-hover/video:opacity-100 group-hover/video:scale-105 transition-all duration-500 pointer-events-none"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-lg group-hover/video:scale-110 transition-transform">
@@ -202,18 +190,8 @@ export default function Home() {
         <div className="relative w-full overflow-hidden">
            <div className="flex gap-3 w-max animate-scroll">
               {infiniteGames.map((game, i) => (
-                <div 
-                  key={i} 
-                  className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap hover:border-white/20 transition-colors select-none"
-                >
-                  <Image 
-                    src={game.icon} 
-                    alt={game.name} 
-                    width={24} 
-                    height={24} 
-                    className="rounded-full bg-zinc-800"
-                    onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=Game&background=333&color=fff' }}
-                  />
+                <div key={i} className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap">
+                  <Image src={game.icon} alt={game.name} width={24} height={24} className="rounded-full bg-zinc-800" />
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-white leading-none">{game.name}</span>
                     <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5 uppercase">Undetected</span>
@@ -227,11 +205,7 @@ export default function Home() {
       <FeatureSection />
 
       <footer className="text-center pb-8 space-y-2">
-        <p className="text-xs font-bold text-zinc-600">© 2026 michigun.xyz</p>
-        <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-700">
-           <AlertTriangle size={10} />
-           <span>Use com responsabilidade</span>
-        </div>
+        <p className="text-xs font-bold text-zinc-700">© 2026 Michigun Team</p>
       </footer>
       
       <AnimatePresence>
