@@ -4,7 +4,7 @@ import { FeatureItem, GameItem } from './types'
 export const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  keySystemText: 'Fácil de fazer',
+  keySystemText: 'Key system',
   videoId: '20zXmdpUHQA',
   discordServerId: '1325182370353119263',
   devs: [

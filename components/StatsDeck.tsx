@@ -47,7 +47,7 @@ const Countdown = () => {
     return () => clearInterval(timer)
   }, [])
 
-  return <span className="text-[10px] text-zinc-500 ml-2 font-mono">Reset: {timeLeft}</span>
+  return <span className="text-[10px] text-zinc-500 ml-2 font-mono">Reseta em {timeLeft}</span>
 }
 
 export default function StatsDeck() {
