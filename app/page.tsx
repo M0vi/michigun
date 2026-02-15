@@ -12,7 +12,7 @@ import StatsDeck from '@/components/StatsDeck'
 import FeatureSection from '@/components/FeatureSection'
 
 const CodeBlock = ({ code }: { code: string }) => (
-  <pre className="font-mono text-xs text-zinc-400 whitespace-pre-wrap break-all">
+  <pre className="font-mono text-xs text-zinc-400 whitespace-pre-wrap break-all select-none">
     <span className="text-purple-400">loadstring</span>(
     <span className="text-blue-400">game</span>:
     <span className="text-yellow-400">HttpGet</span>(
@@ -26,14 +26,33 @@ export default function Home() {
   const [showDownload, setShowDownload] = useState(false)
   const [videoActive, setVideoActive] = useState(false)
   
+  // Duplicamos a lista de jogos para criar o efeito infinito
+  const infiniteGames = [...CONFIG.games, ...CONFIG.games, ...CONFIG.games, ...CONFIG.games]
+
   useEffect(() => {
+    // Bloqueia F12, Ctrl+Shift+I, etc
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+      if (
+        e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'u')
+      ) {
         e.preventDefault()
       }
     }
+    
+    // Bloqueia botão direito
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault()
+    }
+
     document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    document.addEventListener('contextmenu', handleContextMenu)
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('contextmenu', handleContextMenu)
+    }
   }, [])
 
   const { data: versionCheck } = useSWR('/api/version', fetcher, { refreshInterval: 60000 })
@@ -58,7 +77,7 @@ export default function Home() {
   }
 
   return (
-    <main className="w-full max-w-[680px] p-6 flex flex-col gap-10 relative z-10">
+    <main className="w-full max-w-[680px] p-6 flex flex-col gap-10 relative z-10 select-none">
       <AnimatePresence>
         {showUpdate && (
           <motion.div 
@@ -78,10 +97,10 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-500/10 blur-[100px] -z-10 rounded-full pointer-events-none" />
 
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-black text-white tracking-tighter">
+          <h1 className="text-4xl font-black text-white tracking-tighter cursor-default">
             MICHIGUN<span className="text-red-500">.XYZ</span>
           </h1>
-          <p className="text-zinc-400 text-sm max-w-md mx-auto select-none">
+          <p className="text-zinc-400 text-sm max-w-md mx-auto pointer-events-none">
              michigun.xyz
           </p>
         </div>
@@ -97,7 +116,7 @@ export default function Home() {
                   src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                   alt="Thumbnail" 
                   fill 
-                  className="object-cover opacity-80 group-hover/video:opacity-100 group-hover/video:scale-105 transition-all duration-500"
+                  className="object-cover opacity-80 group-hover/video:opacity-100 group-hover/video:scale-105 transition-all duration-500 pointer-events-none"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-lg group-hover/video:scale-110 transition-transform">
@@ -188,43 +207,49 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="space-y-4">
+      {/* ÁREA DO CARROSSEL ANIMADO */}
+      <div className="space-y-4 overflow-hidden w-full">
         <div className="flex items-center justify-between px-2">
           <h3 className="text-sm font-bold text-zinc-400">Jogos suportados</h3>
           <span className="text-[10px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-bold">
             {CONFIG.games.length} ATIVOS
           </span>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide mask-fade">
-          {CONFIG.games.map((game, i) => (
-            <div 
-              key={i} 
-              className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap hover:border-white/20 transition-colors select-none"
-            >
-              <Image 
-                src={game.icon} 
-                alt={game.name} 
-                width={24} 
-                height={24} 
-                className="rounded-full bg-zinc-800"
-                onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=Game&background=333&color=fff' }}
-              />
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-white leading-none">{game.name}</span>
-                <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5">INDETECTADO</span>
-              </div>
-            </div>
-          ))}
+        
+        {/* Container que esconde o excesso */}
+        <div className="relative w-full overflow-hidden mask-fade">
+           {/* Faixa que se move infinitamente */}
+           <div className="flex gap-3 w-max animate-scroll">
+              {infiniteGames.map((game, i) => (
+                <div 
+                  key={i} 
+                  className="flex items-center gap-3 bg-zinc-900 border border-white/5 pl-2 pr-4 py-2 rounded-full whitespace-nowrap hover:border-white/20 transition-colors select-none"
+                >
+                  <Image 
+                    src={game.icon} 
+                    alt={game.name} 
+                    width={24} 
+                    height={24} 
+                    className="rounded-full bg-zinc-800 pointer-events-none"
+                    onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=Game&background=333&color=fff' }}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-white leading-none">{game.name}</span>
+                    <span className="text-[10px] text-green-500 font-bold leading-none mt-0.5">UNDETECTED</span>
+                  </div>
+                </div>
+              ))}
+           </div>
         </div>
       </div>
 
       <FeatureSection />
 
       <footer className="text-center pb-8 space-y-2">
-        <p className="text-xs font-bold text-zinc-600">© 2026 michigun.xyz</p>
+        <p className="text-xs font-bold text-zinc-600">© 2026 Michigun Team</p>
         <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-700">
            <AlertTriangle size={10} />
-           <span>Use com responsabilidade.</span>
+           <span>Código para fins educacionais. Use com responsabilidade.</span>
         </div>
       </footer>
       
@@ -234,7 +259,7 @@ export default function Home() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 50, opacity: 0 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-3 rounded-full font-bold shadow-2xl z-[100] flex items-center gap-2"
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-3 rounded-full font-bold shadow-2xl z-[100] flex items-center gap-2 pointer-events-none"
           >
             <Check size={16} className="text-green-600" />
             Copiado!

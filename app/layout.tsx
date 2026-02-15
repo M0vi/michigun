@@ -14,7 +14,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://michigun.xyz'),
   title: 'michigun.xyz',
-  description: 'O melhor script para Exército Brasileiro.',
+  description: 'O melhor script para Exército Brasileiro do Roblox',
   keywords: ['roblox', 'script', 'exercito brasileiro', 'michigun', 'delta', 'executor'],
   authors: [{ name: 'michigun.xyz' }],
   openGraph: {
