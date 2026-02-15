@@ -220,7 +220,7 @@ export default function Home() {
       <FeatureSection />
 
       <footer className="text-center pb-8 space-y-2">
-        <p className="text-xs font-bold text-zinc-700">© 2026 Michigun Team</p>
+        <p className="text-xs font-bold text-zinc-700">© 2026 michigun.xyz</p>
         <div className="flex items-center justify-center gap-2 text-[10px] text-zinc-700">
            <AlertTriangle size={10} />
            <span>Use com responsabilidade</span>

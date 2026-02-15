@@ -79,7 +79,7 @@ export default function StatsDeck() {
       <div className="flex flex-col items-center justify-center py-1 px-2">
         <div className="flex items-center gap-2 mb-1">
           <Clock size={12} className="text-zinc-500" />
-          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Reset</span>
+          <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Reseta em</span>
         </div>
         <span className="font-mono text-sm font-bold text-white">
           <Countdown />
