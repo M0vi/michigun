@@ -67,7 +67,7 @@ export default function Home() {
             className="fixed top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg cursor-pointer z-50"
             onClick={() => window.location.reload()}
           >
-            Nova versão disponível! Clique para atualizar.
+            O site atualizou! Clique para atualizar.
           </motion.div>
         )}
       </AnimatePresence>
@@ -82,7 +82,7 @@ export default function Home() {
             MICHIGUN<span className="text-red-500">.XYZ</span>
           </h1>
           <p className="text-zinc-400 text-sm max-w-md mx-auto select-none">
-            Elite Script para Exército Brasileiro. Otimização máxima, indetectável e funções exclusivas.
+             michigun.xyz
           </p>
         </div>
 
