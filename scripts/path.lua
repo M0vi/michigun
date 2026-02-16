@@ -1,5 +1,4 @@
--- sai daqui, quer a source pra quê? :(
-
+-- para de ficar tentando pegar a source :(
 return {
     silent = "silent.lua",
     hitbox = "hitbox.lua",
@@ -7,11 +6,12 @@ return {
     tas = "tas.lua",
     jj = "jj.lua",
     f3x = "f3x.lua",
-    char = "char.lua",
+    char = "char2.lua",
     antilag = "antilag.lua",
     chatgpt = "chatgpt.lua",
     player = "player.lua",
     tevez = "tevez.lua",
     delta = "delta.lua",
-    soucre = "soucre.lua"
+    soucre = "soucre.lua",
+    novaera = "novaera.lua"
 }
