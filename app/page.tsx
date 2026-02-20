@@ -59,17 +59,16 @@ const GlobalStyles = () => (
   `}</style>
 )
 
-const CodeDisplay = ({ code }: { code: string }) => {
-  const match = code.match(/"([^"]+)"/);
-  const codeContent = match ? match[1] : 'URL_DO_SCRIPT';
-
+const CodeDisplay = () => {
   return (
     <div className="font-mono text-[11px] sm:text-xs whitespace-pre-wrap break-all select-none leading-relaxed">
       <span className="text-pink-500">loadstring</span>(
-      <span className="text-blue-400">game</span>:
-      <span className="text-blue-400">HttpGet</span>(
-      <span className="text-green-400">"{codeContent}"</span>
-      ))()
+      <span className="text-blue-400">request</span>({"{"}
+      <span className="text-zinc-300">Url</span>=
+      <span className="text-green-400">"https://michigun.xyz/script"</span>,
+      <span className="text-zinc-300">Method</span>=
+      <span className="text-green-400">"GET"</span>
+      {"}"}).<span className="text-blue-400">Body</span>)()
     </div>
   )
 }
@@ -243,11 +242,20 @@ function FeatureSection() {
   const [modal, setModal] = useState<{ open: boolean; title: string; desc: string } | null>(null)
 
   const filteredFeatures = useMemo(() => {
-    return CONFIG.features[activeTab].filter((f: any) => 
+    return (CONFIG.features as any)[activeTab].filter((f: any) => 
       f.name.toLowerCase().includes(search.toLowerCase()) || 
       f.desc.toLowerCase().includes(search.toLowerCase())
     )
   }, [activeTab, search])
+
+  const groupedFeatures = useMemo(() => {
+    return filteredFeatures.reduce((acc: any, feature: any) => {
+      const cat = feature.category || 'Geral'
+      if (!acc[cat]) acc[cat] = []
+      acc[cat].push(feature)
+      return acc
+    }, {})
+  }, [filteredFeatures])
 
   return (
     <section className="flex flex-col gap-6 mt-4">
@@ -265,14 +273,14 @@ function FeatureSection() {
         </div>
       </div>
 
-      <div className="flex gap-2 border-b border-white/5 pb-px">
+      <div className="flex gap-2 border-b border-white/5 pb-px overflow-x-auto scrollbar-hide">
         {Object.keys(CONFIG.features).map((tab) => (
           <button
             key={tab}
             onClick={() => { setActiveTab(tab); playSound('click'); }}
             onMouseEnter={() => playSound('hover')}
             className={cn(
-              "relative px-4 py-2 text-xs font-mono tracking-wider transition-colors",
+              "relative px-4 py-2 text-xs font-mono tracking-wider transition-colors whitespace-nowrap",
               activeTab === tab ? "text-white" : "text-zinc-600 hover:text-zinc-300"
             )}
           >
@@ -282,39 +290,48 @@ function FeatureSection() {
                 className="absolute bottom-0 left-0 right-0 h-px bg-white"
               />
             )}
-            {tab.toUpperCase()}
+            {tab.replace('_', ' ').toUpperCase()}
           </button>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <AnimatePresence mode="popLayout">
-          {filteredFeatures.map((item: any, idx: number) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ delay: idx * 0.03, duration: 0.2 }}
-              onClick={() => { setModal({ open: true, title: item.name, desc: item.desc }); playSound('click'); }}
-              onMouseEnter={() => playSound('hover')}
-              className="group bg-[#0a0a0a] border border-white/5 hover:border-white/15 rounded-xl p-4 cursor-pointer transition-all duration-300 flex flex-col justify-between min-h-[100px]"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <item.icon className="text-zinc-600 group-hover:text-white transition-colors" size={18} />
-                <div className={cn(
-                  "w-2 h-2 rounded-full",
-                  item.type === 'safe' ? "bg-green-500/50" : item.type === 'risk' ? "bg-red-500/50" : "bg-purple-500/50"
-                )} />
-              </div>
-              <div>
-                <div className="font-mono text-xs text-zinc-300 group-hover:text-white transition-colors">
-                  {item.name}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+      <div className="flex flex-col gap-8">
+        {Object.entries(groupedFeatures).map(([category, items]: [string, any]) => (
+          <div key={category} className="flex flex-col gap-3">
+            <h3 className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] border-l border-zinc-700 pl-2">
+              {category}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <AnimatePresence mode="popLayout">
+                {items.map((item: any, idx: number) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ delay: idx * 0.03, duration: 0.2 }}
+                    onClick={() => { setModal({ open: true, title: item.name, desc: item.desc }); playSound('click'); }}
+                    onMouseEnter={() => playSound('hover')}
+                    className="group bg-[#0a0a0a] border border-white/5 hover:border-white/15 rounded-xl p-4 cursor-pointer transition-all duration-300 flex flex-col justify-between min-h-[100px]"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <item.icon className="text-zinc-600 group-hover:text-white transition-colors" size={18} />
+                      <div className={cn(
+                        "w-2 h-2 rounded-full",
+                        item.type === 'safe' ? "bg-green-500/50" : item.type === 'risk' ? "bg-red-500/50" : "bg-purple-500/50"
+                      )} />
+                    </div>
+                    <div>
+                      <div className="font-mono text-xs text-zinc-300 group-hover:text-white transition-colors">
+                        {item.name}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        ))}
       </div>
 
       <AnimatePresence>
@@ -422,9 +439,10 @@ export default function Home() {
                 {!videoActive ? (
                   <div className="w-full h-full relative flex items-center justify-center">
                     <Image 
-                      src="https://img.youtube.com/vi/20zXmdpUHQA/maxresdefault.jpg" 
+                      src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
                       alt="Thumbnail" 
                       fill 
+                      unoptimized
                       className="object-cover opacity-30 group-hover:opacity-50 transition-all duration-700 grayscale group-hover:grayscale-[50%] scale-105 group-hover:scale-100"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:10px_10px] pointer-events-none" />
@@ -440,7 +458,7 @@ export default function Home() {
                   </div>
                 ) : (
                   <iframe
-                    src="https://www.youtube-nocookie.com/embed/20zXmdpUHQA?autoplay=1&rel=0&modestbranding=1"
+                    src={`https://www.youtube-nocookie.com/embed/${CONFIG.videoId}?autoplay=1&rel=0&modestbranding=1`}
                     className="w-full h-full border-0 absolute top-0 left-0 bg-black"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -458,7 +476,7 @@ export default function Home() {
             <div className="flex-1 bg-black border border-white/5 rounded-lg p-4 flex items-center overflow-hidden relative">
               <Terminal size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-700" />
               <div className="pl-8 w-full overflow-x-auto scrollbar-hide">
-                <CodeDisplay code={CONFIG.script} />
+                <CodeDisplay />
               </div>
             </div>
 
@@ -534,7 +552,7 @@ export default function Home() {
               {infiniteGames.map((game: any, i: number) => (
                 <div key={i} className="flex items-center gap-3 bg-[#0a0a0a] border border-white/5 pl-2 pr-5 py-2 rounded-lg whitespace-nowrap opacity-60 hover:opacity-100 hover:border-white/20 transition-all select-none group">
                   {game.icon && !game.name.toLowerCase().includes('entre outros') && (
-                    <Image src={game.icon} alt={game.name} width={20} height={20} className="rounded bg-zinc-900 pointer-events-none grayscale group-hover:grayscale-0 transition-all" />
+                    <Image src={game.icon} alt={game.name} width={20} height={20} unoptimized className="rounded bg-zinc-900 pointer-events-none grayscale group-hover:grayscale-0 transition-all" />
                   )}
                   <div className="flex flex-col justify-center">
                     <span className="text-xs font-medium text-zinc-200 group-hover:text-white leading-none">{game.name}</span>
