@@ -125,7 +125,6 @@ const Countdown = () => {
   return <span>{timeLeft}</span>
 }
 
-// --- SEÇÕES PRINCIPAIS ---
 
 function StatsDeck() {
   const { data } = useSWR('/api/stats', fetcher, { refreshInterval: 10000 })
