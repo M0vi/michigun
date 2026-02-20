@@ -416,28 +416,33 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div className="md:col-span-3 bg-[#0a0a0a] border border-white/5 rounded-xl p-2 relative group">
               <div 
-                className="relative w-full aspect-video bg-black rounded-lg overflow-hidden cursor-pointer"
+                className="relative w-full aspect-video bg-[#050505] rounded-lg overflow-hidden cursor-pointer border border-white/5 group-hover:border-white/20 transition-all duration-300 shadow-inner"
                 onClick={() => { setVideoActive(true); playSound('click'); }}
               >
                 {!videoActive ? (
-                  <div className="w-full h-full relative">
+                  <div className="w-full h-full relative flex items-center justify-center">
                     <Image 
-                      src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`} 
+                      src="https://img.youtube.com/vi/20zXmdpUHQA/maxresdefault.jpg" 
                       alt="Thumbnail" 
                       fill 
-                      className="object-cover opacity-50 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 pointer-events-none grayscale group-hover:grayscale-[50%]"
+                      className="object-cover opacity-30 group-hover:opacity-50 transition-all duration-700 grayscale group-hover:grayscale-[50%] scale-105 group-hover:scale-100"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 group-hover:bg-white group-hover:border-white transition-all duration-300">
-                        <MonitorPlay className="text-white group-hover:text-black ml-1 transition-colors" size={20} />
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:10px_10px] pointer-events-none" />
+                    <div className="relative z-10 flex flex-col items-center gap-4">
+                      <div className="h-12 px-6 bg-[#0a0a0a] backdrop-blur-md border border-white/10 rounded flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-300">
+                        <MonitorPlay className="text-zinc-400 group-hover:text-black transition-colors" size={20} />
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                        Preview_Ativo
                       </div>
                     </div>
                   </div>
                 ) : (
                   <iframe
-                    src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
-                    className="w-full h-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    src="https://www.youtube-nocookie.com/embed/20zXmdpUHQA?autoplay=1&rel=0&modestbranding=1"
+                    className="w-full h-full border-0 absolute top-0 left-0 bg-black"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
                 )}
