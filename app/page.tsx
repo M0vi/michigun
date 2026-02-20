@@ -10,13 +10,9 @@ import {
   BarChart3, Music, Code, Gamepad2, Moon, Circle 
 } from 'lucide-react'
 
-// Mantendo seus imports originais. 
-// Para que o código fique em um único arquivo conforme solicitado pela arquitetura, 
-// unifiquei os componentes aqui. Você pode renomear para page.tsx.
 import { CONFIG } from '@/lib/constants'
 import { playSound, fetcher, cn } from '@/lib/utils'
 
-// --- ESTILOS GLOBAIS (Substitui a necessidade do globals.css pesado) ---
 const GlobalStyles = () => (
   <style jsx global>{`
     :root {
@@ -62,8 +58,6 @@ const GlobalStyles = () => (
     }
   `}</style>
 )
-
-// --- COMPONENTES MENORES ---
 
 const CodeDisplay = ({ code }: { code: string }) => {
   const match = code.match(/"([^"]+)"/);
@@ -124,7 +118,6 @@ const Countdown = () => {
 
   return <span>{timeLeft}</span>
 }
-
 
 function StatsDeck() {
   const { data } = useSWR('/api/stats', fetcher, { refreshInterval: 10000 })
@@ -353,8 +346,6 @@ function FeatureSection() {
   )
 }
 
-// --- PÁGINA PRINCIPAL ---
-
 export default function Home() {
   const [copied, setCopied] = useState(false)
   const [showDownload, setShowDownload] = useState(false)
@@ -399,7 +390,6 @@ export default function Home() {
     <main className="w-full max-w-4xl mx-auto p-6 md:p-10 flex flex-col gap-12 relative z-10 select-none">
       <GlobalStyles />
       
-      {/* Header */}
       <header className="flex flex-col gap-2 pt-8">
         <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tighter cursor-default">
           michigun<span className="text-zinc-600">.xyz</span>
@@ -409,9 +399,7 @@ export default function Home() {
         </p>
       </header>
 
-      {/* Main Console Interface */}
       <div className="bg-[#050505] border border-white/10 rounded-2xl shadow-[0_0_40px_rgba(255,255,255,0.02)] overflow-hidden flex flex-col">
-        {/* Console Top Bar */}
         <div className="bg-[#0a0a0a] border-b border-white/5 px-4 py-3 flex items-center justify-between">
           <div className="flex gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
@@ -421,13 +409,11 @@ export default function Home() {
           <div className="text-[10px] text-zinc-600 font-mono tracking-[0.2em] uppercase">
             Terminal_Access
           </div>
-          <div className="w-10" /> {/* Spacer para centralizar o título */}
+          <div className="w-10" />
         </div>
 
         <div className="p-4 md:p-6 flex flex-col gap-6">
-          {/* Top Section: Video & Stats */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {/* Video Box */}
             <div className="md:col-span-3 bg-[#0a0a0a] border border-white/5 rounded-xl p-2 relative group">
               <div 
                 className="relative w-full aspect-video bg-black rounded-lg overflow-hidden cursor-pointer"
@@ -458,13 +444,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Stats Box */}
             <div className="md:col-span-2 h-full">
               <StatsDeck />
             </div>
           </div>
 
-          {/* Bottom Section: Code & Actions */}
           <div className="bg-[#0a0a0a] border border-white/5 rounded-xl p-3 flex flex-col sm:flex-row items-stretch gap-3 group/code transition-colors hover:border-white/15">
             <div className="flex-1 bg-black border border-white/5 rounded-lg p-4 flex items-center overflow-hidden relative">
               <Terminal size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-700" />
@@ -476,7 +460,7 @@ export default function Home() {
             <div className="flex gap-2 sm:w-auto w-full">
               <button
                 onClick={handleCopy}
-                className="flex-1 sm:flex-none px-6 bg-white text-black rounded-lg font-medium text-xs hover:bg-zinc-200 active:scale-95 transition-all flex items-center justify-center gap-2"
+                className="flex-1 sm:flex-none px-6 bg-[#0a0a0a] border border-white/10 text-zinc-300 rounded-lg font-medium text-xs hover:text-white hover:bg-white/5 hover:border-white/20 active:scale-95 transition-all flex items-center justify-center gap-2"
               >
                 <AnimatePresence mode="wait">
                   {copied ? (
@@ -532,7 +516,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Marquee Games */}
       <div className="space-y-3 w-full">
         <div className="flex items-center justify-between px-1">
           <h3 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-[0.2em]">Sistemas suportados</h3>
@@ -545,7 +528,9 @@ export default function Home() {
            <div className="flex gap-4 w-max animate-marquee">
               {infiniteGames.map((game: any, i: number) => (
                 <div key={i} className="flex items-center gap-3 bg-[#0a0a0a] border border-white/5 pl-2 pr-5 py-2 rounded-lg whitespace-nowrap opacity-60 hover:opacity-100 hover:border-white/20 transition-all select-none group">
-                  <Image src={game.icon} alt={game.name} width={20} height={20} className="rounded bg-zinc-900 pointer-events-none grayscale group-hover:grayscale-0 transition-all" />
+                  {game.icon && !game.name.toLowerCase().includes('entre outros') && (
+                    <Image src={game.icon} alt={game.name} width={20} height={20} className="rounded bg-zinc-900 pointer-events-none grayscale group-hover:grayscale-0 transition-all" />
+                  )}
                   <div className="flex flex-col">
                     <span className="text-xs font-medium text-zinc-200 group-hover:text-white leading-none">{game.name}</span>
                     <span className="text-[9px] text-zinc-600 font-mono leading-none mt-1 uppercase tracking-wider">Indetectado</span>
