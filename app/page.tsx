@@ -293,7 +293,7 @@ function TeamCard({ dev }: { dev: { id: string; role: string } }) {
 function TeamSection() {
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-[0.2em]">Sistemas / Equipe</h2>
+      <h2 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-[0.2em]">Equipe</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
         {CONFIG.devs.map(dev => <TeamCard key={dev.id} dev={dev} />)}
       </div>
@@ -325,12 +325,12 @@ function FeatureSection() {
   return (
     <section className="flex flex-col gap-6 mt-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h2 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-[0.2em]">Módulos</h2>
+        <h2 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-[0.2em]">Funções</h2>
         <div className="relative w-full md:w-64">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600" size={14} />
           <input 
             type="text" 
-            placeholder="Buscar módulo..." 
+            placeholder="Buscar" 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-white/30 transition-colors"
@@ -489,7 +489,7 @@ export default function Home() {
             <div className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
           </div>
           <div className="text-[10px] text-zinc-600 font-mono tracking-[0.2em] uppercase">
-            Terminal_Access
+            Script
           </div>
           <div className="w-10" />
         </div>
@@ -606,9 +606,9 @@ export default function Home() {
 
       <div className="space-y-3 w-full">
         <div className="flex items-center justify-between px-1">
-          <h3 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-[0.2em]">Sistemas suportados</h3>
+          <h3 className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-[0.2em]">Jogos com funções exclusivas</h3>
           <span className="text-[9px] font-mono bg-white/5 text-zinc-300 px-2 py-1 rounded border border-white/5 uppercase tracking-widest">
-            {CONFIG.games.length} Ativos
+            {CONFIG.games.length} jogos
           </span>
         </div>
         
