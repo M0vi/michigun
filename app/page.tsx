@@ -436,8 +436,8 @@ export default function Home() {
                 ) : (
                   <iframe
                     src={`https://www.youtube.com/embed/${CONFIG.videoId}?autoplay=1`}
-                    className="w-full h-full"
-                    allow="autoplay; encrypted-media"
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                   />
                 )}
@@ -531,9 +531,11 @@ export default function Home() {
                   {game.icon && !game.name.toLowerCase().includes('entre outros') && (
                     <Image src={game.icon} alt={game.name} width={20} height={20} className="rounded bg-zinc-900 pointer-events-none grayscale group-hover:grayscale-0 transition-all" />
                   )}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col justify-center">
                     <span className="text-xs font-medium text-zinc-200 group-hover:text-white leading-none">{game.name}</span>
-                    <span className="text-[9px] text-zinc-600 font-mono leading-none mt-1 uppercase tracking-wider">Indetectado</span>
+                    {!game.name.toLowerCase().includes('entre outros') && (
+                      <span className="text-[9px] text-zinc-600 font-mono leading-none mt-1 uppercase tracking-wider">Indetectado</span>
+                    )}
                   </div>
                 </div>
               ))}
