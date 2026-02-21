@@ -1,4 +1,4 @@
-Import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import { Redis } from '@upstash/redis'
 import crypto from 'crypto'
 
@@ -15,7 +15,7 @@ const loaderHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>michigun.xyz</title>
+  <title>Acesso restrito</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
@@ -126,7 +126,7 @@ const loaderHtml = `<!DOCTYPE html>
     
     <div class="content">
       <h1>Restrito</h1>
-      <p>Copie o código abaixo para executar o script</p>
+      <p>Copie o código abaixo e execute.</p>
       
       <div class="code-wrapper">
         <div class="code-header">
@@ -173,22 +173,22 @@ export async function GET(req: NextRequest) {
   if (req.method === 'HEAD' || req.method === 'OPTIONS') {
     return new NextResponse(null, { status: 200 })
   }
-  
+
   const acceptHeader = req.headers.get('accept') || ''
   
   // Verifica apenas se a requisição está pedindo explicitamente por HTML (padrão de navegadores)
   const isBrowser = acceptHeader.includes('text/html')
-  
+
   if (isBrowser) {
     return new NextResponse(loaderHtml, {
       status: 200,
-      headers: {
+      headers: { 
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600'
       },
     })
   }
-  
+
   const scriptToReturn = `loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"))()`
   
   try {
