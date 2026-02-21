@@ -15,7 +15,7 @@ const loaderHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acesso restrito</title>
+  <title>michigun.xyz</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
@@ -126,7 +126,7 @@ const loaderHtml = `<!DOCTYPE html>
     
     <div class="content">
       <h1>Restrito</h1>
-      <p>Copie o código abaixo e execute.</p>
+      <p>Copie o código abaixo para executar o script</p>
       
       <div class="code-wrapper">
         <div class="code-header">
