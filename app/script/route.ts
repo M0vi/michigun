@@ -173,20 +173,23 @@ export async function GET(req: NextRequest) {
   if (req.method === 'HEAD' || req.method === 'OPTIONS') {
     return new NextResponse(null, { status: 200 })
   }
-  
+
+  const userAgent = req.headers.get('user-agent') || ''
   const acceptHeader = req.headers.get('accept') || ''
-  const isBrowser = acceptHeader.includes('text/html') && !req.headers.get('user-agent')?.includes('Roblox')
   
+  const isRobloxExecutor = /roblox|krnl|synapse|fluxus|hydrogen|electron|delta|oxygen|codex|arceus/i.test(userAgent)
+  const isBrowser = acceptHeader.includes('text/html') && userAgent.includes('Mozilla') && !isRobloxExecutor
+
   if (isBrowser) {
     return new NextResponse(loaderHtml, {
       status: 200,
-      headers: {
+      headers: { 
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600'
       },
     })
   }
-  
+
   const scriptToReturn = `loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"))()`
   
   try {
