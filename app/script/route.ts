@@ -174,11 +174,10 @@ export async function GET(req: NextRequest) {
     return new NextResponse(null, { status: 200 })
   }
 
-  const userAgent = req.headers.get('user-agent') || ''
   const acceptHeader = req.headers.get('accept') || ''
   
-  const isRobloxExecutor = /roblox|krnl|synapse|fluxus|hydrogen|electron|delta|oxygen|codex|arceus/i.test(userAgent)
-  const isBrowser = acceptHeader.includes('text/html') && userAgent.includes('Mozilla') && !isRobloxExecutor
+  // Verifica apenas se a requisição está pedindo explicitamente por HTML (padrão de navegadores)
+  const isBrowser = acceptHeader.includes('text/html')
 
   if (isBrowser) {
     return new NextResponse(loaderHtml, {
