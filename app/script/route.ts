@@ -15,7 +15,7 @@ const loaderHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acesso restrito</title>
+  <title>michigun - Script</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
@@ -125,8 +125,8 @@ const loaderHtml = `<!DOCTYPE html>
     </div>
     
     <div class="content">
-      <h1>Restrito</h1>
-      <p>Copie o código abaixo e execute.</p>
+      <h1>Acesso Restrito</h1>
+      <p>Este script não pode ser executado diretamente pelo navegador. Copie o código abaixo e cole-o no seu executor do Roblox.</p>
       
       <div class="code-wrapper">
         <div class="code-header">
@@ -140,12 +140,12 @@ const loaderHtml = `<!DOCTYPE html>
       </div>
 
       <button class="copy-btn" id="copy-btn" onclick="copyScript()">
-        Copiar
+        Copiar Script
       </button>
       
       <div class="links">
-        <a href="/" class="link-btn">Voltar</a>
-        <a href="https://discord.gg/pWeJUBabvF" target="_blank" class="link-btn">Discord</a>
+        <a href="/" class="link-btn">Voltar ao Início</a>
+        <a href="https://discord.gg/pWeJUBabvF" target="_blank" class="link-btn">Comunidade</a>
       </div>
     </div>
   </div>
@@ -160,7 +160,7 @@ const loaderHtml = `<!DOCTYPE html>
         btn.classList.add('success');
         
         setTimeout(() => {
-          btn.innerText = 'Copiar';
+          btn.innerText = 'Copiar Script';
           btn.classList.remove('success');
         }, 2000);
       });
@@ -221,21 +221,11 @@ export async function GET(req: NextRequest) {
           if (mode === 'check') {
             return new NextResponse('OK', { status: 200 })
           }
-          
-        } else {
-          return new NextResponse('print("Acesso negado: Assinatura invalida.")', { status: 403 })
         }
-      } else {
-        return new NextResponse('print("Acesso negado: Requisicao expirada.")', { status: 403 })
       }
-    } else {
-      return new NextResponse(`loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()`, {
-        status: 200,
-        headers: { 'Content-Type': 'text/plain' }
-      })
     }
   } catch (error) {
-    return new NextResponse('print("Erro interno no servidor.")', { status: 500 })
+    console.error(error)
   }
   
   return new NextResponse(scriptToReturn, {
