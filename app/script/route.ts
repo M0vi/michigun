@@ -15,7 +15,7 @@ const loaderHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>michigun - Script</title>
+  <title>Acesso restrito</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
@@ -125,8 +125,8 @@ const loaderHtml = `<!DOCTYPE html>
     </div>
     
     <div class="content">
-      <h1>Acesso Restrito</h1>
-      <p>Este script não pode ser executado diretamente pelo navegador. Copie o código abaixo e cole-o no seu executor do Roblox.</p>
+      <h1>Restrito</h1>
+      <p>Copie o código abaixo e execute.</p>
       
       <div class="code-wrapper">
         <div class="code-header">
@@ -140,12 +140,12 @@ const loaderHtml = `<!DOCTYPE html>
       </div>
 
       <button class="copy-btn" id="copy-btn" onclick="copyScript()">
-        Copiar Script
+        Copiar
       </button>
       
       <div class="links">
-        <a href="/" class="link-btn">Voltar ao Início</a>
-        <a href="https://discord.gg/pWeJUBabvF" target="_blank" class="link-btn">Comunidade</a>
+        <a href="/" class="link-btn">Voltar</a>
+        <a href="https://discord.gg/pWeJUBabvF" target="_blank" class="link-btn">Discord</a>
       </div>
     </div>
   </div>
@@ -160,7 +160,7 @@ const loaderHtml = `<!DOCTYPE html>
         btn.classList.add('success');
         
         setTimeout(() => {
-          btn.innerText = 'Copiar Script';
+          btn.innerText = 'Copiar';
           btn.classList.remove('success');
         }, 2000);
       });
