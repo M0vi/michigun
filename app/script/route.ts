@@ -78,11 +78,10 @@ const loaderHtml = `<!DOCTYPE html>
       overflow-wrap: break-word;
     }
     
-    /* Syntax Highlighting */
-    .kw { color: #ec4899; } /* Pink */
-    .fn { color: #60a5fa; } /* Blue */
-    .st { color: #4ade80; } /* Green */
-    .vr { color: #d4d4d8; } /* Zinc */
+    .kw { color: #ec4899; }
+    .fn { color: #60a5fa; }
+    .st { color: #4ade80; }
+    .vr { color: #d4d4d8; }
 
     .copy-btn { 
       width: 100%; 
