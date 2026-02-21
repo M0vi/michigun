@@ -78,10 +78,11 @@ const loaderHtml = `<!DOCTYPE html>
       overflow-wrap: break-word;
     }
     
-    .kw { color: #ec4899; }
-    .fn { color: #60a5fa; }
-    .st { color: #4ade80; }
-    .vr { color: #d4d4d8; }
+    /* Syntax Highlighting */
+    .kw { color: #ec4899; } /* Pink */
+    .fn { color: #60a5fa; } /* Blue */
+    .st { color: #4ade80; } /* Green */
+    .vr { color: #d4d4d8; } /* Zinc */
 
     .copy-btn { 
       width: 100%; 
@@ -172,21 +173,22 @@ export async function GET(req: NextRequest) {
   if (req.method === 'HEAD' || req.method === 'OPTIONS') {
     return new NextResponse(null, { status: 200 })
   }
-
+  
   const acceptHeader = req.headers.get('accept') || ''
   
+  // Verifica apenas se a requisição está pedindo explicitamente por HTML (padrão de navegadores)
   const isBrowser = acceptHeader.includes('text/html')
-
+  
   if (isBrowser) {
     return new NextResponse(loaderHtml, {
       status: 200,
-      headers: { 
+      headers: {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600'
       },
     })
   }
-
+  
   const scriptToReturn = `loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/66b35878a8bf3053747f543e17f7cdd565caa7d0bf5712a768ce5a874eb74c9e/download"))()`
   
   try {
