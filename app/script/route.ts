@@ -184,7 +184,7 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: { 
         'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600'
+        'Cache-Control': 'no-store, max-age=0'
       },
     })
   }
