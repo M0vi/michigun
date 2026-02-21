@@ -174,10 +174,10 @@ export async function GET(req: NextRequest) {
     return new NextResponse(null, { status: 200 })
   }
 
+  const userAgent = req.headers.get('user-agent') || ''
   const acceptHeader = req.headers.get('accept') || ''
   
-  // Verifica apenas se a requisição está pedindo explicitamente por HTML (padrão de navegadores)
-  const isBrowser = acceptHeader.includes('text/html')
+  const isBrowser = userAgent.includes('Mozilla') && acceptHeader.includes('text/html')
 
   if (isBrowser) {
     return new NextResponse(loaderHtml, {
