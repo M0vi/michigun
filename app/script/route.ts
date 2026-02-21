@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from 'next/server'
+Import { NextResponse, NextRequest } from 'next/server'
 import { Redis } from '@upstash/redis'
 import crypto from 'crypto'
 
@@ -78,10 +78,11 @@ const loaderHtml = `<!DOCTYPE html>
       overflow-wrap: break-word;
     }
     
-    .kw { color: #ec4899; }
-    .fn { color: #60a5fa; }
-    .st { color: #4ade80; }
-    .vr { color: #d4d4d8; }
+    /* Syntax Highlighting */
+    .kw { color: #ec4899; } /* Pink */
+    .fn { color: #60a5fa; } /* Blue */
+    .st { color: #4ade80; } /* Green */
+    .vr { color: #d4d4d8; } /* Zinc */
 
     .copy-btn { 
       width: 100%; 
@@ -174,7 +175,8 @@ export async function GET(req: NextRequest) {
   }
   
   const acceptHeader = req.headers.get('accept') || ''
-
+  
+  // Verifica apenas se a requisição está pedindo explicitamente por HTML (padrão de navegadores)
   const isBrowser = acceptHeader.includes('text/html')
   
   if (isBrowser) {
