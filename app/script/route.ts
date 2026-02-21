@@ -176,7 +176,6 @@ export async function GET(req: NextRequest) {
 
   const acceptHeader = req.headers.get('accept') || ''
   
-  // Verifica apenas se a requisição está pedindo explicitamente por HTML (padrão de navegadores)
   const isBrowser = acceptHeader.includes('text/html')
 
   if (isBrowser) {
