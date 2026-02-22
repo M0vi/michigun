@@ -1,16 +1,8 @@
 -- para de ficar tentando pegar a source :(
 return {
     silent = "silent.lua",
-    hitbox = "hitbox.lua",
-    esp = "esp.lua",
-    tas = "tas.lua",
-    jj = "jj.lua",
-    f3x = "f3x.lua",
-    char = "char.lua",
-    chatgpt = "chatgpt.lua",
+    treino = "treino.lua",
+    combate = "combate.lua",
     player = "player.lua",
-    tevez = "tevez.lua",
-    delta = "delta.lua",
-    soucre = "soucre.lua",
-    novaera = "novaera.lua"
+    jogos = "jogos.lua"
 }
