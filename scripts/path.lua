@@ -1,4 +1,4 @@
--- para de ficar tentando pegar a source
+-- para de ficar tentando pegar a
 return {
     silent = "silent.lua",
     treino = "treino.lua",
