@@ -4,22 +4,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import useSWR from 'swr'
 import {
-  Copy, Check, Download, MonitorPlay, Terminal, FileCode, FileText,
-  AlertTriangle, Search, X, Activity, Clock, BarChart3, Music, Code,
-  Gamepad2, Moon, Circle, Crosshair, Move, Bot, Route, Zap, Hammer,
-  UserCog, Globe, Skull, TabletSmartphone, Coins, Magnet, Eye, UserX,
-  Ghost, Wind, FastForward, ArrowUpCircle, MapPin, Wrench, ChevronRight,
-  Shield, Lock,
+  Copy, Check, Download, FileCode, FileText, AlertTriangle, Search, X,
+  Activity, Clock, BarChart3, Music, Code, Gamepad2, Moon, Circle,
+  Crosshair, Move, Bot, Route, Zap, Hammer, UserCog, Globe, Skull,
+  TabletSmartphone, Coins, Magnet, Eye, UserX, Ghost, Wind, FastForward,
+  ArrowUpCircle, MapPin, Wrench, Shield, Lock, Terminal,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
 
-/* ══════════════════════════════════════════════════════════════
-   CONFIG
-══════════════════════════════════════════════════════════════ */
 const CONFIG = {
   script: 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()',
   discordLink: 'https://discord.gg/pWeJUBabvF',
-  videoId: '20zXmdpUHQA',
   devs: [
     { id: '1163467888259239996', role: 'Dev' },
     { id: '1062463366792216657', role: 'CMO' },
@@ -36,28 +31,28 @@ const CONFIG = {
   ],
   features: {
     global: [
-      { name: 'Silent aim',     icon: Crosshair,      type: 'safe',   category: 'PVP',    desc: 'Permite matar alvos com facilidade, redirecionando os tiros a eles.' },
-      { name: 'Hitbox expander',icon: Move,            type: 'safe',   category: 'PVP',    desc: 'Permite amplificar o tamanho da hitbox dos inimigos, facilitando o acerto de tiros.' },
-      { name: 'ESP',            icon: Eye,             type: 'safe',   category: 'PVP',    desc: 'Permite ver inimigos através das paredes.' },
-      { name: "Auto JJ's",      icon: Activity,        type: 'safe',   category: 'Treino', desc: 'Realiza polichinelos automaticamente.' },
-      { name: 'TAS',            icon: Route,           type: 'safe',   category: 'Treino', desc: 'Permite realizar percursos automaticamente, garantindo que você não erre na hora H.' },
-      { name: 'F3X',            icon: Hammer,          type: 'safe',   category: 'Treino', desc: 'Permite modificar o tamanho de estruturas, seja aumentando ou diminuindo seus tamanhos.' },
-      { name: 'ChatGPT',        icon: Bot,             type: 'safe',   category: 'Treino', desc: 'API do ChatGPT integrada, permitindo responder rapidamente qualquer questão.' },
-      { name: 'Anti-lag',       icon: Zap,             type: 'safe',   category: 'Misc',   desc: 'Suprime texturas de alta qualidade e otimiza o jogo, garantindo mais FPS.' },
-      { name: 'Char',           icon: UserCog,         type: 'visual', category: 'Misc',   desc: 'Permite alterar o seu char ou o char de terceiros para qualquer um.' },
-      { name: 'Anonimizar',     icon: UserX,           type: 'safe',   category: 'Misc',   desc: 'Permite você gravar sua tela sem se identificar.' },
-      { name: 'Invisibilidade', icon: Ghost,           type: 'safe',   category: 'Local',  desc: 'Permite ficar invisível para os outros.' },
-      { name: 'Fling',          icon: Wind,            type: 'risk',   category: 'Local',  desc: 'Permite arremessar outros para o limbo.' },
-      { name: 'Speed',          icon: FastForward,     type: 'safe',   category: 'Local',  desc: 'Permite alterar sua velocidade.' },
-      { name: 'Jump',           icon: ArrowUpCircle,   type: 'safe',   category: 'Local',  desc: 'Permite alterar o seu pulo.' },
-      { name: 'Teleport',       icon: MapPin,          type: 'safe',   category: 'Local',  desc: 'Permite teleportar para outros jogadores.' },
+      { name: 'Silent aim',      icon: Crosshair,       type: 'safe',   category: 'PVP',    desc: 'Permite matar alvos com facilidade, redirecionando os tiros a eles.' },
+      { name: 'Hitbox expander', icon: Move,             type: 'safe',   category: 'PVP',    desc: 'Permite amplificar o tamanho da hitbox dos inimigos, facilitando o acerto de tiros.' },
+      { name: 'ESP',             icon: Eye,              type: 'safe',   category: 'PVP',    desc: 'Permite ver inimigos através das paredes.' },
+      { name: "Auto JJ's",       icon: Activity,         type: 'safe',   category: 'Treino', desc: 'Realiza polichinelos automaticamente.' },
+      { name: 'TAS',             icon: Route,            type: 'safe',   category: 'Treino', desc: 'Permite realizar percursos automaticamente, garantindo que você não erre na hora H.' },
+      { name: 'F3X',             icon: Hammer,           type: 'safe',   category: 'Treino', desc: 'Permite modificar o tamanho de estruturas, seja aumentando ou diminuindo seus tamanhos.' },
+      { name: 'ChatGPT',         icon: Bot,              type: 'safe',   category: 'Treino', desc: 'API do ChatGPT integrada, permitindo responder rapidamente qualquer questão.' },
+      { name: 'Anti-lag',        icon: Zap,              type: 'safe',   category: 'Misc',   desc: 'Suprime texturas e otimiza o jogo, garantindo mais FPS.' },
+      { name: 'Char',            icon: UserCog,          type: 'visual', category: 'Misc',   desc: 'Permite alterar o seu char ou o char de terceiros para qualquer um.' },
+      { name: 'Anonimizar',      icon: UserX,            type: 'safe',   category: 'Misc',   desc: 'Permite você gravar sua tela sem se identificar.' },
+      { name: 'Invisibilidade',  icon: Ghost,            type: 'safe',   category: 'Local',  desc: 'Permite ficar invisível para os outros.' },
+      { name: 'Fling',           icon: Wind,             type: 'risk',   category: 'Local',  desc: 'Permite arremessar outros para o limbo.' },
+      { name: 'Speed',           icon: FastForward,      type: 'safe',   category: 'Local',  desc: 'Permite alterar sua velocidade.' },
+      { name: 'Jump',            icon: ArrowUpCircle,    type: 'safe',   category: 'Local',  desc: 'Permite alterar o seu pulo.' },
+      { name: 'Teleport',        icon: MapPin,           type: 'safe',   category: 'Local',  desc: 'Permite teleportar para outros jogadores.' },
     ],
     tevez: [
-      { name: 'Global +',  icon: Globe,           type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam neste mapa.' },
-      { name: 'Kill aura', icon: Skull,           type: 'risk', category: 'Geral', desc: 'Permite matar todos os inimigos ao redor instantaneamente.' },
-      { name: 'Mods',      icon: Wrench,          type: 'safe', category: 'Geral', desc: 'Permite modificar sua arma.' },
-      { name: 'Spoofer',   icon: TabletSmartphone,type: 'safe', category: 'Geral', desc: 'Permite alterar o dispositivo mostrado no seu personagem.' },
-      { name: 'Autofarm',  icon: Coins,           type: 'safe', category: 'Geral', desc: 'Permite roubar o banco automaticamente.' },
+      { name: 'Global +',  icon: Globe,            type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam neste mapa.' },
+      { name: 'Kill aura', icon: Skull,            type: 'risk', category: 'Geral', desc: 'Permite matar todos os inimigos ao redor instantaneamente.' },
+      { name: 'Mods',      icon: Wrench,           type: 'safe', category: 'Geral', desc: 'Permite modificar sua arma.' },
+      { name: 'Spoofer',   icon: TabletSmartphone, type: 'safe', category: 'Geral', desc: 'Permite alterar o dispositivo mostrado no seu personagem.' },
+      { name: 'Autofarm',  icon: Coins,            type: 'safe', category: 'Geral', desc: 'Permite roubar o banco automaticamente.' },
     ],
     delta: [
       { name: 'Global +', icon: Globe, type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
@@ -74,25 +69,23 @@ const CONFIG = {
   },
 }
 
-/* ══════════════════════════════════════════════════════════════
-   GLOBAL STYLES
-══════════════════════════════════════════════════════════════ */
-const GlobalStyles = () => (
+const Styles = () => (
   <style jsx global>{`
-    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
 
     :root {
-      --red:        #dc2626;
-      --red-bright: #ef4444;
-      --red-glow:   rgba(220,38,38,.4);
-      --bg:         #060608;
-      --s1:         #0b0b0e;
-      --s2:         #111115;
-      --s3:         #161619;
-      --border:     rgba(255,255,255,.07);
-      --border2:    rgba(255,255,255,.13);
-      --muted:      #52525b;
-      --dimmed:     #3f3f46;
+      --r: #e63c3c;
+      --rb: #ff4f4f;
+      --rg: rgba(230,60,60,.38);
+      --bg: #050507;
+      --p1: #0d0d10;
+      --p2: #131317;
+      --p3: #1a1a1f;
+      --b1: rgba(255,255,255,.065);
+      --b2: rgba(255,255,255,.12);
+      --t1: #e4e4e7;
+      --t2: #71717a;
+      --t3: #3f3f46;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -100,175 +93,95 @@ const GlobalStyles = () => (
 
     body {
       background: var(--bg);
-      color: #e4e4e7;
-      font-family: 'Barlow Condensed', sans-serif;
+      color: var(--t1);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
       user-select: none;
       -webkit-user-select: none;
-      overflow-x: hidden;
     }
 
-    /* Radial ambient */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 65% 40% at 50% -5%, rgba(220,38,38,.08) 0%, transparent 70%),
-        radial-gradient(ellipse 35% 25% at 90% 90%,  rgba(220,38,38,.04) 0%, transparent 60%);
+        radial-gradient(ellipse 80% 55% at 50% -10%, rgba(230,60,60,.07) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 35% at 5%  110%,  rgba(230,60,60,.04) 0%, transparent 60%);
     }
 
-    /* Scanlines */
-    body::after {
-      content: '';
-      position: fixed; inset: 0; z-index: 1; pointer-events: none;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 3px,
-        rgba(0,0,0,.07) 3px, rgba(0,0,0,.07) 4px
-      );
-    }
-
-    .mono  { font-family: 'JetBrains Mono', monospace; }
-    .cond  { font-family: 'Barlow Condensed', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
 
     ::-webkit-scrollbar { width: 2px; height: 2px; }
     ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
 
-    /* ── Noise overlay ── */
-    .noise {
-      position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: .025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      animation: noiseShift .4s steps(2) infinite;
+    .noise-layer {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      opacity: .022;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: noiseAnim .35s steps(2) infinite;
     }
-    @keyframes noiseShift {
+    @keyframes noiseAnim {
       0%   { background-position: 0 0; }
-      25%  { background-position: -10% -5%; }
-      50%  { background-position: 5% 15%; }
-      75%  { background-position: -15% 5%; }
+      33%  { background-position: -8% 12%; }
+      66%  { background-position: 12% -8%; }
       100% { background-position: 0 0; }
     }
 
-    /* ── Glitch ── */
-    @keyframes glitch {
-      0%, 93%, 100% { transform: translate(0); clip-path: none; opacity: 1; }
-      94% { transform: translate(-2px, 1px); clip-path: polygon(0 15%, 100% 15%, 100% 35%, 0 35%); color: #f87171; }
-      96% { transform: translate(2px, -1px); clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%); color: #ef4444; }
-      98% { transform: translate(-1px, 0); clip-path: none; }
-    }
-    .glitch { animation: glitch 7s ease-in-out infinite; display: inline-block; }
-
-    /* ── Marquee ── */
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .marquee { animation: marquee 34s linear infinite; }
-    .marquee:hover { animation-play-state: paused; }
-    .fade-x { mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent); }
-
-    /* ── Pulse ── */
-    @keyframes pulseDot { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.35); } }
-    .pdot { animation: pulseDot 1.6s ease-in-out infinite; }
-
-    /* ── Blink cursor ── */
-    @keyframes blinkC { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    .cursor::after { content: '▋'; animation: blinkC .9s step-end infinite; margin-left: 1px; color: var(--red-bright); }
-
-    /* ── Tab underline ── */
-    @keyframes lineIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
-    /* ── Red line divider ── */
-    .red-line {
+    .divider {
       height: 1px;
-      background: linear-gradient(to right, transparent, var(--red) 25%, var(--red) 75%, transparent);
-      opacity: .2;
+      background: linear-gradient(90deg, transparent, rgba(230,60,60,.2) 35%, rgba(230,60,60,.2) 65%, transparent);
     }
 
-    /* ── Section label ── */
     .slabel {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 8px;
+      font-size: 9px;
+      letter-spacing: .3em;
       text-transform: uppercase;
-      letter-spacing: .28em;
-      color: var(--red-bright);
-      opacity: .55;
+      color: var(--r);
+      opacity: .5;
     }
 
-    /* ── Card base ── */
-    .card {
-      background: var(--s1);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      transition: border-color .18s, background .18s;
+    .surface {
+      background: var(--p1);
+      border: 1px solid var(--b1);
+      border-radius: 14px;
+      transition: border-color .2s;
     }
-    .card:hover { border-color: var(--border2); }
+    .surface:hover { border-color: var(--b2); }
 
-    /* ── HUD corner bracket ── */
-    .hud::before, .hud::after {
-      content: '';
-      position: absolute;
-      width: 12px; height: 12px;
-      border-color: rgba(220,38,38,.4);
-      border-style: solid;
+    @keyframes glow-pulse {
+      0%, 100% { opacity: .45; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.4); }
     }
-    .hud::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
-    .hud::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+    .glow-dot { animation: glow-pulse 1.8s ease-in-out infinite; }
 
-    /* ── Stat box ── */
-    .stat-box {
-      background: var(--s1);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px 14px;
-      position: relative;
-      overflow: hidden;
+    @keyframes glitch-clip {
+      0%, 90%, 100% { transform: translate(0); filter: none; }
+      91% { transform: translate(-3px, 1px);  clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); filter: hue-rotate(20deg); }
+      93% { transform: translate(3px, -1px);  clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%); }
+      95% { transform: translate(-1px, 0);    clip-path: none; }
     }
-    .stat-box::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(to right, transparent, var(--red) 50%, transparent);
-      opacity: .35;
+    .glitch { animation: glitch-clip 8s ease-in-out infinite; display: inline-block; }
+
+    @keyframes typeIn {
+      from { width: 0; }
+      to   { width: 100%; }
     }
 
-    /* ── Feature card ── */
-    .fc {
-      background: var(--s1);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      cursor: pointer;
-      min-height: 108px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: border-color .18s, background .18s, transform .18s;
-      position: relative;
-      overflow: hidden;
-    }
-    .fc::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0; height: 2px;
-      background: var(--acc, #22c55e);
-      opacity: 0;
-      transition: opacity .18s;
-    }
-    .fc:hover { border-color: var(--border2); background: var(--s2); transform: translateY(-2px); }
-    .fc:hover::after { opacity: .7; }
-    .fc-safe   { --acc: #22c55e; }
-    .fc-risk   { --acc: #dc2626; }
-    .fc-visual { --acc: #a855f7; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee { animation: marquee 36s linear infinite; }
+    .marquee:hover { animation-play-state: paused; }
+    .fade-sides { mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); }
 
-    /* ── Type badge ── */
-    .badge-safe   { color: rgba(34,197,94,.7);  border-color: rgba(34,197,94,.2); }
-    .badge-risk   { color: rgba(220,38,38,.8);   border-color: rgba(220,38,38,.25); }
-    .badge-visual { color: rgba(168,85,247,.7);  border-color: rgba(168,85,247,.25); }
+    @keyframes lineIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-    /* ── Tab ── */
-    .tab {
-      padding: 8px 18px;
-      font-family: 'Barlow Condensed', sans-serif;
+    .tab-item {
+      padding: 9px 20px;
+      font-family: 'Syne', sans-serif;
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: .1em;
+      letter-spacing: .06em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--t3);
       background: none;
       border: none;
       cursor: pointer;
@@ -276,65 +189,131 @@ const GlobalStyles = () => (
       position: relative;
       white-space: nowrap;
     }
-    .tab.active { color: #fff; }
-    .tab.active::after {
+    .tab-item:hover { color: var(--t2); }
+    .tab-item.on { color: #fff; }
+    .tab-item.on::after {
       content: '';
       position: absolute;
       bottom: -1px; left: 0; right: 0; height: 1px;
-      background: var(--red-bright);
+      background: var(--rb);
       transform-origin: left;
-      animation: lineIn .2s ease forwards;
+      animation: lineIn .22s ease forwards;
+    }
+
+    .fc {
+      background: var(--p1);
+      border: 1px solid var(--b1);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      min-height: 104px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .18s, background .18s, transform .18s, box-shadow .18s;
+    }
+    .fc::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 0% 100%, var(--acc, rgba(34,197,94,.06)) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity .22s;
+    }
+    .fc:hover {
+      border-color: rgba(255,255,255,.14);
+      background: var(--p2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    }
+    .fc:hover::before { opacity: 1; }
+    .fc-safe   { --acc: rgba(34,197,94,.1); }
+    .fc-risk   { --acc: rgba(230,60,60,.1); }
+    .fc-visual { --acc: rgba(168,85,247,.1); }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid;
+    }
+    .badge-safe   { color: rgba(34,197,94,.75);  border-color: rgba(34,197,94,.2); }
+    .badge-risk   { color: rgba(230,60,60,.8);    border-color: rgba(230,60,60,.25); }
+    .badge-visual { color: rgba(168,85,247,.75);  border-color: rgba(168,85,247,.2); }
+
+    .stat-card {
+      background: var(--p1);
+      border: 1px solid var(--b1);
+      border-radius: 12px;
+      padding: 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 20%; right: 20%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--r), transparent);
+      opacity: .3;
     }
   `}</style>
 )
 
-/* ══════════════════════════════════════════════════════════════
-   SMALL HELPERS
-══════════════════════════════════════════════════════════════ */
 const CountUp = ({ end }: { end: number }) => {
-  const [c, setC] = useState(0)
+  const [n, setN] = useState(0)
   useEffect(() => {
-    let s = 0
-    const inc = end / (1500 / 16)
+    let v = 0
+    const step = end / (1500 / 16)
     const t = setInterval(() => {
-      s += inc
-      if (s >= end) { setC(end); clearInterval(t) } else setC(Math.floor(s))
+      v += step
+      if (v >= end) { setN(end); clearInterval(t) } else setN(Math.floor(v))
     }, 16)
     return () => clearInterval(t)
   }, [end])
-  return <>{c.toLocaleString()}</>
+  return <>{n.toLocaleString()}</>
 }
 
 const Countdown = () => {
-  const [t, setT] = useState('')
+  const [v, setV] = useState('')
   useEffect(() => {
-    const k = () => {
-      const n = new Date(), m = new Date(n)
-      m.setHours(24, 0, 0, 0)
-      const d = m.getTime() - n.getTime()
-      const h = Math.floor((d / 36e5) % 24), x = Math.floor((d / 6e4) % 60)
-      setT(`${h}h ${String(x).padStart(2, '0')}m`)
+    const tick = () => {
+      const now = new Date(), next = new Date(now)
+      next.setHours(24, 0, 0, 0)
+      const diff = next.getTime() - now.getTime()
+      const h = Math.floor((diff / 36e5) % 24)
+      const m = Math.floor((diff / 6e4) % 60)
+      setV(`${h}h ${String(m).padStart(2, '0')}m`)
     }
-    const i = setInterval(k, 6e4); k(); return () => clearInterval(i)
+    const i = setInterval(tick, 6e4); tick(); return () => clearInterval(i)
   }, [])
-  return <span>{t}</span>
+  return <span>{v}</span>
 }
 
 const TypeWriter = ({ text, delay = 0 }: { text: string; delay?: number }) => {
   const [out, setOut] = useState('')
-  const [go, setGo] = useState(false)
-  useEffect(() => { const t = setTimeout(() => setGo(true), delay); return () => clearTimeout(t) }, [delay])
+  const [active, setActive] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setActive(true), delay); return () => clearTimeout(t) }, [delay])
   useEffect(() => {
-    if (!go) return
+    if (!active) return
     let i = 0
-    const t = setInterval(() => { setOut(text.slice(0, ++i)); if (i >= text.length) clearInterval(t) }, 26)
+    const t = setInterval(() => { setOut(text.slice(0, ++i)); if (i >= text.length) clearInterval(t) }, 24)
     return () => clearInterval(t)
-  }, [go, text])
-  return <span className="cursor">{out}</span>
+  }, [active, text])
+  return (
+    <span>
+      {out}
+      {out.length < text.length && <span className="inline-block w-0.5 h-3 bg-red-500 ml-0.5 align-middle animate-pulse" />}
+    </span>
+  )
 }
 
-const CodeDisplay = () => (
-  <div className="mono text-[11px] sm:text-xs whitespace-pre-wrap break-all leading-relaxed">
+const ScriptCode = () => (
+  <span className="mono text-[11px] sm:text-xs whitespace-nowrap">
     <span className="text-red-400">loadstring</span>
     <span className="text-zinc-600">(</span>
     <span className="text-sky-400">request</span>
@@ -348,34 +327,29 @@ const CodeDisplay = () => (
     <span className="text-zinc-600">).</span>
     <span className="text-sky-400">Body</span>
     <span className="text-zinc-600">)()</span>
-  </div>
+  </span>
 )
 
-/* ══════════════════════════════════════════════════════════════
-   STATS
-══════════════════════════════════════════════════════════════ */
-function StatsDeck() {
+function Stats() {
   const { data } = useSWR('/api/stats', fetcher, { refreshInterval: 1e4 })
-  const stats = [
-    { label: 'Total',  Icon: Activity,  value: data?.executions, accent: '#ef4444' },
-    { label: 'Hoje',   Icon: BarChart3, value: data?.daily,      accent: '#f97316' },
-    { label: 'Reset',  Icon: Clock,     value: 'cd',             accent: '#eab308' },
+  const items = [
+    { label: 'Total',  Icon: Activity,  value: data?.executions, color: '#ef4444' },
+    { label: 'Hoje',   Icon: BarChart3, value: data?.daily,      color: '#f97316' },
+    { label: 'Reset',  Icon: Clock,     value: 'cd',             color: '#facc15' },
   ]
   return (
-    <div className="grid grid-cols-3 gap-2">
-      {stats.map((s, j) => (
-        <motion.div key={j} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: j * .08 + .25 }} className="stat-box flex flex-col gap-2.5">
+    <div className="grid grid-cols-3 gap-2.5">
+      {items.map((s, i) => (
+        <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * .09 + .3 }} className="stat-card flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <s.Icon size={11} style={{ color: s.accent }} />
-            <span className="mono text-[8px] uppercase tracking-[.18em] text-zinc-600">{s.label}</span>
+            <s.Icon size={11} style={{ color: s.color }} />
+            <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600">{s.label}</span>
           </div>
-          <span className="mono text-xl font-semibold text-white leading-none">
+          <span className="mono text-2xl font-semibold text-white leading-none tracking-tight">
             {s.value === 'cd'
               ? <Countdown />
-              : s.value
-                ? <CountUp end={s.value as number} />
-                : <span className="text-zinc-700">—</span>}
+              : s.value ? <CountUp end={s.value as number} /> : <span className="text-zinc-700">—</span>}
           </span>
         </motion.div>
       ))}
@@ -383,50 +357,54 @@ function StatsDeck() {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════
-   TEAM
-══════════════════════════════════════════════════════════════ */
 function TeamCard({ dev }: { dev: any }) {
   const { data } = useSWR(`https://api.lanyard.rest/v1/users/${dev.id}`, fetcher, { refreshInterval: 5e3 })
   const u = data?.success ? data.data : null
   const spotify = u?.listening_to_spotify && u.spotify
   const activity = u?.activities?.find((x: any) => x.type !== 4 && x.name !== 'Spotify')
 
-  let label = 'Offline', SIcon = Circle, dot = '#3f3f46'
-  if (spotify) { label = u.spotify.song; SIcon = Music; dot = '#22c55e' }
-  else if (activity) { label = activity.name === 'Code' ? 'Codando' : activity.name; SIcon = activity.name === 'Code' ? Code : Gamepad2; dot = '#fff' }
-  else {
+  let label = 'Offline'
+  let SIcon: any = Circle
+  let dot = '#3f3f46'
+
+  if (spotify)  { label = u.spotify.song;  SIcon = Music; dot = '#22c55e' }
+  else if (activity) {
+    label = activity.name === 'Code' ? 'Codando' : activity.name
+    SIcon = activity.name === 'Code' ? Code : Gamepad2
+    dot = '#a1a1aa'
+  } else {
     const st = u?.discord_status
     if (st === 'online')  { label = 'Online';  dot = '#22c55e' }
-    else if (st === 'idle')   { label = 'Ausente'; SIcon = Moon; dot = '#f59e0b' }
-    else if (st === 'dnd')    { label = 'Ocupado'; dot = '#dc2626' }
+    if (st === 'idle')    { label = 'Ausente';  SIcon = Moon; dot = '#f59e0b' }
+    if (st === 'dnd')     { label = 'Ocupado';  dot = '#dc2626' }
   }
 
   return (
-    <motion.div whileHover={{ x: 3 }}
-      className="flex items-center gap-4 p-4 card cursor-default"
+    <motion.div whileHover={{ x: 2 }}
+      className="flex items-center gap-4 p-4 surface cursor-default"
       onMouseEnter={() => playSound('hover')}>
       <div className="relative shrink-0">
         <Image
           src={u?.discord_user?.avatar
             ? `https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png`
-            : `https://ui-avatars.com/api/?name=D&background=111&color=555`}
-          alt="av" width={40} height={40}
-          className="rounded-full ring-1 ring-white/10" unoptimized />
-        <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-[var(--s1)] pdot"
+            : `https://ui-avatars.com/api/?name=Dev&background=111&color=555`}
+          alt="av" width={42} height={42} unoptimized
+          className="rounded-xl ring-1 ring-white/10" />
+        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-[2.5px] border-[var(--p1)] glow-dot"
           style={{ background: dot }} />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-center mb-1">
-          <span className="font-bold text-sm tracking-wide text-white truncate">
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="font-bold text-sm text-white truncate tracking-wide">
             {u?.discord_user?.username || '...'}
           </span>
-          <span className="mono text-[7px] uppercase tracking-[.25em] text-red-500/60 border border-red-500/20 px-1.5 py-0.5 rounded">
+          <span className="mono text-[7px] uppercase tracking-[.25em] border px-2 py-0.5 rounded-md"
+            style={{ color: 'rgba(230,60,60,.6)', borderColor: 'rgba(230,60,60,.2)' }}>
             {dev.role}
           </span>
         </div>
         <div className="flex items-center gap-1.5 mono text-[10px] truncate"
-          style={{ color: dot === '#fff' ? '#71717a' : dot + 'b3' }}>
+          style={{ color: dot === '#a1a1aa' ? '#52525b' : dot + 'aa' }}>
           <SIcon size={9} />
           <span className="truncate">{label}</span>
         </div>
@@ -435,12 +413,9 @@ function TeamCard({ dev }: { dev: any }) {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FEATURES
-══════════════════════════════════════════════════════════════ */
-function FeatureSection() {
+function Features() {
   const [tab, setTab]     = useState('global')
-  const [q,   setQ]       = useState('')
+  const [q, setQ]         = useState('')
   const [modal, setModal] = useState<{ name: string; desc: string; type: string } | null>(null)
 
   const filtered = useMemo(() =>
@@ -459,65 +434,59 @@ function FeatureSection() {
 
   return (
     <section className="flex flex-col gap-6">
-      {/* header */}
-      <div className="flex flex-col md:flex-row justify-between gap-4 items-start md:items-center">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-end">
         <div>
-          <div className="slabel mb-1.5">Sistema</div>
-          <h2 className="text-4xl font-black uppercase tracking-wide text-white leading-none">Funções</h2>
+          <div className="slabel mb-2">Sistema</div>
+          <h2 className="text-[38px] font-extrabold tracking-tight text-white leading-none">Funções</h2>
         </div>
-        <div className="relative w-full md:w-60">
+        <div className="relative w-full sm:w-56">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-700" size={12} />
           <input
-            type="text" placeholder="Buscar função..." value={q}
+            type="text" placeholder="Buscar..." value={q}
             onChange={e => setQ(e.target.value)}
-            className="w-full bg-[var(--s1)] border border-[var(--border)] rounded-lg pl-9 pr-3 py-2.5 mono text-xs text-white focus:outline-none focus:border-red-600/30 transition-colors placeholder:text-zinc-700"
+            className="w-full bg-[var(--p1)] border border-[var(--b1)] rounded-xl pl-9 pr-4 py-2.5 mono text-xs text-white placeholder:text-zinc-700 focus:outline-none focus:border-[rgba(230,60,60,.3)] transition-colors"
           />
         </div>
       </div>
 
-      {/* tabs */}
-      <div className="flex border-b border-[var(--border)] overflow-x-auto">
-        {Object.keys(CONFIG.features).map(x => (
-          <button key={x}
-            onClick={() => { setTab(x); playSound('click') }}
-            className={`tab ${tab === x ? 'active' : ''}`}>
-            {x.replace('_', ' ')}
+      <div className="flex border-b border-[var(--b1)] overflow-x-auto gap-1">
+        {Object.keys(CONFIG.features).map(k => (
+          <button key={k} onClick={() => { setTab(k); playSound('click') }}
+            className={`tab-item ${tab === k ? 'on' : ''}`}>
+            {k.replace('_', ' ')}
           </button>
         ))}
       </div>
 
-      {/* cards */}
       <AnimatePresence mode="wait">
-        <motion.div key={tab} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+        <motion.div key={tab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }} className="flex flex-col gap-8">
           {Object.entries(grouped).map(([cat, items]: any) => (
             <div key={cat}>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-[3px] h-4 rounded-sm" style={{ background: 'var(--red)' }} />
-                <span className="mono text-[8px] uppercase tracking-[.25em] text-zinc-600">{cat}</span>
-                <div className="flex-1 h-px bg-[var(--border)]" />
+                <div className="w-0.5 h-4 rounded-full bg-red-600" />
+                <span className="mono text-[8px] uppercase tracking-[.28em] text-zinc-600">{cat}</span>
+                <div className="flex-1 h-px bg-[var(--b1)]" />
                 <span className="mono text-[8px] text-zinc-700">{items.length}</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
                 <AnimatePresence mode="popLayout">
                   {items.map((f: any, j: number) => (
                     <motion.div key={f.name}
-                      initial={{ opacity: 0, scale: .94 }}
+                      initial={{ opacity: 0, scale: .93 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: .94 }}
-                      transition={{ delay: j * .025 }}
+                      exit={{ opacity: 0, scale: .93 }}
+                      transition={{ delay: j * .02 }}
                       onClick={() => { setModal({ name: f.name, desc: f.desc, type: f.type }); playSound('click') }}
                       className={`fc fc-${f.type}`}>
                       <div className="flex justify-between items-start">
-                        <div className="p-2 rounded-md bg-white/[.04]">
+                        <div className="p-2 rounded-lg bg-white/[.04]">
                           <f.icon size={13} className="text-zinc-500" />
                         </div>
-                        <span className={`mono text-[7px] uppercase tracking-wider px-1.5 py-0.5 rounded border badge-${f.type}`}>
-                          {f.type}
-                        </span>
+                        <span className={`badge badge-${f.type}`}>{f.type}</span>
                       </div>
                       <div>
-                        <div className="text-[11px] font-bold uppercase tracking-wide text-zinc-200 leading-tight">{f.name}</div>
+                        <div className="text-[12px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
                         <div className="mono text-[7px] text-zinc-700 mt-0.5 uppercase tracking-widest">{f.category}</div>
                       </div>
                     </motion.div>
@@ -529,25 +498,23 @@ function FeatureSection() {
         </motion.div>
       </AnimatePresence>
 
-      {/* modal */}
       <AnimatePresence>
         {modal && (
           <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setModal(null)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-lg" />
-            <motion.div initial={{ opacity: 0, scale: .94, y: 8 }} animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: .94 }}
-              className={`relative hud w-full max-w-sm fc fc-${modal.type} p-6`}
-              style={{ background: 'var(--s1)', border: '1px solid var(--border2)' }}>
+              className="absolute inset-0 bg-black/75 backdrop-blur-xl" />
+            <motion.div initial={{ opacity: 0, scale: .93, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: .93 }}
+              className={`relative w-full max-w-sm surface p-7 fc fc-${modal.type}`}
+              style={{ background: 'var(--p1)', border: '1px solid var(--b2)' }}>
               <button onClick={() => setModal(null)}
-                className="absolute top-4 right-4 text-zinc-700 hover:text-white transition-colors">
-                <X size={14} />
+                className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
+                <X size={15} />
               </button>
-              <span className={`mono text-[8px] uppercase tracking-[.25em] badge-${modal.type} border rounded px-1.5 py-0.5`}>
-                {modal.type}
-              </span>
-              <h3 className="text-xl font-black uppercase tracking-wide text-white mt-3 mb-2">{modal.name}</h3>
+              <span className={`badge badge-${modal.type} mb-4 inline-block`}>{modal.type}</span>
+              <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
               <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
             </motion.div>
           </div>
@@ -557,13 +524,9 @@ function FeatureSection() {
   )
 }
 
-/* ══════════════════════════════════════════════════════════════
-   PAGE
-══════════════════════════════════════════════════════════════ */
-export default function Home() {
+export default function Page() {
   const [copied, setCopied] = useState(false)
   const [dlOpen, setDlOpen] = useState(false)
-  const [video,  setVideo]  = useState(false)
 
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
@@ -582,135 +545,104 @@ export default function Home() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const dl = (ext: string) => {
+  const download = (ext: string) => {
     const a = document.createElement('a')
-    const b = new Blob([CONFIG.script], { type: 'application/octet-stream' })
-    a.href = URL.createObjectURL(b); a.download = `michigun.${ext}`; a.click()
+    const blob = new Blob([CONFIG.script], { type: 'application/octet-stream' })
+    a.href = URL.createObjectURL(blob)
+    a.download = `michigun.${ext}`
+    a.click()
     setDlOpen(false)
   }
 
   return (
-    <main className="relative z-10 w-full max-w-5xl mx-auto px-5 md:px-10 pb-24 flex flex-col gap-16">
-      <GlobalStyles />
-      <div className="noise" />
+    <main className="relative z-10 w-full max-w-5xl mx-auto px-5 md:px-10 pb-28 flex flex-col gap-20">
+      <Styles />
+      <div className="noise-layer" />
 
-      {/* ─── HERO ─── */}
-      <section className="relative pt-20 md:pt-28 flex flex-col gap-5">
-        <div className="absolute -top-24 -left-24 w-[520px] h-[420px] pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse, rgba(220,38,38,.06) 0%, transparent 70%)' }} />
+      <section className="relative pt-24 md:pt-32 flex flex-col gap-6">
+        <div className="absolute -top-32 -left-40 w-[600px] h-[500px] pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse, rgba(230,60,60,.055) 0%, transparent 65%)' }} />
 
-        <motion.div initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: .1 }}
-          className="flex items-center gap-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-red-500 pdot" />
-          <span className="mono text-[8px] uppercase tracking-[.35em] text-red-500/55">Sistema ativo</span>
-          <div className="h-px w-14 bg-gradient-to-r from-red-500/30 to-transparent" />
+        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: .1 }}
+          className="flex items-center gap-2.5">
+          <div className="w-1.5 h-1.5 rounded-full bg-red-500 glow-dot" />
+          <span className="mono text-[8px] uppercase tracking-[.35em] text-red-500/50">Ativo</span>
         </motion.div>
 
-        <motion.h1 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .18 }}
-          className="text-7xl md:text-9xl font-black uppercase leading-none tracking-tighter">
-          <span className="glitch">michi</span>
-          <span style={{ color: '#dc2626', textShadow: '0 0 40px rgba(220,38,38,.55), 0 0 80px rgba(220,38,38,.2)' }}>gun</span>
-          <span style={{ color: 'var(--dimmed)' }}>.xyz</span>
-        </motion.h1>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .18 }}>
+          <h1 className="text-[72px] md:text-[108px] font-extrabold leading-none tracking-tighter">
+            <span className="glitch text-white">michi</span>
+            <span style={{ color: '#e63c3c', textShadow: '0 0 50px rgba(230,60,60,.5), 0 0 100px rgba(230,60,60,.18)' }}>
+              gun
+            </span>
+            <span style={{ color: '#27272a' }}>.xyz</span>
+          </h1>
+        </motion.div>
 
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .35 }}
-          className="mono text-[11px] text-zinc-500 max-w-xs leading-relaxed tracking-wide">
-          <TypeWriter text="Desenvolvido por @fp3 para fins educacionais." delay={450} />
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4 }}
+          className="mono text-xs text-zinc-600 max-w-xs leading-relaxed">
+          <TypeWriter text="Desenvolvido por @fp3 para fins educacionais." delay={500} />
         </motion.p>
 
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .55 }}
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .6 }}
           className="flex items-center gap-4 pt-1">
           <a href={CONFIG.discordLink} target="_blank" rel="noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 bg-white/[.04] border border-white/[.08] text-zinc-300 text-sm font-bold uppercase tracking-widest rounded-lg hover:bg-white/[.07] hover:border-white/[.14] hover:text-white transition-all">
-            <Shield size={12} />
+            className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl font-semibold text-sm tracking-wide transition-all"
+            style={{ background: 'rgba(230,60,60,.1)', border: '1px solid rgba(230,60,60,.2)', color: '#f87171' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(230,60,60,.17)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(230,60,60,.1)' }}>
+            <Shield size={13} />
             Discord
-            <ChevronRight size={11} className="text-zinc-600" />
           </a>
-          <div className="flex items-center gap-1.5 mono text-[8px] text-zinc-600 uppercase tracking-widest">
-            <Lock size={9} />indetectado
+          <div className="flex items-center gap-2 mono text-[8px] text-zinc-700 uppercase tracking-widest">
+            <Lock size={9} />
+            Indetectado
           </div>
         </motion.div>
       </section>
 
-      <div className="red-line" />
+      <div className="divider" />
 
-      {/* ─── EXECUÇÃO ─── */}
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-5">
         <div className="slabel mb-1">Execução</div>
 
-        {/* video + stats */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          <div className="md:col-span-3 card overflow-hidden">
-            <div className="relative aspect-video bg-black cursor-pointer group"
-              onClick={() => { setVideo(true); playSound('click') }}>
-              {!video ? (
-                <>
-                  <Image src={`https://img.youtube.com/vi/${CONFIG.videoId}/maxresdefault.jpg`}
-                    alt="thumb" fill className="object-cover opacity-20 group-hover:opacity-35 transition-all duration-500 grayscale group-hover:grayscale-[40%]" unoptimized />
-                  {/* HUD brackets */}
-                  {['top-3 left-3 border-t border-l','top-3 right-3 border-t border-r','bottom-3 left-3 border-b border-l','bottom-3 right-3 border-b border-r'].map((c, i) => (
-                    <div key={i} className={`absolute ${c} w-5 h-5`} style={{ borderColor: 'rgba(220,38,38,.4)' }} />
-                  ))}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: .96 }}
-                      className="flex items-center gap-3 px-6 py-3 bg-black/60 border border-red-700/50 rounded-lg text-red-400 text-sm font-bold uppercase tracking-widest hover:bg-red-700/15 transition-all">
-                      <MonitorPlay size={15} />Preview
-                    </motion.button>
-                  </div>
-                  <div className="absolute bottom-3 left-0 right-0 flex justify-center">
-                    <div className="mono text-[7px] uppercase tracking-[.3em] text-red-500/40 flex items-center gap-2">
-                      <div className="w-1 h-1 rounded-full bg-red-500 pdot" />CLIQUE PARA ASSISTIR
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <iframe src={`https://www.youtube-nocookie.com/embed/${CONFIG.videoId}?autoplay=1`}
-                  className="absolute inset-0 w-full h-full" allowFullScreen />
-              )}
-            </div>
-          </div>
+        <Stats />
 
-          <div className="md:col-span-2">
-            <StatsDeck />
-          </div>
-        </div>
-
-        {/* script input */}
-        <div className="flex flex-col sm:flex-row gap-2">
-          <div className="relative flex-1 card flex items-center gap-3 px-4 py-3 overflow-hidden">
+        <div className="flex flex-col sm:flex-row gap-2.5 mt-1">
+          <div className="relative flex-1 surface flex items-center gap-3 px-4 py-3.5 overflow-hidden">
             <Terminal size={12} className="text-zinc-700 shrink-0" />
-            <div className="overflow-x-auto flex-1 scrollbar-hide"><CodeDisplay /></div>
-            <div className="absolute right-0 top-0 bottom-0 w-14 pointer-events-none"
-              style={{ background: 'linear-gradient(to left, var(--s1), transparent)' }} />
+            <div className="overflow-x-auto flex-1 scrollbar-none"><ScriptCode /></div>
+            <div className="absolute right-0 top-0 bottom-0 w-16 pointer-events-none"
+              style={{ background: 'linear-gradient(to left, var(--p1), transparent)' }} />
           </div>
           <div className="flex gap-2 shrink-0">
             <motion.button whileTap={{ scale: .96 }} onClick={copy}
               className={cn(
-                'flex items-center gap-2 px-5 py-2.5 border rounded-lg mono text-xs font-bold uppercase tracking-wide transition-all',
+                'flex items-center gap-2 px-5 py-2.5 rounded-xl mono text-xs font-semibold uppercase tracking-wide border transition-all',
                 copied
                   ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400'
-                  : 'bg-white/[.03] border-[var(--border)] text-zinc-500 hover:text-white hover:border-[var(--border2)]'
+                  : 'bg-[var(--p1)] border-[var(--b1)] text-zinc-500 hover:text-white hover:border-[var(--b2)]'
               )}>
               {copied ? <Check size={12} /> : <Copy size={12} />}
-              {copied ? 'OK' : 'Copiar'}
+              {copied ? 'Copiado' : 'Copiar'}
             </motion.button>
             <div className="relative">
               <motion.button whileTap={{ scale: .96 }} onClick={() => setDlOpen(!dlOpen)}
-                className="h-full px-4 card text-zinc-600 hover:text-white transition-colors">
+                className="h-full px-4 surface text-zinc-600 hover:text-white transition-colors">
                 <Download size={13} />
               </motion.button>
               <AnimatePresence>
                 {dlOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setDlOpen(false)} />
-                    <motion.div initial={{ opacity: 0, y: 6, scale: .97 }}
+                    <motion.div initial={{ opacity: 0, y: 6, scale: .96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 4 }}
-                      className="absolute bottom-full right-0 mb-2 w-44 bg-[#0e0e12] border border-[var(--border2)] rounded-xl overflow-hidden shadow-2xl z-50">
-                      {[['txt', '.txt', FileText], ['lua', '.lua', FileCode]].map(([ext, label, Icon]: any) => (
-                        <button key={ext} onClick={() => dl(ext)}
-                          className="w-full px-4 py-3 flex items-center gap-3 text-left mono text-[11px] text-zinc-500 hover:text-white hover:bg-white/[.04] border-b border-[var(--border)] last:border-0 transition-colors uppercase tracking-wide">
-                          <Icon size={12} />Arquivo {label}
+                      className="absolute bottom-full right-0 mb-2 w-44 bg-[var(--p2)] border border-[var(--b2)] rounded-xl overflow-hidden shadow-2xl z-50">
+                      {[['txt', '.txt', FileText], ['lua', '.lua', FileCode]].map(([ext, lbl, Icon]: any) => (
+                        <button key={ext} onClick={() => download(ext)}
+                          className="w-full px-4 py-3 flex items-center gap-3 text-left mono text-xs text-zinc-500 hover:text-white hover:bg-white/[.04] border-b border-[var(--b1)] last:border-0 transition-colors tracking-wide uppercase">
+                          <Icon size={12} />Arquivo {lbl}
                         </button>
                       ))}
                     </motion.div>
@@ -722,33 +654,33 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="red-line" />
+      <div className="divider" />
 
-      {/* ─── JOGOS ─── */}
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-5">
         <div className="flex justify-between items-end">
           <div>
-            <div className="slabel mb-1.5">Compatibilidade</div>
-            <h2 className="text-4xl font-black uppercase tracking-wide text-white leading-none">Jogos Exclusivos</h2>
+            <div className="slabel mb-2">Compatibilidade</div>
+            <h2 className="text-[38px] font-extrabold tracking-tight text-white leading-none">Jogos</h2>
           </div>
-          <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600 border border-[var(--border)] px-3 py-1.5 rounded-lg">
+          <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600 border border-[var(--b1)] px-3 py-1.5 rounded-lg">
             {CONFIG.games.length} jogos
           </span>
         </div>
 
-        <div className="relative overflow-hidden fade-x py-2">
+        <div className="relative overflow-hidden fade-sides py-1">
           <div className="flex gap-3 w-max marquee">
             {[...CONFIG.games, ...CONFIG.games].map((g: any, i: number) => (
               <div key={i}
-                className="flex items-center gap-3 bg-[var(--s1)] border border-[var(--border)] hover:border-[var(--border2)] pl-2 pr-5 py-3 rounded-xl transition-all cursor-default group">
-                {g.icon && (
-                  <Image src={g.icon} alt={g.name} width={22} height={22} unoptimized
-                    className="rounded-md grayscale group-hover:grayscale-0 transition-all" />
-                )}
+                className="flex items-center gap-3 bg-[var(--p1)] border border-[var(--b1)] hover:border-[var(--b2)] pl-2.5 pr-5 py-3 rounded-2xl transition-all cursor-default group">
+                {g.icon
+                  ? <Image src={g.icon} alt={g.name} width={24} height={24} unoptimized
+                      className="rounded-lg grayscale group-hover:grayscale-0 transition-all" />
+                  : <div className="w-6 h-6 rounded-lg bg-[var(--p3)]" />
+                }
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wide text-zinc-500 group-hover:text-white transition-colors">{g.name}</div>
-                  <div className="mono text-[8px] text-zinc-700 flex items-center gap-1.5 mt-0.5">
-                    <div className="w-1 h-1 rounded-full bg-emerald-500/70 pdot" />
+                  <div className="text-xs font-bold tracking-wide text-zinc-500 group-hover:text-white transition-colors">{g.name}</div>
+                  <div className="mono text-[8px] flex items-center gap-1.5 mt-0.5 text-zinc-700">
+                    <div className="w-1 h-1 rounded-full bg-emerald-500/60 glow-dot" />
                     Indetectado
                   </div>
                 </div>
@@ -758,31 +690,29 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="red-line" />
+      <div className="divider" />
 
-      {/* ─── EQUIPE ─── */}
       <section className="flex flex-col gap-5">
         <div>
-          <div className="slabel mb-1.5">Criadores</div>
-          <h2 className="text-4xl font-black uppercase tracking-wide text-white leading-none">Equipe</h2>
+          <div className="slabel mb-2">Criadores</div>
+          <h2 className="text-[38px] font-extrabold tracking-tight text-white leading-none">Equipe</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {CONFIG.devs.map((d: any) => <TeamCard key={d.id} dev={d} />)}
         </div>
       </section>
 
-      <div className="red-line" />
+      <div className="divider" />
 
-      {/* ─── FEATURES ─── */}
-      <FeatureSection />
+      <Features />
 
-      {/* ─── FOOTER ─── */}
-      <footer className="pt-6 pb-2 flex flex-col items-center gap-3">
-        <div className="red-line w-full mb-4" />
-        <div className="flex items-center gap-2 mono text-[8px] text-zinc-600 border border-[var(--border)] bg-[var(--s1)] px-4 py-2 rounded-full uppercase tracking-widest">
-          <AlertTriangle size={9} />Use com responsabilidade
+      <footer className="flex flex-col items-center gap-3 pt-4">
+        <div className="divider w-full mb-2" />
+        <div className="flex items-center gap-2 mono text-[8px] text-zinc-700 border border-[var(--b1)] bg-[var(--p1)] px-4 py-2 rounded-full uppercase tracking-widest">
+          <AlertTriangle size={9} />
+          Use com responsabilidade
         </div>
-        <p className="mono text-[8px] text-zinc-700 tracking-widest uppercase">© 2026 michigun.xyz — @fp3</p>
+        <p className="mono text-[8px] text-zinc-700 tracking-widest uppercase">© 2026 michigun.xyz</p>
       </footer>
     </main>
   )
