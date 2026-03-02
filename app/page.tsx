@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import useSWR from 'swr'
 import {
-  Copy, Check, Download, FileCode, FileText, AlertTriangle, Search, X,
+  Copy, Check, Download, FileCode, FileText, Search, X,
   Activity, Clock, BarChart3, Music, Code, Gamepad2, Moon, Circle,
   Crosshair, Move, Bot, Route, Zap, Hammer, UserCog, Globe, Skull,
   TabletSmartphone, Coins, Magnet, Eye, UserX, Ghost, Wind, FastForward,
-  ArrowUpCircle, MapPin, Wrench, Shield, Lock, Terminal, Swords, Laugh,
+  ArrowUpCircle, MapPin, Wrench, Terminal, Swords, Laugh,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
 
@@ -62,8 +62,9 @@ const CONFIG = {
       { name: 'Autofarm',   icon: Coins,            type: 'safe', category: 'Geral', desc: 'Rouba o banco automaticamente sem intervenção.' },
     ],
     delta: [
-      { name: 'Global +', icon: Globe, type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
-      { name: 'Dinheiro',  icon: Coins, type: 'safe', category: 'Geral', desc: 'Recebe qualquer quantia de dinheiro instantaneamente.' },
+      { name: 'Global +',  icon: Globe,  type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
+      { name: 'Kill Aura', icon: Skull,  type: 'risk', category: 'Geral', desc: 'Elimina todos os inimigos próximos ao redor instantaneamente.' },
+      { name: 'Dinheiro',  icon: Coins,  type: 'safe', category: 'Geral', desc: 'Recebe qualquer quantia de dinheiro instantaneamente.' },
     ],
     soucre: [
       { name: 'Global +', icon: Globe,  type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
@@ -89,6 +90,8 @@ const fadeUp: import('framer-motion').Variants = {
   hidden: { opacity: 0, y: 18 },
   show: (i: number = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.07, ease } } as import('framer-motion').TargetAndTransition),
 }
+
+const badgeLabel = (t: string) => t === 'safe' ? 'seguro' : t === 'risk' ? 'risco' : 'visual'
 
 const Styles = () => (
   <style jsx global>{`
@@ -159,19 +162,19 @@ const Styles = () => (
     .surface:hover { border-color: var(--b2); }
 
     @keyframes glow-pulse {
-      0%, 100% { opacity: .5; transform: scale(1); }
-      50%       { opacity: 1; transform: scale(1.5); }
+      0%, 100% { opacity: .6; }
+      50%       { opacity: 1; }
     }
-    .glow-dot { animation: glow-pulse 2s ease-in-out infinite; }
+    .glow-dot { animation: none; }
 
     @keyframes glitch-clip {
-      0%, 85%, 100% { transform: translate(0, 0); filter: none; }
-      86%  { transform: translate(-2px, 1px);  filter: hue-rotate(25deg) saturate(2); }
-      88%  { transform: translate(2px, -1px);  filter: none; }
-      90%  { transform: translate(-1px, 0);    filter: hue-rotate(-10deg); }
-      92%  { transform: translate(0, 0);       filter: none; }
+      0%, 94%, 100% { transform: translate(0, 0); filter: none; }
+      95%  { transform: translate(-2px, 0);   filter: hue-rotate(20deg) saturate(1.8); }
+      96%  { transform: translate(2px, 0);    filter: none; }
+      97%  { transform: translate(-1px, 0);   filter: hue-rotate(-8deg); }
+      98%  { transform: translate(0, 0);      filter: none; }
     }
-    .glitch { animation: glitch-clip 10s ease-in-out infinite; display: inline-block; will-change: transform; }
+    .glitch { animation: glitch-clip 12s linear infinite; display: inline-block; }
 
     @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     .marquee { animation: marquee 38s linear infinite; will-change: transform; }
@@ -281,7 +284,6 @@ const Styles = () => (
     .badge-safe   { color: rgba(34,197,94,.8);   border-color: rgba(34,197,94,.2);  background: rgba(34,197,94,.05); }
     .badge-risk   { color: rgba(230,60,60,.85);  border-color: rgba(230,60,60,.25); background: rgba(230,60,60,.05); }
     .badge-visual { color: rgba(168,85,247,.8);  border-color: rgba(168,85,247,.2); background: rgba(168,85,247,.05); }
-
     .stat-card {
       background: var(--p1);
       border: 1px solid var(--b1);
@@ -532,7 +534,7 @@ function FeaturesSection() {
                       <div className="fc-icon-wrap">
                         <f.icon size={14} className="text-zinc-500" />
                       </div>
-                      <span className={`badge badge-${f.type}`}>{f.type}</span>
+                      <span className={`badge badge-${f.type}`}>{badgeLabel(f.type)}</span>
                     </div>
                     <div>
                       <div className="text-[12px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
@@ -564,7 +566,7 @@ function FeaturesSection() {
                 className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
                 <X size={15} />
               </button>
-              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{modal.type}</span>
+              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)</span>
               <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
               <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
             </motion.div>
@@ -672,7 +674,7 @@ function FeatureCard({ f, onClick }: { f: any; onClick: () => void }) {
         <div className="fc-icon-wrap">
           <f.icon size={14} className="text-zinc-500" />
         </div>
-        <span className={`badge badge-${f.type}`}>{f.type}</span>
+        <span className={`badge badge-${f.type}`}>{badgeLabel(f.type)}</span>
       </div>
       <div>
         <div className="text-[12px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
@@ -848,7 +850,7 @@ function GamesSection() {
                 className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
                 <X size={15} />
               </button>
-              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{modal.type}</span>
+              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)</span>
               <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
               <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
             </motion.div>
@@ -938,78 +940,61 @@ export default function Page() {
         <AnimatePresence mode="wait">
           {activePage === 'inicio' && (
             <motion.section key="inicio"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.45, ease } }}
-              exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
-              className="pt-16 md:pt-24 flex flex-col gap-10">
-              <div className="flex flex-col gap-5">
-                <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}
-                  className="flex items-center gap-2.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-500 glow-dot" />
-                  <span className="mono text-[8px] uppercase tracking-[.35em] text-red-500/50">Ativo</span>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.5, ease } }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              className="pt-16 md:pt-24 flex flex-col gap-12">
+
+              <div className="flex flex-col gap-6">
+                <motion.div
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.1, ease } }}>
+                  <span className="mono text-[9px] uppercase tracking-[.4em] text-zinc-700">
+                    fps • 2026
+                  </span>
                 </motion.div>
 
-                <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1}>
-                  <h1 className="text-[72px] md:text-[108px] font-extrabold leading-none tracking-tighter">
-                    <span className="glitch text-white" style={{ display: 'inline-block' }}>michi</span>
-                    <span style={{ color: '#e63c3c', textShadow: '0 0 50px rgba(230,60,60,.5), 0 0 100px rgba(230,60,60,.15)', display: 'inline-block' }}>gun</span>
-                    <span style={{ color: '#27272a', display: 'inline-block' }}>.xyz</span>
-                  </h1>
-                </motion.div>
+                <motion.h1
+                  className="text-[80px] md:text-[120px] font-extrabold leading-none tracking-tighter select-none"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.18, ease } }}>
+                  <span className="glitch text-white">michi</span><span style={{ color: '#e63c3c', textShadow: '0 0 60px rgba(230,60,60,.45)' }}>gun</span><span style={{ color: '#222226' }}>.xyz</span>
+                </motion.h1>
 
-                <motion.p variants={fadeUp} initial="hidden" animate="show" custom={2}
-                  className="mono text-xs text-zinc-600 max-w-xs leading-relaxed">
-                  <TypeWriter text="Desenvolvido por @fp3 para fins educacionais." delay={400} />
+                <motion.p
+                  className="mono text-[11px] text-zinc-600 max-w-sm leading-relaxed"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1, transition: { duration: 0.6, delay: 0.45, ease } }}>
+                  Desenvolvido por @fp3 para fins educacionais.
                 </motion.p>
-
-                <motion.div variants={fadeUp} initial="hidden" animate="show" custom={3}
-                  className="flex items-center gap-4 pt-1">
-                  <a href={CONFIG.discordLink} target="_blank" rel="noreferrer"
-                    className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl font-semibold text-sm tracking-wide transition-all"
-                    style={{ background: 'rgba(88,101,242,.15)', border: '1px solid rgba(88,101,242,.3)', color: '#7289da' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.001.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                    </svg>
-                    Discord
-                  </a>
-                  <div className="flex items-center gap-2 mono text-[8px] text-zinc-700 uppercase tracking-widest">
-                    <Lock size={9} />
-                    Indetectado
-                  </div>
-                </motion.div>
               </div>
 
-              <div className="divider" />
+              <motion.div
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={{ opacity: 1, scaleX: 1, transition: { duration: 0.6, delay: 0.55, ease } }}
+                style={{ transformOrigin: 'left' }}
+                className="divider" />
 
-              <motion.div variants={fadeUp} initial="hidden" animate="show" custom={4}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0, transition: { duration: 0.55, delay: 0.62, ease } }}
                 className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
                   { label: 'Funções', value: Object.values(CONFIG.features).flat().length, suffix: '+', color: '#ef4444' },
-                  { label: 'Jogos', value: CONFIG.games.filter(g => g.icon).length, suffix: '', color: '#f97316' },
+                  { label: 'Jogos',   value: CONFIG.games.filter(g => g.icon).length, suffix: '', color: '#f97316' },
                   { label: 'Indetectado', value: '100', suffix: '%', color: '#22c55e' },
                   { label: 'Suporte', value: '24', suffix: '/7', color: '#facc15' },
                 ].map((stat, i) => (
-                  <div key={i} className="stat-card flex flex-col gap-2">
+                  <motion.div key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.7 + i * 0.07, ease } }}
+                    className="stat-card flex flex-col gap-2">
                     <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600">{stat.label}</span>
                     <span className="mono text-3xl font-bold leading-none" style={{ color: stat.color }}>
                       {stat.value}<span className="text-lg">{stat.suffix}</span>
                     </span>
-                  </div>
+                  </motion.div>
                 ))}
-              </motion.div>
-
-              <motion.div variants={fadeUp} initial="hidden" animate="show" custom={5}
-                className="flex flex-col gap-3">
-                <div className="slabel">Acesso rápido</div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  {NAV_ITEMS.filter(n => n.id !== 'inicio').map((item, i) => (
-                    <button key={item.id} onClick={() => navigateTo(item.id)}
-                      className="flex items-center justify-between p-4 surface hover:bg-[var(--p2)] transition-all group">
-                      <span className="font-semibold text-sm text-zinc-500 group-hover:text-white transition-colors">{item.label}</span>
-                      <span className="mono text-[10px] text-zinc-700 group-hover:text-red-500/50 transition-colors">→</span>
-                    </button>
-                  ))}
-                </div>
               </motion.div>
             </motion.section>
           )}
@@ -1048,10 +1033,6 @@ export default function Page() {
 
       <footer className="flex flex-col items-center gap-3 py-8 px-5">
         <div className="divider w-full max-w-5xl mb-2" />
-        <div className="flex items-center gap-2 mono text-[8px] text-zinc-700 border border-[var(--b1)] bg-[var(--p1)] px-4 py-2 rounded-full uppercase tracking-widest">
-          <AlertTriangle size={9} />
-          Use com responsabilidade
-        </div>
         <p className="mono text-[8px] text-zinc-700 tracking-widest uppercase">© 2026 michigun.xyz — @fp3</p>
       </footer>
     </div>
