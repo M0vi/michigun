@@ -117,6 +117,7 @@ const Styles = () => (
       color: var(--t1);
       font-family: 'Syne', sans-serif;
       overflow-x: hidden;
+      max-width: 100vw;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -147,11 +148,11 @@ const Styles = () => (
     }
 
     .tab-nav-item {
-      padding: 9px 12px;
+      padding: 8px 10px;
       font-family: 'Syne', sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: .06em;
+      letter-spacing: .05em;
       text-transform: uppercase;
       color: var(--t3);
       background: none;
@@ -162,6 +163,7 @@ const Styles = () => (
       white-space: nowrap;
       -webkit-tap-highlight-color: transparent;
     }
+    @media (min-width: 400px) { .tab-nav-item { padding: 9px 13px; font-size: 11px; } }
     @media (min-width: 480px) { .tab-nav-item { padding: 10px 18px; font-size: 12px; } }
     .tab-nav-item:hover { color: var(--t2); }
     .tab-nav-item.active { color: #fff; }
@@ -268,7 +270,7 @@ const Countdown = () => {
 }
 
 const ScriptCode = () => (
-  <span className="mono text-[11px] sm:text-xs whitespace-nowrap">
+  <span className="mono text-[10px] sm:text-[11px] break-all">
     <span className="text-red-400">loadstring</span>
     <span className="text-zinc-600">(</span>
     <span className="text-sky-400">request</span>
@@ -295,12 +297,12 @@ function Stats() {
   return (
     <div className="grid grid-cols-3 gap-2">
       {items.map((s, i) => (
-        <div key={i} className="stat-card flex flex-col gap-3">
-          <div className="flex items-center gap-1.5">
-            <s.Icon size={10} style={{ color: s.color }} />
-            <span className="mono text-[8px] uppercase tracking-[.15em] text-zinc-600">{s.label}</span>
+        <div key={i} className="stat-card flex flex-col gap-2">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <s.Icon size={10} style={{ color: s.color, flexShrink: 0 }} />
+            <span className="mono text-[7px] sm:text-[8px] uppercase tracking-[.1em] text-zinc-600 truncate">{s.label}</span>
           </div>
-          <span className="mono text-xl sm:text-2xl font-semibold text-white leading-none tracking-tight">
+          <span className="mono text-lg sm:text-2xl font-semibold text-white leading-none tracking-tight">
             {s.value === 'cd'
               ? <Countdown />
               : s.value ? <CountUp end={s.value as number} /> : <span className="text-zinc-700">—</span>}
@@ -567,17 +569,15 @@ function ScriptSection() {
     <div className="flex flex-col gap-5">
       <h2 className="text-[28px] sm:text-[32px] font-extrabold tracking-tight text-white leading-none">Loader</h2>
       <Stats />
-      <div className="flex flex-col sm:flex-row gap-2 mt-1">
-        <div className="relative flex-1 surface flex items-center gap-3 px-4 py-3.5 overflow-hidden">
-          <Terminal size={12} className="text-zinc-700 shrink-0" />
-          <div className="overflow-x-auto flex-1"><ScriptCode /></div>
-          <div className="absolute right-0 top-0 bottom-0 w-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to left, var(--p1), transparent)' }} />
+      <div className="flex flex-col gap-2 mt-1">
+        <div className="relative surface flex items-start gap-3 px-4 py-3.5">
+          <Terminal size={12} className="text-zinc-700 shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0"><ScriptCode /></div>
         </div>
-        <div className="flex gap-2 shrink-0">
+        <div className="flex gap-2">
           <button onClick={copy}
             className={cn(
-              'flex items-center gap-2 px-4 py-2.5 rounded-xl mono text-xs font-semibold uppercase tracking-wide border transition-all',
+              'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl mono text-xs font-semibold uppercase tracking-wide border transition-all',
               copied
                 ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400'
                 : 'bg-[var(--p1)] border-[var(--b1)] text-zinc-500 hover:text-white hover:border-[var(--b2)]'
@@ -585,9 +585,9 @@ function ScriptSection() {
             {copied ? <Check size={12} /> : <Copy size={12} />}
             {copied ? 'Copiado' : 'Copiar'}
           </button>
-          <div className="relative">
+          <div className="relative shrink-0">
             <button onClick={() => setDlOpen(v => !v)}
-              className="h-full px-3 surface text-zinc-600 hover:text-white transition-colors">
+              className="h-full px-4 surface text-zinc-600 hover:text-white transition-colors flex items-center">
               <Download size={13} />
             </button>
             {dlOpen && (
@@ -650,20 +650,20 @@ export default function Page() {
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0,
         background: 'radial-gradient(ellipse 70% 35% at 50% 0%, rgba(230,60,60,.04) 0%, transparent 60%)' }} />
 
-      <nav className="sticky top-0 z-50 flex justify-center py-3 px-3" style={{ position: 'relative' }}>
-        <div className="flex items-center gap-0 border border-[var(--b1)] rounded-2xl px-1 py-1"
-          style={{ background: 'rgba(14,14,18,0.95)' }}>
+      <nav className="sticky top-0 z-50 flex justify-center py-3 px-2" style={{ position: 'relative' }}>
+        <div className="flex items-center gap-0 border border-[var(--b1)] rounded-2xl px-1 py-1 overflow-x-auto max-w-full"
+          style={{ background: 'rgba(14,14,18,0.95)', scrollbarWidth: 'none' }}>
           {NAV_ITEMS.map(item => (
             <button key={item.id} onClick={() => navigateTo(item.id)}
               className={`tab-nav-item ${activePage === item.id ? 'active' : ''}`}>
               {item.label}
             </button>
           ))}
-          <div className="w-px h-5 mx-1 bg-[var(--b1)]" />
+          <div className="w-px h-5 mx-0.5 flex-shrink-0 bg-[var(--b1)]" />
           <a href={CONFIG.discordLink} target="_blank" rel="noreferrer"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl mono text-[10px] font-semibold uppercase tracking-wider"
+            className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl mono text-[9px] font-semibold uppercase tracking-wider flex-shrink-0"
             style={{ background: 'rgba(88,101,242,.15)', border: '1px solid rgba(88,101,242,.3)', color: '#7289da' }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.001.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
             </svg>
             <span className="hidden sm:inline">Discord</span>
