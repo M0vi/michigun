@@ -687,22 +687,23 @@ function GamesSection() {
   const [modal, setModal] = useState<{ name: string; desc: string; type: string } | null>(null)
 
   const gameList = CONFIG.games.filter(g => g.icon)
+
   const allEntries = [
     { name: 'Global', icon: '', key: 'global', isGlobal: true },
     ...gameList.map(g => ({ name: g.name, icon: g.icon, key: GAME_KEYS[g.name] ?? null, isGlobal: false })),
   ]
 
-  const activeFeatures: any[] = selected
-    ? (CONFIG.features as any)[selected] ?? []
-    : CONFIG.features.global
+  const COLS = 3
 
-  const grouped = useMemo(() =>
-    activeFeatures.reduce((acc: any, f: any) => {
-      const c = f.category || 'Geral'
-      if (!acc[c]) acc[c] = []
-      acc[c].push(f)
-      return acc
-    }, {}), [activeFeatures])
+  const rows: typeof allEntries[] = []
+  for (let i = 0; i < allEntries.length; i += COLS) {
+    rows.push(allEntries.slice(i, i + COLS))
+  }
+
+  const handleClick = (key: string | null) => {
+    if (!key) return
+    setSelected(prev => prev === key ? null : key)
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -716,75 +717,118 @@ function GamesSection() {
         </span>
       </div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-        {allEntries.map((entry, i) => {
-          const isActive = selected === entry.key || (selected === null && entry.key === 'global')
+      <p className="mono text-[9px] uppercase tracking-[.22em] text-zinc-700">
+        Clique no jogo para ver as funções exclusivas
+      </p>
+
+      <div className="flex flex-col gap-0">
+        {rows.map((row, rowIdx) => {
+          const expandedInRow = row.find(e => e.key === selected)
+          const features: any[] = expandedInRow
+            ? (CONFIG.features as any)[expandedInRow.key] ?? []
+            : []
+          const grouped = features.reduce((acc: any, f: any) => {
+            const c = f.category || 'Geral'
+            if (!acc[c]) acc[c] = []
+            acc[c].push(f)
+            return acc
+          }, {})
+
           return (
-            <motion.button
-              key={entry.name}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: i * 0.04, duration: 0.3, ease } }}
-              onClick={() => setSelected(entry.key)}
-              className="relative flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all cursor-pointer group"
-              style={{
-                background: isActive ? 'var(--p2)' : 'var(--p1)',
-                borderColor: isActive ? 'rgba(230,60,60,.35)' : 'var(--b1)',
-                boxShadow: isActive ? '0 0 20px rgba(230,60,60,.08)' : 'none',
-              }}>
-              {isActive && (
-                <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-red-500 glow-dot" />
-              )}
-              {entry.isGlobal ? (
-                <div className="w-14 h-14 rounded-xl flex items-center justify-center"
-                  style={{ background: 'rgba(230,60,60,.1)', border: '1px solid rgba(230,60,60,.2)' }}>
-                  <Globe size={22} className="text-red-400" />
-                </div>
-              ) : (
-                <div className="w-14 h-14 rounded-xl overflow-hidden border border-white/[.06]">
-                  <Image src={entry.icon} alt={entry.name} width={56} height={56} unoptimized
-                    className={`w-full h-full object-cover transition-all duration-300 ${isActive ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} />
-                </div>
-              )}
-              <span className={`mono text-[10px] font-bold uppercase tracking-wider transition-colors ${isActive ? 'text-white' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
-                {entry.name}
-              </span>
-            </motion.button>
+            <div key={rowIdx}>
+              <div className="grid grid-cols-3 gap-3 mb-3">
+                {row.map((entry, i) => {
+                  const isActive = selected === entry.key
+                  return (
+                    <div
+                      key={entry.name}
+                      onClick={() => handleClick(entry.key)}
+                      className="cursor-pointer group flex flex-col gap-0 rounded-2xl overflow-hidden"
+                      style={{ border: isActive ? '1px solid rgba(230,60,60,.4)' : '1px solid transparent' }}>
+                      <div className="relative w-full overflow-hidden"
+                        style={{ aspectRatio: '16/9', background: 'var(--p2)' }}>
+                        {entry.isGlobal ? (
+                          <div className="w-full h-full flex items-center justify-center"
+                            style={{ background: 'linear-gradient(135deg, rgba(230,60,60,.12), rgba(230,60,60,.04))' }}>
+                            <Globe size={36} className="text-red-500/50" />
+                          </div>
+                        ) : (
+                          <Image
+                            src={entry.icon}
+                            alt={entry.name}
+                            fill
+                            unoptimized
+                            className="object-cover transition-all duration-500 group-hover:scale-105"
+                            style={{ filter: isActive ? 'none' : 'grayscale(60%) brightness(0.7)' }}
+                          />
+                        )}
+                        {isActive && (
+                          <div className="absolute inset-0 pointer-events-none"
+                            style={{ boxShadow: 'inset 0 0 0 2px rgba(230,60,60,.4)', borderRadius: '0' }} />
+                        )}
+                      </div>
+                      <div className="px-3 py-2.5 flex items-center justify-between"
+                        style={{ background: isActive ? 'rgba(230,60,60,.08)' : 'var(--p1)' }}>
+                        <span className="mono text-[11px] font-bold uppercase tracking-wider text-zinc-400 group-hover:text-white transition-colors"
+                          style={{ color: isActive ? '#fff' : undefined }}>
+                          {entry.name}
+                        </span>
+                        {entry.key && (CONFIG.features as any)[entry.key] && (
+                          <span className="mono text-[8px] text-zinc-700">
+                            {(CONFIG.features as any)[entry.key].length} funções
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+                {row.length < COLS && Array.from({ length: COLS - row.length }).map((_, i) => (
+                  <div key={`empty-${i}`} />
+                ))}
+              </div>
+
+              <AnimatePresence>
+                {expandedInRow && features.length > 0 && (
+                  <motion.div
+                    key={expandedInRow.key}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto', transition: { duration: 0.3, ease } }}
+                    exit={{ opacity: 0, height: 0, transition: { duration: 0.2 } }}
+                    style={{ overflow: 'hidden' }}>
+                    <div className="mb-3 rounded-2xl p-5 flex flex-col gap-6"
+                      style={{ background: 'var(--p1)', border: '1px solid var(--b1)' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-0.5 h-4 rounded-full bg-red-600" />
+                        <span className="mono text-[8px] uppercase tracking-[.28em] text-zinc-500">
+                          {expandedInRow.key === 'global' ? 'Funções globais' : `Exclusivo — ${expandedInRow.name}`}
+                        </span>
+                        <div className="flex-1 h-px bg-[var(--b1)]" />
+                        <span className="mono text-[8px] text-zinc-700">{features.length} funções</span>
+                      </div>
+                      {Object.entries(grouped).map(([cat, items]: any) => (
+                        <div key={cat}>
+                          {Object.keys(grouped).length > 1 && (
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="mono text-[7px] uppercase tracking-[.3em] text-zinc-700">{cat}</span>
+                              <div className="flex-1 h-px bg-[var(--b1)]" />
+                            </div>
+                          )}
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+                            {items.map((f: any) => (
+                              <FeatureCard key={f.name} f={f}
+                                onClick={() => setModal({ name: f.name, desc: f.desc, type: f.type })} />
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           )
         })}
       </div>
-
-      <div className="mono text-[9px] uppercase tracking-[.25em] text-zinc-700 flex items-center gap-2">
-        <div className="flex-1 h-px bg-[var(--b1)]" />
-        {selected === null || selected === 'global'
-          ? 'Funções disponíveis em todos os jogos'
-          : `Funções exclusivas — ${allEntries.find(e => e.key === selected)?.name}`}
-        <div className="flex-1 h-px bg-[var(--b1)]" />
-      </div>
-
-      <AnimatePresence mode="wait">
-        <motion.div key={selected ?? 'global'}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0, transition: { duration: 0.25, ease } }}
-          exit={{ opacity: 0, transition: { duration: 0.15 } }}
-          className="flex flex-col gap-8">
-          {Object.entries(grouped).map(([cat, items]: any) => (
-            <div key={cat}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-0.5 h-4 rounded-full bg-red-600" />
-                <span className="mono text-[8px] uppercase tracking-[.28em] text-zinc-600">{cat}</span>
-                <div className="flex-1 h-px bg-[var(--b1)]" />
-                <span className="mono text-[8px] text-zinc-700">{items.length}</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-                {items.map((f: any) => (
-                  <FeatureCard key={f.name} f={f}
-                    onClick={() => setModal({ name: f.name, desc: f.desc, type: f.type })} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
 
       <AnimatePresence>
         {modal && (
