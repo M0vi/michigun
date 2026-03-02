@@ -997,7 +997,7 @@ export default function Page() {
                   className="mono text-[11px] text-zinc-600 leading-relaxed text-center"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1, transition: { duration: 0.6, delay: 0.35, ease } }}>
-                  Desenvolvido por @fp3 para fins educacionais.
+                  Desenvolvido por @fp3. É apenas um hobby.
                 </motion.p>
               </div>
 
@@ -1014,7 +1014,7 @@ export default function Page() {
                 {[
                   { label: 'Funções', value: Object.values(CONFIG.features).flat().length, suffix: '+', color: '#ef4444' },
                   { label: 'Jogos',   value: CONFIG.games.filter(g => g.icon).length, suffix: '', color: '#f97316' },
-                  { label: 'Indetectado', value: '100', suffix: '%', color: '#22c55e' },
+                  { label: 'SEGURO', value: '100', suffix: '%', color: '#22c55e' },
                   { label: 'Suporte', value: '24', suffix: '/7', color: '#facc15' },
                 ].map((stat, i) => (
                   <motion.div key={i}
