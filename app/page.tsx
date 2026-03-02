@@ -84,11 +84,11 @@ const NAV_ITEMS = [
   { id: 'equipe',  label: 'Equipe' },
 ]
 
-const ease = [0.22, 1, 0.36, 1]
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 const fadeUp: import('framer-motion').Variants = {
   hidden: { opacity: 0, y: 18 },
-  show: (i: number = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.07, ease } }),
+  show: (i: number = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.07, ease } } as import('framer-motion').TargetAndTransition),
 }
 
 const Styles = () => (
