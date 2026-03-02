@@ -35,12 +35,12 @@ const CONFIG = {
       { name: 'Silent Aim',      icon: Target,        type: 'safe',   category: 'PVP',    desc: 'Redireciona seus tiros automaticamente para os inimigos, facilitando matá-los.' },
       { name: 'Hitbox Expander', icon: ScanLine,       type: 'safe',   category: 'PVP',    desc: 'Amplia a hitbox dos inimigos, tornando qualquer tiro muito mais fácil de acertar.' },
       { name: 'ESP',             icon: Scan,           type: 'safe',   category: 'PVP',    desc: 'Mostra a posição de inimigos através de paredes.' },
-      { name: 'Auto JJ\'s',     icon: Activity,       type: 'safe',   category: 'Treino', desc: 'Realiza polichinelos automaticamente.' },
+      { name: "Auto JJ's",      icon: Activity,       type: 'safe',   category: 'Treino', desc: 'Realiza polichinelos automaticamente.' },
       { name: 'TAS',             icon: GitBranch,      type: 'safe',   category: 'Treino', desc: 'Completa parkours automaticamente com precisão absoluta.' },
       { name: 'F3X',             icon: Hammer,         type: 'safe',   category: 'Treino', desc: 'Modifica o tamanho de qualquer estrutura no mapa livremente.' },
       { name: 'ChatGPT',         icon: Bot,            type: 'safe',   category: 'Treino', desc: 'Integração com a API do ChatGPT para responder qualquer pergunta.' },
       { name: 'Char',            icon: UserCog,        type: 'visual', category: 'Misc',   desc: 'Altera o personagem seu ou de outros jogadores para qualquer char.' },
-      { name: 'Anonimizar',      icon: UserX,          type: 'safe',   category: 'Misc',   desc: 'Esconde o seu nome de usuário, o que permite você gravar sua tela com segurança.' },
+      { name: 'Anonimizar',      icon: UserX,          type: 'safe',   category: 'Misc',   desc: 'Esconde o seu nome de usuário ao gravar a tela.' },
       { name: 'Invisibilidade',  icon: EyeOff,         type: 'safe',   category: 'Local',  desc: 'Torna você completamente invisível para os outros jogadores.' },
       { name: 'Fling',           icon: Wind,           type: 'risk',   category: 'Local',  desc: 'Arremessa outros jogadores para fora do mapa instantaneamente.' },
       { name: 'Velocidade',      icon: Gauge,          type: 'safe',   category: 'Local',  desc: 'Altera a sua velocidade.' },
@@ -57,7 +57,7 @@ const CONFIG = {
       { name: 'Global +',   icon: Globe,            type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam neste mapa.' },
       { name: 'Kill Aura',  icon: Skull,            type: 'risk', category: 'Geral', desc: 'Elimina todos os inimigos ao redor instantaneamente.' },
       { name: 'Mods',       icon: Wrench,           type: 'safe', category: 'Geral', desc: 'Modifica a sua arma.' },
-      { name: 'Spoofer',    icon: TabletSmartphone, type: 'safe', category: 'Geral', desc: 'Altera o dispositivo, permitindo que você faça treinos de qualquer dispositivo.' },
+      { name: 'Spoofer',    icon: TabletSmartphone, type: 'safe', category: 'Geral', desc: 'Altera o dispositivo, permitindo treinos de qualquer dispositivo.' },
       { name: 'Autofarm',   icon: Coins,            type: 'safe', category: 'Geral', desc: 'Rouba o banco automaticamente.' },
     ],
     delta: [
@@ -83,13 +83,12 @@ const NAV_ITEMS = [
   { id: 'equipe',  label: 'Equipe' },
 ]
 
-const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
-
-const fadeUp: import('framer-motion').Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: (i: number = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.07, ease } } as import('framer-motion').TargetAndTransition),
+const GAME_KEYS: Record<string, string> = {
+  'Apex': 'apex', 'Tevez': 'tevez', 'Delta': 'delta',
+  'Soucre': 'soucre', 'Nova Era': 'nova_era',
 }
 
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 const badgeLabel = (t: string) => t === 'safe' ? 'seguro' : t === 'risk' ? 'risco' : 'visual'
 
 const Styles = () => (
@@ -99,7 +98,6 @@ const Styles = () => (
     :root {
       --r: #e63c3c;
       --rb: #ff4f4f;
-      --rg: rgba(230,60,60,.35);
       --bg: #06060a;
       --p1: #0e0e12;
       --p2: #141418;
@@ -119,24 +117,13 @@ const Styles = () => (
       color: var(--t1);
       font-family: 'Syne', sans-serif;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     .mono { font-family: 'JetBrains Mono', monospace; }
 
     ::-webkit-scrollbar { width: 2px; height: 2px; }
     ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
-
-    .noise-layer {
-      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .018;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      animation: noiseAnim .4s steps(2) infinite;
-    }
-    @keyframes noiseAnim {
-      0%   { background-position: 0 0; }
-      33%  { background-position: -8% 12%; }
-      66%  { background-position: 12% -8%; }
-      100% { background-position: 0 0; }
-    }
 
     .divider {
       height: 1px;
@@ -158,57 +145,11 @@ const Styles = () => (
       border-radius: 14px;
       transition: border-color .2s;
     }
-    .surface:hover { border-color: var(--b2); }
-
-    @keyframes glow-pulse {
-      0%, 100% { opacity: .6; }
-      50%       { opacity: 1; }
-    }
-    .glow-dot { animation: none; }
-
-    @keyframes glitch-clip {
-      0%, 94%, 100% { transform: translate(0, 0); filter: none; }
-      95%  { transform: translate(-2px, 0);   filter: hue-rotate(20deg) saturate(1.8); }
-      96%  { transform: translate(2px, 0);    filter: none; }
-      97%  { transform: translate(-1px, 0);   filter: hue-rotate(-8deg); }
-      98%  { transform: translate(0, 0);      filter: none; }
-    }
-    .glitch { animation: glitch-clip 12s linear infinite; display: inline-block; }
-
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .marquee { animation: marquee 38s linear infinite; will-change: transform; }
-    .marquee:hover { animation-play-state: paused; }
-    .fade-sides { mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); }
 
     .tab-nav-item {
-      padding: 10px 22px;
+      padding: 9px 12px;
       font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--t3);
-      background: none;
-      border: none;
-      cursor: pointer;
-      transition: color .15s;
-      position: relative;
-      white-space: nowrap;
-    }
-    .tab-nav-item:hover { color: var(--t2); }
-    .tab-nav-item.active { color: #fff; }
-    .tab-nav-item.active::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 0; right: 0; height: 1.5px;
-      background: var(--rb);
-      border-radius: 2px;
-    }
-
-    .tab-feat-item {
-      padding: 8px 18px;
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: .06em;
       text-transform: uppercase;
@@ -219,92 +160,79 @@ const Styles = () => (
       transition: color .15s;
       position: relative;
       white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
     }
-    .tab-feat-item:hover { color: var(--t2); }
-    .tab-feat-item.active { color: #fff; }
-    .tab-feat-item.active::after {
+    @media (min-width: 480px) { .tab-nav-item { padding: 10px 18px; font-size: 12px; } }
+    .tab-nav-item:hover { color: var(--t2); }
+    .tab-nav-item.active { color: #fff; }
+    .tab-nav-item.active::after {
       content: '';
       position: absolute;
-      bottom: -1px; left: 0; right: 0; height: 1px;
+      bottom: -1px; left: 0; right: 0; height: 1.5px;
       background: var(--rb);
+      border-radius: 2px;
     }
 
     .fc {
       background: var(--p1);
       border: 1px solid var(--b1);
-      border-radius: 16px;
-      padding: 18px 16px 16px;
+      border-radius: 12px;
+      padding: 12px;
       cursor: pointer;
-      min-height: 120px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 14px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color .18s, background .18s, transform .18s, box-shadow .18s;
+      gap: 10px;
+      min-height: 90px;
+      transition: border-color .15s, background .15s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
-    .fc::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 70% at 10% 90%, var(--acc, rgba(34,197,94,.06)) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity .25s;
-    }
-    .fc:hover {
-      border-color: rgba(255,255,255,.12);
-      background: var(--p2);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(0,0,0,.4);
-    }
-    .fc:hover::before { opacity: 1; }
-    .fc-safe   { --acc: rgba(34,197,94,.1); }
-    .fc-risk   { --acc: rgba(230,60,60,.1); }
-    .fc-visual { --acc: rgba(168,85,247,.1); }
+    .fc:active { background: var(--p2); border-color: var(--b2); }
+    @media (hover: hover) { .fc:hover { border-color: rgba(255,255,255,.1); background: var(--p2); } }
+    .fc-safe   { border-left: 2px solid rgba(34,197,94,.25); }
+    .fc-risk   { border-left: 2px solid rgba(230,60,60,.25); }
+    .fc-visual { border-left: 2px solid rgba(168,85,247,.25); }
 
     .fc-icon-wrap {
-      width: 36px; height: 36px;
+      width: 30px; height: 30px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 10px;
+      border-radius: 8px;
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.06);
+      flex-shrink: 0;
     }
 
     .badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 7px;
-      letter-spacing: .2em;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      padding: 2px 7px;
+      padding: 2px 5px;
       border-radius: 4px;
       border: 1px solid;
+      display: inline-block;
     }
     .badge-safe   { color: rgba(34,197,94,.8);   border-color: rgba(34,197,94,.2);  background: rgba(34,197,94,.05); }
     .badge-risk   { color: rgba(230,60,60,.85);  border-color: rgba(230,60,60,.25); background: rgba(230,60,60,.05); }
     .badge-visual { color: rgba(168,85,247,.8);  border-color: rgba(168,85,247,.2); background: rgba(168,85,247,.05); }
+
     .stat-card {
       background: var(--p1);
       border: 1px solid var(--b1);
-      border-radius: 14px;
-      padding: 20px 18px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 20%; right: 20%; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--r), transparent);
-      opacity: .25;
+      border-radius: 12px;
+      padding: 14px;
     }
 
-    .page-section {
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 24px;
+    .game-card {
+      cursor: pointer;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid transparent;
+      transition: border-color .15s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
+    .game-card.active { border-color: rgba(230,60,60,.4); }
   `}</style>
 )
 
@@ -312,7 +240,7 @@ const CountUp = ({ end }: { end: number }) => {
   const [n, setN] = useState(0)
   useEffect(() => {
     let v = 0
-    const step = end / (1500 / 16)
+    const step = end / (1200 / 16)
     const timer = setInterval(() => {
       v += step
       if (v >= end) { setN(end); clearInterval(timer) }
@@ -339,30 +267,6 @@ const Countdown = () => {
   return <span>{v}</span>
 }
 
-const TypeWriter = ({ text, delay = 0 }: { text: string; delay?: number }) => {
-  const [out, setOut] = useState('')
-  const [active, setActive] = useState(false)
-  useEffect(() => {
-    const t = setTimeout(() => setActive(true), delay)
-    return () => clearTimeout(t)
-  }, [delay])
-  useEffect(() => {
-    if (!active) return
-    let i = 0
-    const timer = setInterval(() => {
-      setOut(text.slice(0, ++i))
-      if (i >= text.length) clearInterval(timer)
-    }, 24)
-    return () => clearInterval(timer)
-  }, [active, text])
-  return (
-    <span>
-      {out}
-      {out.length < text.length && <span className="inline-block w-0.5 h-3 bg-red-500 ml-0.5 align-middle animate-pulse" />}
-    </span>
-  )
-}
-
 const ScriptCode = () => (
   <span className="mono text-[11px] sm:text-xs whitespace-nowrap">
     <span className="text-red-400">loadstring</span>
@@ -382,34 +286,33 @@ const ScriptCode = () => (
 )
 
 function Stats() {
-  const { data } = useSWR('/api/stats', fetcher, { refreshInterval: 1e4 })
+  const { data } = useSWR('/api/stats', fetcher, { refreshInterval: 15e3 })
   const items = [
-    { label: 'Execuções totais',   Icon: Activity,  value: data?.executions, color: '#ef4444' },
-    { label: 'Execuções hoje',    Icon: BarChart3, value: data?.daily,      color: '#f97316' },
-    { label: 'Tempo restante para resetar',   Icon: Clock,     value: 'cd',             color: '#facc15' },
+    { label: 'Total',  Icon: Activity,  value: data?.executions, color: '#ef4444' },
+    { label: 'Hoje',   Icon: BarChart3, value: data?.daily,      color: '#f97316' },
+    { label: 'Reset',  Icon: Clock,     value: 'cd',             color: '#facc15' },
   ]
   return (
-    <div className="grid grid-cols-3 gap-2.5">
+    <div className="grid grid-cols-3 gap-2">
       {items.map((s, i) => (
-        <motion.div key={i} variants={fadeUp} initial="hidden" animate="show" custom={i}
-          className="stat-card flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <s.Icon size={11} style={{ color: s.color }} />
-            <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600">{s.label}</span>
+        <div key={i} className="stat-card flex flex-col gap-3">
+          <div className="flex items-center gap-1.5">
+            <s.Icon size={10} style={{ color: s.color }} />
+            <span className="mono text-[8px] uppercase tracking-[.15em] text-zinc-600">{s.label}</span>
           </div>
-          <span className="mono text-2xl font-semibold text-white leading-none tracking-tight">
+          <span className="mono text-xl sm:text-2xl font-semibold text-white leading-none tracking-tight">
             {s.value === 'cd'
               ? <Countdown />
               : s.value ? <CountUp end={s.value as number} /> : <span className="text-zinc-700">—</span>}
           </span>
-        </motion.div>
+        </div>
       ))}
     </div>
   )
 }
 
 function TeamCard({ dev }: { dev: any }) {
-  const { data } = useSWR(`https://api.lanyard.rest/v1/users/${dev.id}`, fetcher, { refreshInterval: 5e3 })
+  const { data } = useSWR(`https://api.lanyard.rest/v1/users/${dev.id}`, fetcher, { refreshInterval: 10e3 })
   const u = data?.success ? data.data : null
   const spotify = u?.listening_to_spotify && u.spotify
   const activity = u?.activities?.find((x: any) => x.type !== 4 && x.name !== 'Spotify')
@@ -432,44 +335,32 @@ function TeamCard({ dev }: { dev: any }) {
   }
 
   const avatarUrl = u?.discord_user?.avatar
-    ? `https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png?size=128`
-    : `https://ui-avatars.com/api/?name=?&background=1a1a1f&color=3f3f46&size=128`
+    ? `https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png?size=80`
+    : `https://ui-avatars.com/api/?name=?&background=1a1a1f&color=3f3f46&size=80`
 
   return (
-    <motion.div
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.2, ease }}
-      className="relative flex flex-col overflow-hidden cursor-default"
-      style={{ background: 'var(--p1)', border: '1px solid var(--b1)', borderRadius: 18 }}
-      onMouseEnter={() => playSound('hover')}>
-
+    <div className="relative flex flex-col overflow-hidden"
+      style={{ background: 'var(--p1)', border: '1px solid var(--b1)', borderRadius: 16 }}>
       <div className="absolute inset-x-0 top-0 h-px"
-        style={{ background: `linear-gradient(90deg, transparent, ${dot}33, transparent)` }} />
-
-      <div className="p-5 flex flex-col gap-4">
-        <div className="flex items-start justify-between gap-3">
+        style={{ background: `linear-gradient(90deg, transparent, ${dot}44, transparent)` }} />
+      <div className="p-4 flex flex-col gap-3">
+        <div className="flex items-center gap-3">
           <div className="relative shrink-0">
-            <Image
-              src={avatarUrl}
-              alt="avatar" width={56} height={56} unoptimized
-              className="rounded-2xl ring-1 ring-white/8"
-              style={{ imageRendering: 'auto' }} />
-            <div
-              className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2"
+            <Image src={avatarUrl} alt="avatar" width={48} height={48} unoptimized
+              className="rounded-xl ring-1 ring-white/8" />
+            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2"
               style={{ background: dot, borderColor: 'var(--p1)' }} />
           </div>
-
-          <div className="flex-1 min-w-0 pt-0.5">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between gap-2 mb-1">
-              <span className="font-bold text-[15px] text-white tracking-wide truncate">
+              <span className="font-bold text-sm text-white tracking-wide truncate">
                 {u?.discord_user?.username ?? <span className="text-zinc-700">—</span>}
               </span>
-              <span className="mono text-[7px] uppercase tracking-[.22em] px-2 py-1 rounded-lg shrink-0"
+              <span className="mono text-[7px] uppercase tracking-[.2em] px-2 py-0.5 rounded-lg shrink-0"
                 style={{ color: 'rgba(230,60,60,.7)', background: 'rgba(230,60,60,.07)', border: '1px solid rgba(230,60,60,.15)' }}>
                 {dev.role}
               </span>
             </div>
-
             <div className="flex items-center gap-1.5 mono text-[10px] min-w-0">
               <SIcon size={9} style={{ color: dot, flexShrink: 0 }} />
               <span className="truncate" style={{ color: statusKey === 'offline' ? '#3f3f46' : dot + 'cc' }}>
@@ -478,141 +369,176 @@ function TeamCard({ dev }: { dev: any }) {
             </div>
           </div>
         </div>
-
         {spotify && (
-          <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
+          <div className="flex items-center gap-2 px-3 py-2 rounded-xl"
             style={{ background: 'rgba(34,197,94,.05)', border: '1px solid rgba(34,197,94,.1)' }}>
-            <Music size={10} className="text-emerald-500/70 shrink-0" />
+            <Music size={9} className="text-emerald-500/70 shrink-0" />
             <div className="min-w-0">
-              <div className="mono text-[9px] text-emerald-500/60 uppercase tracking-widest mb-0.5">Ouvindo agora</div>
               <div className="text-[11px] font-semibold text-white truncate">{u.spotify.song}</div>
               <div className="mono text-[9px] text-zinc-600 truncate">{u.spotify.artist}</div>
             </div>
           </div>
         )}
       </div>
-
-      <div className="h-px mx-5" style={{ background: 'var(--b1)' }} />
-
-      <div className="px-5 py-3 flex items-center gap-2">
+      <div className="h-px mx-4" style={{ background: 'var(--b1)' }} />
+      <div className="px-4 py-2.5 flex items-center gap-2">
         <div className="w-1.5 h-1.5 rounded-full" style={{ background: dot }} />
-        <span className="mono text-[8px] uppercase tracking-[.2em]" style={{ color: '#3f3f46' }}>
-          {u?.discord_user?.discriminator ? `#${u.discord_user.discriminator}` : 'Discord'}
-        </span>
-        <span className="ml-auto mono text-[8px] text-zinc-700">
-          {u?.discord_user?.id ?? dev.id}
-        </span>
+        <span className="mono text-[8px] uppercase tracking-[.2em]" style={{ color: '#3f3f46' }}>Discord</span>
+        <span className="ml-auto mono text-[8px] text-zinc-700 truncate">{u?.discord_user?.id ?? dev.id}</span>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
-function FeaturesSection() {
-  const [tab, setTab] = useState('global')
-  const [q, setQ] = useState('')
+function FeatureCard({ f, onClick }: { f: any; onClick: () => void }) {
+  return (
+    <div onClick={onClick} className={`fc fc-${f.type}`}>
+      <div className="fc-icon-wrap">
+        <f.icon size={13} className="text-zinc-500" />
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <div className="text-[11px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
+        <span className={`badge badge-${f.type}`}>{badgeLabel(f.type)}</span>
+      </div>
+    </div>
+  )
+}
+
+function GamesSection() {
+  const [selected, setSelected] = useState<string | null>(null)
   const [modal, setModal] = useState<{ name: string; desc: string; type: string } | null>(null)
 
-  const filtered = useMemo(() =>
-    (CONFIG.features as any)[tab].filter((f: any) =>
-      f.name.toLowerCase().includes(q.toLowerCase()) ||
-      f.desc.toLowerCase().includes(q.toLowerCase())
-    ), [tab, q])
+  const gameList = CONFIG.games.filter(g => g.icon)
+  const allEntries = [
+    { name: 'Global', icon: '', key: 'global', isGlobal: true },
+    ...gameList.map(g => ({ name: g.name, icon: g.icon, key: GAME_KEYS[g.name] ?? null, isGlobal: false })),
+  ]
 
-  const grouped = useMemo(() =>
-    filtered.reduce((acc: any, f: any) => {
-      const c = f.category || 'Geral'
-      if (!acc[c]) acc[c] = []
-      acc[c].push(f)
-      return acc
-    }, {}), [filtered])
+  const COLS = 3
+  const rows: typeof allEntries[] = []
+  for (let i = 0; i < allEntries.length; i += COLS) rows.push(allEntries.slice(i, i + COLS))
+
+  const handleClick = (key: string | null) => {
+    if (!key) return
+    setSelected(prev => prev === key ? null : key)
+  }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-end">
+    <div className="flex flex-col gap-5">
+      <div className="flex justify-between items-end">
         <div>
-          <div className="slabel mb-2">Sistema</div>
-          <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none">Funções</h2>
+          <div className="slabel mb-2">Catálogo</div>
+          <h2 className="text-[28px] sm:text-[32px] font-extrabold tracking-tight text-white leading-none">Jogos</h2>
         </div>
-        <div className="relative w-full sm:w-56">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-700" size={12} />
-          <input
-            type="text" placeholder="Buscar..." value={q}
-            onChange={e => setQ(e.target.value)}
-            className="w-full bg-[var(--p1)] border border-[var(--b1)] rounded-xl pl-9 pr-4 py-2.5 mono text-xs text-white placeholder:text-zinc-700 focus:outline-none focus:border-[rgba(230,60,60,.3)] transition-colors" />
-        </div>
+        <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600 border border-[var(--b1)] bg-[var(--p1)] px-2.5 py-1.5 rounded-lg">
+          {gameList.length} jogos
+        </span>
       </div>
 
-      <div className="flex border-b border-[var(--b1)] overflow-x-auto gap-1">
-        {Object.keys(CONFIG.features).map(k => (
-          <button key={k} onClick={() => { setTab(k); playSound('click') }}
-            className={`tab-feat-item ${tab === k ? 'active' : ''}`}>
-            {k.replace('_', ' ')}
-          </button>
-        ))}
-      </div>
+      <p className="mono text-[9px] uppercase tracking-[.2em] text-zinc-700">
+        Toque no jogo para ver as funções exclusivas
+      </p>
 
-      <AnimatePresence mode="wait">
-        <motion.div key={tab}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0, transition: { duration: 0.28, ease } }}
-          exit={{ opacity: 0, transition: { duration: 0.15 } }}
-          className="flex flex-col gap-8">
-          {Object.entries(grouped).map(([cat, items]: any) => (
-            <div key={cat}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-0.5 h-4 rounded-full bg-red-600" />
-                <span className="mono text-[8px] uppercase tracking-[.28em] text-zinc-600">{cat}</span>
-                <div className="flex-1 h-px bg-[var(--b1)]" />
-                <span className="mono text-[8px] text-zinc-700">{items.length}</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-                {items.map((f: any, j: number) => (
-                  <motion.div key={f.name}
-                    initial={{ opacity: 0, scale: 0.94 }}
-                    animate={{ opacity: 1, scale: 1, transition: { delay: j * 0.025, duration: 0.25, ease } }}
-                    onClick={() => { setModal({ name: f.name, desc: f.desc, type: f.type }); playSound('click') }}
-                    className={`fc fc-${f.type}`}
-                    style={{ minHeight: 100, padding: '14px', gap: 10 }}>
-                    <div className="fc-icon-wrap">
-                      <f.icon size={14} className="text-zinc-500" />
+      <div className="flex flex-col gap-0">
+        {rows.map((row, rowIdx) => {
+          const expandedInRow = row.find(e => e.key === selected)
+          const features: any[] = expandedInRow ? (CONFIG.features as any)[expandedInRow.key] ?? [] : []
+          const grouped = features.reduce((acc: any, f: any) => {
+            const c = f.category || 'Geral'
+            if (!acc[c]) acc[c] = []
+            acc[c].push(f)
+            return acc
+          }, {})
+
+          return (
+            <div key={rowIdx}>
+              <div className="grid grid-cols-3 gap-2 mb-2">
+                {row.map((entry) => {
+                  const isActive = selected === entry.key
+                  return (
+                    <div key={entry.name} onClick={() => handleClick(entry.key)}
+                      className={`game-card ${isActive ? 'active' : ''}`}>
+                      <div className="relative w-full" style={{ aspectRatio: '16/9', background: 'var(--p2)' }}>
+                        {entry.isGlobal ? (
+                          <div className="w-full h-full flex items-center justify-center"
+                            style={{ background: isActive ? 'rgba(230,60,60,.1)' : 'rgba(230,60,60,.04)' }}>
+                            <Globe size={24} style={{ color: isActive ? '#e63c3c' : 'rgba(230,60,60,.3)' }} />
+                          </div>
+                        ) : (
+                          <Image src={entry.icon} alt={entry.name} fill unoptimized
+                            className="object-cover"
+                            style={{ filter: isActive ? 'none' : 'grayscale(70%) brightness(0.6)' }} />
+                        )}
+                      </div>
+                      <div className="px-2 py-1.5 flex items-center justify-between"
+                        style={{ background: isActive ? 'rgba(230,60,60,.08)' : 'var(--p1)' }}>
+                        <span className="mono text-[9px] font-bold uppercase tracking-wide truncate"
+                          style={{ color: isActive ? '#fff' : '#52525b' }}>
+                          {entry.name}
+                        </span>
+                        {entry.key && (CONFIG.features as any)[entry.key] && (
+                          <span className="mono text-[8px] text-zinc-700 shrink-0 ml-1">
+                            {(CONFIG.features as any)[entry.key].length}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-1.5">
-                      <div className="text-[11px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
-                      <span className={`badge badge-${f.type} self-start`}>{badgeLabel(f.type)}</span>
-                    </div>
-                  </motion.div>
-                ))}
+                  )
+                })}
+                {row.length < COLS && Array.from({ length: COLS - row.length }).map((_, i) => <div key={i} />)}
               </div>
+
+              {expandedInRow && features.length > 0 && (
+                <div className="mb-2 rounded-xl p-3.5 flex flex-col gap-4"
+                  style={{ background: 'var(--p1)', border: '1px solid var(--b1)' }}>
+                  <div className="flex items-center gap-2">
+                    <div className="w-0.5 h-3 rounded-full bg-red-600" />
+                    <span className="mono text-[8px] uppercase tracking-[.22em] text-zinc-500">
+                      {expandedInRow.key === 'global' ? 'Funções globais' : `Exclusivo — ${expandedInRow.name}`}
+                    </span>
+                    <div className="flex-1 h-px bg-[var(--b1)]" />
+                    <span className="mono text-[8px] text-zinc-700">{features.length}</span>
+                  </div>
+                  {Object.entries(grouped).map(([cat, items]: any) => (
+                    <div key={cat}>
+                      {Object.keys(grouped).length > 1 && (
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="mono text-[7px] uppercase tracking-[.3em] text-zinc-700">{cat}</span>
+                          <div className="flex-1 h-px bg-[var(--b1)]" />
+                        </div>
+                      )}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                        {items.map((f: any) => (
+                          <FeatureCard key={f.name} f={f}
+                            onClick={() => setModal({ name: f.name, desc: f.desc, type: f.type })} />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+          )
+        })}
+      </div>
 
-      <AnimatePresence>
-        {modal && (
-          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setModal(null)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.25, ease } }}
-              exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.18 } }}
-              className={`relative w-full max-w-sm p-7 fc fc-${modal.type}`}
-              style={{ background: 'var(--p1)', border: '1px solid var(--b2)' }}>
-              <button onClick={() => setModal(null)}
-                className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
-                <X size={15} />
-              </button>
-              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)}</span>
-              <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
-            </motion.div>
+      {modal && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4"
+          onClick={() => setModal(null)}>
+          <div className="absolute inset-0 bg-black/75" />
+          <div className="relative w-full max-w-sm p-5 rounded-2xl"
+            style={{ background: 'var(--p1)', border: '1px solid var(--b2)', zIndex: 1 }}
+            onClick={e => e.stopPropagation()}>
+            <button onClick={() => setModal(null)}
+              className="absolute top-4 right-4 text-zinc-700" style={{ lineHeight: 1 }}>
+              <X size={15} />
+            </button>
+            <span className={`badge badge-${modal.type} mb-4 inline-block`}>{badgeLabel(modal.type)}</span>
+            <h3 className="text-lg font-bold tracking-wide text-white mb-2 leading-snug">{modal.name}</h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">{modal.desc}</p>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </div>
   )
 }
@@ -639,262 +565,47 @@ function ScriptSection() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div>
-        <div className="slabel mb-2"></div>
-        <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none mb-6">Loader</h2>
-      </div>
-
+      <h2 className="text-[28px] sm:text-[32px] font-extrabold tracking-tight text-white leading-none">Loader</h2>
       <Stats />
-
-      <div className="flex flex-col sm:flex-row gap-2.5 mt-1">
+      <div className="flex flex-col sm:flex-row gap-2 mt-1">
         <div className="relative flex-1 surface flex items-center gap-3 px-4 py-3.5 overflow-hidden">
           <Terminal size={12} className="text-zinc-700 shrink-0" />
-          <div className="overflow-x-auto flex-1 scrollbar-none"><ScriptCode /></div>
-          <div className="absolute right-0 top-0 bottom-0 w-16 pointer-events-none"
+          <div className="overflow-x-auto flex-1"><ScriptCode /></div>
+          <div className="absolute right-0 top-0 bottom-0 w-10 pointer-events-none"
             style={{ background: 'linear-gradient(to left, var(--p1), transparent)' }} />
         </div>
         <div className="flex gap-2 shrink-0">
-          <motion.button whileTap={{ scale: 0.96 }} onClick={copy}
+          <button onClick={copy}
             className={cn(
-              'flex items-center gap-2 px-5 py-2.5 rounded-xl mono text-xs font-semibold uppercase tracking-wide border transition-all',
+              'flex items-center gap-2 px-4 py-2.5 rounded-xl mono text-xs font-semibold uppercase tracking-wide border transition-all',
               copied
                 ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400'
                 : 'bg-[var(--p1)] border-[var(--b1)] text-zinc-500 hover:text-white hover:border-[var(--b2)]'
             )}>
             {copied ? <Check size={12} /> : <Copy size={12} />}
             {copied ? 'Copiado' : 'Copiar'}
-          </motion.button>
+          </button>
           <div className="relative">
-            <motion.button whileTap={{ scale: 0.96 }} onClick={() => setDlOpen(v => !v)}
-              className="h-full px-4 surface text-zinc-600 hover:text-white transition-colors">
+            <button onClick={() => setDlOpen(v => !v)}
+              className="h-full px-3 surface text-zinc-600 hover:text-white transition-colors">
               <Download size={13} />
-            </motion.button>
-            <AnimatePresence>
-              {dlOpen && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setDlOpen(false)} />
-                  <motion.div
-                    initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.18, ease } }}
-                    exit={{ opacity: 0, y: 4, scale: 0.95, transition: { duration: 0.12 } }}
-                    className="absolute bottom-full right-0 mb-2 w-44 bg-[var(--p2)] border border-[var(--b2)] rounded-xl overflow-hidden shadow-2xl z-50">
-                    {([['txt', '.txt', FileText], ['lua', '.lua', FileCode]] as any[]).map(([ext, lbl, Icon]) => (
-                      <button key={ext} onClick={() => download(ext)}
-                        className="w-full px-4 py-3 flex items-center gap-3 text-left mono text-xs text-zinc-500 hover:text-white hover:bg-white/[.04] border-b border-[var(--b1)] last:border-0 transition-colors tracking-wide uppercase">
-                        <Icon size={12} />Arquivo {lbl}
-                      </button>
-                    ))}
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
+            </button>
+            {dlOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setDlOpen(false)} />
+                <div className="absolute bottom-full right-0 mb-2 w-36 bg-[var(--p2)] border border-[var(--b2)] rounded-xl overflow-hidden shadow-2xl z-50">
+                  {([['txt', '.txt', FileText], ['lua', '.lua', FileCode]] as any[]).map(([ext, lbl, Icon]) => (
+                    <button key={ext} onClick={() => download(ext)}
+                      className="w-full px-3 py-2.5 flex items-center gap-2.5 text-left mono text-xs text-zinc-500 hover:text-white hover:bg-white/[.04] border-b border-[var(--b1)] last:border-0 transition-colors tracking-wide uppercase">
+                      <Icon size={11} />Arquivo {lbl}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-const GAME_KEYS: Record<string, string> = {
-  'Apex': 'apex',
-  'Tevez': 'tevez',
-  'Delta': 'delta',
-  'Soucre': 'soucre',
-  'Nova Era': 'nova_era',
-}
-
-function FeatureCard({ f, onClick }: { f: any; onClick: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.94 }}
-      animate={{ opacity: 1, scale: 1, transition: { duration: 0.22, ease } }}
-      onClick={onClick}
-      className={`fc fc-${f.type}`}
-      style={{ minHeight: 100, padding: '14px', gap: 10 }}>
-      <div className="fc-icon-wrap">
-        <f.icon size={14} className="text-zinc-500" />
-      </div>
-      <div className="flex flex-col gap-1.5">
-        <div className="text-[11px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
-        <span className={`badge badge-${f.type} self-start`}>{badgeLabel(f.type)}</span>
-      </div>
-    </motion.div>
-  )
-}
-
-function GamesSection() {
-  const [selected, setSelected] = useState<string | null>(null)
-  const [modal, setModal] = useState<{ name: string; desc: string; type: string } | null>(null)
-
-  const gameList = CONFIG.games.filter(g => g.icon)
-
-  const allEntries = [
-    { name: 'Global', icon: '', key: 'global', isGlobal: true },
-    ...gameList.map(g => ({ name: g.name, icon: g.icon, key: GAME_KEYS[g.name] ?? null, isGlobal: false })),
-  ]
-
-  const COLS = 3
-
-  const rows: typeof allEntries[] = []
-  for (let i = 0; i < allEntries.length; i += COLS) {
-    rows.push(allEntries.slice(i, i + COLS))
-  }
-
-  const handleClick = (key: string | null) => {
-    if (!key) return
-    setSelected(prev => prev === key ? null : key)
-  }
-
-  return (
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between items-end">
-        <div>
-          <div className="slabel mb-2"></div>
-          <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none">Jogos</h2>
-        </div>
-        <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600 border border-[var(--b1)] bg-[var(--p1)] px-3 py-1.5 rounded-lg">
-          {gameList.length} jogos
-        </span>
-      </div>
-
-      <p className="mono text-[9px] uppercase tracking-[.22em] text-zinc-700">
-        Clique no jogo para ver as funções exclusivas
-      </p>
-
-      <div className="flex flex-col gap-0">
-        {rows.map((row, rowIdx) => {
-          const expandedInRow = row.find(e => e.key === selected)
-          const features: any[] = expandedInRow
-            ? (CONFIG.features as any)[expandedInRow.key] ?? []
-            : []
-          const grouped = features.reduce((acc: any, f: any) => {
-            const c = f.category || 'Geral'
-            if (!acc[c]) acc[c] = []
-            acc[c].push(f)
-            return acc
-          }, {})
-
-          return (
-            <div key={rowIdx}>
-              <div className="grid grid-cols-3 gap-3 mb-3">
-                {row.map((entry, i) => {
-                  const isActive = selected === entry.key
-                  return (
-                    <div
-                      key={entry.name}
-                      onClick={() => handleClick(entry.key)}
-                      className="cursor-pointer group flex flex-col gap-0 rounded-2xl overflow-hidden"
-                      style={{ border: isActive ? '1px solid rgba(230,60,60,.4)' : '1px solid transparent' }}>
-                      <div className="relative w-full overflow-hidden"
-                        style={{ aspectRatio: '16/9', background: 'var(--p2)' }}>
-                        {entry.isGlobal ? (
-                          <div className="w-full h-full flex items-center justify-center"
-                            style={{ background: 'linear-gradient(135deg, rgba(230,60,60,.12), rgba(230,60,60,.04))' }}>
-                            <Globe size={36} className="text-red-500/50" />
-                          </div>
-                        ) : (
-                          <Image
-                            src={entry.icon}
-                            alt={entry.name}
-                            fill
-                            unoptimized
-                            className="object-cover transition-all duration-500 group-hover:scale-105"
-                            style={{ filter: isActive ? 'none' : 'grayscale(60%) brightness(0.7)' }}
-                          />
-                        )}
-                        {isActive && (
-                          <div className="absolute inset-0 pointer-events-none"
-                            style={{ boxShadow: 'inset 0 0 0 2px rgba(230,60,60,.4)', borderRadius: '0' }} />
-                        )}
-                      </div>
-                      <div className="px-3 py-2.5 flex items-center justify-between"
-                        style={{ background: isActive ? 'rgba(230,60,60,.08)' : 'var(--p1)' }}>
-                        <span className="mono text-[11px] font-bold uppercase tracking-wider text-zinc-400 group-hover:text-white transition-colors"
-                          style={{ color: isActive ? '#fff' : undefined }}>
-                          {entry.name}
-                        </span>
-                        {entry.key && (CONFIG.features as any)[entry.key] && (
-                          <span className="mono text-[8px] text-zinc-700">
-                            {(CONFIG.features as any)[entry.key].length} funções
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-                {row.length < COLS && Array.from({ length: COLS - row.length }).map((_, i) => (
-                  <div key={`empty-${i}`} />
-                ))}
-              </div>
-
-              <AnimatePresence>
-                {expandedInRow && features.length > 0 && (
-                  <motion.div
-                    key={expandedInRow.key}
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto', transition: { duration: 0.3, ease } }}
-                    exit={{ opacity: 0, height: 0, transition: { duration: 0.2 } }}
-                    style={{ overflow: 'hidden' }}>
-                    <div className="mb-3 rounded-2xl p-5 flex flex-col gap-6"
-                      style={{ background: 'var(--p1)', border: '1px solid var(--b1)' }}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-0.5 h-4 rounded-full bg-red-600" />
-                        <span className="mono text-[8px] uppercase tracking-[.28em] text-zinc-500">
-                          {expandedInRow.key === 'global' ? 'Funções globais' : `Exclusivo — ${expandedInRow.name}`}
-                        </span>
-                        <div className="flex-1 h-px bg-[var(--b1)]" />
-                        <span className="mono text-[8px] text-zinc-700">{features.length} funções</span>
-                      </div>
-                      {Object.entries(grouped).map(([cat, items]: any) => (
-                        <div key={cat}>
-                          {Object.keys(grouped).length > 1 && (
-                            <div className="flex items-center gap-2 mb-3">
-                              <span className="mono text-[7px] uppercase tracking-[.3em] text-zinc-700">{cat}</span>
-                              <div className="flex-1 h-px bg-[var(--b1)]" />
-                            </div>
-                          )}
-                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-                            {items.map((f: any) => (
-                              <FeatureCard key={f.name} f={f}
-                                onClick={() => setModal({ name: f.name, desc: f.desc, type: f.type })} />
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          )
-        })}
-      </div>
-
-      <AnimatePresence>
-        {modal && (
-          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              onClick={() => setModal(null)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.22, ease } }}
-              exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.15 } }}
-              className={`relative w-full max-w-sm p-7 fc fc-${modal.type}`}
-              style={{ background: 'var(--p1)', border: '1px solid var(--b2)' }}>
-              <button onClick={() => setModal(null)}
-                className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
-                <X size={15} />
-              </button>
-              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)}</span>
-              <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }
@@ -902,11 +613,8 @@ function GamesSection() {
 function TeamSection() {
   return (
     <div className="flex flex-col gap-5">
-      <div>
-        <div className="slabel mb-2"></div>
-        <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none">Equipe</h2>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <h2 className="text-[28px] sm:text-[32px] font-extrabold tracking-tight text-white leading-none">Equipe</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {CONFIG.devs.map((d: any) => <TeamCard key={d.id} dev={d} />)}
       </div>
     </div>
@@ -918,11 +626,8 @@ export default function Page() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (
-        e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
-        (e.ctrlKey && e.key === 'u')
-      ) e.preventDefault()
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) || (e.ctrlKey && e.key === 'u'))
+        e.preventDefault()
     }
     const noCtx = (e: MouseEvent) => e.preventDefault()
     document.addEventListener('keydown', handler)
@@ -939,132 +644,108 @@ export default function Page() {
   }
 
   return (
-    <div className="relative z-10 min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg)', position: 'relative' }}>
       <Styles />
-      <div className="noise-layer" />
 
-      <div className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          background: 'radial-gradient(ellipse 80% 50% at 50% -5%, rgba(230,60,60,.06) 0%, transparent 60%)',
-        }} />
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0,
+        background: 'radial-gradient(ellipse 70% 35% at 50% 0%, rgba(230,60,60,.04) 0%, transparent 60%)' }} />
 
-      <nav className="sticky top-0 z-50 flex justify-center py-4 px-5">
-        <div className="flex items-center gap-1 bg-[rgba(14,14,18,0.85)] backdrop-blur-xl border border-[var(--b1)] rounded-2xl px-2 py-1 shadow-2xl"
-          style={{ boxShadow: '0 8px 32px rgba(0,0,0,.5), 0 0 0 1px rgba(230,60,60,.06) inset' }}>
+      <nav className="sticky top-0 z-50 flex justify-center py-3 px-3" style={{ position: 'relative' }}>
+        <div className="flex items-center gap-0 border border-[var(--b1)] rounded-2xl px-1 py-1"
+          style={{ background: 'rgba(14,14,18,0.95)' }}>
           {NAV_ITEMS.map(item => (
             <button key={item.id} onClick={() => navigateTo(item.id)}
               className={`tab-nav-item ${activePage === item.id ? 'active' : ''}`}>
               {item.label}
             </button>
           ))}
-          <div className="w-px h-5 bg-[var(--b1)]" />
+          <div className="w-px h-5 mx-1 bg-[var(--b1)]" />
           <a href={CONFIG.discordLink} target="_blank" rel="noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl mono text-[10px] font-semibold uppercase tracking-wider transition-all ml-1"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl mono text-[10px] font-semibold uppercase tracking-wider"
             style={{ background: 'rgba(88,101,242,.15)', border: '1px solid rgba(88,101,242,.3)', color: '#7289da' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.001.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
             </svg>
-            Discord
+            <span className="hidden sm:inline">Discord</span>
           </a>
         </div>
       </nav>
 
-      <main className="flex-1 w-full max-w-5xl mx-auto px-5 md:px-10 pb-24">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 md:px-10 pb-16" style={{ position: 'relative', zIndex: 1 }}>
         <AnimatePresence mode="wait">
           {activePage === 'inicio' && (
             <motion.section key="inicio"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.5, ease } }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              className="pt-16 md:pt-24 flex flex-col gap-12">
-
-              <div className="flex flex-col items-center gap-6">
+              animate={{ opacity: 1, transition: { duration: 0.3 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              className="pt-10 md:pt-16 flex flex-col gap-8">
+              <div className="flex flex-col items-center gap-4">
                 <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.1, ease } }}>
-                  <Image
-                    src="/avatar.png"
-                    alt="michigun"
-                    width={360}
-                    height={360}
-                    unoptimized
-                    className="select-none"
-                    style={{ filter: 'drop-shadow(0 0 60px rgba(180,150,80,.22))', background: 'none' }}
-                  />
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.05 } }}>
+                  <Image src="/avatar.png" alt="michigun"
+                    width={240} height={240} unoptimized
+                    className="select-none w-[240px] h-[240px] sm:w-[300px] sm:h-[300px]"
+                    style={{ filter: 'drop-shadow(0 0 32px rgba(180,150,80,.16))', background: 'none' }} />
                 </motion.div>
-
                 <motion.p
-                  className="mono text-[11px] text-zinc-600 leading-relaxed text-center"
+                  className="mono text-[11px] text-zinc-600 leading-relaxed text-center max-w-xs"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1, transition: { duration: 0.6, delay: 0.35, ease } }}>
+                  animate={{ opacity: 1, transition: { duration: 0.3, delay: 0.2 } }}>
                   michigun.xyz é um script desenvolvido para jogos de Exército Brasileiro no Roblox. Programado por @fp3 como hobby.
                 </motion.p>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, scaleX: 0 }}
-                animate={{ opacity: 1, scaleX: 1, transition: { duration: 0.6, delay: 0.45, ease } }}
-                style={{ transformOrigin: 'left' }}
-                className="divider" />
+              <div className="divider" />
 
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.55, delay: 0.62, ease } }}
-                className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {[
                   { label: 'Funções', value: Object.values(CONFIG.features).flat().length, suffix: '+', color: '#ef4444' },
                   { label: 'Jogos',   value: CONFIG.games.filter(g => g.icon).length, suffix: '', color: '#f97316' },
-                  { label: 'SEGURO', value: '100', suffix: '%', color: '#22c55e' },
+                  { label: 'Seguro',  value: '100', suffix: '%', color: '#22c55e' },
                   { label: 'Suporte', value: '24', suffix: '/7', color: '#facc15' },
                 ].map((stat, i) => (
-                  <motion.div key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.7 + i * 0.07, ease } }}
-                    className="stat-card flex flex-col gap-2">
-                    <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600">{stat.label}</span>
-                    <span className="mono text-3xl font-bold leading-none" style={{ color: stat.color }}>
-                      {stat.value}<span className="text-lg">{stat.suffix}</span>
+                  <div key={i} className="stat-card flex flex-col gap-2">
+                    <span className="mono text-[8px] uppercase tracking-[.15em] text-zinc-600">{stat.label}</span>
+                    <span className="mono text-2xl sm:text-3xl font-bold leading-none" style={{ color: stat.color }}>
+                      {stat.value}<span className="text-base sm:text-lg">{stat.suffix}</span>
                     </span>
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             </motion.section>
           )}
 
           {activePage === 'script' && (
             <motion.section key="script"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease } }}
-              exit={{ opacity: 0, y: -10, transition: { duration: 0.18 } }}
-              className="pt-16">
+              initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              className="pt-10">
               <ScriptSection />
             </motion.section>
           )}
 
           {activePage === 'jogos' && (
             <motion.section key="jogos"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease } }}
-              exit={{ opacity: 0, y: -10, transition: { duration: 0.18 } }}
-              className="pt-16">
+              initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              className="pt-10">
               <GamesSection />
             </motion.section>
           )}
 
           {activePage === 'equipe' && (
             <motion.section key="equipe"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease } }}
-              exit={{ opacity: 0, y: -10, transition: { duration: 0.18 } }}
-              className="pt-16">
+              initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.25 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              className="pt-10">
               <TeamSection />
             </motion.section>
           )}
         </AnimatePresence>
       </main>
 
-      <footer className="flex flex-col items-center gap-3 py-8 px-5">
-        <div className="divider w-full max-w-5xl mb-2" />
+      <footer className="flex justify-center py-5 px-4" style={{ position: 'relative', zIndex: 1 }}>
         <p className="mono text-[8px] text-zinc-700 tracking-widest uppercase">© 2026 michigun.xyz</p>
       </footer>
     </div>
