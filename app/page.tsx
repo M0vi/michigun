@@ -384,9 +384,9 @@ const ScriptCode = () => (
 function Stats() {
   const { data } = useSWR('/api/stats', fetcher, { refreshInterval: 1e4 })
   const items = [
-    { label: 'Total',   Icon: Activity,  value: data?.executions, color: '#ef4444' },
-    { label: 'Hoje',    Icon: BarChart3, value: data?.daily,      color: '#f97316' },
-    { label: 'Reset',   Icon: Clock,     value: 'cd',             color: '#facc15' },
+    { label: 'Execuções totais',   Icon: Activity,  value: data?.executions, color: '#ef4444' },
+    { label: 'Execuções hoje',    Icon: BarChart3, value: data?.daily,      color: '#f97316' },
+    { label: 'Tempo restante para resetar',   Icon: Clock,     value: 'cd',             color: '#facc15' },
   ]
   return (
     <div className="grid grid-cols-3 gap-2.5">
@@ -640,8 +640,8 @@ function ScriptSection() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <div className="slabel mb-2">Execução</div>
-        <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none mb-6">Script</h2>
+        <div className="slabel mb-2"></div>
+        <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none mb-6">Loader</h2>
       </div>
 
       <Stats />
@@ -1065,7 +1065,7 @@ export default function Page() {
 
       <footer className="flex flex-col items-center gap-3 py-8 px-5">
         <div className="divider w-full max-w-5xl mb-2" />
-        <p className="mono text-[8px] text-zinc-700 tracking-widest uppercase">© 2026 michigun.xyz — @fp3</p>
+        <p className="mono text-[8px] text-zinc-700 tracking-widest uppercase">© 2026 michigun.xyz</p>
       </footer>
     </div>
   )
