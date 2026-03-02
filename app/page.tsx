@@ -418,48 +418,91 @@ function TeamCard({ dev }: { dev: any }) {
   let label = 'Offline'
   let SIcon: any = Circle
   let dot = '#3f3f46'
+  let statusKey = 'offline'
 
-  if (spotify) { label = u.spotify.song; SIcon = Music; dot = '#22c55e' }
+  if (spotify) { label = u.spotify.song; SIcon = Music; dot = '#22c55e'; statusKey = 'spotify' }
   else if (activity) {
     label = activity.name === 'Code' ? 'Codando' : activity.name
     SIcon = activity.name === 'Code' ? Code : Gamepad2
-    dot = '#a1a1aa'
+    dot = '#71717a'; statusKey = 'activity'
   } else {
     const st = u?.discord_status
-    if (st === 'online') { label = 'Online';  dot = '#22c55e' }
-    if (st === 'idle')   { label = 'Ausente'; SIcon = Moon; dot = '#f59e0b' }
-    if (st === 'dnd')    { label = 'Ocupado'; dot = '#dc2626' }
+    if (st === 'online') { label = 'Online';  dot = '#22c55e'; statusKey = 'online' }
+    if (st === 'idle')   { label = 'Ausente'; SIcon = Moon; dot = '#f59e0b'; statusKey = 'idle' }
+    if (st === 'dnd')    { label = 'Ocupado'; SIcon = Circle; dot = '#dc2626'; statusKey = 'dnd' }
   }
 
+  const avatarUrl = u?.discord_user?.avatar
+    ? `https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png?size=128`
+    : `https://ui-avatars.com/api/?name=?&background=1a1a1f&color=3f3f46&size=128`
+
   return (
-    <motion.div whileHover={{ x: 2 }}
-      className="flex items-center gap-4 p-4 surface cursor-default"
+    <motion.div
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2, ease }}
+      className="relative flex flex-col overflow-hidden cursor-default"
+      style={{ background: 'var(--p1)', border: '1px solid var(--b1)', borderRadius: 18 }}
       onMouseEnter={() => playSound('hover')}>
-      <div className="relative shrink-0">
-        <Image
-          src={u?.discord_user?.avatar
-            ? `https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png`
-            : `https://ui-avatars.com/api/?name=Dev&background=111&color=555`}
-          alt="av" width={44} height={44} unoptimized
-          className="rounded-xl ring-1 ring-white/10" />
-        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-[2.5px] border-[var(--p1)] glow-dot"
-          style={{ background: dot }} />
+
+      <div className="absolute inset-x-0 top-0 h-px"
+        style={{ background: `linear-gradient(90deg, transparent, ${dot}33, transparent)` }} />
+
+      <div className="p-5 flex flex-col gap-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="relative shrink-0">
+            <Image
+              src={avatarUrl}
+              alt="avatar" width={56} height={56} unoptimized
+              className="rounded-2xl ring-1 ring-white/8"
+              style={{ imageRendering: 'auto' }} />
+            <div
+              className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2"
+              style={{ background: dot, borderColor: 'var(--p1)' }} />
+          </div>
+
+          <div className="flex-1 min-w-0 pt-0.5">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <span className="font-bold text-[15px] text-white tracking-wide truncate">
+                {u?.discord_user?.username ?? <span className="text-zinc-700">—</span>}
+              </span>
+              <span className="mono text-[7px] uppercase tracking-[.22em] px-2 py-1 rounded-lg shrink-0"
+                style={{ color: 'rgba(230,60,60,.7)', background: 'rgba(230,60,60,.07)', border: '1px solid rgba(230,60,60,.15)' }}>
+                {dev.role}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5 mono text-[10px] min-w-0">
+              <SIcon size={9} style={{ color: dot, flexShrink: 0 }} />
+              <span className="truncate" style={{ color: statusKey === 'offline' ? '#3f3f46' : dot + 'cc' }}>
+                {label}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {spotify && (
+          <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
+            style={{ background: 'rgba(34,197,94,.05)', border: '1px solid rgba(34,197,94,.1)' }}>
+            <Music size={10} className="text-emerald-500/70 shrink-0" />
+            <div className="min-w-0">
+              <div className="mono text-[9px] text-emerald-500/60 uppercase tracking-widest mb-0.5">Ouvindo agora</div>
+              <div className="text-[11px] font-semibold text-white truncate">{u.spotify.song}</div>
+              <div className="mono text-[9px] text-zinc-600 truncate">{u.spotify.artist}</div>
+            </div>
+          </div>
+        )}
       </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-center mb-1.5">
-          <span className="font-bold text-sm text-white truncate tracking-wide">
-            {u?.discord_user?.username || '...'}
-          </span>
-          <span className="mono text-[7px] uppercase tracking-[.25em] border px-2 py-0.5 rounded-md"
-            style={{ color: 'rgba(230,60,60,.6)', borderColor: 'rgba(230,60,60,.2)' }}>
-            {dev.role}
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5 mono text-[10px] truncate"
-          style={{ color: dot === '#a1a1aa' ? '#52525b' : dot + 'aa' }}>
-          <SIcon size={9} />
-          <span className="truncate">{label}</span>
-        </div>
+
+      <div className="h-px mx-5" style={{ background: 'var(--b1)' }} />
+
+      <div className="px-5 py-3 flex items-center gap-2">
+        <div className="w-1.5 h-1.5 rounded-full" style={{ background: dot }} />
+        <span className="mono text-[8px] uppercase tracking-[.2em]" style={{ color: '#3f3f46' }}>
+          {u?.discord_user?.discriminator ? `#${u.discord_user.discriminator}` : 'Discord'}
+        </span>
+        <span className="ml-auto mono text-[8px] text-zinc-700">
+          {u?.discord_user?.id ?? dev.id}
+        </span>
       </div>
     </motion.div>
   )
@@ -937,12 +980,19 @@ export default function Page() {
               className="pt-16 md:pt-24 flex flex-col gap-12">
 
               <div className="flex flex-col gap-6">
-                <motion.h1
-                  className="text-[80px] md:text-[120px] font-extrabold leading-none tracking-tighter select-none"
+                <motion.div
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.1, ease } }}>
-                  <span className="glitch text-white">michi</span><span style={{ color: '#e63c3c', textShadow: '0 0 60px rgba(230,60,60,.45)' }}>gun</span><span style={{ color: '#222226' }}>.xyz</span>
-                </motion.h1>
+                  <Image
+                    src="/avatar.png"
+                    alt="michigun"
+                    width={220}
+                    height={220}
+                    unoptimized
+                    className="select-none"
+                    style={{ filter: 'drop-shadow(0 0 40px rgba(180,150,80,.18))' }}
+                  />
+                </motion.div>
 
                 <motion.p
                   className="mono text-[11px] text-zinc-600 max-w-sm leading-relaxed"
