@@ -6,9 +6,9 @@ import useSWR from 'swr'
 import {
   Copy, Check, Download, FileCode, FileText, Search, X,
   Activity, Clock, BarChart3, Music, Code, Gamepad2, Moon, Circle,
-  Crosshair, Move, Bot, Route, Zap, Hammer, UserCog, Globe, Skull,
-  TabletSmartphone, Coins, Magnet, Eye, UserX, Ghost, Wind, FastForward,
-  ArrowUpCircle, MapPin, Wrench, Terminal, Swords, Laugh,
+  Target, ScanLine, Bot, GitBranch, Zap, Hammer, UserCog, Globe, Skull,
+  TabletSmartphone, Coins, Magnet, Scan, UserX, EyeOff, Wind, Gauge,
+  ArrowUpCircle, Navigation, Wrench, Terminal, Swords, Smile,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
 
@@ -529,16 +529,14 @@ function FeaturesSection() {
                     initial={{ opacity: 0, scale: 0.94 }}
                     animate={{ opacity: 1, scale: 1, transition: { delay: j * 0.025, duration: 0.25, ease } }}
                     onClick={() => { setModal({ name: f.name, desc: f.desc, type: f.type }); playSound('click') }}
-                    className={`fc fc-${f.type}`}>
-                    <div className="flex justify-between items-start">
-                      <div className="fc-icon-wrap">
-                        <f.icon size={14} className="text-zinc-500" />
-                      </div>
-                      <span className={`badge badge-${f.type}`}>{badgeLabel(f.type)}</span>
+                    className={`fc fc-${f.type}`}
+                    style={{ minHeight: 100, padding: '14px', gap: 10 }}>
+                    <div className="fc-icon-wrap">
+                      <f.icon size={14} className="text-zinc-500" />
                     </div>
-                    <div>
-                      <div className="text-[12px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
-                      <div className="mono text-[7px] text-zinc-700 mt-1 uppercase tracking-widest">{f.category}</div>
+                    <div className="flex flex-col gap-1.5">
+                      <div className="text-[11px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
+                      <span className={`badge badge-${f.type} self-start`}>{badgeLabel(f.type)}</span>
                     </div>
                   </motion.div>
                 ))}
@@ -669,16 +667,14 @@ function FeatureCard({ f, onClick }: { f: any; onClick: () => void }) {
       initial={{ opacity: 0, scale: 0.94 }}
       animate={{ opacity: 1, scale: 1, transition: { duration: 0.22, ease } }}
       onClick={onClick}
-      className={`fc fc-${f.type}`}>
-      <div className="flex justify-between items-start">
-        <div className="fc-icon-wrap">
-          <f.icon size={14} className="text-zinc-500" />
-        </div>
-        <span className={`badge badge-${f.type}`}>{badgeLabel(f.type)}</span>
+      className={`fc fc-${f.type}`}
+      style={{ minHeight: 100, padding: '14px', gap: 10 }}>
+      <div className="fc-icon-wrap">
+        <f.icon size={14} className="text-zinc-500" />
       </div>
-      <div>
-        <div className="text-[12px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
-        <div className="mono text-[7px] text-zinc-700 mt-1 uppercase tracking-widest">{f.category}</div>
+      <div className="flex flex-col gap-1.5">
+        <div className="text-[11px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
+        <span className={`badge badge-${f.type} self-start`}>{badgeLabel(f.type)}</span>
       </div>
     </motion.div>
   )
@@ -913,11 +909,6 @@ export default function Page() {
       <nav className="sticky top-0 z-50 flex justify-center py-4 px-5">
         <div className="flex items-center gap-1 bg-[rgba(14,14,18,0.85)] backdrop-blur-xl border border-[var(--b1)] rounded-2xl px-2 py-1 shadow-2xl"
           style={{ boxShadow: '0 8px 32px rgba(0,0,0,.5), 0 0 0 1px rgba(230,60,60,.06) inset' }}>
-          <div className="flex items-center gap-2 px-3 py-1.5 mr-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-red-500 glow-dot" />
-            <span className="mono text-[9px] uppercase tracking-[.3em] text-red-500/50">michi<span className="text-red-400">gun</span></span>
-          </div>
-          <div className="w-px h-5 bg-[var(--b1)]" />
           {NAV_ITEMS.map(item => (
             <button key={item.id} onClick={() => navigateTo(item.id)}
               className={`tab-nav-item ${activePage === item.id ? 'active' : ''}`}>
