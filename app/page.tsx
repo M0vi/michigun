@@ -986,11 +986,11 @@ export default function Page() {
                   <Image
                     src="/avatar.png"
                     alt="michigun"
-                    width={200}
-                    height={200}
+                    width={360}
+                    height={360}
                     unoptimized
                     className="select-none"
-                    style={{ filter: 'drop-shadow(0 0 40px rgba(180,150,80,.18))', background: 'none' }}
+                    style={{ filter: 'drop-shadow(0 0 60px rgba(180,150,80,.22))', background: 'none' }}
                   />
                 </motion.div>
 
