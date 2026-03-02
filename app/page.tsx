@@ -749,7 +749,7 @@ function GamesSection() {
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-end">
         <div>
-          <div className="slabel mb-2">Catálogo</div>
+          <div className="slabel mb-2"></div>
           <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none">Jogos</h2>
         </div>
         <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600 border border-[var(--b1)] bg-[var(--p1)] px-3 py-1.5 rounded-lg">
@@ -903,7 +903,7 @@ function TeamSection() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <div className="slabel mb-2">Criadores</div>
+        <div className="slabel mb-2"></div>
         <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none">Equipe</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -997,7 +997,7 @@ export default function Page() {
                   className="mono text-[11px] text-zinc-600 leading-relaxed text-center"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1, transition: { duration: 0.6, delay: 0.35, ease } }}>
-                  Desenvolvido por @fp3. É apenas um hobby.
+                  michigun.xyz é um script desenvolvido para jogos de Exército Brasileiro no Roblox. Programado por @fp3 como hobby.
                 </motion.p>
               </div>
 
