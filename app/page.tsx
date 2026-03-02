@@ -979,23 +979,23 @@ export default function Page() {
               exit={{ opacity: 0, transition: { duration: 0.2 } }}
               className="pt-16 md:pt-24 flex flex-col gap-12">
 
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col items-center gap-6">
                 <motion.div
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.1, ease } }}>
                   <Image
                     src="/avatar.png"
                     alt="michigun"
-                    width={220}
-                    height={220}
+                    width={200}
+                    height={200}
                     unoptimized
                     className="select-none"
-                    style={{ filter: 'drop-shadow(0 0 40px rgba(180,150,80,.18))' }}
+                    style={{ filter: 'drop-shadow(0 0 40px rgba(180,150,80,.18))', background: 'none' }}
                   />
                 </motion.div>
 
                 <motion.p
-                  className="mono text-[11px] text-zinc-600 max-w-sm leading-relaxed"
+                  className="mono text-[11px] text-zinc-600 leading-relaxed text-center"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1, transition: { duration: 0.6, delay: 0.35, ease } }}>
                   Desenvolvido por @fp3 para fins educacionais.
