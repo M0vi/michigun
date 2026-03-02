@@ -566,7 +566,7 @@ function FeaturesSection() {
                 className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
                 <X size={15} />
               </button>
-              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)</span>
+              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)}</span>
               <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
               <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
             </motion.div>
@@ -850,7 +850,7 @@ function GamesSection() {
                 className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
                 <X size={15} />
               </button>
-              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)</span>
+              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{badgeLabel(modal.type)}</span>
               <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
               <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
             </motion.div>
