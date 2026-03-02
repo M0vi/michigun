@@ -80,7 +80,6 @@ const NAV_ITEMS = [
   { id: 'inicio',  label: 'Início' },
   { id: 'script',  label: 'Script' },
   { id: 'jogos',   label: 'Jogos' },
-  { id: 'funcoes', label: 'Funções' },
   { id: 'equipe',  label: 'Equipe' },
 ]
 
@@ -166,12 +165,13 @@ const Styles = () => (
     .glow-dot { animation: glow-pulse 2s ease-in-out infinite; }
 
     @keyframes glitch-clip {
-      0%, 88%, 100% { transform: translate(0); filter: none; clip-path: none; }
-      89% { transform: translate(-3px, 1px);  clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); filter: hue-rotate(20deg); }
-      91% { transform: translate(3px, -1px);  clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%); filter: none; }
-      93% { transform: translate(0); clip-path: none; }
+      0%, 85%, 100% { transform: translate(0, 0); filter: none; }
+      86%  { transform: translate(-2px, 1px);  filter: hue-rotate(25deg) saturate(2); }
+      88%  { transform: translate(2px, -1px);  filter: none; }
+      90%  { transform: translate(-1px, 0);    filter: hue-rotate(-10deg); }
+      92%  { transform: translate(0, 0);       filter: none; }
     }
-    .glitch { animation: glitch-clip 9s ease-in-out infinite; display: inline-block; will-change: transform; }
+    .glitch { animation: glitch-clip 10s ease-in-out infinite; display: inline-block; will-change: transform; }
 
     @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     .marquee { animation: marquee 38s linear infinite; will-change: transform; }
@@ -653,56 +653,164 @@ function ScriptSection() {
   )
 }
 
-function GamesSection() {
+const GAME_KEYS: Record<string, string> = {
+  'Apex': 'apex',
+  'Tevez': 'tevez',
+  'Delta': 'delta',
+  'Soucre': 'soucre',
+  'Nova Era': 'nova_era',
+}
+
+function FeatureCard({ f, onClick }: { f: any; onClick: () => void }) {
   return (
-    <div className="flex flex-col gap-5">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1, transition: { duration: 0.22, ease } }}
+      onClick={onClick}
+      className={`fc fc-${f.type}`}>
+      <div className="flex justify-between items-start">
+        <div className="fc-icon-wrap">
+          <f.icon size={14} className="text-zinc-500" />
+        </div>
+        <span className={`badge badge-${f.type}`}>{f.type}</span>
+      </div>
+      <div>
+        <div className="text-[12px] font-bold tracking-wide text-zinc-200 leading-snug">{f.name}</div>
+        <div className="mono text-[7px] text-zinc-700 mt-1 uppercase tracking-widest">{f.category}</div>
+      </div>
+    </motion.div>
+  )
+}
+
+function GamesSection() {
+  const [selected, setSelected] = useState<string | null>(null)
+  const [modal, setModal] = useState<{ name: string; desc: string; type: string } | null>(null)
+
+  const gameList = CONFIG.games.filter(g => g.icon)
+  const allEntries = [
+    { name: 'Global', icon: '', key: 'global', isGlobal: true },
+    ...gameList.map(g => ({ name: g.name, icon: g.icon, key: GAME_KEYS[g.name] ?? null, isGlobal: false })),
+  ]
+
+  const activeFeatures: any[] = selected
+    ? (CONFIG.features as any)[selected] ?? []
+    : CONFIG.features.global
+
+  const grouped = useMemo(() =>
+    activeFeatures.reduce((acc: any, f: any) => {
+      const c = f.category || 'Geral'
+      if (!acc[c]) acc[c] = []
+      acc[c].push(f)
+      return acc
+    }, {}), [activeFeatures])
+
+  return (
+    <div className="flex flex-col gap-8">
       <div className="flex justify-between items-end">
         <div>
-          <div className="slabel mb-2">Compatibilidade</div>
+          <div className="slabel mb-2">Catálogo</div>
           <h2 className="text-[36px] font-extrabold tracking-tight text-white leading-none">Jogos</h2>
         </div>
         <span className="mono text-[8px] uppercase tracking-[.2em] text-zinc-600 border border-[var(--b1)] bg-[var(--p1)] px-3 py-1.5 rounded-lg">
-          {CONFIG.games.length} jogos
+          {gameList.length} jogos
         </span>
       </div>
-      <div className="relative overflow-hidden fade-sides py-1">
-        <div className="flex gap-3 w-max marquee">
-          {[...CONFIG.games, ...CONFIG.games].map((g: any, i: number) => (
-            <div key={i}
-              className="flex items-center gap-3 bg-[var(--p1)] border border-[var(--b1)] hover:border-[var(--b2)] pl-2.5 pr-5 py-3 rounded-2xl transition-all cursor-default group">
-              {g.icon
-                ? <Image src={g.icon} alt={g.name} width={24} height={24} unoptimized
-                    className="rounded-lg grayscale group-hover:grayscale-0 transition-all" />
-                : <div className="w-6 h-6 rounded-lg bg-[var(--p3)]" />}
-              <div>
-                <div className="text-xs font-bold tracking-wide text-zinc-500 group-hover:text-white transition-colors">{g.name}</div>
-                <div className="mono text-[8px] flex items-center gap-1.5 mt-0.5 text-zinc-700">
-                  <div className="w-1 h-1 rounded-full bg-emerald-500/60 glow-dot" />
-                  Indetectado
+
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+        {allEntries.map((entry, i) => {
+          const isActive = selected === entry.key || (selected === null && entry.key === 'global')
+          return (
+            <motion.button
+              key={entry.name}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0, transition: { delay: i * 0.04, duration: 0.3, ease } }}
+              onClick={() => setSelected(entry.key)}
+              className="relative flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all cursor-pointer group"
+              style={{
+                background: isActive ? 'var(--p2)' : 'var(--p1)',
+                borderColor: isActive ? 'rgba(230,60,60,.35)' : 'var(--b1)',
+                boxShadow: isActive ? '0 0 20px rgba(230,60,60,.08)' : 'none',
+              }}>
+              {isActive && (
+                <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-red-500 glow-dot" />
+              )}
+              {entry.isGlobal ? (
+                <div className="w-14 h-14 rounded-xl flex items-center justify-center"
+                  style={{ background: 'rgba(230,60,60,.1)', border: '1px solid rgba(230,60,60,.2)' }}>
+                  <Globe size={22} className="text-red-400" />
                 </div>
+              ) : (
+                <div className="w-14 h-14 rounded-xl overflow-hidden border border-white/[.06]">
+                  <Image src={entry.icon} alt={entry.name} width={56} height={56} unoptimized
+                    className={`w-full h-full object-cover transition-all duration-300 ${isActive ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} />
+                </div>
+              )}
+              <span className={`mono text-[10px] font-bold uppercase tracking-wider transition-colors ${isActive ? 'text-white' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
+                {entry.name}
+              </span>
+            </motion.button>
+          )
+        })}
+      </div>
+
+      <div className="mono text-[9px] uppercase tracking-[.25em] text-zinc-700 flex items-center gap-2">
+        <div className="flex-1 h-px bg-[var(--b1)]" />
+        {selected === null || selected === 'global'
+          ? 'Funções disponíveis em todos os jogos'
+          : `Funções exclusivas — ${allEntries.find(e => e.key === selected)?.name}`}
+        <div className="flex-1 h-px bg-[var(--b1)]" />
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div key={selected ?? 'global'}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0, transition: { duration: 0.25, ease } }}
+          exit={{ opacity: 0, transition: { duration: 0.15 } }}
+          className="flex flex-col gap-8">
+          {Object.entries(grouped).map(([cat, items]: any) => (
+            <div key={cat}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-0.5 h-4 rounded-full bg-red-600" />
+                <span className="mono text-[8px] uppercase tracking-[.28em] text-zinc-600">{cat}</span>
+                <div className="flex-1 h-px bg-[var(--b1)]" />
+                <span className="mono text-[8px] text-zinc-700">{items.length}</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                {items.map((f: any) => (
+                  <FeatureCard key={f.name} f={f}
+                    onClick={() => setModal({ name: f.name, desc: f.desc, type: f.type })} />
+                ))}
               </div>
             </div>
           ))}
-        </div>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-2">
-        {CONFIG.games.filter(g => g.icon).map((g, i) => (
-          <motion.div key={g.name}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0, transition: { delay: i * 0.04, duration: 0.3, ease } }}
-            className="flex items-center gap-3 bg-[var(--p1)] border border-[var(--b1)] hover:border-[var(--b2)] p-3.5 rounded-2xl transition-all cursor-default group">
-            <Image src={g.icon} alt={g.name} width={32} height={32} unoptimized
-              className="rounded-lg grayscale group-hover:grayscale-0 transition-all flex-shrink-0" />
-            <div>
-              <div className="text-sm font-bold tracking-wide text-zinc-400 group-hover:text-white transition-colors">{g.name}</div>
-              <div className="mono text-[8px] flex items-center gap-1 mt-0.5 text-zinc-700">
-                <div className="w-1 h-1 rounded-full bg-emerald-500/60 glow-dot" />
-                Suportado
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+        </motion.div>
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {modal && (
+          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              onClick={() => setModal(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.22, ease } }}
+              exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.15 } }}
+              className={`relative w-full max-w-sm p-7 fc fc-${modal.type}`}
+              style={{ background: 'var(--p1)', border: '1px solid var(--b2)' }}>
+              <button onClick={() => setModal(null)}
+                className="absolute top-5 right-5 text-zinc-700 hover:text-white transition-colors">
+                <X size={15} />
+              </button>
+              <span className={`badge badge-${modal.type} mb-5 inline-block`}>{modal.type}</span>
+              <h3 className="text-xl font-bold tracking-wide text-white mb-3 leading-snug">{modal.name}</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed font-normal">{modal.desc}</p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -773,8 +881,10 @@ export default function Page() {
           <div className="w-px h-5 bg-[var(--b1)]" />
           <a href={CONFIG.discordLink} target="_blank" rel="noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-xl mono text-[10px] font-semibold uppercase tracking-wider transition-all ml-1"
-            style={{ background: 'rgba(230,60,60,.1)', border: '1px solid rgba(230,60,60,.2)', color: '#f87171' }}>
-            <Shield size={11} />
+            style={{ background: 'rgba(88,101,242,.15)', border: '1px solid rgba(88,101,242,.3)', color: '#7289da' }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.001.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
             Discord
           </a>
         </div>
@@ -797,9 +907,9 @@ export default function Page() {
 
                 <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1}>
                   <h1 className="text-[72px] md:text-[108px] font-extrabold leading-none tracking-tighter">
-                    <span className="glitch text-white">michi</span>
-                    <span style={{ color: '#e63c3c', textShadow: '0 0 50px rgba(230,60,60,.5), 0 0 100px rgba(230,60,60,.15)' }}>gun</span>
-                    <span style={{ color: '#27272a' }}>.xyz</span>
+                    <span className="glitch text-white" style={{ display: 'inline-block' }}>michi</span>
+                    <span style={{ color: '#e63c3c', textShadow: '0 0 50px rgba(230,60,60,.5), 0 0 100px rgba(230,60,60,.15)', display: 'inline-block' }}>gun</span>
+                    <span style={{ color: '#27272a', display: 'inline-block' }}>.xyz</span>
                   </h1>
                 </motion.div>
 
@@ -812,8 +922,10 @@ export default function Page() {
                   className="flex items-center gap-4 pt-1">
                   <a href={CONFIG.discordLink} target="_blank" rel="noreferrer"
                     className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl font-semibold text-sm tracking-wide transition-all"
-                    style={{ background: 'rgba(230,60,60,.1)', border: '1px solid rgba(230,60,60,.2)', color: '#f87171' }}>
-                    <Shield size={13} />
+                    style={{ background: 'rgba(88,101,242,.15)', border: '1px solid rgba(88,101,242,.3)', color: '#7289da' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.001.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
                     Discord
                   </a>
                   <div className="flex items-center gap-2 mono text-[8px] text-zinc-700 uppercase tracking-widest">
@@ -875,16 +987,6 @@ export default function Page() {
               exit={{ opacity: 0, y: -10, transition: { duration: 0.18 } }}
               className="pt-16">
               <GamesSection />
-            </motion.section>
-          )}
-
-          {activePage === 'funcoes' && (
-            <motion.section key="funcoes"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease } }}
-              exit={{ opacity: 0, y: -10, transition: { duration: 0.18 } }}
-              className="pt-16">
-              <FeaturesSection />
             </motion.section>
           )}
 
