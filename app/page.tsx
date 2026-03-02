@@ -32,27 +32,27 @@ const CONFIG = {
   ],
   features: {
     global: [
-      { name: 'Silent Aim',      icon: Crosshair,       type: 'safe',   category: 'PVP',    desc: 'Redireciona seus tiros automaticamente para os inimigos, facilitando eliminações.' },
-      { name: 'Hitbox Expander', icon: Move,             type: 'safe',   category: 'PVP',    desc: 'Amplia a hitbox dos inimigos, tornando qualquer tiro muito mais fácil de acertar.' },
-      { name: 'ESP',             icon: Eye,              type: 'safe',   category: 'PVP',    desc: 'Revela a posição de inimigos através de paredes e obstáculos.' },
-      { name: 'Auto JJ\'s',     icon: Activity,         type: 'safe',   category: 'Treino', desc: 'Executa polichinelos automaticamente sem nenhum esforço.' },
-      { name: 'TAS',             icon: Route,            type: 'safe',   category: 'Treino', desc: 'Completa percursos automaticamente com precisão absoluta.' },
-      { name: 'F3X',             icon: Hammer,           type: 'safe',   category: 'Treino', desc: 'Modifica o tamanho de qualquer estrutura no mapa livremente.' },
-      { name: 'ChatGPT',         icon: Bot,              type: 'safe',   category: 'Treino', desc: 'Integração direta com a API do ChatGPT para responder qualquer pergunta.' },
-      { name: 'Anti-lag',        icon: Zap,              type: 'safe',   category: 'Misc',   desc: 'Remove texturas desnecessárias e otimiza o jogo para mais FPS.' },
-      { name: 'Char',            icon: UserCog,          type: 'visual', category: 'Misc',   desc: 'Altera o personagem seu ou de outros jogadores para qualquer modelo.' },
-      { name: 'Anonimizar',      icon: UserX,            type: 'safe',   category: 'Misc',   desc: 'Oculta sua identidade ao gravar a tela do jogo.' },
-      { name: 'Invisibilidade',  icon: Ghost,            type: 'safe',   category: 'Local',  desc: 'Torna você completamente invisível para os outros jogadores.' },
-      { name: 'Fling',           icon: Wind,             type: 'risk',   category: 'Local',  desc: 'Arremessa outros jogadores para fora do mapa instantaneamente.' },
-      { name: 'Velocidade',      icon: FastForward,      type: 'safe',   category: 'Local',  desc: 'Ajusta livremente a sua velocidade de movimento.' },
-      { name: 'Pulo',            icon: ArrowUpCircle,    type: 'safe',   category: 'Local',  desc: 'Modifica a altura do seu pulo sem limites.' },
-      { name: 'Teleporte',       icon: MapPin,           type: 'safe',   category: 'Local',  desc: 'Teleporta instantaneamente até qualquer jogador no servidor.' },
+      { name: 'Silent Aim',      icon: Target,        type: 'safe',   category: 'PVP',    desc: 'Redireciona seus tiros automaticamente para os inimigos, facilitando eliminações.' },
+      { name: 'Hitbox Expander', icon: ScanLine,       type: 'safe',   category: 'PVP',    desc: 'Amplia a hitbox dos inimigos, tornando qualquer tiro muito mais fácil de acertar.' },
+      { name: 'ESP',             icon: Scan,           type: 'safe',   category: 'PVP',    desc: 'Revela a posição de inimigos através de paredes e obstáculos.' },
+      { name: 'Auto JJ\'s',     icon: Activity,       type: 'safe',   category: 'Treino', desc: 'Executa polichinelos automaticamente sem nenhum esforço.' },
+      { name: 'TAS',             icon: GitBranch,      type: 'safe',   category: 'Treino', desc: 'Completa percursos automaticamente com precisão absoluta.' },
+      { name: 'F3X',             icon: Hammer,         type: 'safe',   category: 'Treino', desc: 'Modifica o tamanho de qualquer estrutura no mapa livremente.' },
+      { name: 'ChatGPT',         icon: Bot,            type: 'safe',   category: 'Treino', desc: 'Integração direta com a API do ChatGPT para responder qualquer pergunta.' },
+      { name: 'Anti-lag',        icon: Zap,            type: 'safe',   category: 'Misc',   desc: 'Remove texturas desnecessárias e otimiza o jogo para mais FPS.' },
+      { name: 'Char',            icon: UserCog,        type: 'visual', category: 'Misc',   desc: 'Altera o personagem seu ou de outros jogadores para qualquer modelo.' },
+      { name: 'Anonimizar',      icon: UserX,          type: 'safe',   category: 'Misc',   desc: 'Oculta sua identidade ao gravar a tela do jogo.' },
+      { name: 'Invisibilidade',  icon: EyeOff,         type: 'safe',   category: 'Local',  desc: 'Torna você completamente invisível para os outros jogadores.' },
+      { name: 'Fling',           icon: Wind,           type: 'risk',   category: 'Local',  desc: 'Arremessa outros jogadores para fora do mapa instantaneamente.' },
+      { name: 'Velocidade',      icon: Gauge,          type: 'safe',   category: 'Local',  desc: 'Ajusta livremente a sua velocidade de movimento.' },
+      { name: 'Pulo',            icon: ArrowUpCircle,  type: 'safe',   category: 'Local',  desc: 'Modifica a altura do seu pulo sem limites.' },
+      { name: 'Teleporte',       icon: Navigation,     type: 'safe',   category: 'Local',  desc: 'Teleporta instantaneamente até qualquer jogador no servidor.' },
     ],
     apex: [
       { name: 'Global +',     icon: Globe,    type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam neste mapa.' },
       { name: 'Invadir Base', icon: Swords,   type: 'risk', category: 'Geral', desc: 'Permite invadir a base inimiga sem ser detectado.' },
       { name: 'Mods de Arma', icon: Wrench,   type: 'safe', category: 'Geral', desc: 'Modifica atributos da sua arma como dano, cadência e precisão.' },
-      { name: 'Troll',        icon: Laugh,    type: 'risk', category: 'Geral', desc: 'Conjunto de ações de troll para irritar outros jogadores.' },
+      { name: 'Troll',        icon: Smile,    type: 'risk', category: 'Geral', desc: 'Conjunto de ações de troll para irritar outros jogadores.' },
     ],
     tevez: [
       { name: 'Global +',   icon: Globe,            type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam neste mapa.' },
@@ -67,12 +67,12 @@ const CONFIG = {
       { name: 'Dinheiro',  icon: Coins,  type: 'safe', category: 'Geral', desc: 'Recebe qualquer quantia de dinheiro instantaneamente.' },
     ],
     soucre: [
-      { name: 'Global +', icon: Globe,  type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
-      { name: 'Autofarm', icon: Magnet, type: 'safe', category: 'Geral', desc: 'Realiza o trabalho de lixeiro automaticamente com máxima velocidade.' },
+      { name: 'Global +', icon: Globe,   type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
+      { name: 'Autofarm', icon: Magnet,  type: 'safe', category: 'Geral', desc: 'Realiza o trabalho de lixeiro automaticamente com máxima velocidade.' },
     ],
     nova_era: [
-      { name: 'Global +', icon: Globe, type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
-      { name: 'Autofarm', icon: Coins, type: 'safe', category: 'Geral', desc: 'Acumula dinheiro automaticamente sem parar.' },
+      { name: 'Global +', icon: Globe,  type: 'safe', category: 'Geral', desc: 'Todas as funções globais funcionam aqui.' },
+      { name: 'Autofarm', icon: Coins,  type: 'safe', category: 'Geral', desc: 'Acumula dinheiro automaticamente sem parar.' },
     ],
   },
 }
@@ -937,32 +937,24 @@ export default function Page() {
               className="pt-16 md:pt-24 flex flex-col gap-12">
 
               <div className="flex flex-col gap-6">
-                <motion.div
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.1, ease } }}>
-                  <span className="mono text-[9px] uppercase tracking-[.4em] text-zinc-700">
-                    fps • 2026
-                  </span>
-                </motion.div>
-
                 <motion.h1
                   className="text-[80px] md:text-[120px] font-extrabold leading-none tracking-tighter select-none"
                   initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.18, ease } }}>
+                  animate={{ opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.1, ease } }}>
                   <span className="glitch text-white">michi</span><span style={{ color: '#e63c3c', textShadow: '0 0 60px rgba(230,60,60,.45)' }}>gun</span><span style={{ color: '#222226' }}>.xyz</span>
                 </motion.h1>
 
                 <motion.p
                   className="mono text-[11px] text-zinc-600 max-w-sm leading-relaxed"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1, transition: { duration: 0.6, delay: 0.45, ease } }}>
+                  animate={{ opacity: 1, transition: { duration: 0.6, delay: 0.35, ease } }}>
                   Desenvolvido por @fp3 para fins educacionais.
                 </motion.p>
               </div>
 
               <motion.div
                 initial={{ opacity: 0, scaleX: 0 }}
-                animate={{ opacity: 1, scaleX: 1, transition: { duration: 0.6, delay: 0.55, ease } }}
+                animate={{ opacity: 1, scaleX: 1, transition: { duration: 0.6, delay: 0.45, ease } }}
                 style={{ transformOrigin: 'left' }}
                 className="divider" />
 
