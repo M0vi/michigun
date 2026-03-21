@@ -333,7 +333,7 @@ function ScriptSection(){
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
           Cole no seu executor
         </h2>
-        <p style={{fontSize:13,color:C.textD,marginTop:8}}>Compatível com os principais executores.</p>
+        <p style={{fontSize:13,color:C.textD,marginTop:8}}>Compatível com a maioria dos executores</p>
       </FadeUp>
       <FadeUp delay={.08}>
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6}}>
