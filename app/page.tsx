@@ -455,7 +455,7 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
         <Label>Catálogo</Label>
         <h2 className="font-display" style={{fontSize:'clamp(28px,5vw,40px)',fontWeight:800,
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
-          Mapas suportados
+          Jogos com funções exclusivas
         </h2>
       </FadeUp>
       <FadeUp delay={.08}>
@@ -661,7 +661,7 @@ export default function Page(){
   const[activeFeature,setActiveFeature]=useState<Feature|null>(null)
 
   return(
-    <div style={{minHeight:'100dvh',display:'flex',flexDirection:'column',background:C.bg,width:'100%'}}>
+    <div style={{minHeight:'100dvh',display:'flex',flexDirection:'column',background:C.bg,width:'100%',userSelect:'none',WebkitUserSelect:'none'}}>
       <BeamsBackground/>
       <main style={{flex:1,padding:'0 22px',position:'relative',zIndex:1,overflowX:'visible',
         width:'100%',maxWidth:780,margin:'0 auto'}}
