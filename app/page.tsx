@@ -95,42 +95,67 @@ function BeamsBackground(){
   useEffect(()=>{
     const canvas=ref.current;if(!canvas)return
     const ctx=canvas.getContext('2d');if(!ctx)return
+
+    // Detect mobile — reduce beam count and disable blur on mobile for performance
+    const isMobile=innerWidth<768
+    const COUNT=isMobile?6:18
+    const BLUR=isMobile?0:28  // no ctx.filter on mobile — biggest perf win
+    const DPR=isMobile?1:Math.min(devicePixelRatio||1,2)  // cap DPR on mobile
+
     const mk=():Beam=>({
       x:Math.random()*innerWidth*1.5-innerWidth*.25,
       y:Math.random()*innerHeight*1.5-innerHeight*.25,
-      w:20+Math.random()*45,len:innerHeight*2.5,
-      angle:-35+Math.random()*10,speed:.35+Math.random()*.7,
-      op:.03+Math.random()*.06,pulse:Math.random()*Math.PI*2,ps:.012+Math.random()*.02,
+      w:isMobile?30+Math.random()*40:20+Math.random()*45,
+      len:innerHeight*2.5,
+      angle:-35+Math.random()*10,
+      speed:isMobile?.2+Math.random()*.3:.35+Math.random()*.7,
+      op:isMobile?.04+Math.random()*.06:.03+Math.random()*.06,
+      pulse:Math.random()*Math.PI*2,
+      ps:isMobile?.008:.012+Math.random()*.02,
     })
     const resize=()=>{
-      const dpr=devicePixelRatio||1
-      canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr
+      canvas.width=innerWidth*DPR;canvas.height=innerHeight*DPR
       canvas.style.width=`${innerWidth}px`;canvas.style.height=`${innerHeight}px`
-      ctx.scale(dpr,dpr);beams.current=Array.from({length:20},mk)
+      ctx.scale(DPR,DPR);beams.current=Array.from({length:COUNT},mk)
     }
     const reset=(b:Beam,i:number)=>{
       const s=innerWidth/3;b.y=innerHeight+100
       b.x=(i%3)*s+s/2+(Math.random()-.5)*s*.5
-      b.w=50+Math.random()*60;b.speed=.3+Math.random()*.4;b.op=.025+Math.random()*.05
+      b.w=isMobile?40+Math.random()*50:50+Math.random()*60
+      b.speed=isMobile?.18+Math.random()*.25:.3+Math.random()*.4
+      b.op=isMobile?.035+Math.random()*.05:.025+Math.random()*.05
     }
     const draw=(b:Beam)=>{
       ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.angle*Math.PI/180)
       const o=b.op*(0.8+Math.sin(b.pulse)*.2)
       const g=ctx.createLinearGradient(0,0,0,b.len)
       g.addColorStop(0,`rgba(255,255,255,0)`)
-      g.addColorStop(.1,`rgba(255,255,255,${o*.4})`)
-      g.addColorStop(.4,`rgba(255,255,255,${o})`)
-      g.addColorStop(.6,`rgba(255,255,255,${o})`)
-      g.addColorStop(.9,`rgba(255,255,255,${o*.4})`)
+      g.addColorStop(.15,`rgba(255,255,255,${o*.5})`)
+      g.addColorStop(.5,`rgba(255,255,255,${o})`)
+      g.addColorStop(.85,`rgba(255,255,255,${o*.5})`)
       g.addColorStop(1,`rgba(255,255,255,0)`)
       ctx.fillStyle=g;ctx.fillRect(-b.w/2,0,b.w,b.len);ctx.restore()
     }
-    const animate=()=>{
-      ctx.clearRect(0,0,canvas.width,canvas.height);ctx.filter='blur(28px)'
-      beams.current.forEach((b,i)=>{b.y-=b.speed;b.pulse+=b.ps;if(b.y+b.len<-100)reset(b,i);draw(b)})
+
+    // Throttle to ~30fps on mobile
+    let last=0
+    const FPS=isMobile?30:60
+    const INTERVAL=1000/FPS
+
+    const animate=(ts:number)=>{
       raf.current=requestAnimationFrame(animate)
+      if(ts-last<INTERVAL)return
+      last=ts
+      ctx.clearRect(0,0,canvas.width,canvas.height)
+      if(BLUR>0)ctx.filter=`blur(${BLUR}px)` // skip filter entirely on mobile
+      beams.current.forEach((b,i)=>{
+        b.y-=b.speed;b.pulse+=b.ps
+        if(b.y+b.len<-100)reset(b,i)
+        draw(b)
+      })
+      if(BLUR>0)ctx.filter='none'
     }
-    resize();addEventListener('resize',resize);animate()
+    resize();addEventListener('resize',resize);raf.current=requestAnimationFrame(animate)
     return()=>{removeEventListener('resize',resize);cancelAnimationFrame(raf.current)}
   },[])
   return <canvas ref={ref} style={{position:'fixed',inset:0,width:'100%',height:'100%',zIndex:0,pointerEvents:'none',opacity:.55}}/>
@@ -180,6 +205,10 @@ function TBadge({type}:{type:FType}){
 function FadeUp({children,delay=0}:{children:React.ReactNode;delay?:number}){
   const ref=useRef(null)
   const v=useInView(ref,{once:true,margin:'-40px'})
+  // Skip animation on mobile for performance
+  if(typeof window!=='undefined'&&window.innerWidth<768){
+    return <div ref={ref}>{children}</div>
+  }
   return(
     <motion.div ref={ref} initial={{opacity:0,y:14}}
       animate={v?{opacity:1,y:0}:{}}
