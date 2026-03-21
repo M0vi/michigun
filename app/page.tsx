@@ -205,10 +205,9 @@ function TBadge({type}:{type:FType}){
 function FadeUp({children,delay=0}:{children:React.ReactNode;delay?:number}){
   const ref=useRef(null)
   const v=useInView(ref,{once:true,margin:'-40px'})
-  // Skip animation on mobile for performance
-  if(typeof window!=='undefined'&&window.innerWidth<768){
-    return <div ref={ref}>{children}</div>
-  }
+  const[isMobile,setIsMobile]=useState(false)
+  useEffect(()=>{ setIsMobile(window.innerWidth<768) },[])
+  if(isMobile) return <div>{children}</div>
   return(
     <motion.div ref={ref} initial={{opacity:0,y:14}}
       animate={v?{opacity:1,y:0}:{}}
