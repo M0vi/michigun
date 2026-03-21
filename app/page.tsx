@@ -296,7 +296,7 @@ function Hero(){
       <motion.div initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{duration:.45,delay:.14}}
         style={{display:'flex',flexDirection:'column',gap:20,paddingLeft:2}}>
         <p style={{fontSize:14,color:C.textD,lineHeight:1.7,maxWidth:320}}>
-          Script para Exército Brasileiro no Roblox.<br/>por @fp3.
+          Script feito para jogos de Exército Brasileiro no Roblox<br/>Por @fp3
         </p>
         <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
           <button onClick={()=>document.getElementById('script')?.scrollIntoView({behavior:'smooth'})}
@@ -337,12 +337,12 @@ function ScriptSection(){
   return(
     <section id="script" style={{padding:'80px 0 0',zIndex:1,position:'relative'}}>
       <FadeUp>
-        <Label>Loader</Label>
+        <Label>Script</Label>
         <h2 className="font-display" style={{fontSize:'clamp(28px,5vw,40px)',fontWeight:800,
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
           Cole no seu executor
         </h2>
-        <p style={{fontSize:13,color:C.textD,marginTop:8}}>Compatível com os principais executores.</p>
+        <p style={{fontSize:13,color:C.textD,marginTop:8}}>Compatível com a maioria dos executores</p>
       </FadeUp>
       <FadeUp delay={.08}>
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6}}>
@@ -462,10 +462,10 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
   return(
     <section id="mapas" style={{padding:'80px 0 0',zIndex:1,position:'relative'}}>
       <FadeUp>
-        <Label>Catálogo</Label>
+        <Label>Funções</Label>
         <h2 className="font-display" style={{fontSize:'clamp(28px,5vw,40px)',fontWeight:800,
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
-          Mapas suportados
+          Mapas com funções exclusivas
         </h2>
       </FadeUp>
       <FadeUp delay={.08}>
