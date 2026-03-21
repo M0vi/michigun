@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
 
-/* ─── Palette ─────────────────────────────────────────── */
 const C = {
   bg:      '#060606',
   card:    'rgba(255,255,255,0.03)',
@@ -25,7 +24,6 @@ const C = {
   white:   '#efefef',
 }
 
-/* ─── Config ──────────────────────────────────────────── */
 const SCRIPT = 'loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()'
 const DISCORD = 'https://discord.gg/pWeJUBabvF'
 const DEVS = [
@@ -86,7 +84,6 @@ const FEATURES: Record<string,Feature[]> = {
   ],
 }
 
-/* ─── Beams Background ────────────────────────────────── */
 interface Beam{x:number;y:number;w:number;len:number;angle:number;speed:number;op:number;pulse:number;ps:number}
 function BeamsBackground(){
   const ref=useRef<HTMLCanvasElement>(null)
@@ -96,11 +93,10 @@ function BeamsBackground(){
     const canvas=ref.current;if(!canvas)return
     const ctx=canvas.getContext('2d');if(!ctx)return
 
-    // Detect mobile — reduce beam count and disable blur on mobile for performance
     const isMobile=innerWidth<768
     const COUNT=isMobile?6:18
-    const BLUR=isMobile?0:28  // no ctx.filter on mobile — biggest perf win
-    const DPR=isMobile?1:Math.min(devicePixelRatio||1,2)  // cap DPR on mobile
+    const BLUR=isMobile?0:28  
+    const DPR=isMobile?1:Math.min(devicePixelRatio||1,2)  
 
     const mk=():Beam=>({
       x:Math.random()*innerWidth*1.5-innerWidth*.25,
@@ -137,7 +133,6 @@ function BeamsBackground(){
       ctx.fillStyle=g;ctx.fillRect(-b.w/2,0,b.w,b.len);ctx.restore()
     }
 
-    // Throttle to ~30fps on mobile
     let last=0
     const FPS=isMobile?30:60
     const INTERVAL=1000/FPS
@@ -147,7 +142,7 @@ function BeamsBackground(){
       if(ts-last<INTERVAL)return
       last=ts
       ctx.clearRect(0,0,canvas.width,canvas.height)
-      if(BLUR>0)ctx.filter=`blur(${BLUR}px)` // skip filter entirely on mobile
+      if(BLUR>0)ctx.filter=`blur(${BLUR}px)` 
       beams.current.forEach((b,i)=>{
         b.y-=b.speed;b.pulse+=b.ps
         if(b.y+b.len<-100)reset(b,i)
@@ -161,7 +156,6 @@ function BeamsBackground(){
   return <canvas ref={ref} style={{position:'fixed',inset:0,width:'100%',height:'100%',zIndex:0,pointerEvents:'none',opacity:.55}}/>
 }
 
-/* ─── UI Primitives ───────────────────────────────────── */
 function Card({children,style={},onClick}:{children:React.ReactNode;style?:React.CSSProperties;onClick?:()=>void}){
   return(
     <div onClick={onClick} className="card-hover"
@@ -240,14 +234,13 @@ const Countdown=()=>{
   return<>{v}</>
 }
 
-/* ─── Hero ─────────────────────────────────────────────── */
 function Hero(){
   const total=Object.values(FEATURES).flat().length
 
   return(
     <section style={{paddingTop:56,position:'relative',zIndex:1}}>
 
-      {/* Avatar — left aligned, small */}
+      {}
       <motion.div initial={{opacity:0,y:-6}} animate={{opacity:1,y:0}} transition={{duration:.4}}
         style={{display:'flex',alignItems:'center',gap:10,marginBottom:40}}>
         <div style={{width:36,height:36,borderRadius:10,overflow:'hidden',
@@ -258,7 +251,7 @@ function Hero(){
         <span style={{fontSize:12,color:C.textD,fontFamily:'var(--font-mono)',letterSpacing:'.04em'}}>
           michigun.xyz
         </span>
-        {/* Discord pill — right side of logo row */}
+        {}
         <a href={DISCORD} target="_blank" rel="noreferrer"
           style={{marginLeft:'auto',display:'inline-flex',alignItems:'center',gap:6,
             fontSize:11,color:C.textD,textDecoration:'none',padding:'6px 14px',
@@ -273,7 +266,7 @@ function Hero(){
         </a>
       </motion.div>
 
-      {/* MEGA TITLE — full bleed, no container */}
+      {}
       <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.55,delay:.06}}>
         <h1 className="font-display" style={{
           fontSize:'clamp(42px,9vw,76px)',
@@ -292,11 +285,11 @@ function Hero(){
         </h1>
       </motion.div>
 
-      {/* Sub + CTAs — left aligned, offset */}
+      {}
       <motion.div initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{duration:.45,delay:.14}}
         style={{display:'flex',flexDirection:'column',gap:20,paddingLeft:2}}>
         <p style={{fontSize:14,color:C.textD,lineHeight:1.7,maxWidth:320}}>
-          Script feito para jogos de Exército Brasileiro no Roblox<br/>Por @fp3
+          Script para Exército Brasileiro no Roblox.<br/>por @fp3.
         </p>
         <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
           <button onClick={()=>document.getElementById('script')?.scrollIntoView({behavior:'smooth'})}
@@ -319,12 +312,10 @@ function Hero(){
         </div>
       </motion.div>
 
-
     </section>
   )
 }
 
-/* ─── Script Section ──────────────────────────────────── */
 function ScriptSection(){
   const[copied,setCopied]=useState(false)
   const[dlOpen,setDlOpen]=useState(false)
@@ -337,16 +328,16 @@ function ScriptSection(){
   return(
     <section id="script" style={{padding:'80px 0 0',zIndex:1,position:'relative'}}>
       <FadeUp>
-        <Label>Script</Label>
+        <Label>Loader</Label>
         <h2 className="font-display" style={{fontSize:'clamp(28px,5vw,40px)',fontWeight:800,
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
           Cole no seu executor
         </h2>
-        <p style={{fontSize:13,color:C.textD,marginTop:8}}>Compatível com a maioria dos executores</p>
+        <p style={{fontSize:13,color:C.textD,marginTop:8}}>Compatível com os principais executores.</p>
       </FadeUp>
       <FadeUp delay={.08}>
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6}}>
-          {/* executions strip */}
+          {}
           <div style={{display:'flex',alignItems:'center',gap:16,padding:'9px 14px',
             border:`1px solid ${C.border}`,borderRadius:10,background:C.card,flexWrap:'wrap'}}>
             {[
@@ -363,7 +354,7 @@ function ScriptSection(){
               </div>
             ))}
           </div>
-          {/* code */}
+          {}
           <Card style={{padding:'12px 14px',display:'flex',alignItems:'flex-start',gap:9,borderRadius:10}}>
             <Terminal size={11} style={{color:C.textDD,flexShrink:0,marginTop:2}}/>
             <code style={{flex:1,minWidth:0,wordBreak:'break-all',
@@ -416,7 +407,7 @@ function ScriptSection(){
             </div>
           </div>
 
-          {/* ── Executions stats panel ── */}
+          {}
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:1,marginTop:8,
             border:`1px solid ${C.border}`,borderRadius:12,overflow:'hidden'}}>
             {[
@@ -446,7 +437,6 @@ function ScriptSection(){
   )
 }
 
-/* ─── Maps Section ────────────────────────────────────── */
 function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
   const[sel,setSel]=useState('global')
   const allMaps=[
@@ -462,15 +452,15 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
   return(
     <section id="mapas" style={{padding:'80px 0 0',zIndex:1,position:'relative'}}>
       <FadeUp>
-        <Label>Funções</Label>
+        <Label>Catálogo</Label>
         <h2 className="font-display" style={{fontSize:'clamp(28px,5vw,40px)',fontWeight:800,
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
-          Mapas com funções exclusivas
+          Mapas suportados
         </h2>
       </FadeUp>
       <FadeUp delay={.08}>
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:10}}>
-          {/* pills */}
+          {}
           <div style={{display:'flex',gap:5,overflowX:'auto',scrollbarWidth:'none',paddingBottom:2}}>
             {allMaps.map(m=>{
               const a=sel===m.key
@@ -487,7 +477,7 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
             })}
           </div>
 
-          {/* split: thumbnail left, features right */}
+          {}
           <AnimatePresence mode="wait">
             <motion.div key={sel}
               initial={{opacity:0,y:4}} animate={{opacity:1,y:0}} exit={{opacity:0}}
@@ -495,7 +485,7 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
               style={{display:'grid',gap:8,gridTemplateColumns:'1fr'}}
               className="sm:grid-cols-[180px_1fr]">
 
-              {/* thumbnail */}
+              {}
               <Card style={{borderRadius:12,overflow:'hidden',minHeight:130,position:'relative'}}>
                 {active?.isGlobal?(
                   <div style={{width:'100%',height:'100%',minHeight:130,display:'flex',
@@ -520,7 +510,7 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
                 )}
               </Card>
 
-              {/* features grouped */}
+              {}
               <div style={{display:'flex',flexDirection:'column',gap:10}}>
                 {Object.entries(grouped).map(([cat,items])=>(
                   <div key={cat}>
@@ -564,7 +554,6 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
   )
 }
 
-/* ─── Team Section ────────────────────────────────────── */
 function TeamCard({dev}:{dev:typeof DEVS[0]}){
   const{data}=useSWR(`https://api.lanyard.rest/v1/users/${dev.id}`,fetcher,{refreshInterval:10e3})
   const u=data?.success?data.data:null
@@ -658,7 +647,6 @@ function TeamSection(){
   )
 }
 
-/* ─── Page ─────────────────────────────────────────────── */
 export default function Page(){
   useEffect(()=>{
     const h=(e:KeyboardEvent)=>{
@@ -691,7 +679,7 @@ export default function Page(){
         </span>
       </footer>
 
-      {/* Modal — rendered at root level, always above everything */}
+      {}
       <AnimatePresence>
         {activeFeature&&(
           <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
