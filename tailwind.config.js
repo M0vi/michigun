@@ -2,18 +2,16 @@
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}", // <--- OBRIGATÓRIO: Aponta para sua pasta components na raiz
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-mono)'],
+        sans:    ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        mono:    ['var(--font-mono)', 'monospace'],
+        display: ['var(--font-display)', 'var(--font-geist-sans)', 'system-ui', 'sans-serif'],
       },
-      animation: {
-        'spin-slow': 'spin 3s linear infinite',
-      }
     },
   },
   plugins: [],
