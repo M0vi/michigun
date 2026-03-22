@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
-import ErrorBoundary from '@/components/error-boundary'
+import SectionErrorBoundary from '@/components/section-error-boundary'
 
 const C = {
   bg:      '#060606',
@@ -783,9 +783,9 @@ export default function Page(){
         width:'100%',maxWidth:780,margin:'0 auto'}}
         className="sm:px-6">
         <Hero/>
-        <ErrorBoundary label="ScriptSection"><ScriptSection/></ErrorBoundary>
-        <ErrorBoundary label="MapsSection"><MapsSection onFeatureClick={setActiveFeature}/></ErrorBoundary>
-        <ErrorBoundary label="TeamSection"><TeamSection/></ErrorBoundary>
+        <SectionErrorBoundary label="ScriptSection"><ScriptSection/></SectionErrorBoundary>
+        <SectionErrorBoundary label="MapsSection"><MapsSection onFeatureClick={setActiveFeature}/></SectionErrorBoundary>
+        <SectionErrorBoundary label="TeamSection"><TeamSection/></SectionErrorBoundary>
         <div style={{height:80}}/>
       </main>
       <footer style={{borderTop:`1px solid ${C.border}`,padding:'12px 22px',
