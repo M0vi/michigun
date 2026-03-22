@@ -62,6 +62,7 @@ export default function Nav() {
         borderRadius: 999,
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
+        backgroundColor: 'rgba(6,6,6,0.95)',
         opacity: visible ? 1 : 0,
         transition: 'opacity .2s',
       }}>

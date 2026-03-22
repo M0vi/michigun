@@ -102,7 +102,7 @@ function BeamsBackground(){
 
   useEffect(()=>{
     const canvas=ref.current;if(!canvas)return
-    const ctx=canvas.getContext('2d');if(!ctx)return
+    const ctx=canvas.getContext('2d');if(!ctx){canvas.style.display='none';return}
 
     if(prefersReduced.current){
       canvas.style.display='none'
@@ -112,7 +112,7 @@ function BeamsBackground(){
     const isMobile=innerWidth<768
     const COUNT=isMobile?6:18
     const BLUR=isMobile?0:28
-    const DPR=isMobile?1:Math.min(devicePixelRatio||1,2)
+    const DPR=isMobile?1:Math.min((typeof devicePixelRatio!=='undefined'?devicePixelRatio:1)||1,2)
 
     const mk=():BeamWithGradient=>({
       x:Math.random()*innerWidth*1.5-innerWidth*.25,
@@ -180,7 +180,7 @@ function BeamsBackground(){
     resize();addEventListener('resize',resize);raf.current=requestAnimationFrame(animate)
     return()=>{removeEventListener('resize',resize);cancelAnimationFrame(raf.current)}
   },[])
-  return <canvas ref={ref} style={{position:'fixed',inset:0,width:'100%',height:'100%',zIndex:0,pointerEvents:'none',opacity:.55}}/>
+  return <canvas ref={ref} style={{position:'fixed',top:0,left:0,right:0,bottom:0,width:'100%',height:'100%',zIndex:0,pointerEvents:'none',opacity:.55,willChange:'transform'}}/>
 }
 
 function Card({children,style={},onClick}:{children:React.ReactNode;style?:React.CSSProperties;onClick?:()=>void}){
@@ -225,7 +225,7 @@ function TBadge({type}:{type:FType}){
 
 function FadeUp({children,delay=0}:{children:React.ReactNode;delay?:number}){
   const ref=useRef(null)
-  const v=useInView(ref,{once:true,margin:'-40px'})
+  const v=useInView(ref,{once:true,amount:0.1})
   const shouldReduceMotion=useReducedMotion()
   const[isMobile,setIsMobile]=useState(false)
   useEffect(()=>{ setIsMobile(window.innerWidth<768) },[])
@@ -721,7 +721,7 @@ export default function Page(){
   },[activeFeature])
 
   return(
-    <div style={{minHeight:'100vh',display:'flex',flexDirection:'column',background:C.bg,width:'100%'}}>
+    <div style={{minHeight:'100vh',display:'flex',flexDirection:'column',background:C.bg,width:'100%',WebkitOverflowScrolling:'touch',overflowX:'hidden'}}>
       <Toaster position="bottom-center"/>
       <Nav/>
       <BeamsBackground/>
