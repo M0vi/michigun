@@ -4,7 +4,7 @@
 
 @layer base {
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { }
   body {
     background: #050505;
     color: #b0b0b0;
@@ -36,7 +36,7 @@
     transition: border-color .2s, background .2s;
   }
   .card-hover:hover {
-    border-color: rgba(255,255,255,0.12) !important;
-    background: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
   }
 }

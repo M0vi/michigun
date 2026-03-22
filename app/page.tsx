@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
 import SectionErrorBoundary from '@/components/section-error-boundary'
+import Nav from '@/components/nav'
 
 const C = {
   bg:      '#060606',
@@ -265,18 +266,6 @@ const CountUp=({end}:{end:number})=>{
   return<span suppressHydrationWarning>{n.toLocaleString()}</span>
 }
 
-const Countdown=()=>{
-  const[v,setV]=useState<string|null>(null)
-  useEffect(()=>{
-    const tick=()=>{
-      const now=new Date(),next=new Date(now);next.setHours(24,0,0,0)
-      const d=next.getTime()-now.getTime()
-      setV(`${Math.floor((d/36e5)%24)}h ${String(Math.floor((d/6e4)%60)).padStart(2,'0')}m`)
-    }
-    const t=setInterval(tick,6e4);tick();return()=>clearInterval(t)
-  },[])
-  return<>{v??'—'}</>
-}
 
 function Hero(){
   return(
@@ -287,7 +276,7 @@ function Hero(){
         <div style={{width:36,height:36,borderRadius:10,overflow:'hidden',
           border:`1px solid ${C.border}`,flexShrink:0}}>
           {/* [CHANGE 3 - Performance] priority para LCP acima do fold */}
-          <Image src="/avatar.png" alt="Logo michigun.xyz" width={36} height={36} unoptimized priority
+          <Image src="/avatar.png" alt="Logo michigun.xyz" width={36} height={36} priority
             style={{width:'100%',height:'100%',objectFit:'cover'}}/>
         </div>
         <span style={{fontSize:12,color:C.textD,fontFamily:'var(--font-mono, monospace)',letterSpacing:'.04em'}}>
@@ -372,7 +361,7 @@ function ScriptSection(){
   const{data:configData,isLoading:configLoading}=useSWR('/api/config',fetcher,{revalidateOnFocus:false})
   const script:string=configData?.script??''
 
-  const{data}=useSWR('/api/stats',fetcher,{refreshInterval:15e3})
+  const{data,error:statsError}=useSWR('/api/stats',fetcher,{refreshInterval:15e3})
 
   const copy=useCallback(()=>{
     if(!script)return
@@ -498,7 +487,7 @@ function ScriptSection(){
                 </div>
                 <p className="font-display" style={{fontSize:28,fontWeight:700,
                   letterSpacing:'-.03em',color:C.white,lineHeight:1}}>
-                  {s.value!=null?<CountUp end={s.value}/>:<span style={{color:C.textDD}}>—</span>}
+                  {statsError?<span style={{color:'#f87171',fontSize:10}}>erro</span>:s.value!=null?<CountUp end={s.value}/>:<span style={{color:C.textDD}}>—</span>}
                 </p>
               </div>
             ))}
@@ -600,7 +589,7 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
                 ):(
                   <div style={{position:'relative',width:'100%',height:'100%',minHeight:130}}>
                     {/* [CHANGE 3 - Performance] priority na imagem do mapa ativo (above-the-fold) */}
-                    <Image src={(active as any)?.icon??''} alt={(active as any)?.name??''} fill unoptimized priority style={{objectFit:'cover'}}/>
+                    <Image src={(active as any)?.icon??''} alt={(active as any)?.name??''} fill priority style={{objectFit:'cover'}}/>
                     <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(6,6,6,.85) 0%,transparent 55%)'}}/>
                     <div style={{position:'absolute',bottom:10,left:12}}>
                       <p className="font-display" style={{fontSize:14,fontWeight:700,color:'#f0f0f0',letterSpacing:'-.02em'}}>
@@ -691,7 +680,7 @@ const TeamCard=memo(function TeamCard({dev}:{dev:typeof DEVS[0]}){
         <div style={{position:'relative',flexShrink:0}}>
           <div style={{width:48,height:48,borderRadius:12,overflow:'hidden',
             border:`1px solid ${C.border}`,boxShadow:`0 0 14px ${dot}18`}}>
-            <Image src={avatar} alt={`Avatar de ${username}`} width={48} height={48} unoptimized
+            <Image src={avatar} alt={`Avatar de ${username}`} width={48} height={48}
               style={{width:'100%',height:'100%',objectFit:'cover'}}/>
           </div>
           <div style={{position:'absolute',bottom:-1,right:-1,width:8,height:8,
@@ -773,6 +762,7 @@ export default function Page(){
   return(
     <div style={{minHeight:'100dvh',display:'flex',flexDirection:'column',background:C.bg,width:'100%'}}>
       <Toaster position="bottom-center"/>
+      <Nav/>
       {/* [Acessibilidade] focus-visible global — só aparece na navegação por teclado */}
       <style>{`
         *:focus { outline: none; }
