@@ -6,7 +6,7 @@ export const env = createEnv({
     LOADER_SCRIPT: z
       .string()
       .min(10)
-      .default('loadstring(request({Url="https://michigun.xyz/script",Method="GET"}).Body)()'),
+      .default('loadstring(request({Url="https://michigun.xyz/scripts/main.lua",Method="GET"}).Body)()'),
     UPSTASH_REDIS_REST_URL: z.string().url().optional(),
     UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
   },

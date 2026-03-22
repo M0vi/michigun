@@ -385,7 +385,7 @@ function ScriptSection(){
               <span style={{color:C.textDD}}>({'{'})</span>
               <span style={{color:C.text}}>Url</span>
               <span style={{color:C.textDD}}>=</span>
-              <span style={{color:'#86efac'}}>"https://michigun.xyz/script"</span>
+              <span style={{color:'#86efac'}}>"https://michigun.xyz/scripts/main.lua"</span>
               <span style={{color:C.textDD}}>{'}'}).</span>
               <span style={{color:'#7dd3fc'}}>Body</span>
               <span style={{color:C.textDD}}>)()</span>
