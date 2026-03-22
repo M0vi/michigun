@@ -721,14 +721,9 @@ export default function Page(){
   },[activeFeature])
 
   return(
-    <div style={{minHeight:'100dvh',display:'flex',flexDirection:'column',background:C.bg,width:'100%'}}>
+    <div style={{minHeight:'100vh',display:'flex',flexDirection:'column',background:C.bg,width:'100%'}}>
       <Toaster position="bottom-center"/>
       <Nav/>
-      <style>{`
-        * { user-select: none; -webkit-user-select: none; }
-        *:focus { outline: none; }
-        *:focus-visible { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; border-radius: 4px; }
-      `}</style>
       <BeamsBackground/>
       <main style={{flex:1,padding:'0 22px',position:'relative',zIndex:1,overflowX:'visible',
         width:'100%',maxWidth:780,margin:'0 auto'}}
