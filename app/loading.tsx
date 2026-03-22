@@ -46,7 +46,7 @@ export default function Loading() {
           gap: 20,
         }}
       >
-        {/* navbar skeleton */}
+        {}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40 }}>
           <Skeleton w="36px" h={36} />
           <Skeleton w="110px" h={14} />
@@ -55,7 +55,7 @@ export default function Loading() {
           </div>
         </div>
 
-        {/* hero skeleton */}
+        {}
         <Skeleton w="70%" h={64} />
         <Skeleton w="50%" h={14} />
         <Skeleton w="40%" h={14} />
@@ -64,7 +64,7 @@ export default function Loading() {
           <Skeleton w="100px" h={40} />
         </div>
 
-        {/* script section skeleton */}
+        {}
         <div style={{ marginTop: 60, display: 'flex', flexDirection: 'column', gap: 8 }}>
           <Skeleton w="60px" h={10} />
           <Skeleton w="260px" h={36} />
