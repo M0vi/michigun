@@ -365,7 +365,7 @@ function ScriptSection(){
   return(
     <section id="script" style={{padding:'80px 0 0',zIndex:1,position:'relative'}}>
       <FadeUp>
-        <Label>Loader</Label>
+        <Label>Script</Label>
         <h2 className="font-display" style={{fontSize:'clamp(28px,5vw,40px)',fontWeight:800,
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
           Cole no seu executor
@@ -497,7 +497,7 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
   return(
     <section id="mapas" style={{padding:'80px 0 0',zIndex:1,position:'relative'}}>
       <FadeUp>
-        <Label>Catálogo</Label>
+        <Label>Funções</Label>
         <h2 className="font-display" style={{fontSize:'clamp(28px,5vw,40px)',fontWeight:800,
           letterSpacing:'-.04em',marginTop:16,color:C.white,lineHeight:1}}>
           Jogos com funções exclusivas
