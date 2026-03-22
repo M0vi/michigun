@@ -1,12 +1,15 @@
+// [CHANGE 2 - Performance] Proxy para api.lanyard.rest
+// Centraliza as requisições no servidor, adiciona cache e evita CORS no cliente.
 import { NextRequest, NextResponse } from 'next/server'
 
+// Cache de 8 segundos — Lanyard atualiza ~10s, evita hammering
 export const revalidate = 8
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params
+  const { id } = await params
   try {
     const res = await fetch(`https://api.lanyard.rest/v1/users/${id}`, {
       next: { revalidate: 8 },
