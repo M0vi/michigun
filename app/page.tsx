@@ -212,17 +212,17 @@ function FadeUp({children,delay=0}:{children:React.ReactNode;delay?:number}){
 }
 
 const CountUp=({end}:{end:number})=>{
-  const[n,setN]=useState(0)
+  const[n,setN]=useState<number|null>(null)
   useEffect(()=>{
     let v=0;const step=end/(700/16)
     const t=setInterval(()=>{v+=step;if(v>=end){setN(end);clearInterval(t)}else setN(Math.floor(v))},16)
     return()=>clearInterval(t)
   },[end])
-  return<>{n.toLocaleString()}</>
+  return<>{n===null?'—':n.toLocaleString()}</>
 }
 
 const Countdown=()=>{
-  const[v,setV]=useState('')
+  const[v,setV]=useState<string|null>(null)
   useEffect(()=>{
     const tick=()=>{
       const now=new Date(),next=new Date(now);next.setHours(24,0,0,0)
@@ -231,12 +231,10 @@ const Countdown=()=>{
     }
     const t=setInterval(tick,6e4);tick();return()=>clearInterval(t)
   },[])
-  return<>{v}</>
+  return<>{v??'—'}</>
 }
 
 function Hero(){
-  const total=Object.values(FEATURES).flat().length
-
   return(
     <section style={{paddingTop:56,position:'relative',zIndex:1}}>
 
@@ -337,23 +335,6 @@ function ScriptSection(){
       </FadeUp>
       <FadeUp delay={.08}>
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6}}>
-          {}
-          <div style={{display:'flex',alignItems:'center',gap:16,padding:'9px 14px',
-            border:`1px solid ${C.border}`,borderRadius:10,background:C.card,flexWrap:'wrap'}}>
-            {[
-              {Icon:Activity, l:'Total',v:data?.executions},
-              {Icon:BarChart3,l:'Hoje', v:data?.daily},
-              {Icon:Clock,    l:'Reset',v:'cd'},
-            ].map((s,i)=>(
-              <div key={i} style={{display:'flex',alignItems:'center',gap:5}}>
-                <s.Icon size={9} style={{color:C.textDD}}/>
-                <span style={{fontSize:10,color:C.textDD,fontFamily:'var(--font-mono)'}}>{s.l}</span>
-                <span style={{fontSize:11,fontWeight:600,color:C.text,fontFamily:'var(--font-mono)'}}>
-                  {s.v==='cd'?<Countdown/>:s.v!=null?<CountUp end={s.v as number}/>:'—'}
-                </span>
-              </div>
-            ))}
-          </div>
           {}
           <Card style={{padding:'12px 14px',display:'flex',alignItems:'flex-start',gap:9,borderRadius:10}}>
             <Terminal size={11} style={{color:C.textDD,flexShrink:0,marginTop:2}}/>
@@ -559,6 +540,7 @@ function TeamCard({dev}:{dev:typeof DEVS[0]}){
   const u=data?.success?data.data:null
   const spotify=u?.listening_to_spotify&&u.spotify
   const activity=u?.activities?.find((x:any)=>x.type!==4&&x.name!=='Spotify')
+
   let label='Offline',SIcon:any=Circle,dot='rgba(255,255,255,0.1)'
   if(spotify){label=u.spotify.song;SIcon=Music;dot='#6ee7b7'}
   else if(activity){label=activity.name==='Code'?'Codando':activity.name;SIcon=activity.name==='Code'?Code:Gamepad2;dot=C.textD}
