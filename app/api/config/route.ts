@@ -1,8 +1,3 @@
-// [Segurança] Rate limiting via Upstash + validação de env.
-// Instale: npm i @upstash/ratelimit @upstash/redis @t3-oss/env-nextjs zod
-//
-// Se não quiser usar Upstash agora, comente o bloco de rate limit abaixo
-// e a rota ainda funciona com a validação de env apenas.
 import { NextResponse } from 'next/server'
 import { env } from '@/env'
 
