@@ -4,7 +4,6 @@ import { motion, useInView, AnimatePresence, useReducedMotion } from 'framer-mot
 import Image from 'next/image'
 import useSWR from 'swr'
 import { Toaster, toast } from 'react-hot-toast'
-// [Performance] Removidos Clock e ChevronRight que não eram usados.
 import {
   Copy, Check, Download, FileCode, FileText, Activity,
   BarChart3, Music, Code, Gamepad2, Moon, Circle, Globe, Skull,
@@ -28,8 +27,6 @@ const C = {
   white:   '#efefef',
 }
 
-// [CHANGE 1 - Segurança] SCRIPT URL removida do bundle público.
-// Buscar via /api/config no ScriptSection abaixo.
 const DISCORD = 'https://discord.gg/pWeJUBabvF'
 const DEVS = [
   { id:'1163467888259239996', role:'Dev' },
@@ -91,16 +88,12 @@ const FEATURES: Record<string,Feature[]> = {
 }
 
 interface Beam{x:number;y:number;w:number;len:number;angle:number;speed:number;op:number;pulse:number;ps:number}
-
-// [CHANGE 4 - Performance] Gradientes pré-computados fora do loop de draw
-// para evitar alocação de objetos a cada frame.
 interface BeamWithGradient extends Beam { grad?: CanvasGradient }
 
 function BeamsBackground(){
   const ref=useRef<HTMLCanvasElement>(null)
   const beams=useRef<BeamWithGradient[]>([])
   const raf=useRef(0)
-  // [CHANGE 9 - Acessibilidade] Respeitar prefers-reduced-motion
   const prefersReduced = useRef(
     typeof window !== 'undefined'
       ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -111,7 +104,6 @@ function BeamsBackground(){
     const canvas=ref.current;if(!canvas)return
     const ctx=canvas.getContext('2d');if(!ctx)return
 
-    // Se reduced motion, não renderizar o canvas animado
     if(prefersReduced.current){
       canvas.style.display='none'
       return
@@ -135,8 +127,6 @@ function BeamsBackground(){
       grad:undefined,
     })
 
-    // [CHANGE 4 - Performance] Pré-computa o gradiente uma vez por beam.
-    // Recria apenas quando op muda (não ocorre — op é fixo por beam).
     const buildGradient=(b:BeamWithGradient)=>{
       const g=ctx.createLinearGradient(0,0,0,b.len)
       g.addColorStop(0,`rgba(255,255,255,0)`)
@@ -159,14 +149,11 @@ function BeamsBackground(){
       b.w=isMobile?40+Math.random()*50:50+Math.random()*60
       b.speed=isMobile?.18+Math.random()*.25:.3+Math.random()*.4
       b.op=isMobile?.035+Math.random()*.05:.025+Math.random()*.05
-      // Recria gradiente apenas no reset (mudou op)
       buildGradient(b)
     }
     const draw=(b:BeamWithGradient)=>{
       if(!b.grad)return
       ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.angle*Math.PI/180)
-      // Nota: pulse afeta opacidade visual mas o gradiente base é pré-computado.
-      // Para o efeito de pulse, multiplicamos globalAlpha em vez de recriar gradiente.
       ctx.globalAlpha=0.8+Math.sin(b.pulse)*.2
       ctx.fillStyle=b.grad;ctx.fillRect(-b.w/2,0,b.w,b.len)
       ctx.globalAlpha=1
@@ -236,7 +223,6 @@ function TBadge({type}:{type:FType}){
   )
 }
 
-// [CHANGE 9 - Acessibilidade] FadeUp respeita prefers-reduced-motion via Framer Motion hook
 function FadeUp({children,delay=0}:{children:React.ReactNode;delay?:number}){
   const ref=useRef(null)
   const v=useInView(ref,{once:true,margin:'-40px'})
@@ -253,9 +239,6 @@ function FadeUp({children,delay=0}:{children:React.ReactNode;delay?:number}){
   )
 }
 
-// [CHANGE 5 & 10 - UX + Bug] CountUp:
-// - Inicia em 0 (elimina flash de "—" e hydration mismatch)
-// - suppressHydrationWarning no span para evitar SSR/CSR mismatch residual
 const CountUp=({end}:{end:number})=>{
   const[n,setN]=useState(0)
   useEffect(()=>{
@@ -266,16 +249,13 @@ const CountUp=({end}:{end:number})=>{
   return<span suppressHydrationWarning>{n.toLocaleString()}</span>
 }
 
-
 function Hero(){
   return(
     <section style={{paddingTop:56,position:'relative',zIndex:1}}>
-
       <motion.div initial={{opacity:0,y:-6}} animate={{opacity:1,y:0}} transition={{duration:.4}}
         style={{display:'flex',alignItems:'center',gap:10,marginBottom:40}}>
         <div style={{width:36,height:36,borderRadius:10,overflow:'hidden',
           border:`1px solid ${C.border}`,flexShrink:0}}>
-          {/* [CHANGE 3 - Performance] priority para LCP acima do fold */}
           <Image src="/avatar.png" alt="Logo michigun.xyz" width={36} height={36} priority
             style={{width:'100%',height:'100%',objectFit:'cover'}}/>
         </div>
@@ -344,12 +324,10 @@ function Hero(){
           </button>
         </div>
       </motion.div>
-
     </section>
   )
 }
 
-// [CHANGE 12 - Código] Fonte mono com fallback explícito para quando a CSS var não estiver disponível
 const MONO_FONT = 'var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace)'
 
 function ScriptSection(){
@@ -357,7 +335,6 @@ function ScriptSection(){
   const[dlOpen,setDlOpen]=useState(false)
   const dlRef=useRef<HTMLDivElement>(null)
 
-  // [CHANGE 1 - Segurança] Busca o script via API protegida em vez de expor no bundle
   const{data:configData,isLoading:configLoading}=useSWR('/api/config',fetcher,{revalidateOnFocus:false})
   const script:string=configData?.script??''
 
@@ -367,7 +344,6 @@ function ScriptSection(){
     if(!script)return
     playSound('click');navigator.clipboard.writeText(script)
     setCopied(true);setTimeout(()=>setCopied(false),2000)
-    // [UX] Toast global visível mesmo quando botão está fora da viewport
     toast.success('Script copiado!',{
       style:{background:'rgba(10,10,10,0.95)',color:'#86efac',border:'1px solid rgba(134,239,172,0.2)',fontSize:'13px'},
       iconTheme:{primary:'#86efac',secondary:'rgba(10,10,10,0.95)'},
@@ -375,7 +351,6 @@ function ScriptSection(){
     })
   },[script])
 
-  // [CHANGE 11 - Bug] Fechar dropdown com click fora usando ref, evitando position:fixed overlay
   useEffect(()=>{
     if(!dlOpen)return
     const handler=(e:MouseEvent)=>{
@@ -401,14 +376,13 @@ function ScriptSection(){
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6}}>
           <Card style={{padding:'12px 14px',display:'flex',alignItems:'flex-start',gap:9,borderRadius:10}}>
             <Terminal size={11} style={{color:C.textDD,flexShrink:0,marginTop:2}} aria-hidden="true"/>
-            {/* [CHANGE 13 - Código] userSelect aplicado só no código, não no root */}
             <code style={{flex:1,minWidth:0,wordBreak:'break-all',
               fontFamily:MONO_FONT,fontSize:10.5,lineHeight:1.85,
               userSelect:'text',WebkitUserSelect:'text'}}>
               <span style={{color:'#c084fc'}}>loadstring</span>
               <span style={{color:C.textDD}}>(</span>
               <span style={{color:'#7dd3fc'}}>request</span>
-              <span style={{color:C.textDD}}>({'{'}</span>
+              <span style={{color:C.textDD}}>({'{'})</span>
               <span style={{color:C.text}}>Url</span>
               <span style={{color:C.textDD}}>=</span>
               <span style={{color:'#86efac'}}>"https://michigun.xyz/script"</span>
@@ -431,8 +405,6 @@ function ScriptSection(){
               {copied?<Check size={12} aria-hidden="true"/>:<Copy size={12} aria-hidden="true"/>}
               {copied?'copiado!':'copiar'}
             </button>
-
-            {/* [CHANGE 11 - Bug] Dropdown sem overlay fixed — usa ref + mousedown listener */}
             <div ref={dlRef} style={{position:'relative',flexShrink:0}}>
               <button
                 onClick={()=>setDlOpen(v=>!v)}
@@ -513,7 +485,6 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
     if(!acc[f.category])acc[f.category]=[];acc[f.category].push(f);return acc
   },{} as Record<string,Feature[]>)
 
-  // [CHANGE 8 - UX] Detecta se tabs têm scroll disponível para mostrar fade
   useEffect(()=>{
     const el=tabsRef.current;if(!el)return
     const check=()=>setShowFade(el.scrollWidth>el.clientWidth&&el.scrollLeft<el.scrollWidth-el.clientWidth-2)
@@ -534,8 +505,6 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
       </FadeUp>
       <FadeUp delay={.08}>
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:10}}>
-
-          {/* [CHANGE 8 - UX] Container com fade lateral indicando scroll */}
           <div style={{position:'relative'}}>
             <div
               ref={tabsRef}
@@ -560,7 +529,6 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
                 )
               })}
             </div>
-            {/* Fade lateral direito */}
             {showFade&&(
               <div style={{
                 position:'absolute',top:0,right:0,height:'100%',width:48,pointerEvents:'none',
@@ -588,7 +556,6 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
                   </div>
                 ):(
                   <div style={{position:'relative',width:'100%',height:'100%',minHeight:130}}>
-                    {/* [CHANGE 3 - Performance] priority na imagem do mapa ativo (above-the-fold) */}
                     <Image src={(active as any)?.icon??''} alt={(active as any)?.name??''} fill priority style={{objectFit:'cover'}}/>
                     <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(6,6,6,.85) 0%,transparent 55%)'}}/>
                     <div style={{position:'absolute',bottom:10,left:12}}>
@@ -643,14 +610,10 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
           </AnimatePresence>
         </div>
       </FadeUp>
-
     </section>
   )
 }
 
-// [CHANGE 2 - Performance] TeamCard usa proxy /api/lanyard/[id] em vez de
-// chamar api.lanyard.rest diretamente, evitando CORS e permitindo cache no servidor.
-// [React] memo evita re-renders quando o parent (Page) atualiza state
 const TeamCard=memo(function TeamCard({dev}:{dev:typeof DEVS[0]}){
   const{data}=useSWR(`/api/lanyard/${dev.id}`,fetcher,{refreshInterval:10e3})
   const u=data?.success?data.data:null
@@ -748,8 +711,6 @@ function TeamSection(){
 }
 
 export default function Page(){
-  // [CHANGE 13 - Código] userSelect:none removido do root — aplicado pontualmente onde necessário
-  // [CHANGE 7 - UX] Modal fecha com Esc
   const[activeFeature,setActiveFeature]=useState<Feature|null>(null)
 
   useEffect(()=>{
@@ -763,8 +724,8 @@ export default function Page(){
     <div style={{minHeight:'100dvh',display:'flex',flexDirection:'column',background:C.bg,width:'100%'}}>
       <Toaster position="bottom-center"/>
       <Nav/>
-      {/* [Acessibilidade] focus-visible global — só aparece na navegação por teclado */}
       <style>{`
+        * { user-select: none; -webkit-user-select: none; }
         *:focus { outline: none; }
         *:focus-visible { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; border-radius: 4px; }
       `}</style>
@@ -785,7 +746,6 @@ export default function Page(){
         </span>
       </footer>
 
-      {/* [CHANGE 6 - UX] Modal fecha com Esc (listener acima) + aria adequado */}
       <AnimatePresence>
         {activeFeature&&(
           <motion.div
