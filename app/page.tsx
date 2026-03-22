@@ -59,6 +59,7 @@ const FEATURES: Record<string,Feature[]> = {
   apex:[
     {name:'Global +',    icon:Globe,  type:'safe',category:'Geral',desc:'Todas as funções globais funcionam aqui.'},
     {name:'Invadir Base',icon:Skull,  type:'safe',category:'Geral',desc:'Permite invadir a base militar.'},
+    {name:'Kill Aura',   icon:Skull,  type:'safe',category:'Geral',desc:'Mata todos os militares com arma equipada ao seu redor.'},
     {name:'Mods de Arma',icon:Wrench, type:'safe',category:'Geral',desc:'Modifica a arma.'},
     {name:'Troll',       icon:Laugh,  type:'safe',category:'Geral',desc:'Funções para trollar jogadores.'},
   ],
