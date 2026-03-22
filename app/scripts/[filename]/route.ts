@@ -1,12 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { Redis } from '@upstash/redis'
 import fs from 'fs'
 import path from 'path'
 import crypto from 'crypto'
 
 export const dynamic = 'force-dynamic'
-
-const redis = Redis.fromEnv()
 
 function getBrazilDateKey() {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' })
@@ -93,7 +90,10 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
             const expectedSignature = crypto.createHash('sha256').update(dataString).digest('hex')
 
             if (signature === expectedSignature) {
-              const dedupeKey   = `dedupe:${signature}`
+              const { Redis } = await import('@upstash/redis')
+              const redis = Redis.fromEnv()
+
+              const dedupeKey    = `dedupe:${signature}`
               const isNewRequest = await redis.set(dedupeKey, '1', { ex: 90, nx: true })
 
               if (isNewRequest) {
