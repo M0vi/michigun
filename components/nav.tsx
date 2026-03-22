@@ -9,9 +9,9 @@ const C = {
 }
 
 const LINKS = [
-  { label: 'Script', id: 'script' },
-  { label: 'Mapas',  id: 'mapas'  },
-  { label: 'Equipe', id: 'equipe' },
+  { label: 'script', id: 'script' },
+  { label: 'mapas',  id: 'mapas'  },
+  { label: 'equipe', id: 'equipe' },
 ]
 
 export default function Nav() {
@@ -47,7 +47,7 @@ export default function Nav() {
 
   return (
     <nav
-      aria-label="Navegação do site"
+      aria-label="Navegação"
       style={{
         position: 'fixed',
         top: 16,

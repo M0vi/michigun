@@ -39,7 +39,7 @@ export default function NotFound() {
         Página não encontrada
       </h1>
       <p style={{ fontSize: 13, color: C.textD, maxWidth: 280, textAlign: 'center', lineHeight: 1.6 }}>
-        O link que você acessou não existe ou foi removido.
+        O link que você acessou não existe ou foi removido
       </p>
       <a href="/"
         style={{
