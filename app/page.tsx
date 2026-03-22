@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
-import { ErrorBoundary } from '@/components/error-boundary'
+import ErrorBoundary from '@/components/error-boundary'
 
 const C = {
   bg:      '#060606',
