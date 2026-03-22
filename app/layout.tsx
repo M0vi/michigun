@@ -1,33 +1,46 @@
-import "./globals.css"
-import type { Metadata, Viewport } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { JetBrains_Mono, Bricolage_Grotesque } from 'next/font/google'
-
-const mono = JetBrains_Mono({ subsets:['latin'], variable:'--font-mono' })
-const display = Bricolage_Grotesque({ subsets:['latin'], variable:'--font-display', weight:['400','500','700','800'] })
-
-export const viewport: Viewport = { themeColor:'#050505', width:'device-width', initialScale:1 }
+import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://michigun.xyz'),
   title: 'michigun.xyz',
-  description: 'O melhor script para jogos de Exército Brasileiro no Roblox.',
-  icons: { icon: '/avatar.png', apple: '/avatar.png' },
+  description:
+    'Script com diversas funções para jogos de Exército Brasileiro',
   openGraph: {
     title: 'michigun.xyz',
-    description: 'O melhor script para jogos de EB no Roblox.',
+    description: 'Script para Exército Brasileiro no Roblox.',
     url: 'https://michigun.xyz',
-    images: [{ url: '/avatar.png' }],
-    locale: 'pt_BR', type: 'website',
+    siteName: 'michigun.xyz',
+    images: [
+      {
+        url: '/avatar.png'
+        width: 1200,
+        height: 630,
+        alt: 'michigun.xyz',
+      },
+    ],
+    locale: 'pt_BR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'michigun.xyz',
+    description: 'Script para Exército Brasileiro no Roblox',
+    images: ['/avatar.png'],
+  },
+  icons: {
+    icon: '/favicon.ico',
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="pt-br" className={`${GeistSans.variable} ${mono.variable} ${display.variable}`}>
-      <body className="font-sans antialiased min-h-screen flex justify-center overflow-x-hidden">
-        {children}
-      </body>
+    <html lang="pt-BR">
+      <body>{children}</body>
     </html>
   )
 }

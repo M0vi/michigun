@@ -1,17 +1,20 @@
 'use client'
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef, memo } from 'react'
 import { motion, useInView, AnimatePresence, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import useSWR from 'swr'
+import { Toaster, toast } from 'react-hot-toast'
+// [Performance] Removidos Clock e ChevronRight que não eram usados.
 import {
-  Copy, Check, Download, FileCode, FileText, Activity, Clock,
+  Copy, Check, Download, FileCode, FileText, Activity,
   BarChart3, Music, Code, Gamepad2, Moon, Circle, Globe, Skull,
   TabletSmartphone, Coins, Magnet, X, Crosshair, ScanSearch, Eye,
   Zap, GitMerge, Layers, Bot, UserX, Ghost, Wind, Rocket, Shuffle,
   Wrench, Laugh, Timer, Terminal, ArrowRight, Shield, AlertTriangle,
-  Sparkles, ChevronRight,
+  Sparkles,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
+import { ErrorBoundary } from '@/components/error-boundary'
 
 const C = {
   bg:      '#060606',
@@ -330,7 +333,7 @@ function Hero(){
         </p>
         <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
           <button
-            onClick={()=>document.getElementById('script')?.scrollIntoView({behavior:'smooth'})}
+            onClick={()=>{ const b=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'; document.getElementById('script')?.scrollIntoView({behavior:b as ScrollBehavior}) }}
             aria-label="Ir para a seção do script"
             style={{position:'relative',display:'inline-flex',alignItems:'center',gap:7,
               padding:'10px 22px',borderRadius:999,fontSize:13,fontWeight:600,
@@ -342,7 +345,7 @@ function Hero(){
             <ArrowRight size={13} aria-hidden="true"/>
           </button>
           <button
-            onClick={()=>document.getElementById('mapas')?.scrollIntoView({behavior:'smooth'})}
+            onClick={()=>{ const b=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'; document.getElementById('mapas')?.scrollIntoView({behavior:b as ScrollBehavior}) }}
             aria-label="Ver mapas disponíveis"
             style={{display:'inline-flex',alignItems:'center',gap:6,
               padding:'10px 20px',borderRadius:999,fontSize:13,fontWeight:500,
@@ -366,7 +369,7 @@ function ScriptSection(){
   const dlRef=useRef<HTMLDivElement>(null)
 
   // [CHANGE 1 - Segurança] Busca o script via API protegida em vez de expor no bundle
-  const{data:configData}=useSWR('/api/config',fetcher,{revalidateOnFocus:false})
+  const{data:configData,isLoading:configLoading}=useSWR('/api/config',fetcher,{revalidateOnFocus:false})
   const script:string=configData?.script??''
 
   const{data}=useSWR('/api/stats',fetcher,{refreshInterval:15e3})
@@ -375,6 +378,12 @@ function ScriptSection(){
     if(!script)return
     playSound('click');navigator.clipboard.writeText(script)
     setCopied(true);setTimeout(()=>setCopied(false),2000)
+    // [UX] Toast global visível mesmo quando botão está fora da viewport
+    toast.success('Script copiado!',{
+      style:{background:'rgba(10,10,10,0.95)',color:'#86efac',border:'1px solid rgba(134,239,172,0.2)',fontSize:'13px'},
+      iconTheme:{primary:'#86efac',secondary:'rgba(10,10,10,0.95)'},
+      duration:2000,
+    })
   },[script])
 
   // [CHANGE 11 - Bug] Fechar dropdown com click fora usando ref, evitando position:fixed overlay
@@ -476,9 +485,9 @@ function ScriptSection(){
             {[
               {Icon:Activity, label:'Execuções totais', value:data?.executions},
               {Icon:BarChart3,label:'Execuções hoje',   value:data?.daily},
-            ].map((s,i)=>(
-              <div key={i} style={{padding:'18px 16px',background:'rgba(255,255,255,0.015)',
-                borderRight:i===0?`1px solid ${C.border}`:'none',
+            ].map((s)=>(
+              <div key={s.label} style={{padding:'18px 16px',background:'rgba(255,255,255,0.015)',
+                borderRight:s.label==='Execuções totais'?`1px solid ${C.border}`:'none',
                 position:'relative',overflow:'hidden'}}>
                 <div style={{position:'absolute',top:0,left:0,right:0,height:1,
                   background:`linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent)`}}/>
@@ -584,7 +593,7 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
                 {active?.isGlobal?(
                   <div style={{width:'100%',height:'100%',minHeight:130,display:'flex',
                     flexDirection:'column',alignItems:'center',justifyContent:'center',gap:8}}>
-                    <Globe size={32} style={{color:C.textDD}} aria-hidden="true"/>
+                    <Globe size={32} style={{color:C.textDD}} aria-label="Funções globais"/>
                     <span style={{fontSize:8,color:C.textDD,fontFamily:MONO_FONT,
                       letterSpacing:'.1em',textTransform:'uppercase'}}>global</span>
                   </div>
@@ -652,7 +661,8 @@ function MapsSection({onFeatureClick}:{onFeatureClick:(f:Feature)=>void}){
 
 // [CHANGE 2 - Performance] TeamCard usa proxy /api/lanyard/[id] em vez de
 // chamar api.lanyard.rest diretamente, evitando CORS e permitindo cache no servidor.
-function TeamCard({dev}:{dev:typeof DEVS[0]}){
+// [React] memo evita re-renders quando o parent (Page) atualiza state
+const TeamCard=memo(function TeamCard({dev}:{dev:typeof DEVS[0]}){
   const{data}=useSWR(`/api/lanyard/${dev.id}`,fetcher,{refreshInterval:10e3})
   const u=data?.success?data.data:null
   const spotify=u?.listening_to_spotify&&u.spotify
@@ -726,7 +736,7 @@ function TeamCard({dev}:{dev:typeof DEVS[0]}){
       </div>
     </Card>
   )
-}
+})
 
 function TeamSection(){
   return(
@@ -762,14 +772,20 @@ export default function Page(){
 
   return(
     <div style={{minHeight:'100dvh',display:'flex',flexDirection:'column',background:C.bg,width:'100%'}}>
+      <Toaster position="bottom-center"/>
+      {/* [Acessibilidade] focus-visible global — só aparece na navegação por teclado */}
+      <style>{`
+        *:focus { outline: none; }
+        *:focus-visible { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; border-radius: 4px; }
+      `}</style>
       <BeamsBackground/>
       <main style={{flex:1,padding:'0 22px',position:'relative',zIndex:1,overflowX:'visible',
         width:'100%',maxWidth:780,margin:'0 auto'}}
         className="sm:px-6">
         <Hero/>
-        <ScriptSection/>
-        <MapsSection onFeatureClick={setActiveFeature}/>
-        <TeamSection/>
+        <ErrorBoundary label="ScriptSection"><ScriptSection/></ErrorBoundary>
+        <ErrorBoundary label="MapsSection"><MapsSection onFeatureClick={setActiveFeature}/></ErrorBoundary>
+        <ErrorBoundary label="TeamSection"><TeamSection/></ErrorBoundary>
         <div style={{height:80}}/>
       </main>
       <footer style={{borderTop:`1px solid ${C.border}`,padding:'12px 22px',

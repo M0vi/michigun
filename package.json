@@ -9,7 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@upstash/redis": "^1.36.1",
+    "@t3-oss/env-nextjs": "^0.13.10",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.37.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.0",
     "geist": "^1.7.0",
