@@ -5,7 +5,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Michigun Premium | Acesso Exclusivo',
+  title: 'Premium',
   description: 'Libere funções exclusivas e sem key system de forma vitalícia',
   openGraph: {
     title: 'Premium',
