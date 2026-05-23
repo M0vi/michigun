@@ -86,36 +86,31 @@ export default function PremiumPage() {
 
       <Nav />
 
-      <main className="flex-1 flex items-center justify-center relative z-10 px-4 pt-24 pb-12">
-        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <main className="flex-1 flex items-center justify-center relative z-10 px-4 pt-28 pb-12">
+        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 items-center">
           
           {/* Lado Esquerdo - Info Premium */}
-          <div className="flex flex-col gap-6">
-            <Link href="/" className="hidden md:inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors w-fit text-sm font-medium">
+          <div className="flex flex-col gap-8">
+            <Link href="/" className="inline-flex items-center justify-center md:justify-start gap-2 px-5 py-3 bg-[#111] md:bg-transparent border border-[#333] md:border-transparent rounded-xl md:px-0 md:py-0 text-neutral-400 hover:text-white hover:border-[#d4af37]/50 transition-all w-full md:w-fit text-sm font-bold tracking-widest uppercase mb-4">
               <ArrowLeft size={16} /> Voltar para o início
-            </Link>
-            
-            {/* Botão voltar Mobile (fixo no topo) */}
-            <Link href="/" className="md:hidden fixed top-5 left-4 z-[150] p-2 bg-[#111] border border-[#333] rounded-full text-neutral-400 hover:text-white shadow-lg">
-              <ArrowLeft size={18} />
             </Link>
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] text-xs font-bold uppercase tracking-widest rounded-full mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] text-xs font-bold uppercase tracking-widest rounded-full mb-6">
                 <Crown size={12} /> Acesso Exclusivo
               </div>
-              <h1 className="relative text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9]">
+              <h1 className="relative text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none">
                 <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-300 to-neutral-500 drop-shadow-lg">
                   Michigun
                 </span>
                 <br/>
-                <span className="relative inline-block mt-2 font-serif italic tracking-widest text-[#d4af37] drop-shadow-[0_0_25px_rgba(212,175,55,0.8)]">
+                <span className="relative inline-block mt-4 font-serif italic tracking-widest text-[#d4af37] drop-shadow-[0_0_25px_rgba(212,175,55,0.8)]">
                   Premium
                 </span>
               </h1>
             </div>
 
-            <ul className="space-y-4 mt-4">
+            <ul className="space-y-6 mt-6">
               {[
                 "Remoção completa do Key-System",
                 "Funções exclusivas de administrador",
