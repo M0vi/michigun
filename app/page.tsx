@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback, useRef, memo } from 'react'
 import { motion, useInView, AnimatePresence, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import useSWR from 'swr'
 import { Toaster, toast } from 'react-hot-toast'
 import {
@@ -327,6 +328,15 @@ function HeroSection(){
               color:PALETTE.faint,cursor:'pointer',fontFamily:'inherit',transition:'all .2s'}}>
             Ver mapas
           </button>
+          <Link href="/premium"
+            aria-label="Acesso Premium"
+            style={{display:'inline-flex',alignItems:'center',gap:6,
+              padding:'10px 20px',borderRadius:999,fontSize:13,fontWeight:600,
+              background:'linear-gradient(135deg, #10b981 0%, #059669 100%)',border:'1px solid rgba(16,185,129,0.3)',
+              color:'#fff',cursor:'pointer',fontFamily:'inherit',transition:'all .2s',textDecoration:'none'}}>
+            <Sparkles size={13} aria-hidden="true"/>
+            Premium
+          </Link>
         </div>
       </motion.div>
     </section>
