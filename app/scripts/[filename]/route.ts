@@ -28,11 +28,12 @@ const browserMessage = `--[[
                                                 ▒▒██████                                       ▒▒██████             
                                                  ▒▒▒▒▒▒                                         ▒▒▒▒▒▒              
 
+                                                 
 // O que é michigun?
 // michigun.xyz é um script feito para jogos de Exército Brasileiro.                                  
 
 // Por que você está vendo isso?
-// Isso deve ser executado por meio de um executor.                                                                                   
+// Isso deve ser executado por meio de um executor. 
 
 --]]`
 
@@ -74,26 +75,26 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
     if (filename === 'main.lua') {
       try {
-        const userId    = req.headers.get('x-user-id')
-        const placeId   = req.headers.get('x-place-id')
+        const userId = req.headers.get('x-user-id')
+        const placeId = req.headers.get('x-place-id')
         const timestamp = req.headers.get('x-timestamp')
         const signature = req.headers.get('x-signature')
-        const mode      = req.headers.get('x-mode')
-        const secret    = process.env.SCRIPT_SECRET
+        const mode = req.headers.get('x-mode')
+        const secret = process.env.SCRIPT_SECRET
 
         if (userId && placeId && timestamp && signature && secret) {
-          const now     = Math.floor(Date.now() / 1000)
+          const now = Math.floor(Date.now() / 1000)
           const reqTime = Number(timestamp)
 
           if (!isNaN(reqTime) && Math.abs(now - reqTime) <= 60) {
-            const dataString        = `${userId}${placeId}${timestamp}${secret}`
+            const dataString = `${userId}${placeId}${timestamp}${secret}`
             const expectedSignature = crypto.createHash('sha256').update(dataString).digest('hex')
 
             if (signature === expectedSignature) {
               const { Redis } = await import('@upstash/redis')
               const redis = Redis.fromEnv()
 
-              const dedupeKey    = `dedupe:${signature}`
+              const dedupeKey = `dedupe:${signature}`
               const isNewRequest = await redis.set(dedupeKey, '1', { ex: 90, nx: true })
 
               if (isNewRequest) {
@@ -111,7 +112,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
             }
           }
         }
-      } catch {}
+      } catch { }
     }
 
     const filePath = path.join(process.cwd(), 'scripts', filename)

@@ -24,7 +24,7 @@ async function getRatelimit() {
 }
 
 export async function GET(req: Request) {
-  // Limite de requisições por IP (evita sobrecarga/DDoS)
+  // Rate Limit IP
   const rl = await getRatelimit()
   if (rl) {
     const ip =

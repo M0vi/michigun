@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { id } = await params
   
-  // Segurança: Garante que o ID do Discord tenha apenas números (evita SSRF e injection)
+  // Validação de ID
   if (!/^\d{17,20}$/.test(id)) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 })
   }

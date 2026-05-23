@@ -14,18 +14,18 @@ export default function VideoBackground({ src }: { src: string }) {
 
     if (Hls.isSupported()) {
       hls = new Hls({
-        capLevelToPlayerSize: true, // Optimizes bandwidth
-        maxBufferLength: 30, // Keeps memory usage low
+        capLevelToPlayerSize: true,
+        maxBufferLength: 30,
       })
       hls.loadSource(src)
       hls.attachMedia(video)
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch(() => {
-          // Autoplay failed, which is common if not muted (but we are muted)
+        video.play().catch((err) => {
+          console.warn('Autoplay falhou', err)
         })
       })
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      // Native support (Safari / iOS)
+      // Safari / iOS nativo
       video.src = src
       video.addEventListener('loadedmetadata', () => {
         video.play().catch(() => {})
