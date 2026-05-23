@@ -151,7 +151,7 @@ function HeroSection(){
   const heroOpacity = useTransform(scrollY, [200, 1000], [1, 0])
 
   return(
-    <section className="relative min-h-screen w-full flex flex-col items-center justify-center py-20 z-10">
+    <section className="relative w-full flex flex-col items-center justify-center pt-36 pb-16 z-10">
       <motion.div
         className="flex flex-col items-center justify-center px-6 will-change-transform"
         style={{ scale: heroTextScale, opacity: heroOpacity }}
@@ -167,7 +167,7 @@ function HeroSection(){
             <Image src="/avatar.png" alt="Logo" width={96} height={96} className="w-full h-full object-cover" priority />
           </div>
 
-          <h1 className="relative font-black text-center tracking-tighter leading-[0.85] text-[clamp(2rem,1rem+8vw,11vw)] uppercase select-none group">
+          <h1 className="relative font-black text-center tracking-tighter leading-[0.85] text-[4.5rem] sm:text-[7rem] md:text-[9rem] lg:text-[11rem] xl:text-[13rem] uppercase select-none group">
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-3/4 h-1/2 bg-white/20 blur-[100px] md:blur-[120px] rounded-full group-hover:bg-white/30 transition-all duration-1000" />
             </div>
@@ -581,29 +581,32 @@ export default function Root(){
   },[focusedAbility])
 
   return(
-    <div className="font-display text-[#ebebeb] selection-coral relative min-h-screen bg-[#050505]">
+    <div className="font-display text-[#ebebeb] selection-coral relative min-h-screen bg-[#050505] overflow-x-hidden">
       <InteractiveBackground />
       <Toaster position="bottom-center"/>
-      <Nav/>
       
-      <main className="flex flex-col items-center w-full relative z-10 gap-24 pb-24">
-        <HeroSection/>
-        <div className="w-full flex flex-col items-center">
-          <SectionErrorBoundary label="ScriptPanel"><ScriptPanel/></SectionErrorBoundary>
-        </div>
-        <div className="w-full flex flex-col items-center">
-          <SectionErrorBoundary label="ArenasSection"><ArenasSection onAbilityClick={setFocusedAbility}/></SectionErrorBoundary>
-        </div>
-        <div className="w-full flex flex-col items-center">
-          <SectionErrorBoundary label="CrewSection"><CrewSection/></SectionErrorBoundary>
-        </div>
-      </main>
+      <div className="max-w-[1440px] mx-auto w-full relative flex flex-col items-center px-4 sm:px-6 md:px-8">
+        <Nav/>
+        
+        <main className="flex flex-col items-center w-full relative z-10 gap-16 pb-16">
+          <HeroSection/>
+          <div className="w-full flex flex-col items-center">
+            <SectionErrorBoundary label="ScriptPanel"><ScriptPanel/></SectionErrorBoundary>
+          </div>
+          <div className="w-full flex flex-col items-center">
+            <SectionErrorBoundary label="ArenasSection"><ArenasSection onAbilityClick={setFocusedAbility}/></SectionErrorBoundary>
+          </div>
+          <div className="w-full flex flex-col items-center">
+            <SectionErrorBoundary label="CrewSection"><CrewSection/></SectionErrorBoundary>
+          </div>
+        </main>
 
-      <footer className="py-12 border-t border-white/5 flex items-center justify-center relative z-10 bg-transparent">
-        <span className="text-[10px] text-[#444444] font-bold tracking-widest uppercase">
-          © {new Date().getFullYear()} michigun.xyz
-        </span>
-      </footer>
+        <footer className="py-12 border-t border-white/5 w-full flex items-center justify-center relative z-10 bg-transparent">
+          <span className="text-[10px] text-[#444444] font-bold tracking-widest uppercase">
+            © {new Date().getFullYear()} michigun.xyz
+          </span>
+        </footer>
+      </div>
 
       <AnimatePresence>
         {focusedAbility&&(
