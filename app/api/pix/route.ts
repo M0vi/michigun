@@ -5,6 +5,7 @@ const RATE_LIMIT_WINDOW = 60 * 1000;
 const MAX_REQUESTS = 3;
 
 export async function POST(request: Request) {
+  try {
     const ip = request.headers.get('x-forwarded-for') || 'unknown_ip';
     const now = Date.now();
     const userRate = rateLimit.get(ip) || { count: 0, timestamp: now };
