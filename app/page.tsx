@@ -17,6 +17,7 @@ import { playSound, fetcher, cn } from '@/lib/utils'
 import SectionErrorBoundary from '@/components/section-error-boundary'
 import Nav from '@/components/nav'
 import ShinyText from '@/components/shiny-text'
+import { AlertBadge } from '@/components/alert-badge'
 
 const DISCORD_URL = 'https://discord.gg/pWeJUBabvF'
 
@@ -115,7 +116,7 @@ function RiskTag({risk}:{risk:RiskLevel}){
     visual:{l:'Visual', c:'text-fuchsia-400',bg:'bg-fuchsia-400/10',b:'border-fuchsia-400/20'},
   }[risk]
   return(
-    <span className={cn("inline-flex items-center text-[9px] font-mono font-bold tracking-[0.2em] uppercase px-2 py-0.5 rounded-none border", cfg.c, cfg.bg, cfg.b)}>
+    <span className={cn("inline-flex items-center text-[9px] font-sans font-bold tracking-[0.15em] uppercase px-2.5 py-0.5 rounded-full border", cfg.c, cfg.bg, cfg.b)}>
       {cfg.l}
     </span>
   )
@@ -189,16 +190,14 @@ function HeroSection(){
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-4 justify-center w-full max-w-lg">
               <button
                 onClick={()=>{ const b=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'; document.getElementById('script')?.scrollIntoView({behavior:b as ScrollBehavior}) }}
-                className="w-full sm:w-auto bg-white text-black px-8 py-4 rounded-none font-mono font-medium uppercase tracking-[0.1em] text-[10px] flex items-center justify-center gap-3 hover:bg-[#e2e2e2] transition-colors border border-white"
+                className="w-full sm:w-auto bg-white text-black px-8 py-4 rounded-full font-sans font-bold uppercase tracking-[0.1em] text-[11px] flex items-center justify-center gap-3 hover:bg-[#e2e2e2] transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] border border-white shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
               >
                 Pegar o script <ArrowRight size={14} />
               </button>
 
-
-
               <button
                 onClick={()=>{ const b=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'; document.getElementById('arenas')?.scrollIntoView({behavior:b as ScrollBehavior}) }}
-                className="w-full sm:w-auto bg-transparent text-white border border-white/20 px-8 py-4 rounded-none font-mono font-medium uppercase tracking-[0.1em] text-[10px] hover:border-white/60 hover:bg-white/5 transition-all duration-300 flex items-center justify-center"
+                className="w-full sm:w-auto bg-transparent text-white border border-white/20 px-8 py-4 rounded-full font-sans font-bold uppercase tracking-[0.1em] text-[11px] hover:border-white/60 hover:bg-white/5 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] flex items-center justify-center"
               >
                 Ver mapas
               </button>
@@ -224,10 +223,14 @@ function ScriptPanel(){
     if(!scriptText)return
     playSound('click');navigator.clipboard.writeText(scriptText)
     setCopied(true);setTimeout(()=>setCopied(false),2000)
-    toast.success('Script copiado!',{
-      style: { background: '#111111', color: '#ffffff', border: '1px solid #222222', borderRadius: '12px' },
-      duration:2000,
-    })
+    toast.custom((t) => (
+      <AlertBadge
+        variant="success"
+        icon={Check}
+        label="Script copiado!"
+        className={t.visible ? 'animate-in fade-in' : 'animate-out fade-out'}
+      />
+    ), { id: 'copy-toast', duration: 2000 })
   },[scriptText])
 
   useEffect(()=>{
@@ -261,13 +264,13 @@ function ScriptPanel(){
                 <div className="w-3 h-3 rounded-full bg-white/5" />
               </div>
               <div className="flex items-center gap-3">
-                <button onClick={handleCopy} className="text-[#888888] hover:text-white transition-colors flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
+                <button onClick={handleCopy} className="text-[#888888] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
                   {copied ? <Check size={14}/> : <Copy size={14}/>}
                   {copied ? 'Copiado' : 'Copiar'}
                 </button>
                 <div className="w-px h-3 bg-white/10" />
                 <div ref={dlRef} className="relative flex items-center">
-                  <button onClick={()=>setDlOpen(v=>!v)} className="text-[#888888] hover:text-white transition-colors flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
+                  <button onClick={()=>setDlOpen(v=>!v)} className="text-[#888888] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
                     <Download size={14} />
                     Salvar
                   </button>
@@ -331,14 +334,23 @@ function ScriptPanel(){
   )
 }
 
-function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, abilities: Ability[], onAbilityClick: (a: Ability) => void, index: number }) {
-  const [isOpen, setIsOpen] = useState(false);
+const ArenaCard = memo(function ArenaCard({
+  arena,
+  abilities,
+  onAbilityClick,
+  index
+}:{
+  arena:any;
+  abilities:Ability[];
+  onAbilityClick:(a:Ability)=>void;
+  index:number
+}){
+  const[isOpen,setIsOpen]=useState(false)
 
   return (
-    <motion.div 
-      initial={{opacity:0, y:20}}
-      whileInView={{opacity:1, y:0}}
-      viewport={{once:true}}
+    <motion.div
+      initial={{opacity:0,y:20}}
+      animate={{opacity:1,y:0}}
       transition={{delay: index * 0.1}}
       className="relative group w-full flex flex-col"
     >
@@ -348,21 +360,21 @@ function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, ab
       </div>
       
 
-      <div className="relative flex flex-col border border-white/5 bg-[#0a0a0a] overflow-hidden rounded-none">
+      <div className="relative flex flex-col border border-white/5 bg-[#0a0a0a] overflow-hidden rounded-2xl shadow-xl transition-all duration-300 hover:border-white/10 hover:shadow-[0_4px_30px_rgba(255,255,255,0.02)]">
 
         <div 
           className="w-full h-40 relative overflow-hidden shrink-0 cursor-pointer group/header" 
           onClick={() => setIsOpen(!isOpen)}
         >
           {arena.isGlobal ? (
-            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-[#111111] border-b border-white/5 group-hover/header:bg-[#151515] transition-colors">
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-[#111111] border-b border-white/5 group-hover/header:bg-[#151515] transition-colors rounded-t-2xl">
               <Globe size={32} className="text-[#333333]" />
               <span className="font-black text-3xl uppercase tracking-tighter text-white">Global</span>
               <p className="text-[10px] font-mono text-white/50 tracking-widest uppercase">{abilities.length} funções</p>
             </div>
           ) : (
             <>
-              <Image src={(arena as any)?.thumb??''} alt={arena.name} fill className="object-cover opacity-50 group-hover/header:opacity-70 transition-opacity duration-700" priority />
+              <Image src={(arena as any)?.thumb??''} alt={arena.name} fill className="object-cover opacity-50 group-hover/header:opacity-70 transition-opacity duration-700 rounded-t-2xl" priority />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent pointer-events-none" />
               <div className="absolute bottom-4 left-6 pointer-events-none">
                 <p className="font-black text-3xl uppercase tracking-tighter text-white drop-shadow-xl">{arena.name}</p>
@@ -385,16 +397,22 @@ function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, ab
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="overflow-hidden border-t border-white/5"
+              className="overflow-hidden border-t border-white/5 bg-[#0a0a0a]"
             >
-
-              <div className="p-4 flex flex-col gap-2">
+              <div className="p-4 flex flex-col gap-2.5">
                 {abilities.map(a => (
                   <button key={a.name}
                     onClick={(e)=>{ e.stopPropagation(); onAbilityClick(a); }}
-                    className="flex items-center justify-between p-4 rounded-none bg-[#111111] border border-white/5 hover:border-white/20 hover:bg-[#1a1a1a] transition-all text-left group"
+                    className="flex items-center justify-between p-3.5 rounded-xl bg-[#111111]/60 border border-white/5 hover:border-white/10 hover:bg-[#1a1a1a]/80 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] text-left group shadow-sm"
                   >
-                    <span className="text-[11px] font-bold text-white uppercase tracking-wider truncate mr-4">{a.name}</span>
+                    <div className="flex items-center gap-3 truncate mr-4">
+                      {a.icon && (
+                        <div className="p-1.5 bg-white/5 rounded-lg text-neutral-400 group-hover:text-white group-hover:bg-white/10 transition-all duration-200 shrink-0">
+                          <a.icon size={15} />
+                        </div>
+                      )}
+                      <span className="text-[12px] font-bold text-white uppercase tracking-wider truncate">{a.name}</span>
+                    </div>
                     <RiskTag risk={a.risk}/>
                   </button>
                 ))}
@@ -405,7 +423,7 @@ function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, ab
       </div>
     </motion.div>
   )
-}
+})
 
 function ArenasSection({onAbilityClick}:{onAbilityClick:(a:Ability)=>void}){
   const allArenas=[
@@ -586,7 +604,6 @@ export default function Root(){
   return(
     <div className="font-display text-[#ebebeb] selection-coral relative min-h-screen bg-[#050505] overflow-x-hidden">
       <InteractiveBackground />
-      <Toaster position="bottom-center"/>
       
       <div className="max-w-[1440px] mx-auto w-full relative flex flex-col items-center px-4 sm:px-6 md:px-8">
         <Nav/>

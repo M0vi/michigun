@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
-import { Crown, QrCode, Check, Copy, ArrowLeft, Lock } from "lucide-react";
+import { Crown, QrCode, Check, Copy, ArrowLeft, Lock, AlertCircle } from "lucide-react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import Nav from "@/components/nav";
+import { AlertBadge } from "@/components/alert-badge";
 
 export default function PremiumPage() {
   const [step, setStep] = useState<'form' | 'pix' | 'success'>('form');
@@ -31,7 +32,15 @@ export default function PremiumPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!discord.trim() || !email.trim()) {
-      toast.error("Preencha todos os campos!");
+      toast.dismiss();
+      toast.custom((t) => (
+        <AlertBadge
+          variant="error"
+          icon={AlertCircle}
+          label="Preencha todos os campos!"
+          className={t.visible ? 'animate-in fade-in' : 'animate-out fade-out'}
+        />
+      ), { duration: 2500 });
       return;
     }
     setLoading(true);
@@ -54,7 +63,15 @@ export default function PremiumPage() {
       })
       .catch((err) => {
         console.error("Erro ao gerar pix:", err);
-        toast.error(err.message || "Ocorreu um erro ao gerar o PIX.");
+        toast.dismiss();
+        toast.custom((t) => (
+          <AlertBadge
+            variant="error"
+            icon={AlertCircle}
+            label={err.message || "Ocorreu um erro ao gerar o PIX."}
+            className={t.visible ? 'animate-in fade-in' : 'animate-out fade-out'}
+          />
+        ), { duration: 3000 });
         setLoading(false);
       });
   };
@@ -63,7 +80,14 @@ export default function PremiumPage() {
     if (pixData) {
       navigator.clipboard.writeText(pixData.copyPaste);
       setCopied(true);
-      toast.success("Código PIX copiado com sucesso!");
+      toast.custom((t) => (
+        <AlertBadge
+          variant="success"
+          icon={Check}
+          label="Código PIX copiado com sucesso!"
+          className={t.visible ? 'animate-in fade-in' : 'animate-out fade-out'}
+        />
+      ), { id: 'copy-toast', duration: 2000 });
       setTimeout(() => setCopied(false), 2000);
     }
   };
@@ -91,7 +115,7 @@ export default function PremiumPage() {
           
           {/* Lado Esquerdo - Info Premium */}
           <div className="flex flex-col gap-8">
-            <Link href="/" className="inline-flex items-center justify-center md:justify-start gap-2 px-5 py-3 bg-[#111] md:bg-transparent border border-[#333] md:border-transparent rounded-xl md:px-0 md:py-0 text-neutral-400 hover:text-white hover:border-[#d4af37]/50 transition-all w-full md:w-fit text-sm font-bold tracking-widest uppercase mb-4">
+            <Link href="/" className="inline-flex items-center justify-center md:justify-start gap-2 px-5 py-3 bg-[#111] md:bg-transparent border border-[#333] md:border-transparent rounded-xl md:px-0 md:py-0 text-neutral-400 hover:text-white hover:border-[#d4af37]/50 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] w-full md:w-fit text-sm font-bold tracking-widest uppercase mb-4">
               <ArrowLeft size={16} /> Voltar para o início
             </Link>
 
@@ -184,7 +208,7 @@ export default function PremiumPage() {
                     </div>
                     <button 
                       type="submit"
-                      className="mt-4 w-full bg-[#d4af37] text-black font-mono font-bold uppercase tracking-[0.1em] text-[10px] rounded-none py-4 hover:bg-[#b5952f] transition-colors flex items-center justify-center gap-2 border border-[#d4af37]"
+                      className="mt-4 w-full bg-[#d4af37] text-black font-sans font-bold uppercase tracking-[0.1em] text-[11px] rounded-xl py-4 hover:bg-[#b5952f] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 border border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_25px_rgba(212,175,55,0.3)]"
                     >
                       Gerar PIX
                     </button>
@@ -225,7 +249,7 @@ export default function PremiumPage() {
                       
                       <button
                         onClick={handleCopy}
-                        className="group relative w-full flex items-center justify-center gap-2 bg-[#111] border border-[#333] hover:border-[#d4af37]/80 rounded-xl py-4 px-4 transition-all duration-300 overflow-hidden"
+                        className="group relative w-full flex items-center justify-center gap-2 bg-[#111] border border-[#333] hover:border-[#d4af37]/80 rounded-xl py-4 px-4 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] overflow-hidden"
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-[#d4af37]/0 via-[#d4af37]/10 to-[#d4af37]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                         <span className="truncate text-sm font-mono text-neutral-300 group-hover:text-white transition-colors">
@@ -239,7 +263,7 @@ export default function PremiumPage() {
 
                     <button
                       onClick={() => setStep('success')}
-                      className="mt-2 w-full bg-[#d4af37] text-black font-mono font-bold uppercase tracking-[0.1em] text-[10px] rounded-none py-4 hover:bg-[#b5952f] transition-colors flex items-center justify-center gap-2 border border-[#d4af37]"
+                      className="mt-2 w-full bg-[#d4af37] text-black font-sans font-bold uppercase tracking-[0.1em] text-[11px] rounded-xl py-4 hover:bg-[#b5952f] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 border border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_25px_rgba(212,175,55,0.3)]"
                     >
                       Já realizei o pagamento
                     </button>

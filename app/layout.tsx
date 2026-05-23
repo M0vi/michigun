@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { EB_Garamond } from 'next/font/google'
+import { Toaster } from 'react-hot-toast'
 import './globals.css'
 
 const ebGaramond = EB_Garamond({
@@ -44,7 +45,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable} ${ebGaramond.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster position="bottom-center" />
+      </body>
     </html>
   )
 }
