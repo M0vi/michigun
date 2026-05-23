@@ -6,10 +6,10 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: 'Premium',
-  description: 'Libere funções exclusivas e sem key system de forma vitalícia',
+  description: 'Acesso vitalício a funções exclusivas. Sem key system, sem interrupções.',
   openGraph: {
     title: 'Premium',
-    description: 'Libere funções exclusivas e sem key system de forma vitalícia',
+    description: 'Acesso vitalício a funções exclusivas. Sem key system, sem interrupções.',
     url: 'https://michigun.xyz/premium',
     siteName: 'michigun.xyz',
     images: [{ url: '/premium-og.png', width: 1920, height: 1080, alt: 'Michigun Premium Banner' }],
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Premium',
-    description: 'Libere funções exclusivas e sem key system de forma vitalícia',
+    description: 'Acesso vitalício a funções exclusivas. Sem key system, sem interrupções.',
     images: ['/premium-og.png'],
   },
 }
