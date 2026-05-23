@@ -8,9 +8,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans:    ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        sans:    ['Satoshi', 'var(--font-geist-sans)', 'system-ui', 'sans-serif'],
         mono:    ['var(--font-mono)', 'monospace'],
-        display: ['var(--font-display)', 'var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        display: ['Satoshi', 'var(--font-display)', 'var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        satoshi: ['Satoshi', 'system-ui', 'sans-serif'],
       },
     },
   },

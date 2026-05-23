@@ -1,13 +1,22 @@
 import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { EB_Garamond } from 'next/font/google'
 import './globals.css'
+
+const ebGaramond = EB_Garamond({
+  subsets: ['latin'],
+  variable: '--font-eb-garamond',
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+})
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#060606',
+  themeColor: '#000000',
 }
 
 export const metadata: Metadata = {
@@ -19,7 +28,7 @@ export const metadata: Metadata = {
     description: 'Script para Exército Brasileiro no Roblox',
     url: 'https://michigun.xyz',
     siteName: 'michigun.xyz',
-    images: [{ url: '/avatar.png', width: 1200, height: 630, alt: 'michigun.xyz' }],
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'michigun.xyz' }],
     locale: 'pt_BR',
     type: 'website',
   },
@@ -27,19 +36,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'michigun.xyz',
     description: 'Script para Exército Brasileiro no Roblox',
-    images: ['/avatar.png'],
+    images: ['/logo.png'],
   },
-  icons: { icon: '/favicon.ico' },
+  icons: { icon: '/logo.png' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <head>
-        <script dangerouslySetInnerHTML={{
-          __html: `window.addEventListener('error', function(e) { document.body.innerHTML = '<div style="color:red;padding:20px;background:white;font-family:sans-serif;z-index:999999;position:fixed;inset:0;overflow:auto;"><h1>Client Error</h1><pre>' + e.error.stack + '</pre></div>'; });`
-        }} />
-      </head>
+    <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable} ${ebGaramond.variable}`}>
       <body>{children}</body>
     </html>
   )
