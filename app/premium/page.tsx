@@ -112,8 +112,8 @@ export default function PremiumPage() {
 
             <ul className="space-y-6 mt-6">
               {[
-                "Remoção completa do Key-System",
-                "Funções exclusivas de administrador",
+                "Remoção do key system",
+                "Funções exclusivas",
                 "Suporte direto com os desenvolvedores"
               ].map((feature, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm font-medium text-neutral-300">
@@ -250,20 +250,40 @@ export default function PremiumPage() {
                     </div>
                   </div>
                 ) : step === 'success' ? (
-                  <div className="flex flex-col items-center justify-center space-y-6 text-center animate-in fade-in zoom-in duration-500 py-6">
-                    <div className="w-20 h-20 bg-[#d4af37]/10 rounded-full flex items-center justify-center mb-2 ring-4 ring-[#d4af37]/20">
-                      <Check size={40} className="text-[#d4af37]" />
+                  <div className="flex flex-col items-center justify-center space-y-6 animate-in fade-in zoom-in duration-500 py-2 sm:py-6 w-full">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#d4af37]/10 rounded-full flex items-center justify-center mb-0 sm:mb-2 ring-4 ring-[#d4af37]/20">
+                      <Check size={32} className="text-[#d4af37] sm:w-10 sm:h-10" />
                     </div>
-                    <h2 className="text-xl font-black text-white uppercase tracking-wider">Aguardando Liberação</h2>
-                    <p className="text-sm text-neutral-400 leading-relaxed max-w-[280px]">
-                      Seu pagamento está sendo confirmado pela AmploPay. Para agilizar o seu acesso, envie o comprovante do PIX no nosso Discord.
-                    </p>
+                    <div className="text-center">
+                      <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider mb-2">Quase lá!</h2>
+                      <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-sm mx-auto">
+                        Para liberar o seu acesso agora mesmo, siga os passos abaixo:
+                      </p>
+                    </div>
+
+                    <div className="w-full bg-[#111] border border-[#333] rounded-xl p-4 sm:p-5 text-left space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#5865F2]/20 text-[#5865F2] flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 mt-0.5">1</div>
+                        <p className="text-xs sm:text-sm text-neutral-300 leading-snug">Entre no nosso servidor do Discord clicando no botão abaixo.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#5865F2]/20 text-[#5865F2] flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 mt-0.5">2</div>
+                        <p className="text-xs sm:text-sm text-neutral-300 leading-snug">
+                          Procure pelo canal <span className="text-white font-mono bg-[#222] px-1.5 py-0.5 rounded text-[10px] sm:text-xs border border-[#333]">💸・receber-premium</span>
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#5865F2]/20 text-[#5865F2] flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 mt-0.5">3</div>
+                        <p className="text-xs sm:text-sm text-neutral-300 leading-snug">Abra um ticket e envie a foto do seu comprovante. Um admin te entregará a key!</p>
+                      </div>
+                    </div>
+
                     <a
                       href="https://discord.gg/pWeJUBabvF"
                       target="_blank"
-                      className="mt-4 w-full bg-[#5865F2] text-white font-mono font-bold uppercase tracking-[0.1em] text-[10px] rounded-none py-4 hover:bg-[#4752C4] transition-colors flex items-center justify-center gap-2"
+                      className="mt-2 w-full bg-[#5865F2] text-white font-mono font-bold uppercase tracking-[0.1em] text-[10px] rounded-none py-4 hover:bg-[#4752C4] transition-colors flex items-center justify-center gap-2"
                     >
-                      Abrir Ticket no Discord
+                      Abrir Discord
                     </a>
                   </div>
                 ) : (
