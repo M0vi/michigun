@@ -519,7 +519,8 @@ export default function Root(){
   },[focusedAbility])
 
   return(
-    <ParallaxStarsBackground className="font-display text-[#ebebeb] selection-coral">
+    <ParallaxStarsBackground className="font-display text-[#ebebeb] selection-coral relative">
+      <div className="fixed inset-0 h-full w-full bg-background [background:radial-gradient(125%_125%_at_50%_-50%,#c7d2fe_40%,transparent_100%)] dark:[background:radial-gradient(125%_125%_at_50%_-50%,#6366f136_40%,transparent_100%)] pointer-events-none -z-10"></div>
       <Toaster position="bottom-center"/>
       <Nav/>
       
