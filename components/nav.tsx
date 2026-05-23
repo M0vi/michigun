@@ -85,7 +85,7 @@ export default function Nav() {
                   className={`absolute inset-0 z-0 rounded-full border ${
                     isPremiumTab
                       ? 'bg-gradient-to-r from-[#d4af37]/15 to-[#b5952f]/15 border-[#d4af37]/40 shadow-[0_0_15px_rgba(212,175,55,0.15)]'
-                      : 'bg-white/10 border-white/10'
+                      : 'bg-white/10 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.12)]'
                   }`}
                 />
               )}
