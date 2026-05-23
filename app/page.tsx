@@ -167,7 +167,7 @@ function HeroSection(){
             <Image src="/avatar.png" alt="Logo" width={96} height={96} className="w-full h-full object-cover" priority />
           </div>
 
-          <h1 className="relative font-black text-center tracking-tighter leading-[0.85] text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10rem] xl:text-[12rem] 2xl:text-[14rem] uppercase select-none group">
+          <h1 className="relative font-black text-center tracking-tighter leading-[0.85] text-[clamp(2rem,1rem+8vw,11vw)] uppercase select-none group">
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-3/4 h-1/2 bg-white/20 blur-[100px] md:blur-[120px] rounded-full group-hover:bg-white/30 transition-all duration-1000" />
             </div>
