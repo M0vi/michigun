@@ -91,10 +91,15 @@ export default function PremiumPage() {
           
           {/* Lado Esquerdo - Info Premium */}
           <div className="flex flex-col gap-6">
-            <Link href="/" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors w-fit text-sm font-medium">
+            <Link href="/" className="hidden md:inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors w-fit text-sm font-medium">
               <ArrowLeft size={16} /> Voltar para o início
             </Link>
             
+            {/* Botão voltar Mobile (fixo no topo) */}
+            <Link href="/" className="md:hidden fixed top-5 left-4 z-[150] p-2 bg-[#111] border border-[#333] rounded-full text-neutral-400 hover:text-white shadow-lg">
+              <ArrowLeft size={18} />
+            </Link>
+
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] text-xs font-bold uppercase tracking-widest rounded-full mb-4">
                 <Crown size={12} /> Acesso Exclusivo
@@ -135,10 +140,10 @@ export default function PremiumPage() {
             <div className="relative w-full overflow-hidden rounded-2xl bg-[#0a0a0a] border border-[#222] shadow-[0_0_50px_rgba(212,175,55,0.1)]">
               <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent opacity-70" />
 
-              <div className="p-8">
-                <div className="text-center mb-8">
-                  <p className="text-sm text-neutral-400 mb-1 font-medium uppercase tracking-widest">Valor único</p>
-                  <p className="text-4xl font-black tracking-tighter text-[#d4af37] drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+              <div className="p-5 sm:p-8">
+                <div className="text-center mb-6 sm:mb-8">
+                  <p className="text-xs sm:text-sm text-neutral-400 mb-1 font-medium uppercase tracking-widest">Valor único</p>
+                  <p className="text-3xl sm:text-4xl font-black tracking-tighter text-[#d4af37] drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
                     R$ 19,97
                   </p>
                 </div>
@@ -207,9 +212,7 @@ export default function PremiumPage() {
                         <img
                           src={pixData.qrCode}
                           alt="QR Code PIX"
-                          width={220}
-                          height={220}
-                          className="rounded-lg"
+                          className="rounded-lg w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]"
                         />
                         <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-xl" />
                       </div>
