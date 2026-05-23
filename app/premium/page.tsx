@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import ParticleCanvas from '@/components/particle-canvas'
 import { ArrowLeft, Check, Copy, QrCode, Sparkles, Loader2, User, Mail, CreditCard } from 'lucide-react'
 import { Toaster, toast } from 'react-hot-toast'
 
@@ -13,6 +14,7 @@ const PALETTE = {
   rimHot: 'rgba(255,255,255,0.11)',
   muted: '#a0a0a0',
   faint: 'rgba(160,160,160,0.38)',
+  ghost: 'rgba(160,160,160,0.16)',
   snow: '#f0f0f0',
   accent: '#10b981',
 }
@@ -69,6 +71,7 @@ export default function PremiumPage() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: PALETTE.bg, width: '100%' }}>
       <Toaster position="bottom-center" />
+      <ParticleCanvas />
       
       {/* Background elements */}
       <div style={{ position: 'fixed', top: '-10%', left: '-10%', width: '120%', height: '120%', 

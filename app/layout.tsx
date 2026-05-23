@@ -35,6 +35,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `window.addEventListener('error', function(e) { document.body.innerHTML = '<div style="color:red;padding:20px;background:white;font-family:sans-serif;z-index:999999;position:fixed;inset:0;overflow:auto;"><h1>Client Error</h1><pre>' + e.error.stack + '</pre></div>'; });`
+        }} />
+      </head>
       <body>{children}</body>
     </html>
   )

@@ -21,15 +21,11 @@ export async function POST(req: Request) {
         'Authorization': `Bearer ${env.ABACATEPAY_API_KEY}`
       },
       body: JSON.stringify({
+        method: "PIX",
         data: {
           amount: 1990, // R$ 19,90 em centavos
           description: "Michigun Premium - Acesso Exclusivo",
-          customer: {
-            name: discord,
-            email
-          },
           metadata: {
-            // Pode ser usado no Webhook para saber qual usuário foi
             customerEmail: email,
             discordUsername: discord
           }
