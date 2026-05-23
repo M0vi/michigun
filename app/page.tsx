@@ -194,13 +194,7 @@ function HeroSection(){
                 Pegar o script <ArrowRight size={14} />
               </button>
 
-              <a
-                href="/premium"
-                className="w-full sm:w-auto relative group bg-[#111] text-[#d4af37] px-8 py-4 rounded-none font-mono font-bold uppercase tracking-[0.1em] text-[10px] flex items-center justify-center gap-3 border border-[#d4af37]/30 hover:border-[#d4af37] transition-all overflow-hidden cursor-pointer"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#d4af37]/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                <Crown size={14} className="group-hover:animate-bounce" /> Premium R$19,97
-              </a>
+
 
               <button
                 onClick={()=>{ const b=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'; document.getElementById('arenas')?.scrollIntoView({behavior:b as ScrollBehavior}) }}

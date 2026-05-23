@@ -9,14 +9,13 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 
 export default function PremiumPage() {
-  const [step, setStep] = useState<'form' | 'pix'>('form');
+  const [step, setStep] = useState<'form' | 'pix' | 'success'>('form');
   const [discord, setDiscord] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [pixData, setPixData] = useState<{ qrCode: string; copyPaste: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
-  // Mouse Tracking Glow
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -71,7 +70,6 @@ export default function PremiumPage() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#ebebeb] font-display flex flex-col relative overflow-hidden">
-      {/* Background elements (Mouse Tracking + Pulse) */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <motion.div
           className="absolute inset-0 w-full h-full"
@@ -159,7 +157,6 @@ export default function PremiumPage() {
                         placeholder="@h64" 
                         value={discord}
                         onChange={(e) => {
-                          // Impede fisicamente a digitação de qualquer coisa que não seja: letras, números, _, ., - ou @
                           const sanitized = e.target.value.replace(/[^a-zA-Z0-9_.\-@]/g, '');
                           setDiscord(sanitized);
                         }}
@@ -177,7 +174,6 @@ export default function PremiumPage() {
                         placeholder="seu@email.com" 
                         value={email}
                         onChange={(e) => {
-                          // Impede fisicamente a digitação de aspas, espaços, <, > e caracteres perigosos
                           const sanitized = e.target.value.replace(/[^a-zA-Z0-9_.+@\-]/g, '');
                           setEmail(sanitized);
                         }}
@@ -204,11 +200,11 @@ export default function PremiumPage() {
                       </p>
                     </div>
                   </form>
-                ) : pixData ? (
+                ) : step === 'pix' && pixData ? (
                   <div className="flex flex-col items-center space-y-6 animate-in fade-in zoom-in duration-500">
                     {pixData.qrCode ? (
                       <div className="relative p-2 bg-white rounded-xl shadow-2xl ring-4 ring-[#d4af37]/30">
-                        <Image
+                        <img
                           src={pixData.qrCode}
                           alt="QR Code PIX"
                           width={220}
@@ -243,14 +239,38 @@ export default function PremiumPage() {
                       </button>
                     </div>
 
+                    <button
+                      onClick={() => setStep('success')}
+                      className="mt-2 w-full bg-[#d4af37] text-black font-mono font-bold uppercase tracking-[0.1em] text-[10px] rounded-none py-4 hover:bg-[#b5952f] transition-colors flex items-center justify-center gap-2 border border-[#d4af37]"
+                    >
+                      Já realizei o pagamento
+                    </button>
+
                     <div className="w-full flex items-center justify-center gap-2 pt-4 border-t border-[#333] text-xs font-medium text-neutral-400">
                       <div className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
-                      Aguardando pagamento...
+                      Aguardando processamento...
                     </div>
+                  </div>
+                ) : step === 'success' ? (
+                  <div className="flex flex-col items-center justify-center space-y-6 text-center animate-in fade-in zoom-in duration-500 py-6">
+                    <div className="w-20 h-20 bg-[#d4af37]/10 rounded-full flex items-center justify-center mb-2 ring-4 ring-[#d4af37]/20">
+                      <Check size={40} className="text-[#d4af37]" />
+                    </div>
+                    <h2 className="text-xl font-black text-white uppercase tracking-wider">Aguardando Liberação</h2>
+                    <p className="text-sm text-neutral-400 leading-relaxed max-w-[280px]">
+                      Seu pagamento está sendo confirmado pela AmploPay. Para agilizar o seu acesso, envie o comprovante do PIX no nosso Discord.
+                    </p>
+                    <a
+                      href="https://discord.gg/pWeJUBabvF"
+                      target="_blank"
+                      className="mt-4 w-full bg-[#5865F2] text-white font-mono font-bold uppercase tracking-[0.1em] text-[10px] rounded-none py-4 hover:bg-[#4752C4] transition-colors flex items-center justify-center gap-2"
+                    >
+                      Abrir Ticket no Discord
+                    </a>
                   </div>
                 ) : (
                   <div className="py-10 text-center text-neutral-400">
-                    Erro ao carregar PIX. Recarregue a página.
+                    Erro ao carregar. Recarregue a página.
                   </div>
                 )}
               </div>
