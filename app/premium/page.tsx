@@ -41,7 +41,13 @@ export default function PremiumPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ discord, email })
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Erro na comunicação com a API");
+        }
+        return data;
+      })
       .then((data) => {
         setPixData(data);
         setStep('pix');
@@ -49,7 +55,7 @@ export default function PremiumPage() {
       })
       .catch((err) => {
         console.error("Erro ao gerar pix:", err);
-        toast.error("Ocorreu um erro ao gerar o PIX.");
+        toast.error(err.message || "Ocorreu um erro ao gerar o PIX.");
         setLoading(false);
       });
   };
@@ -135,7 +141,7 @@ export default function PremiumPage() {
                 <div className="text-center mb-8">
                   <p className="text-sm text-neutral-400 mb-1 font-medium uppercase tracking-widest">Valor único</p>
                   <p className="text-4xl font-black tracking-tighter text-[#d4af37] drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
-                    R$ 19,90
+                    R$ 19,97
                   </p>
                 </div>
 
@@ -200,16 +206,23 @@ export default function PremiumPage() {
                   </form>
                 ) : pixData ? (
                   <div className="flex flex-col items-center space-y-6 animate-in fade-in zoom-in duration-500">
-                    <div className="relative p-2 bg-white rounded-xl shadow-2xl ring-4 ring-[#d4af37]/30">
-                      <Image
-                        src={pixData.qrCode}
-                        alt="QR Code PIX"
-                        width={220}
-                        height={220}
-                        className="rounded-lg"
-                      />
-                      <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-xl" />
-                    </div>
+                    {pixData.qrCode ? (
+                      <div className="relative p-2 bg-white rounded-xl shadow-2xl ring-4 ring-[#d4af37]/30">
+                        <Image
+                          src={pixData.qrCode}
+                          alt="QR Code PIX"
+                          width={220}
+                          height={220}
+                          className="rounded-lg"
+                        />
+                        <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-xl" />
+                      </div>
+                    ) : (
+                      <div className="p-6 bg-[#111] rounded-xl border border-[#333] text-center">
+                        <p className="text-sm font-bold text-neutral-400">QR Code indisponível.</p>
+                        <p className="text-xs text-neutral-500 mt-1">Use a chave Copia e Cola abaixo.</p>
+                      </div>
+                    )}
 
                     <div className="w-full space-y-3">
                       <p className="text-sm font-medium text-center text-neutral-300">

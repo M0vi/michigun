@@ -32,12 +32,21 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         identifier: `michigun-premium-${Date.now()}`,
-        amount: 19.90,
+        amount: 19.97,
         client: { name: discord, email }
       })
     });
     const data = await response.json();
-    return NextResponse.json({ qrCode: data.pix.base64, copyPaste: data.pix.code });
+    
+    if (!response.ok) {
+      console.error("AmploPay Error:", data);
+      return NextResponse.json({ error: "Falha na comunicação com a AmploPay." }, { status: response.status });
+    }
+
+    return NextResponse.json({ 
+      qrCode: data.pix?.base64 || data.pix?.image || "", 
+      copyPaste: data.pix?.code || "" 
+    });
 
   } catch (error) {
     return NextResponse.json({ error: "Erro interno do servidor ao gerar PIX." }, { status: 500 });
