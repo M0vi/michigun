@@ -6,20 +6,20 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: 'Michigun Premium | Acesso Exclusivo',
-  description: 'Libere funções exclusivas, remova o Key System e obtenha suporte VIP. Garanta seu acesso vitalício agora mesmo.',
+  description: 'Libere funções exclusivas e sem key system de forma vitalícia',
   openGraph: {
-    title: 'Michigun Premium 👑',
-    description: 'Libere funções exclusivas, remova o Key System e obtenha suporte VIP. Garanta seu acesso vitalício agora mesmo.',
+    title: 'Premium',
+    description: 'Libere funções exclusivas e sem key system de forma vitalícia',
     url: 'https://michigun.xyz/premium',
-    siteName: 'Michigun',
+    siteName: 'michigun.xyz',
     images: [{ url: '/premium-og.png', width: 1920, height: 1080, alt: 'Michigun Premium Banner' }],
     locale: 'pt_BR',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Michigun Premium 👑',
-    description: 'Libere funções exclusivas e remova o Key System.',
+    title: 'Premium',
+    description: 'Libere funções exclusivas e sem key system de forma vitalícia',
     images: ['/premium-og.png'],
   },
 }
