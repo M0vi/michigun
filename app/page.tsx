@@ -85,13 +85,16 @@ const ABILITIES: Record<string,Ability[]> = {
 
 function Panel({children,className,onClick}:{children:React.ReactNode;className?:string;onClick?:()=>void}){
   return(
-    <div className={cn("relative group w-full h-full", className)}>
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-        <div className="w-3/4 h-3/4 bg-white/5 blur-[60px] rounded-full group-hover:bg-white/10 transition-all duration-1000" />
-      </div>
-      <div onClick={onClick} className={cn("relative w-full h-full rounded-none overflow-hidden bg-[#111111] border border-white/5", onClick && "cursor-pointer hover:border-white/30 transition-colors")}>
-        {children}
-      </div>
+    <div
+      onClick={onClick}
+      className={cn(
+        "relative rounded-none bg-[#111111] border border-white/5 shadow-[0_0_20px_rgba(255,255,255,0.03)] hover:shadow-[0_0_35px_rgba(255,255,255,0.06)] transition-all duration-300",
+        onClick && "cursor-pointer hover:border-white/15",
+        className
+      )}
+    >
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+      {children}
     </div>
   )
 }
@@ -245,7 +248,7 @@ function ScriptPanel(){
       </Reveal>
       
       <Reveal delay={0.1}>
-        <div className="mt-12 flex flex-col gap-6 max-w-4xl">
+        <div className="mt-12 flex flex-col gap-6 max-w-4xl w-full">
           {/* Terminal Window */}
           <Panel className="p-0 overflow-visible relative">
             {/* Window Header */}
