@@ -9,8 +9,6 @@ export const env = createEnv({
       .default('loadstring(request({Url="https://michigun.xyz/scripts/main.lua",Method="GET"}).Body)()'),
     UPSTASH_REDIS_REST_URL: z.string().url().optional(),
     UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
-    ABACATEPAY_API_KEY: z.string().optional(),
-    ABACATEPAY_WEBHOOK_SECRET: z.string().optional(),
   },
   experimental__runtimeEnv: {},
 })
