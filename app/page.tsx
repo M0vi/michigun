@@ -11,7 +11,7 @@ import {
   TabletSmartphone, Coins, Magnet, X, Crosshair, ScanSearch, Eye,
   Zap, GitMerge, Layers, Bot, UserX, Ghost, Wind, Rocket, Shuffle,
   Wrench, Laugh, Timer, Terminal, ArrowRight, Shield, AlertTriangle,
-  Sparkles,
+  Sparkles, ChevronDown,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
 import SectionErrorBoundary from '@/components/section-error-boundary'
@@ -148,8 +148,8 @@ const Ticker=({target}:{target:number})=>{
 
 function HeroSection(){
   const { scrollY } = useScroll()
-  const heroTextScale = useTransform(scrollY, [0, 800], [1, 0.95])
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0])
+  const heroTextScale = useTransform(scrollY, [0, 1200], [1, 0.95])
+  const heroOpacity = useTransform(scrollY, [200, 1000], [1, 0])
 
   return(
     <section className="relative h-screen w-full flex flex-col items-center justify-center pt-16 z-10">
@@ -329,6 +329,82 @@ function ScriptPanel(){
   )
 }
 
+function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, abilities: Ability[], onAbilityClick: (a: Ability) => void, index: number }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <motion.div 
+      initial={{opacity:0, y:20}}
+      whileInView={{opacity:1, y:0}}
+      viewport={{once:true}}
+      transition={{delay: index * 0.1}}
+      className="relative group w-full flex flex-col"
+    >
+      {/* Glow */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+        <div className="w-3/4 h-3/4 bg-white/5 blur-[80px] rounded-full group-hover:bg-white/10 transition-all duration-1000" />
+      </div>
+      
+      {/* Card Content */}
+      <div className="relative flex flex-col border border-white/5 bg-[#0a0a0a] overflow-hidden rounded-none">
+        {/* Arena Header (Banner) */}
+        <div 
+          className="w-full h-40 relative overflow-hidden shrink-0 cursor-pointer group/header" 
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {arena.isGlobal ? (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-[#111111] border-b border-white/5 group-hover/header:bg-[#151515] transition-colors">
+              <Globe size={32} className="text-[#333333]" />
+              <span className="font-black text-3xl uppercase tracking-tighter text-white">Global</span>
+              <p className="text-[10px] font-mono text-white/50 tracking-widest uppercase">{abilities.length} funções</p>
+            </div>
+          ) : (
+            <>
+              <Image src={(arena as any)?.thumb??''} alt={arena.name} fill className="object-cover opacity-50 group-hover/header:opacity-70 transition-opacity duration-700" priority />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent pointer-events-none" />
+              <div className="absolute bottom-4 left-6 pointer-events-none">
+                <p className="font-black text-3xl uppercase tracking-tighter text-white drop-shadow-xl">{arena.name}</p>
+                <p className="text-[10px] font-mono text-white/50 tracking-widest uppercase mt-1">{abilities.length} funções</p>
+              </div>
+            </>
+          )}
+          
+          <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/10 text-white/50 group-hover/header:text-white transition-colors">
+            <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+              <ChevronDown size={14} />
+            </motion.div>
+          </div>
+        </div>
+
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="overflow-hidden border-t border-white/5"
+            >
+              {/* Abilities List */}
+              <div className="p-4 flex flex-col gap-2">
+                {abilities.map(a => (
+                  <button key={a.name}
+                    onClick={(e)=>{ e.stopPropagation(); onAbilityClick(a); }}
+                    className="flex items-center justify-between p-4 rounded-none bg-[#111111] border border-white/5 hover:border-white/20 hover:bg-[#1a1a1a] transition-all text-left group"
+                  >
+                    <span className="text-[11px] font-bold text-white uppercase tracking-wider truncate mr-4">{a.name}</span>
+                    <RiskTag risk={a.risk}/>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  )
+}
+
 function ArenasSection({onAbilityClick}:{onAbilityClick:(a:Ability)=>void}){
   const allArenas=[
     {name:'Global',slug:'global',thumb:'',isGlobal:true},
@@ -349,58 +425,7 @@ function ArenasSection({onAbilityClick}:{onAbilityClick:(a:Ability)=>void}){
           {allArenas.map((arena, i) => {
             const abilities = ABILITIES[arena.slug] ?? []
             if (abilities.length === 0) return null
-
-            return (
-              <motion.div 
-                key={arena.slug}
-                initial={{opacity:0, y:20}}
-                whileInView={{opacity:1, y:0}}
-                viewport={{once:true}}
-                transition={{delay: i * 0.1}}
-                className="relative group w-full h-full"
-              >
-                {/* Glow */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-                  <div className="w-3/4 h-3/4 bg-white/5 blur-[80px] rounded-full group-hover:bg-white/10 transition-all duration-1000" />
-                </div>
-                
-                {/* Card Content */}
-                <div className="relative flex flex-col border border-white/5 bg-[#0a0a0a] overflow-hidden rounded-none h-full">
-                  {/* Arena Header (Banner) */}
-                  <div className="w-full h-40 relative overflow-hidden">
-                    {arena.isGlobal ? (
-                      <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-[#111111] border-b border-white/5">
-                        <Globe size={32} className="text-[#333333]" />
-                        <span className="font-black text-3xl uppercase tracking-tighter text-white">Global</span>
-                        <p className="text-[10px] font-mono text-white/50 tracking-widest uppercase">{abilities.length} funções</p>
-                      </div>
-                    ) : (
-                      <>
-                        <Image src={(arena as any)?.thumb??''} alt={arena.name} fill className="object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-700" priority />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
-                        <div className="absolute bottom-4 left-6">
-                          <p className="font-black text-3xl uppercase tracking-tighter text-white drop-shadow-xl">{arena.name}</p>
-                          <p className="text-[10px] font-mono text-white/50 tracking-widest uppercase mt-1">{abilities.length} funções</p>
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Abilities List */}
-                  <div className="p-4 flex flex-col gap-2">
-                    {abilities.map(a => (
-                      <button key={a.name}
-                        onClick={()=>onAbilityClick(a)}
-                        className="flex items-center justify-between p-4 rounded-none bg-[#111111] border border-white/5 hover:border-white/20 hover:bg-[#1a1a1a] transition-all text-left group"
-                      >
-                        <span className="text-[11px] font-bold text-white uppercase tracking-wider truncate mr-4">{a.name}</span>
-                        <RiskTag risk={a.risk}/>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )
+            return <ArenaCard key={arena.slug} arena={arena} abilities={abilities} onAbilityClick={onAbilityClick} index={i} />
           })}
         </div>
       </Reveal>
