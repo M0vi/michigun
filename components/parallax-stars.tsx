@@ -45,12 +45,12 @@ export function ParallaxStarsBackground({
         }
       `}</style>
 
-      {/* Fixed Background Layer for Stars */}
+
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Background Gradient */}
+
         <div className="absolute inset-0 bg-radial-space" />
 
-        {/* Stars Layer 1 (Small) */}
+
         <div 
           className="absolute left-0 top-0 w-[1px] h-[1px] bg-transparent animate-[animStar_50s_linear_infinite]"
           style={{ 
@@ -64,7 +64,7 @@ export function ParallaxStarsBackground({
           />
         </div>
 
-        {/* Stars Layer 2 (Medium) */}
+
         <div 
           className="absolute left-0 top-0 w-[2px] h-[2px] bg-transparent animate-[animStar_100s_linear_infinite]"
           style={{ 
@@ -78,7 +78,7 @@ export function ParallaxStarsBackground({
           />
         </div>
 
-        {/* Stars Layer 3 (Big) */}
+
         <div 
           className="absolute left-0 top-0 w-[3px] h-[3px] bg-transparent animate-[animStar_150s_linear_infinite]"
           style={{ 
@@ -93,7 +93,7 @@ export function ParallaxStarsBackground({
         </div>
       </div>
 
-      {/* Content wrapper */}
+
       <div className="relative z-10 w-full flex flex-col">
         {children}
       </div>

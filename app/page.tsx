@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useCallback, useRef, memo } from 'react'
-import { motion, useInView, AnimatePresence, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useInView, AnimatePresence, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import useSWR from 'swr'
 import ParticleCanvas from '@/components/particle-canvas'
@@ -11,12 +11,11 @@ import {
   TabletSmartphone, Coins, Magnet, X, Crosshair, ScanSearch, Eye,
   Zap, GitMerge, Layers, Bot, UserX, Ghost, Wind, Rocket, Shuffle,
   Wrench, Laugh, Timer, Terminal, ArrowRight, Shield, AlertTriangle,
-  Sparkles, ChevronDown,
+  Sparkles, ChevronDown, Crown,
 } from 'lucide-react'
 import { playSound, fetcher, cn } from '@/lib/utils'
 import SectionErrorBoundary from '@/components/section-error-boundary'
 import Nav from '@/components/nav'
-import ParallaxStarsBackground from '@/components/parallax-stars'
 import ShinyText from '@/components/shiny-text'
 
 const DISCORD_URL = 'https://discord.gg/pWeJUBabvF'
@@ -163,9 +162,9 @@ function HeroSection(){
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-8 flex flex-col items-center gap-6"
         >
-          <div className="w-16 h-16 rounded-none overflow-hidden border border-white/10 shadow-2xl relative group">
+          <div className="w-24 h-24 rounded-none overflow-hidden border border-white/10 shadow-2xl relative group">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity" />
-            <Image src="/avatar.png" alt="Logo" width={64} height={64} className="w-full h-full object-cover" priority />
+            <Image src="/avatar.png" alt="Logo" width={96} height={96} className="w-full h-full object-cover" priority />
           </div>
 
           <h1 className="relative font-black text-center tracking-tighter leading-[0.85] text-[15vw] md:text-[11vw] uppercase select-none group">
@@ -249,9 +248,9 @@ function ScriptPanel(){
       
       <Reveal delay={0.1}>
         <div className="mt-12 flex flex-col gap-6 max-w-4xl w-full">
-          {/* Terminal Window */}
+
           <Panel className="p-0 overflow-visible relative">
-            {/* Window Header */}
+
             <div className="bg-[#111111]/80 border-b border-white/5 px-4 py-3 flex items-center justify-between rounded-none">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#FF6B50]/60" />
@@ -289,7 +288,7 @@ function ScriptPanel(){
                 </div>
               </div>
             </div>
-            {/* Window Body */}
+
             <div className="p-6 md:p-8 overflow-x-auto">
               <code className="block font-mono text-xs md:text-sm leading-relaxed text-white/80 break-all">
                 <span className="text-[#FF6B50]">loadstring</span>
@@ -306,7 +305,7 @@ function ScriptPanel(){
             </div>
           </Panel>
 
-          {/* Stats Grid */}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
               {Icon:Activity, label:'Execuções totais', value:stats?.executions},
@@ -340,14 +339,14 @@ function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, ab
       transition={{delay: index * 0.1}}
       className="relative group w-full flex flex-col"
     >
-      {/* Glow */}
+
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
         <div className="w-3/4 h-3/4 bg-white/5 blur-[80px] rounded-full group-hover:bg-white/10 transition-all duration-1000" />
       </div>
       
-      {/* Card Content */}
+
       <div className="relative flex flex-col border border-white/5 bg-[#0a0a0a] overflow-hidden rounded-none">
-        {/* Arena Header (Banner) */}
+
         <div 
           className="w-full h-40 relative overflow-hidden shrink-0 cursor-pointer group/header" 
           onClick={() => setIsOpen(!isOpen)}
@@ -385,7 +384,7 @@ function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, ab
               transition={{ duration: 0.3, ease: 'easeInOut' }}
               className="overflow-hidden border-t border-white/5"
             >
-              {/* Abilities List */}
+
               <div className="p-4 flex flex-col gap-2">
                 {abilities.map(a => (
                   <button key={a.name}
@@ -407,7 +406,7 @@ function ArenaCard({ arena, abilities, onAbilityClick, index }: { arena: any, ab
 
 function ArenasSection({onAbilityClick}:{onAbilityClick:(a:Ability)=>void}){
   const allArenas=[
-    {name:'Global',slug:'global',thumb:'',isGlobal:true},
+    {name:'Global',slug:'global',thumb:'/global_thumb.png',isGlobal:false},
     ...ARENAS.map(g=>({...g,isGlobal:false})),
   ];
 
@@ -453,36 +452,54 @@ const MemberCard=memo(function MemberCard({dev}:{dev:typeof CREW[0]}){
     ?`https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png?size=128`
     :`https://ui-avatars.com/api/?name=${(dev as any).nick || '?'}&background=111&color=444&size=128`
   const handle=u?.discord_user?.username??(dev as any).nick??'—'
+  const isMainDev = handle.toLowerCase() === 'h64' || (dev as any).nick?.toLowerCase() === 'h64'
 
   return(
-    <Panel className="relative p-6 flex flex-col justify-between overflow-hidden group">
-      {/* Background glow based on status */}
-      <div className={cn("absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[64px] opacity-20", dot.split(' ')[0])} />
+    <Panel className={cn(
+      "relative p-6 flex flex-col justify-between overflow-hidden group transition-all duration-500",
+      isMainDev 
+        ? "!bg-[#0a0a0a] !border-[#d4af37]/40 shadow-[0_0_40px_rgba(212,175,55,0.15)] hover:shadow-[0_0_60px_rgba(212,175,55,0.25)] hover:!border-[#d4af37]/70"
+        : ""
+    )}>
+      {/* Brilho de fundo (Status ou Líder) */}
+      {isMainDev ? (
+        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.15),transparent_50%)] pointer-events-none" />
+      ) : (
+        <div className={cn("absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[64px] opacity-20 pointer-events-none", dot.split(' ')[0])} />
+      )}
       
-      <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+      {/* Destaque dourado no topo para o líder */}
+      {isMainDev && <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent pointer-events-none opacity-50" />}
+
+      <div className="flex items-center gap-4 border-b border-white/5 pb-6 relative z-10">
         <div className="relative">
-          <Image src={avatarSrc} alt={handle} width={64} height={64} className="rounded-xl object-cover border border-white/10" />
-          <div className={cn("absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[#111111]", dot.split(' ')[0])} />
+          <Image src={avatarSrc} alt={handle} width={64} height={64} className={cn("rounded-xl object-cover border", isMainDev ? "border-[#d4af37]/30" : "border-white/10")} />
+          <div className={cn("absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2", isMainDev ? "border-[#0a0a0a] bg-white text-white" : `border-[#111111] ${dot.split(' ')[0]}`)} />
         </div>
         <div>
-          <p className="font-black text-xl text-white tracking-tight">{handle}</p>
-          <span className="text-[10px] font-bold text-[#666666] tracking-[0.2em] uppercase border border-white/10 px-2 py-0.5 rounded-full mt-1 inline-block">
-            {dev.role}
+          <div className="flex items-center gap-2">
+            <p className={cn("font-black text-xl tracking-tight", isMainDev ? "text-transparent bg-clip-text bg-gradient-to-b from-[#f9f295] to-[#d4af37]" : "text-white")}>
+              {handle}
+            </p>
+            {isMainDev && <Crown size={18} className="text-[#d4af37] drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]" />}
+          </div>
+          <span className={cn("text-[10px] font-bold tracking-[0.2em] uppercase border px-2 py-0.5 rounded-full mt-1 inline-block", isMainDev ? "text-[#d4af37] border-[#d4af37]/30 bg-[#d4af37]/5" : "text-[#666666] border-white/10")}>
+            {isMainDev ? 'Líder / Dev' : dev.role}
           </span>
         </div>
       </div>
       
-      <div className="pt-6 flex flex-col gap-3">
+      <div className="pt-6 flex flex-col gap-3 relative z-10">
         <div className="flex items-center gap-2">
-          <StatusIcon size={12} className={dot.split(' ')[1]} />
-          <span className="text-xs font-medium text-[#888888] truncate">{statusLabel}</span>
+          <StatusIcon size={12} className={isMainDev ? "text-[#d4af37]/70" : dot.split(' ')[1]} />
+          <span className={cn("text-xs font-medium truncate", isMainDev ? "text-[#d4af37]/90" : "text-[#888888]")}>{statusLabel}</span>
         </div>
         {spotify&&(
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-400/5 border border-emerald-400/10">
-            <Music size={14} className="text-emerald-400 flex-shrink-0" />
+          <div className={cn("flex items-center gap-3 p-3 rounded-xl border", isMainDev ? "bg-[#d4af37]/5 border-[#d4af37]/20" : "bg-emerald-400/5 border-emerald-400/10")}>
+            <Music size={14} className={isMainDev ? "text-[#d4af37]" : "text-emerald-400 flex-shrink-0"} />
             <div className="min-w-0">
-              <p className="text-xs font-bold text-emerald-100 truncate">{u.spotify.song}</p>
-              <p className="text-[10px] text-emerald-400/60 truncate">{u.spotify.artist}</p>
+              <p className={cn("text-xs font-bold truncate", isMainDev ? "text-[#f9f295]" : "text-emerald-100")}>{u.spotify.song}</p>
+              <p className={cn("text-[10px] truncate", isMainDev ? "text-[#d4af37]/70" : "text-emerald-400/60")}>{u.spotify.artist}</p>
             </div>
           </div>
         )}
@@ -508,6 +525,51 @@ function CrewSection(){
   )
 }
 
+function InteractiveBackground() {
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  const springX = useSpring(mouseX, { damping: 40, stiffness: 200, mass: 0.5 })
+  const springY = useSpring(mouseY, { damping: 40, stiffness: 200, mass: 0.5 })
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
+    }
+    if (typeof window !== 'undefined') {
+      mouseX.set(window.innerWidth / 2)
+      mouseY.set(window.innerHeight / 2)
+      window.addEventListener("mousemove", handleMouseMove)
+      return () => window.removeEventListener("mousemove", handleMouseMove)
+    }
+  }, [mouseX, mouseY])
+
+  return (
+    <div className="fixed inset-0 z-[-1] pointer-events-none bg-[#050505] overflow-hidden">
+      {/* Brilho dourado fixo no topo */}
+      <motion.div 
+        animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.05, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 w-full h-full [background:radial-gradient(ellipse_at_top,rgba(255,200,80,0.07)_0%,transparent_50%)]"
+      />
+      {/* Brilho dourado que segue o cursor */}
+      <motion.div
+        className="absolute top-0 left-0 rounded-full"
+        style={{
+          width: 800,
+          height: 800,
+          x: springX,
+          y: springY,
+          marginLeft: -400,
+          marginTop: -400,
+          background: "radial-gradient(circle, rgba(255,200,80,0.04) 0%, transparent 60%)",
+        }}
+      />
+    </div>
+  )
+}
+
 export default function Root(){
   const[focusedAbility,setFocusedAbility]=useState<Ability|null>(null)
 
@@ -519,8 +581,8 @@ export default function Root(){
   },[focusedAbility])
 
   return(
-    <ParallaxStarsBackground className="font-display text-[#ebebeb] selection-coral relative">
-      <div className="fixed inset-0 h-full w-full bg-background [background:radial-gradient(125%_125%_at_50%_-50%,#c7d2fe_40%,transparent_100%)] dark:[background:radial-gradient(125%_125%_at_50%_-50%,#6366f136_40%,transparent_100%)] pointer-events-none -z-10"></div>
+    <div className="font-display text-[#ebebeb] selection-coral relative min-h-screen bg-[#050505]">
+      <InteractiveBackground />
       <Toaster position="bottom-center"/>
       <Nav/>
       
@@ -578,6 +640,6 @@ export default function Root(){
           </motion.div>
         )}
       </AnimatePresence>
-    </ParallaxStarsBackground>
+    </div>
   )
 }

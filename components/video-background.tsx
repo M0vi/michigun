@@ -50,7 +50,7 @@ export default function VideoBackground({ src }: { src: string }) {
         autoPlay
         crossOrigin="anonymous"
       />
-      {/* Heavy gradient to fade out the bottom and create the 'Midnight' vibe */}
+
       <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/80 to-[#050505] mix-blend-multiply" />
       <div className="absolute inset-0 bg-[#050505]/40" />
     </div>
