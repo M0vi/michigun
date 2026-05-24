@@ -131,6 +131,7 @@ export default function PremiumPage() {
 
             <ul className="space-y-6 mt-6">
               {[
+                "Chave permanente",
                 "Remoção do key system",
                 "Funções exclusivas",
                 "Suporte direto com os desenvolvedores"

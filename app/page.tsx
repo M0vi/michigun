@@ -567,12 +567,6 @@ function InteractiveBackground() {
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      {/* Brilho branco fixo no topo */}
-      <motion.div 
-        animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.05, 1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 w-full h-full [background:radial-gradient(ellipse_at_top,rgba(255,255,255,0.06)_0%,transparent_50%)]"
-      />
       {/* Brilho branco que segue o cursor */}
       <motion.div
         className="absolute inset-0 w-full h-full"
