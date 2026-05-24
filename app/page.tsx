@@ -551,9 +551,11 @@ function InteractiveBackground() {
   const mouseY = useMotionValue(0)
   const rawOpacity = useMotionValue(0)
   const opacity = useSpring(rawOpacity, { damping: 20, stiffness: 150 })
+  const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     if (typeof window !== 'undefined') {
       const mobile = window.innerWidth < 768 || window.matchMedia('(max-width: 768px)').matches
       setIsMobile(mobile)
@@ -587,7 +589,7 @@ function InteractiveBackground() {
 
   const bgTemplate = useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.065), transparent 80%)`
 
-  if (isMobile) return null
+  if (!mounted || isMobile) return null
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">

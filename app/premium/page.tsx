@@ -19,9 +19,11 @@ export default function PremiumPage() {
   const mouseY = useMotionValue(0);
   const rawOpacity = useMotionValue(0);
   const opacity = useSpring(rawOpacity, { damping: 20, stiffness: 150 });
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (typeof window !== 'undefined') {
       const mobile = window.innerWidth < 768 || window.matchMedia('(max-width: 768px)').matches;
       setIsMobile(mobile);
@@ -120,7 +122,7 @@ export default function PremiumPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-[#ebebeb] font-display flex flex-col relative overflow-hidden">
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {!isMobile && (
+        {mounted && !isMobile && (
           <>
             <motion.div
               className="absolute inset-0 w-full h-full"
