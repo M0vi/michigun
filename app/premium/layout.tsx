@@ -12,15 +12,13 @@ export const metadata: Metadata = {
     description: 'Acesso vitalício a funções exclusivas. Sem key system, sem interrupções.',
     url: 'https://michigun.xyz/premium',
     siteName: 'michigun.xyz',
-    images: [{ url: '/premium-og.png', width: 1920, height: 1080, alt: 'Michigun Premium Banner' }],
     locale: 'pt_BR',
     type: 'website',
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: 'Premium',
     description: 'Acesso vitalício a funções exclusivas. Sem key system, sem interrupções.',
-    images: ['/premium-og.png'],
   },
 }
 

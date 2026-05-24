@@ -453,95 +453,121 @@ function ArenasSection({onAbilityClick}:{onAbilityClick:(a:Ability)=>void}){
   )
 }
 
-const MemberCard=memo(function MemberCard({dev}:{dev:typeof CREW[0]}){
-  const{data}=useSWR(`/api/lanyard/${dev.id}`,fetcher,{refreshInterval:10e3})
-  const u=data?.success?data.data:null
-  const spotify=u?.listening_to_spotify&&u.spotify
-  const activity=u?.activities?.find((x:any)=>x.type!==4&&x.name!=='Spotify')
+const MemberCard = memo(function MemberCard({ dev, index }: { dev: typeof CREW[0], index: number }) {
+  const { data } = useSWR(`/api/lanyard/${dev.id}`, fetcher, { refreshInterval: 10e3 })
+  const u = data?.success ? data.data : null
+  const spotify = u?.listening_to_spotify && u.spotify
+  const activity = u?.activities?.find((x: any) => x.type !== 4 && x.name !== 'Spotify')
 
-  let statusLabel='Offline',StatusIcon:any=Circle,dot='bg-white/10 text-white/10'
-  if(spotify){statusLabel=u.spotify.song;StatusIcon=Music;dot='bg-emerald-400 text-emerald-400'}
-  else if(activity){statusLabel=activity.name==='Code'?'Codando':activity.name;StatusIcon=activity.name==='Code'?Code:Gamepad2;dot='bg-[#888888] text-[#888888]'}
-  else{
-    const st=u?.discord_status
-    if(st==='online'){statusLabel='Online';dot='bg-emerald-400 text-emerald-400'}
-    if(st==='idle'){statusLabel='Ausente';StatusIcon=Moon;dot='bg-amber-400 text-amber-400'}
-    if(st==='dnd'){statusLabel='Ocupado';dot='bg-red-400 text-red-400'}
+  let statusLabel = 'Offline', StatusIcon: any = Circle, dot = 'bg-white/10 text-white/10'
+  if (spotify) { statusLabel = u.spotify.song; StatusIcon = Music; dot = 'bg-emerald-400 text-emerald-400' }
+  else if (activity) { statusLabel = activity.name === 'Code' ? 'Codando' : activity.name; StatusIcon = activity.name === 'Code' ? Code : Gamepad2; dot = 'bg-[#888888] text-[#888888]' }
+  else {
+    const st = u?.discord_status
+    if (st === 'online') { statusLabel = 'Online'; dot = 'bg-emerald-400 text-emerald-400' }
+    if (st === 'idle') { statusLabel = 'Ausente'; StatusIcon = Moon; dot = 'bg-amber-400 text-amber-400' }
+    if (st === 'dnd') { statusLabel = 'Ocupado'; dot = 'bg-red-400 text-red-400' }
   }
 
-  const avatarSrc=u?.discord_user?.avatar
-    ?`https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png?size=128`
-    :`https://ui-avatars.com/api/?name=${(dev as any).nick || '?'}&background=111&color=444&size=128`
-  const handle=u?.discord_user?.username??(dev as any).nick??'—'
+  const avatarSrc = u?.discord_user?.avatar
+    ? `https://cdn.discordapp.com/avatars/${dev.id}/${u.discord_user.avatar}.png?size=256`
+    : `https://ui-avatars.com/api/?name=${(dev as any).nick || '?'}&background=111&color=444&size=256`
+  const handle = u?.discord_user?.username ?? (dev as any).nick ?? '—'
   const isMainDev = handle.toLowerCase() === 'h64' || (dev as any).nick?.toLowerCase() === 'h64'
 
-  return(
-    <Panel className={cn(
-      "relative p-6 flex flex-col justify-between overflow-hidden group transition-all duration-500",
-      isMainDev 
-        ? "!bg-[#0a0a0a] !border-[#d4af37]/40 shadow-[0_0_40px_rgba(212,175,55,0.15)] hover:shadow-[0_0_60px_rgba(212,175,55,0.25)] hover:!border-[#d4af37]/70"
-        : ""
-    )}>
-      {/* Brilho de fundo (Status ou Líder) */}
-      {isMainDev ? (
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.15),transparent_50%)] pointer-events-none" />
-      ) : (
-        <div className={cn("absolute -top-20 -right-20 w-40 h-40 rounded-full blur-[64px] opacity-20 pointer-events-none", dot.split(' ')[0])} />
-      )}
-      
-      {/* Destaque dourado no topo para o líder */}
-      {isMainDev && <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent pointer-events-none opacity-50" />}
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      className="relative flex flex-col items-center group w-full text-center"
+    >
+      {/* Background ambient glow */}
+      <div className={cn(
+        "absolute top-10 left-1/2 -translate-x-1/2 w-56 h-56 rounded-full blur-[100px] opacity-20 pointer-events-none transition-opacity duration-700 group-hover:opacity-40",
+        isMainDev ? "bg-[#d4af37]" : dot.split(' ')[0]
+      )} />
 
-      <div className="flex items-center gap-4 border-b border-white/5 pb-6 relative z-10">
-        <div className="relative">
-          <Image src={avatarSrc} alt={handle} width={64} height={64} className={cn("rounded-xl object-cover border", isMainDev ? "border-[#d4af37]/30" : "border-white/10")} />
-          <div className={cn("absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2", isMainDev ? "border-[#0a0a0a] bg-white text-white" : `border-[#111111] ${dot.split(' ')[0]}`)} />
+      {/* Floating Avatar */}
+      <div className="relative mb-6">
+        <div className={cn(
+          "absolute inset-0 rounded-[2rem] blur-xl opacity-60 scale-105 transition-all duration-700 group-hover:scale-125 group-hover:opacity-80",
+          isMainDev ? "bg-[#d4af37]" : "bg-white/20"
+        )} />
+        <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl transition-transform duration-700 group-hover:-translate-y-3 group-hover:scale-[1.02]">
+          <Image src={avatarSrc} alt={handle} width={140} height={140} className="object-cover" />
+          {/* Subtle inner ring */}
+          <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
         </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <p className={cn("font-black text-xl tracking-tight", isMainDev ? "text-transparent bg-clip-text bg-gradient-to-b from-[#f9f295] to-[#d4af37]" : "text-white")}>
+        <div className={cn(
+          "absolute -bottom-2 -right-2 w-6 h-6 rounded-full border-[3px] border-[#050505] z-10 shadow-lg",
+          dot.split(' ')[0]
+        )} />
+      </div>
+
+      {/* Info Container */}
+      <div className="flex flex-col items-center gap-4 w-full">
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-3">
+            <p className={cn("font-black text-3xl sm:text-4xl tracking-tighter", isMainDev ? "text-transparent bg-clip-text bg-gradient-to-b from-[#fff] to-[#d4af37]" : "text-white")}>
               {handle}
             </p>
-            {isMainDev && <Crown size={18} className="text-[#d4af37] drop-shadow-[0_0_5px_rgba(212,175,55,0.8)]" />}
+            {isMainDev && (
+              <motion.div animate={{ rotate: [-5, 5, -5] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
+                <Crown size={24} className="text-[#d4af37] drop-shadow-[0_0_15px_rgba(212,175,55,0.8)]" />
+              </motion.div>
+            )}
           </div>
-          <span className={cn("text-[10px] font-bold tracking-[0.2em] uppercase border px-2 py-0.5 rounded-full mt-1 inline-block", isMainDev ? "text-[#d4af37] border-[#d4af37]/30 bg-[#d4af37]/5" : "text-[#666666] border-white/10")}>
+
+          <span className={cn(
+            "text-[10px] font-black tracking-widest uppercase px-4 py-1.5 rounded-full border shadow-lg backdrop-blur-md transition-colors",
+            isMainDev ? "text-[#0a0a0a] bg-[#d4af37] border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.4)]" : "text-white border-white/20 bg-white/5"
+          )}>
             {isMainDev ? 'Líder / Dev' : dev.role}
           </span>
         </div>
-      </div>
-      
-      <div className="pt-6 flex flex-col gap-3 relative z-10">
-        <div className="flex items-center gap-2">
-          <StatusIcon size={12} className={isMainDev ? "text-[#d4af37]/70" : dot.split(' ')[1]} />
-          <span className={cn("text-xs font-medium truncate", isMainDev ? "text-[#d4af37]/90" : "text-[#888888]")}>{statusLabel}</span>
-        </div>
-        {spotify&&(
-          <div className={cn("flex items-center gap-3 p-3 rounded-xl border", isMainDev ? "bg-[#d4af37]/5 border-[#d4af37]/20" : "bg-emerald-400/5 border-emerald-400/10")}>
-            <Music size={14} className={isMainDev ? "text-[#d4af37]" : "text-emerald-400 flex-shrink-0"} />
-            <div className="min-w-0">
-              <p className={cn("text-xs font-bold truncate", isMainDev ? "text-[#f9f295]" : "text-emerald-100")}>{u.spotify.song}</p>
-              <p className={cn("text-[10px] truncate", isMainDev ? "text-[#d4af37]/70" : "text-emerald-400/60")}>{u.spotify.artist}</p>
-            </div>
+
+        {/* RPC / Status */}
+        <div className="mt-2 flex flex-col items-center gap-3 w-full max-w-[240px]">
+          <div className="flex items-center gap-2">
+            <StatusIcon size={14} className={isMainDev ? "text-[#d4af37]/80" : dot.split(' ')[1]} />
+            <span className={cn("text-sm font-bold tracking-wide", isMainDev ? "text-[#d4af37]/90" : "text-[#888888]")}>{statusLabel}</span>
           </div>
-        )}
+
+          {spotify && (
+            <div className="w-full flex items-center justify-start gap-4 p-3.5 rounded-2xl bg-[#0a0a0a] border border-white/5 shadow-xl transition-all duration-300 hover:border-white/10 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+              <div className="relative flex items-center justify-center shrink-0">
+                <div className={cn("absolute inset-0 blur-sm opacity-50", isMainDev ? "bg-[#d4af37]" : "bg-emerald-400")} />
+                <Music size={18} className={cn("relative z-10", isMainDev ? "text-[#d4af37]" : "text-emerald-400")} />
+              </div>
+              <div className="min-w-0 text-left">
+                <p className={cn("text-xs font-black truncate tracking-wide leading-tight", isMainDev ? "text-[#f9f295]" : "text-white")}>{u.spotify.song}</p>
+                <p className={cn("text-[10px] font-medium truncate uppercase tracking-widest mt-0.5", isMainDev ? "text-[#d4af37]/80" : "text-[#888888]")}>{u.spotify.artist}</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </Panel>
+    </motion.div>
   )
 })
 
-function CrewSection(){
-  return(
+function CrewSection() {
+  return (
     <section id="equipe" className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
       <Reveal>
         <h2 className="font-black tracking-tighter text-white uppercase leading-[0.9] text-5xl md:text-7xl text-center">
           EQUIPE
         </h2>
+        <p className="text-[#888888] font-medium mt-6 text-center max-w-md mx-auto">
+          Os desenvolvedores por trás do Michigun.
+        </p>
       </Reveal>
-      <Reveal delay={0.1}>
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl w-full">
-          {CREW.map(d=><MemberCard key={d.id} dev={d}/>)}
-        </div>
-      </Reveal>
+      
+      <div className="mt-20 flex flex-col md:flex-row items-center justify-center gap-20 md:gap-32 w-full">
+        {CREW.map((d, i) => <MemberCard key={d.id} dev={d} index={i} />)}
+      </div>
     </section>
   )
 }

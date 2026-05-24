@@ -31,15 +31,13 @@ export const metadata: Metadata = {
     description: 'Script para Exército Brasileiro no Roblox',
     url: 'https://michigun.xyz',
     siteName: 'michigun.xyz',
-    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'michigun.xyz' }],
     locale: 'pt_BR',
     type: 'website',
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: 'michigun.xyz',
     description: 'Script para Exército Brasileiro no Roblox',
-    images: ['/logo.png'],
   },
   icons: { icon: '/logo.png' },
 }
