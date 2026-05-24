@@ -551,23 +551,28 @@ function InteractiveBackground() {
   const mouseY = useMotionValue(0)
   const rawOpacity = useMotionValue(0)
   const opacity = useSpring(rawOpacity, { damping: 20, stiffness: 150 })
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX)
-      mouseY.set(e.clientY)
-      rawOpacity.set(1)
-    }
-    const handleMouseLeave = () => {
-      rawOpacity.set(0)
-    }
-    const handleMouseEnter = () => {
-      rawOpacity.set(1)
-    }
-
     if (typeof window !== 'undefined') {
+      const mobile = window.innerWidth < 768 || window.matchMedia('(max-width: 768px)').matches
+      setIsMobile(mobile)
+      if (mobile) return
+
       const isFinePointer = window.matchMedia('(pointer: fine)').matches
       if (!isFinePointer) return
+
+      const handleMouseMove = (e: MouseEvent) => {
+        mouseX.set(e.clientX)
+        mouseY.set(e.clientY)
+        rawOpacity.set(1)
+      }
+      const handleMouseLeave = () => {
+        rawOpacity.set(0)
+      }
+      const handleMouseEnter = () => {
+        rawOpacity.set(1)
+      }
 
       window.addEventListener("mousemove", handleMouseMove)
       document.addEventListener("mouseleave", handleMouseLeave)
@@ -581,6 +586,8 @@ function InteractiveBackground() {
   }, [mouseX, mouseY, rawOpacity])
 
   const bgTemplate = useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.065), transparent 80%)`
+
+  if (isMobile) return null
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">

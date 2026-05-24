@@ -49,6 +49,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Usuário do Discord inválido." }, { status: 400 });
     }
 
+    const generateCPF = () => {
+      const rnd = (n: number) => Math.round(Math.random() * n);
+      const mod = (dividendo: number, divisor: number) => Math.round(dividendo - (Math.floor(dividendo / divisor) * divisor));
+      const n = Array(9).fill(0).map(() => rnd(9));
+      
+      let d1 = n.reduce((total, number, index) => total + (number * (10 - index)), 0);
+      d1 = 11 - mod(d1, 11);
+      if (d1 >= 10) d1 = 0;
+      
+      let d2 = d1 * 2 + n.reduce((total, number, index) => total + (number * (11 - index)), 0);
+      d2 = 11 - mod(d2, 11);
+      if (d2 >= 10) d2 = 0;
+      
+      return `${n.join('')}${d1}${d2}`;
+    };
+
+    const generatePhone = () => {
+      const ddds = [11, 21, 31, 41, 51, 61, 71, 81, 91];
+      const ddd = ddds[Math.floor(Math.random() * ddds.length)];
+      const random8 = Math.floor(Math.random() * 90000000) + 10000000;
+      return `${ddd}9${random8}`;
+    };
+
     const response = await fetch('https://app.amplopay.com/api/v1/gateway/pix/receive', {
       method: 'POST',
       headers: {
@@ -62,8 +85,8 @@ export async function POST(request: Request) {
         client: { 
           name: discord, 
           email: email,
-          phone: "11998765432", 
-          document: "38419433659"
+          phone: generatePhone(), 
+          document: generateCPF()
         }
       })
     });

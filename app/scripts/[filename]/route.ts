@@ -61,7 +61,8 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
     const userAgent = req.headers.get('user-agent') || ''
     const acceptHeader = req.headers.get('accept') || ''
-    const isBrowser = userAgent.includes('Mozilla') && acceptHeader.includes('text/html')
+    const isRoblox = userAgent.includes('Roblox') || userAgent.includes('WinInet')
+    const isBrowser = !isRoblox && (userAgent.includes('Mozilla') || userAgent.includes('Safari') || acceptHeader.includes('text/html'))
 
     if (isBrowser) {
       return new NextResponse(browserMessage, {
