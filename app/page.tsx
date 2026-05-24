@@ -483,19 +483,14 @@ const MemberCard = memo(function MemberCard({ dev, index }: { dev: typeof CREW[0
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
       className="relative flex flex-col items-center group w-full text-center"
     >
-      {/* Background ambient glow */}
-      <div className={cn(
-        "absolute top-10 left-1/2 -translate-x-1/2 w-56 h-56 rounded-full blur-[100px] opacity-20 pointer-events-none transition-opacity duration-700 group-hover:opacity-40",
-        isMainDev ? "bg-[#d4af37]" : dot.split(' ')[0]
-      )} />
-
       {/* Floating Avatar */}
       <div className="relative mb-6">
         <div className={cn(
-          "absolute inset-0 rounded-[2rem] blur-xl opacity-60 scale-105 transition-all duration-700 group-hover:scale-125 group-hover:opacity-80",
-          isMainDev ? "bg-[#d4af37]" : "bg-white/20"
-        )} />
-        <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl transition-transform duration-700 group-hover:-translate-y-3 group-hover:scale-[1.02]">
+          "relative rounded-[2rem] overflow-hidden border-2 transition-all duration-700 group-hover:-translate-y-3 group-hover:scale-[1.02]",
+          isMainDev 
+            ? "border-[#d4af37]/60 shadow-[0_0_25px_rgba(212,175,55,0.3)] group-hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] group-hover:border-[#d4af37]/90" 
+            : "border-white/20 shadow-[0_0_25px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] group-hover:border-white/40"
+        )}>
           <Image src={avatarSrc} alt={handle} width={140} height={140} className="object-cover" />
           {/* Subtle inner ring */}
           <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
@@ -560,9 +555,6 @@ function CrewSection() {
         <h2 className="font-black tracking-tighter text-white uppercase leading-[0.9] text-5xl md:text-7xl text-center">
           EQUIPE
         </h2>
-        <p className="text-[#888888] font-medium mt-6 text-center max-w-md mx-auto">
-          Os desenvolvedores por trás do Michigun.
-        </p>
       </Reveal>
       
       <div className="mt-20 flex flex-col md:flex-row items-center justify-center gap-20 md:gap-32 w-full">
