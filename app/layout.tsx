@@ -3,6 +3,8 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { EB_Garamond } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
+import SmoothScroll from '@/components/smooth-scroll'
+import CustomCursor from '@/components/custom-cursor'
 import './globals.css'
 
 const ebGaramond = EB_Garamond({
@@ -46,6 +48,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable} ${ebGaramond.variable}`}>
       <body>
+        <SmoothScroll />
+        <CustomCursor />
         {children}
         <Toaster position="bottom-center" />
       </body>
