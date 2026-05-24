@@ -547,8 +547,8 @@ function CrewSection(){
 }
 
 function InteractiveBackground() {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
+  const mouseX = useMotionValue(-1000)
+  const mouseY = useMotionValue(-1000)
   const rawOpacity = useMotionValue(0)
   const opacity = useSpring(rawOpacity, { damping: 20, stiffness: 150 })
   const [mounted, setMounted] = useState(false)
@@ -565,8 +565,9 @@ function InteractiveBackground() {
       if (!isFinePointer) return
 
       const handleMouseMove = (e: MouseEvent) => {
-        mouseX.set(e.clientX)
-        mouseY.set(e.clientY)
+        // Subtrai metade do tamanho da div (800) para centralizar no cursor
+        mouseX.set(e.clientX - 800)
+        mouseY.set(e.clientY - 800)
         rawOpacity.set(1)
       }
       const handleMouseLeave = () => {
@@ -576,9 +577,9 @@ function InteractiveBackground() {
         rawOpacity.set(1)
       }
 
-      window.addEventListener("mousemove", handleMouseMove)
-      document.addEventListener("mouseleave", handleMouseLeave)
-      document.addEventListener("mouseenter", handleMouseEnter)
+      window.addEventListener("mousemove", handleMouseMove, { passive: true })
+      document.addEventListener("mouseleave", handleMouseLeave, { passive: true })
+      document.addEventListener("mouseenter", handleMouseEnter, { passive: true })
       return () => {
         window.removeEventListener("mousemove", handleMouseMove)
         document.removeEventListener("mouseleave", handleMouseLeave)
@@ -587,18 +588,18 @@ function InteractiveBackground() {
     }
   }, [mouseX, mouseY, rawOpacity])
 
-  const bgTemplate = useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.065), transparent 80%)`
-
   if (!mounted || isMobile) return null
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      {/* Brilho branco que segue o cursor */}
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ perspective: '1000px' }}>
       <motion.div
-        className="absolute inset-0 w-full h-full"
+        className="absolute top-0 left-0 w-[1600px] h-[1600px] rounded-full pointer-events-none"
         style={{
-          background: bgTemplate,
-          opacity: opacity
+          background: 'radial-gradient(circle 800px at center, rgba(255,255,255,0.065), transparent 80%)',
+          x: mouseX,
+          y: mouseY,
+          opacity: opacity,
+          willChange: 'transform, opacity'
         }}
       />
     </div>

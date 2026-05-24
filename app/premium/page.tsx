@@ -15,8 +15,8 @@ export default function PremiumPage() {
   const [pixData, setPixData] = useState<{ qrCode: string; copyPaste: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(-1000);
+  const mouseY = useMotionValue(-1000);
   const rawOpacity = useMotionValue(0);
   const opacity = useSpring(rawOpacity, { damping: 20, stiffness: 150 });
   const [mounted, setMounted] = useState(false);
@@ -30,8 +30,8 @@ export default function PremiumPage() {
       if (mobile) return;
 
       const handleMouseMove = (e: MouseEvent) => {
-        mouseX.set(e.clientX);
-        mouseY.set(e.clientY);
+        mouseX.set(e.clientX - 800);
+        mouseY.set(e.clientY - 800);
         rawOpacity.set(1);
       };
       const handleMouseLeave = () => {
@@ -44,9 +44,9 @@ export default function PremiumPage() {
       const isFinePointer = window.matchMedia('(pointer: fine)').matches;
       if (!isFinePointer) return;
 
-      window.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseleave", handleMouseLeave);
-      document.addEventListener("mouseenter", handleMouseEnter);
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+      document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+      document.addEventListener("mouseenter", handleMouseEnter, { passive: true });
       return () => {
         window.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseleave", handleMouseLeave);
@@ -121,20 +121,24 @@ export default function PremiumPage() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#ebebeb] font-display flex flex-col relative overflow-hidden">
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className="fixed inset-0 z-0 pointer-events-none" style={{ perspective: '1000px' }}>
         {mounted && !isMobile && (
           <>
             <motion.div
-              className="absolute inset-0 w-full h-full"
+              className="absolute top-0 left-0 w-[1600px] h-[1600px] rounded-full pointer-events-none"
               style={{
-                background: useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(212,175,55,0.06), transparent 80%)`,
-                opacity: opacity
+                background: 'radial-gradient(circle 800px at center, rgba(212,175,55,0.06), transparent 80%)',
+                opacity: opacity,
+                x: mouseX,
+                y: mouseY,
+                willChange: 'transform, opacity'
               }}
             />
             <motion.div
               animate={{ opacity: [0.1, 0.2, 0.1], scale: [1, 1.05, 1] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               className="absolute inset-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.03)_0%,transparent_60%)]"
+              style={{ willChange: 'transform, opacity' }}
             />
           </>
         )}
