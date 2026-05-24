@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate, useSpring } from "framer-motion";
 import { Crown, Check, Copy, Lock, AlertCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import Nav from "@/components/nav";
@@ -17,15 +17,32 @@ export default function PremiumPage() {
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const rawOpacity = useMotionValue(0);
+  const opacity = useSpring(rawOpacity, { damping: 20, stiffness: 150 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
+      rawOpacity.set(1);
     };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
+    const handleMouseLeave = () => {
+      rawOpacity.set(0);
+    };
+    const handleMouseEnter = () => {
+      rawOpacity.set(1);
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseleave", handleMouseLeave);
+      document.addEventListener("mouseenter", handleMouseEnter);
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseleave", handleMouseLeave);
+        document.removeEventListener("mouseenter", handleMouseEnter);
+      };
+    }
+  }, [mouseX, mouseY, rawOpacity]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,7 +114,8 @@ export default function PremiumPage() {
         <motion.div
           className="absolute inset-0 w-full h-full"
           style={{
-            background: useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(212,175,55,0.06), transparent 80%)`
+            background: useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(212,175,55,0.06), transparent 80%)`,
+            opacity: opacity
           }}
         />
         <motion.div

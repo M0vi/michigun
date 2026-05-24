@@ -549,19 +549,33 @@ function CrewSection(){
 function InteractiveBackground() {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
+  const rawOpacity = useMotionValue(0)
+  const opacity = useSpring(rawOpacity, { damping: 20, stiffness: 150 })
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
+      rawOpacity.set(1)
     }
+    const handleMouseLeave = () => {
+      rawOpacity.set(0)
+    }
+    const handleMouseEnter = () => {
+      rawOpacity.set(1)
+    }
+
     if (typeof window !== 'undefined') {
-      mouseX.set(window.innerWidth / 2)
-      mouseY.set(window.innerHeight / 2)
       window.addEventListener("mousemove", handleMouseMove)
-      return () => window.removeEventListener("mousemove", handleMouseMove)
+      document.addEventListener("mouseleave", handleMouseLeave)
+      document.addEventListener("mouseenter", handleMouseEnter)
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove)
+        document.removeEventListener("mouseleave", handleMouseLeave)
+        document.removeEventListener("mouseenter", handleMouseEnter)
+      }
     }
-  }, [mouseX, mouseY])
+  }, [mouseX, mouseY, rawOpacity])
 
   const bgTemplate = useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.065), transparent 80%)`
 
@@ -571,7 +585,8 @@ function InteractiveBackground() {
       <motion.div
         className="absolute inset-0 w-full h-full"
         style={{
-          background: bgTemplate
+          background: bgTemplate,
+          opacity: opacity
         }}
       />
     </div>
