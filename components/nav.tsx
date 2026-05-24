@@ -4,10 +4,11 @@ import { playSound } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Crown, Home } from 'lucide-react'
+import { Star, Home, Users } from 'lucide-react'
 
 const tabs = [
   { id: 'home', label: 'Início', href: '/' },
+  { id: 'team', label: 'Equipe', href: '/equipe' },
   { id: 'premium', label: 'Premium', href: '/premium' },
   { id: 'discord', label: 'Discord', href: 'https://discord.gg/pWeJUBabvF', isExternal: true }
 ]
@@ -23,7 +24,8 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const selected = pathname === '/premium' ? 'premium' : 'home'
+  // Simple active state logic
+  const selected = pathname === '/premium' ? 'premium' : pathname === '/equipe' ? 'team' : 'home'
 
   return (
     <nav
@@ -32,7 +34,7 @@ export default function Nav() {
         scrolled ? 'py-3 md:py-4' : 'bg-transparent'
       }`}
     >
-      <div className={`flex items-center gap-1 md:gap-2 p-1 rounded-full border transition-all duration-300 ${
+      <div className={`flex items-center gap-1 md:gap-2 p-1 rounded-xl border transition-all duration-300 ${
         scrolled 
           ? 'bg-[#050505]/80 backdrop-blur-md border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.8)]' 
           : 'bg-[#111111]/40 backdrop-blur-sm border-white/5'
@@ -49,7 +51,7 @@ export default function Nav() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => playSound('click')}
-                className="px-3 py-2 md:px-5 md:py-3 bg-[#5865F2]/10 hover:bg-[#5865F2] text-[#5865F2] hover:text-white border border-[#5865F2]/30 hover:border-[#5865F2] transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] rounded-full relative flex items-center justify-center gap-1 md:gap-2 group text-[11px] md:text-[15px] font-sans font-semibold uppercase tracking-[0.08em] shadow-[0_0_15px_rgba(88,101,242,0.05)] hover:shadow-[0_0_20px_rgba(88,101,242,0.25)]"
+                className="px-3 py-2 md:px-5 md:py-3 bg-[#5865F2] hover:bg-[#4752c4] text-white transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] rounded-lg relative flex items-center justify-center gap-1 md:gap-2 group text-[11px] md:text-[15px] font-sans font-semibold uppercase tracking-[0.08em] shadow-[0_0_15px_rgba(88,101,242,0.25)] hover:shadow-[0_0_20px_rgba(88,101,242,0.4)]"
                 title={tab.label}
               >
                 <svg className="w-3.5 h-3.5 md:w-[18px] md:h-[18px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -65,26 +67,28 @@ export default function Nav() {
               key={tab.id}
               href={tab.href}
               onClick={() => playSound('click')}
-              className={`px-3 py-2 md:px-5 md:py-3 text-[11px] md:text-[15px] font-sans font-semibold uppercase tracking-[0.08em] transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] rounded-full relative flex items-center justify-center gap-1 md:gap-2 group ${
-                isSelected
-                  ? isPremiumTab
-                    ? 'text-[#d4af37]'
-                    : 'text-white'
-                  : 'text-neutral-400 hover:text-white'
+              className={`px-3 py-2 md:px-5 md:py-3 text-[11px] md:text-[15px] font-sans font-semibold uppercase tracking-[0.08em] transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] rounded-lg relative flex items-center justify-center gap-1 md:gap-2 group ${
+                isPremiumTab 
+                  ? 'text-[#FFD700] drop-shadow-[0_0_8px_rgba(255,215,0,0.6)]' // Glow amarelo vivo
+                  : isSelected
+                    ? 'text-white'
+                    : 'text-neutral-400 hover:text-white'
               }`}
               title={tab.label}
             >
-              {isPremiumTab && <Crown className={`w-3.5 h-3.5 md:w-[18px] md:h-[18px] transition-transform duration-300 ${isSelected ? 'animate-bounce' : 'group-hover:animate-bounce'}`} />}
+              {isPremiumTab && <Star className={`w-3.5 h-3.5 md:w-[18px] md:h-[18px] fill-[#FFD700] text-[#FFD700] transition-transform duration-300 drop-shadow-[0_0_10px_rgba(255,215,0,0.8)] ${isSelected ? 'animate-bounce' : 'group-hover:animate-bounce'}`} />}
               {tab.id === 'home' && <Home className="w-3.5 h-3.5 md:w-[18px] md:h-[18px]" />}
+              {tab.id === 'team' && <Users className="w-3.5 h-3.5 md:w-[18px] md:h-[18px]" />}
+              
               <span className="relative z-10">{tab.label}</span>
               
               {isSelected && (
                 <motion.span
                   layoutId="active-nav-tab"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  className={`absolute inset-0 z-0 rounded-full border ${
+                  className={`absolute inset-0 z-0 rounded-lg border ${
                     isPremiumTab
-                      ? 'bg-gradient-to-r from-[#d4af37]/15 to-[#b5952f]/15 border-[#d4af37]/40 shadow-[0_0_15px_rgba(212,175,55,0.15)]'
+                      ? 'bg-gradient-to-r from-[#FFD700]/15 to-[#FFD700]/5 border-[#FFD700]/40 shadow-[0_0_20px_rgba(255,215,0,0.25)]'
                       : 'bg-white/10 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.12)]'
                   }`}
                 />
