@@ -62,8 +62,8 @@ export async function POST(request: Request) {
         client: { 
           name: discord, 
           email: email,
-          phone: "11999999999", 
-          document: "11111111111"
+          phone: "11998765432", 
+          document: "45432658828"
         }
       })
     });
