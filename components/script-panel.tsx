@@ -45,8 +45,13 @@ export function ScriptPanel() {
     <section id="script" className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pt-16">
       <Reveal>
         <Eyebrow>Script</Eyebrow>
-        <h2 className="font-black tracking-tighter text-white uppercase leading-[0.9] text-5xl md:text-7xl">
-          Cole no seu <br /><span className="text-[#666666] font-light">executor</span>
+        <h2 className="text-4xl sm:text-6xl md:text-[5.5rem] lg:text-[6.5rem] uppercase leading-none mix-blend-lighten flex flex-col items-start mt-4">
+          <span className="font-black tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-neutral-600 drop-shadow-2xl">
+            INJETAR
+          </span>
+          <span className="relative inline-block mt-2 font-light tracking-[0.2em] md:tracking-[0.4em] text-white opacity-80 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] ml-[0.2em] text-xl sm:text-3xl md:text-[3rem] lg:text-[4rem]">
+            NO EXECUTOR
+          </span>
         </h2>
         <p className="text-[#a1a1a1] font-medium mt-6">Compatível com a maioria dos executores</p>
       </Reveal>
