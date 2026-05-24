@@ -63,7 +63,7 @@ export async function POST(request: Request) {
           name: discord, 
           email: email,
           phone: "11998765432", 
-          document: "45432658828"
+          document: "38419433659"
         }
       })
     });
