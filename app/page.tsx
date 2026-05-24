@@ -550,9 +550,6 @@ function InteractiveBackground() {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
-  const springX = useSpring(mouseX, { damping: 40, stiffness: 200, mass: 0.5 })
-  const springY = useSpring(mouseY, { damping: 40, stiffness: 200, mass: 0.5 })
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
@@ -566,10 +563,10 @@ function InteractiveBackground() {
     }
   }, [mouseX, mouseY])
 
-  const bgTemplate = useMotionTemplate`radial-gradient(circle 800px at ${springX}px ${springY}px, rgba(255,255,255,0.065), transparent 80%)`
+  const bgTemplate = useMotionTemplate`radial-gradient(circle 800px at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.065), transparent 80%)`
 
   return (
-    <div className="fixed inset-0 z-[-1] pointer-events-none bg-[#050505] overflow-hidden">
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
       {/* Brilho branco fixo no topo */}
       <motion.div 
         animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.05, 1] }}
