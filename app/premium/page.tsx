@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
-import { Crown, QrCode, Check, Copy, ArrowLeft, Lock, AlertCircle } from "lucide-react";
-import Image from "next/image";
+import { Crown, Check, Copy, Lock, AlertCircle } from "lucide-react";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import Nav from "@/components/nav";
 import { AlertBadge } from "@/components/alert-badge";
 
@@ -80,6 +78,7 @@ export default function PremiumPage() {
     if (pixData) {
       navigator.clipboard.writeText(pixData.copyPaste);
       setCopied(true);
+      toast.dismiss();
       toast.custom((t) => (
         <AlertBadge
           variant="success"
@@ -115,10 +114,6 @@ export default function PremiumPage() {
           
           {/* Lado Esquerdo - Info Premium */}
           <div className="flex flex-col gap-8">
-            <Link href="/" className="inline-flex items-center justify-center md:justify-start gap-2 px-5 py-3 bg-[#111] md:bg-transparent border border-[#333] md:border-transparent rounded-xl md:px-0 md:py-0 text-neutral-400 hover:text-white hover:border-[#d4af37]/50 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] w-full md:w-fit text-sm font-bold tracking-widest uppercase mb-4">
-              <ArrowLeft size={16} /> Voltar para o início
-            </Link>
-
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] text-xs font-bold uppercase tracking-widest rounded-full mb-6">
                 <Crown size={12} /> Acesso Exclusivo

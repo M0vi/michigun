@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useCallback, useRef, memo } from 'react'
-import { motion, useInView, AnimatePresence, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useInView, AnimatePresence, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion'
 import Image from 'next/image'
 import useSWR from 'swr'
 import ParticleCanvas from '@/components/particle-canvas'
@@ -566,25 +566,21 @@ function InteractiveBackground() {
     }
   }, [mouseX, mouseY])
 
+  const bgTemplate = useMotionTemplate`radial-gradient(circle 800px at ${springX}px ${springY}px, rgba(255,255,255,0.065), transparent 80%)`
+
   return (
     <div className="fixed inset-0 z-[-1] pointer-events-none bg-[#050505] overflow-hidden">
-      {/* Brilho dourado fixo no topo */}
+      {/* Brilho branco fixo no topo */}
       <motion.div 
         animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.05, 1] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 w-full h-full [background:radial-gradient(ellipse_at_top,rgba(255,200,80,0.07)_0%,transparent_50%)]"
+        className="absolute inset-0 w-full h-full [background:radial-gradient(ellipse_at_top,rgba(255,255,255,0.06)_0%,transparent_50%)]"
       />
-      {/* Brilho dourado que segue o cursor */}
+      {/* Brilho branco que segue o cursor */}
       <motion.div
-        className="absolute top-0 left-0 rounded-full"
+        className="absolute inset-0 w-full h-full"
         style={{
-          width: 800,
-          height: 800,
-          x: springX,
-          y: springY,
-          marginLeft: -400,
-          marginTop: -400,
-          background: "radial-gradient(circle, rgba(255,200,80,0.04) 0%, transparent 60%)",
+          background: bgTemplate
         }}
       />
     </div>
