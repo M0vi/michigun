@@ -33,6 +33,9 @@ export default function PremiumPage() {
       rawOpacity.set(1);
     };
     if (typeof window !== 'undefined') {
+      const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+      if (!isFinePointer) return;
+
       window.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseleave", handleMouseLeave);
       document.addEventListener("mouseenter", handleMouseEnter);
