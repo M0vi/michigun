@@ -45,14 +45,21 @@ export function HeroSection() {
               background-size: 200% auto;
               animation: text-gradient 4s linear infinite;
             }
+            @keyframes hue-shift {
+              0% { filter: hue-rotate(0deg); }
+              100% { filter: hue-rotate(360deg); }
+            }
+            .animate-hue-shift {
+              animation: hue-shift 2.5s linear infinite;
+            }
           ` }} />
 
           <div className="flex flex-col items-center gap-8 mt-4 md:mt-6">
-            <p className="text-sm md:text-lg font-light tracking-[0.2em] md:tracking-[0.4em] text-neutral-400 max-w-2xl text-center uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-[#8A2BE2] to-[#00F0FF] animate-text-gradient drop-shadow-[0_0_12px_rgba(138,43,226,0.6)]">
+            <p className="text-base md:text-xl font-medium tracking-[0.1em] md:tracking-[0.15em] text-neutral-300 max-w-2xl text-center uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+              <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-[#8A2BE2] to-[#FF0080] animate-text-gradient animate-hue-shift drop-shadow-[0_0_15px_rgba(138,43,226,0.5)]">
                 Script
               </span>{' '}
-              para Exército Brasileiro <br className="sm:hidden" /><span className="text-neutral-600">no Roblox</span>
+              para Exército Brasileiro <br className="sm:hidden" /><span className="text-neutral-500 font-normal">no Roblox</span>
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 justify-center w-full max-w-lg">

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useInView, useReducedMotion, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useInView, useReducedMotion, useMotionTemplate, useMotionValue, useSpring, animate, useTransform } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { RiskLevel } from '@/lib/data';
 
@@ -49,7 +49,7 @@ export function Panel({ children, className, onClick }: { children: React.ReactN
       {!isMobile && (
         <motion.div
           className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
-          style={{ background: spotlightBackground }}
+          style={{ background: spotlightBackground, willChange: "background" }}
         />
       )}
       
@@ -147,11 +147,13 @@ export function Reveal({ children, delay = 0 }: { children: React.ReactNode; del
 }
 
 export const Ticker = ({ target }: { target: number }) => {
-  const [n, setN] = useState(0);
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest).toLocaleString());
+
   useEffect(() => {
-    let v = 0; const inc = target / (700 / 16);
-    const t = setInterval(() => { v += inc; if (v >= target) { setN(target); clearInterval(t); } else setN(Math.floor(v)); }, 16);
-    return () => clearInterval(t);
+    const animation = animate(count, target, { duration: 0.7, ease: "easeOut" });
+    return animation.stop;
   }, [target]);
-  return <span suppressHydrationWarning>{n.toLocaleString()}</span>;
+
+  return <motion.span suppressHydrationWarning>{rounded}</motion.span>;
 };

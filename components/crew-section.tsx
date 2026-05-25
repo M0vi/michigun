@@ -10,7 +10,7 @@ import { Reveal, Skeleton, Panel } from '@/components/ui-components';
 import { CREW } from '@/lib/data';
 
 const MemberCard = memo(function MemberCard({ dev, index }: { dev: typeof CREW[0], index: number }) {
-  const { data } = useSWR(`/api/lanyard/${dev.id}`, fetcher, { refreshInterval: 10e3 });
+  const { data } = useSWR(`/api/lanyard/${dev.id}`, fetcher, { refreshInterval: 10e3, dedupingInterval: 10000 });
   
   const isLoading = !data;
   const u = data?.success ? data.data : null;
@@ -54,7 +54,7 @@ const MemberCard = memo(function MemberCard({ dev, index }: { dev: typeof CREW[0
             {isLoading ? (
               <Skeleton className="w-full h-full rounded-full" />
             ) : (
-              <Image src={avatarSrc} alt={handle} fill className="object-cover" />
+              <Image src={avatarSrc} alt={handle} fill className="object-cover" sizes="(max-width: 768px) 112px, 112px" />
             )}
             <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/10" />
           </div>

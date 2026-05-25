@@ -159,6 +159,7 @@ export default function PremiumPage() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const giantTextRef = useRef<HTMLDivElement>(null);
   const checkoutRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined" || !wrapperRef.current) return;
@@ -183,20 +184,37 @@ export default function PremiumPage() {
 
       gsap.fromTo(
         checkoutRef.current,
-        { y: 100, opacity: 0, scale: 0.95 },
+        { y: 100, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          scale: 1,
           ease: "power3.out",
           scrollTrigger: {
             trigger: wrapperRef.current,
-            start: "top 60%",
-            end: "bottom bottom",
+            start: "top 80%",
+            end: "center center",
             scrub: 1,
           },
         }
       );
+
+      if (footerRef.current) {
+        gsap.fromTo(
+          footerRef.current,
+          { scale: 0.85, borderRadius: "3rem" },
+          {
+            scale: 1,
+            borderRadius: "0px",
+            ease: "none",
+            scrollTrigger: {
+              trigger: wrapperRef.current,
+              start: "top 95%",
+              end: "top 0%",
+              scrub: true,
+            },
+          }
+        );
+      }
     }, wrapperRef);
 
     return () => ctx.revert();
@@ -274,9 +292,9 @@ export default function PremiumPage() {
       
       <div
         ref={wrapperRef}
-        className="relative w-full"
+        className="relative w-full min-h-[100dvh] flex items-center justify-center bg-transparent"
       >
-        <footer className="relative w-full flex flex-col items-center justify-center py-20 md:py-32 overflow-hidden bg-[#0a0a0a] border-t border-white/5">
+        <footer ref={footerRef} className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center py-20 md:py-32 overflow-hidden bg-[#0a0a0a] border border-white/5">
           <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[100px] pointer-events-none z-0" />
           <div className="footer-bg-dots absolute inset-0 z-0 pointer-events-none" />
 
