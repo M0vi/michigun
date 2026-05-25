@@ -137,11 +137,10 @@ export function Reveal({ children, delay = 0 }: { children: React.ReactNode; del
   const visible = useInView(ref, { once: true, margin: "-10%" });
   const noMotion = useReducedMotion();
   
-  if (noMotion) return <div>{children}</div>;
-  
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 50, filter: "blur(12px)", scale: 0.95 }}
-      animate={visible ? { opacity: 1, y: 0, filter: "blur(0px)", scale: 1 } : {}}
+    <motion.div ref={ref} 
+      initial={noMotion ? { opacity: 1, y: 0, filter: "blur(0px)", scale: 1 } : { opacity: 0, y: 50, filter: "blur(12px)", scale: 0.95 }}
+      animate={visible || noMotion ? { opacity: 1, y: 0, filter: "blur(0px)", scale: 1 } : {}}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay }}>
       {children}
     </motion.div>
