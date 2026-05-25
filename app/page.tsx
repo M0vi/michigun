@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 
 import SectionErrorBoundary from '@/components/section-error-boundary'
-import Nav from '@/components/nav'
 import { HeroSection } from '@/components/hero-section'
 import { ScriptPanel } from '@/components/script-panel'
 import { ArenasSection } from '@/components/arenas-section'
@@ -39,9 +38,8 @@ export default function Root() {
       <InteractiveBackground />
       
       <div className="max-w-[1440px] mx-auto w-full relative flex flex-col items-center px-4 sm:px-6 md:px-8">
-        <Nav />
         
-        <main className="flex flex-col items-center w-full relative z-10 gap-16 pb-16">
+        <main className="flex flex-col items-center w-full relative z-10 gap-16 pb-16 pt-24 md:pt-32">
           <HeroSection />
           
           <div className="w-full flex flex-col items-center">

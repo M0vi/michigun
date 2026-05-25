@@ -6,7 +6,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Crown, Check, Copy, Lock, AlertCircle, ArrowDown, Key, Unlock, Sparkles, Headset } from "lucide-react";
 import toast from "react-hot-toast";
-import Nav from "@/components/nav";
 import { AlertBadge } from "@/components/alert-badge";
 import { Panel, Magnetic, Reveal } from "@/components/ui-components";
 
@@ -268,7 +267,6 @@ export default function PremiumPage() {
   return (
     <div className="bg-[#050505] text-[#ebebeb] font-display flex flex-col relative overflow-x-hidden selection:bg-[#FFD700]/30 selection:text-white min-h-screen">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
-      <Nav />
       <PremiumHero />
       <PremiumFeatures />
 

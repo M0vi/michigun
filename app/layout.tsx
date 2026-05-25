@@ -5,6 +5,7 @@ import { EB_Garamond } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import SmoothScroll from '@/components/smooth-scroll'
 import CustomCursor from '@/components/custom-cursor'
+import Nav from '@/components/nav'
 import './globals.css'
 
 const ebGaramond = EB_Garamond({
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <SmoothScroll />
         <CustomCursor />
+        <Nav />
         {children}
         <Toaster position="bottom-center" />
       </body>

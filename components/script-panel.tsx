@@ -44,35 +44,36 @@ export function ScriptPanel() {
   return (
     <section id="script" className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pt-16">
       <Reveal>
-        <Eyebrow>Script</Eyebrow>
-        <h2 className="text-4xl sm:text-6xl md:text-[5.5rem] lg:text-[6.5rem] uppercase leading-none mix-blend-lighten flex flex-col items-start mt-4">
-          <span className="font-black tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-neutral-600 drop-shadow-2xl">
-            INJETAR
-          </span>
-          <span className="relative inline-block mt-2 font-light tracking-[0.2em] md:tracking-[0.4em] text-white opacity-80 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] ml-[0.2em] text-xl sm:text-3xl md:text-[3rem] lg:text-[4rem]">
-            NO EXECUTOR
-          </span>
-        </h2>
-        <p className="text-[#a1a1a1] font-medium mt-6">Compatível com a maioria dos executores</p>
+        <div className="flex flex-col items-center text-center">
+          <h2 className="text-4xl sm:text-6xl md:text-[5.5rem] lg:text-[6.5rem] uppercase leading-none mix-blend-lighten flex flex-col items-center mt-4">
+            <span className="font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-neutral-600 drop-shadow-2xl">
+              INJETAR
+            </span>
+            <span className="font-light tracking-[0.2em] md:tracking-[0.4em] text-white opacity-80 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] text-xl sm:text-3xl md:text-[3rem] lg:text-[4rem] mt-2 ml-[0.2em] md:ml-[0.4em]">
+              NO EXECUTOR
+            </span>
+          </h2>
+          <p className="text-[#a1a1a1] font-medium mt-6 uppercase tracking-widest text-xs md:text-sm">Compatível com a maioria dos executores</p>
+        </div>
       </Reveal>
       
       <Reveal delay={0.1}>
-        <div className="mt-12 flex flex-col gap-6 max-w-4xl w-full">
-          <Panel className="p-0 overflow-visible relative">
-            <div className="bg-[#111111]/80 border-b border-white/5 px-4 py-3 flex items-center justify-between rounded-t-xl">
+        <div className="mt-12 flex flex-col lg:flex-row gap-6 max-w-5xl mx-auto w-full">
+          <Panel className="flex-1 p-0 overflow-visible relative flex flex-col shadow-[0_0_40px_rgba(0,0,0,0.5)] lg:self-center">
+            <div className="bg-[#111111]/90 backdrop-blur-md border-b border-white/5 px-5 py-4 flex items-center justify-between rounded-t-xl shrink-0">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#FF6B50]/60" />
-                <div className="w-3 h-3 rounded-full bg-white/10" />
-                <div className="w-3 h-3 rounded-full bg-white/5" />
+                <div className="w-3 h-3 rounded-full bg-[#FF5F56] shadow-[0_0_10px_rgba(255,95,86,0.5)]" />
+                <div className="w-3 h-3 rounded-full bg-[#FFBD2E] shadow-[0_0_10px_rgba(255,189,46,0.5)]" />
+                <div className="w-3 h-3 rounded-full bg-[#27C93F] shadow-[0_0_10px_rgba(39,201,63,0.5)]" />
               </div>
-              <div className="flex items-center gap-3">
-                <button onClick={handleCopy} className="text-[#a1a1a1] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
-                  {copied ? <Check size={14}/> : <Copy size={14}/>}
-                  {copied ? 'Copiado' : 'Copiar'}
+              <div className="flex items-center gap-4">
+                <button onClick={handleCopy} className="text-[#888888] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
+                  {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14}/>}
+                  {copied ? <span className="text-emerald-400">Copiado</span> : 'Copiar'}
                 </button>
                 <div className="w-px h-3 bg-white/10" />
                 <div ref={dlRef} className="relative flex items-center">
-                  <button onClick={() => setDlOpen(v => !v)} className="text-[#a1a1a1] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
+                  <button onClick={() => setDlOpen(v => !v)} className="text-[#888888] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
                     <Download size={14} />
                     Salvar
                   </button>
@@ -97,13 +98,14 @@ export function ScriptPanel() {
               </div>
             </div>
 
-            <div className="p-6 md:p-8 overflow-x-auto">
-              <code className="block font-mono text-xs md:text-sm leading-relaxed text-white/80 break-all">
-                <span className="text-[#FF6B50]">loadstring</span>
+            <div className="p-6 md:p-8 overflow-x-auto flex-1 flex flex-col justify-center bg-[#050505]/40 relative rounded-b-xl">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.02)_0%,transparent_70%)] pointer-events-none rounded-b-xl" />
+              <code className="block font-mono text-[13px] md:text-[15px] leading-loose text-white/90 break-all relative z-10 whitespace-pre-wrap">
+                <span className="text-[#FF6B50] font-bold">loadstring</span>
                 <span className="text-white/40">(</span>
-                <span className="text-[#7dd3fc]">request</span>
+                <span className="text-[#7dd3fc] font-bold">request</span>
                 <span className="text-white/40">{"({"}</span>
-                <span className="text-white/50">Url</span>
+                <span className="text-[#a78bfa]">Url</span>
                 <span className="text-white/40"> = </span>
                 <span className="text-emerald-300">"https://michigun.xyz/scripts/main.lua"</span>
                 <span className="text-white/40">{"})"}</span>
@@ -113,23 +115,27 @@ export function ScriptPanel() {
             </div>
           </Panel>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-6 w-full lg:w-[280px] shrink-0">
             {[
               { Icon: Activity, label: 'Execuções totais', value: stats?.executions },
               { Icon: BarChart3, label: 'Execuções hoje', value: stats?.daily },
             ].map((s) => (
-              <Panel key={s.label} className="p-6 flex flex-col justify-center min-h-[140px]">
-                <div className="flex items-center gap-2 mb-3 text-[#666666]">
-                  <s.Icon size={14} />
+              <Panel key={s.label} className="p-6 md:p-8 flex-1 lg:flex-none flex flex-col justify-center lg:h-1/2 relative overflow-hidden group">
+                <div className="absolute -right-8 -bottom-8 opacity-[0.03] group-hover:opacity-[0.05] group-hover:scale-110 transition-all duration-500 pointer-events-none">
+                  <s.Icon size={140} strokeWidth={1} />
+                </div>
+                
+                <div className="flex items-center gap-2 mb-4 text-[#888888] relative z-10">
+                  <s.Icon size={14} className="text-white/60" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">{s.label}</span>
                 </div>
-                <div className="font-black text-4xl md:text-5xl tracking-tighter text-white">
+                <div className="font-black text-4xl md:text-5xl tracking-tighter text-white relative z-10 drop-shadow-lg">
                   {statsErr ? (
-                    <span className="text-red-400 text-sm">erro</span>
+                    <span className="text-red-400 text-sm font-medium tracking-normal">Erro ao carregar</span>
                   ) : s.value != null ? (
                     <Ticker target={s.value}/>
                   ) : (
-                    <Skeleton className="h-10 w-32" />
+                    <Skeleton className="h-10 w-24 bg-white/5" />
                   )}
                 </div>
               </Panel>

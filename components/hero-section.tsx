@@ -33,14 +33,26 @@ export function HeroSection() {
             <span className="font-black tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-neutral-600 drop-shadow-2xl">
               MICHIGUN
             </span>
-            <span className="relative inline-block mt-3 md:mt-5 font-light tracking-[0.3em] md:tracking-[0.6em] text-white opacity-80 drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] ml-[0.3em] md:ml-[0.6em] text-xl sm:text-3xl md:text-[4rem] lg:text-[5rem]">
-              ARMY SCRIPT
-            </span>
           </h1>
           
-          <div className="flex flex-col items-center gap-8 mt-6">
-            <p className="text-xs md:text-sm font-light tracking-[0.2em] text-[#888] max-w-sm text-center uppercase">
-              Para Exército Brasileiro no Roblox.<br/>por @h64.
+          <style dangerouslySetInnerHTML={{ __html: `
+            @keyframes text-gradient {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+            .animate-text-gradient {
+              background-size: 200% auto;
+              animation: text-gradient 4s linear infinite;
+            }
+          ` }} />
+
+          <div className="flex flex-col items-center gap-8 mt-4 md:mt-6">
+            <p className="text-sm md:text-lg font-light tracking-[0.2em] md:tracking-[0.4em] text-neutral-400 max-w-2xl text-center uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-[#8A2BE2] to-[#00F0FF] animate-text-gradient drop-shadow-[0_0_12px_rgba(138,43,226,0.6)]">
+                Script
+              </span>{' '}
+              para Exército Brasileiro <br className="sm:hidden" /><span className="text-neutral-600">no Roblox</span>
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2 justify-center w-full max-w-lg">

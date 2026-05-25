@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import Nav from '@/components/nav'
 import { CrewSection } from '@/components/crew-section'
 import { InteractiveBackground } from '@/components/interactive-background'
 
@@ -11,7 +10,6 @@ export default function EquipePage() {
       <InteractiveBackground />
       
       <div className="max-w-[1440px] mx-auto w-full relative flex flex-col items-center px-4 sm:px-6 md:px-8">
-        <Nav />
         
         <main className="flex flex-col items-center w-full relative z-10 pt-24 pb-16">
           <CrewSection />
