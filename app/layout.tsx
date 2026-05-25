@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import SmoothScroll from '@/components/smooth-scroll'
 import CustomCursor from '@/components/custom-cursor'
 import Nav from '@/components/nav'
+import CopyProtection from '@/components/copy-protection'
 import './globals.css'
 
 const ebGaramond = EB_Garamond({
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable} ${ebGaramond.variable}`}>
       <body>
+        <CopyProtection />
         <SmoothScroll />
         <CustomCursor />
         <Nav />

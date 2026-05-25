@@ -23,6 +23,10 @@
     box-sizing: border-box; 
     margin: 0; 
     padding: 0; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   html { 
     -webkit-text-size-adjust: 100%; 
@@ -35,14 +39,36 @@
     color: #ebebeb;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    user-select: none;
-    -webkit-user-select: none;
   }
   
-  /* Selection styling */
+  /* Allow text selection in inputs, textareas, and editable fields */
+  input, textarea, [contenteditable="true"] {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+  }
+
+  /* Prevent image dragging and selection */
+  img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Selection styling - hidden globally but enabled in inputs */
   ::selection {
-    background-color: var(--color-accent);
-    color: #ffffff;
+    background: transparent;
+    color: inherit;
+  }
+  
+  input::selection, textarea::selection, [contenteditable="true"]::selection {
+    background-color: var(--color-accent) !important;
+    color: #ffffff !important;
   }
   
   *:focus { 
