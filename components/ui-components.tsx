@@ -5,7 +5,6 @@ import { motion, useInView, useReducedMotion, useMotionTemplate, useMotionValue,
 import { cn } from '@/lib/utils';
 import { RiskLevel } from '@/lib/data';
 
-// Spotlight Panel
 export function Panel({ children, className, onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -22,6 +21,14 @@ export function Panel({ children, className, onClick }: { children: React.ReactN
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
   }
+
+  const spotlightBackground = useMotionTemplate`
+    radial-gradient(
+      400px circle at ${mouseX}px ${mouseY}px,
+      rgba(255, 255, 255, 0.08),
+      transparent 80%
+    )
+  `;
 
   return (
     <div
@@ -42,15 +49,7 @@ export function Panel({ children, className, onClick }: { children: React.ReactN
       {!isMobile && (
         <motion.div
           className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
-          style={{
-            background: useMotionTemplate`
-              radial-gradient(
-                400px circle at ${mouseX}px ${mouseY}px,
-                rgba(255, 255, 255, 0.08),
-                transparent 80%
-              )
-            `,
-          }}
+          style={{ background: spotlightBackground }}
         />
       )}
       
